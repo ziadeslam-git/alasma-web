@@ -12,6 +12,7 @@ export const routes = {
   confirmEmail: '/confirm-email',
   cart: '/cart',
   account: '/account',
+  publish: '/publish',
 } as const;
 
 export const bookRoute = (slug: string) => `${routes.books}/${encodeSegment(slug)}`;

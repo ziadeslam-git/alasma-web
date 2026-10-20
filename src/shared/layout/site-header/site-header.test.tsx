@@ -37,6 +37,8 @@ describe('SiteHeader', () => {
     expect(document.querySelector('[data-feature="notifications-center"]')).toHaveAttribute(
       'inert',
     );
+    expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
+    expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
   });
 
   it('uses an account slot instead of the guest links', () => {

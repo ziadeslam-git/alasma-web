@@ -11,6 +11,7 @@ describe('routes', () => {
       home: '/',
       login: '/login',
       register: '/register',
+      publish: '/publish',
     });
   });
 

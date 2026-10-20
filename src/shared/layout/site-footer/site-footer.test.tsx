@@ -19,6 +19,8 @@ describe('SiteFooter', () => {
       '/books',
     );
     expect(screen.getByText(String(new Date().getFullYear()))).toBeInTheDocument();
+    expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
+    expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
   });
 
   it('does not render deferred social or contact blocks', () => {

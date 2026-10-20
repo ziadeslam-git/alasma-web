@@ -123,6 +123,7 @@ Add every new feature exactly once in `src/shared/config/features.ts`, then rend
 features render normally, soon features are inert and labelled, and hidden features render nothing.
 Keep every user-facing path in `src/shared/config/routes.ts`; use its helpers for dynamic path segments so Arabic slugs
 are encoded safely.
+Deferred navigation entries, including publishing packages, must remain registered as `soon` until their backend work is delivered.
 
 ## Sequencing rule
 

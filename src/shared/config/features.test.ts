@@ -34,6 +34,7 @@ describe('features registry', () => {
     expect(getFeatureState('cart-page')).toBe('soon');
     expect(getFeatureState('checkout-flow')).toBe('soon');
     expect(getFeatureState('account-area')).toBe('soon');
+    expect(getFeatureState('publish-packages')).toBe('soon');
   });
 
   it('contains no duplicate keys and exposes consistent helpers', () => {

@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { routes, staticPageRoute } from '@/shared/config/routes';
+import { FeatureGate } from '@/shared/ui/soon';
 
 import styles from './site-footer.module.css';
 
@@ -15,6 +17,7 @@ const catalogLinks = [
   ['store', routes.books],
   ['authors', routes.authors],
   ['categories', routes.categories],
+  ['publishPackages', routes.publish],
 ] as const;
 
 const helpLinks = [
@@ -39,18 +42,24 @@ export function SiteFooter(props: SiteFooterProps) {
         <div className={styles.grid}>
           <section className={styles.brand}>
             <Link aria-label={text.brand} className={styles.logo} href={routes.home}>
-              {text.brand}
+              <Image alt={text.brand} height={52} src="/logo-alasma.svg" unoptimized width={208} />
             </Link>
             <p>{text.footer.description}</p>
           </section>
           <section>
             <h2>{text.footer.explore}</h2>
             <nav aria-label={text.footer.explore} className={styles.links}>
-              {catalogLinks.map(([key, href]) => (
-                <Link href={href} key={key}>
-                  {text.header[key]}
-                </Link>
-              ))}
+              {catalogLinks.map(([key, href]) =>
+                key === 'publishPackages' ? (
+                  <FeatureGate feature="publish-packages" key={key} label={text.soon}>
+                    <Link href={href}>{text.header[key]}</Link>
+                  </FeatureGate>
+                ) : (
+                  <Link href={href} key={key}>
+                    {text.header[key]}
+                  </Link>
+                ),
+              )}
             </nav>
           </section>
           <section>

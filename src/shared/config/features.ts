@@ -45,6 +45,7 @@ export const features = {
   'cart-page': 'soon', // Cart entry points in the header and mobile app bar.
   'checkout-flow': 'soon', // Checkout flow after the cart.
   'account-area': 'soon', // Customer account entry points.
+  'publish-packages': 'soon', // Publishing packages navigation entry.
 
   // Delivered catalog and authentication
   'catalog-search': 'live', // Catalog search field and results.

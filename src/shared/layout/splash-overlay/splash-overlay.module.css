@@ -1,0 +1,30 @@
+.overlay {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--surface-brand);
+  color: var(--on-brand);
+  pointer-events: none;
+}
+
+.content {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.content p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+}
+
+.progress {
+  inline-size: min(240px, 60vi);
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--on-brand-muted);
+}

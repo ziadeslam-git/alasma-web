@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
@@ -34,7 +35,14 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
       </a>
       <div className={styles.wrap}>
         <Link aria-label={text.brand} className={styles.logo} href={routes.home}>
-          {text.brand}
+          <Image
+            alt={text.brand}
+            height={42}
+            priority
+            src="/logo-alasma.svg"
+            unoptimized
+            width={168}
+          />
         </Link>
         <form action={routes.books} className={styles.search} method="get" role="search">
           <Icon name="search" />
@@ -57,6 +65,9 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
           <Link href={routes.authors}>{text.header.authors}</Link>
           <FeatureGate feature="home-events" label={text.soon}>
             <span>{text.header.events}</span>
+          </FeatureGate>
+          <FeatureGate feature="publish-packages" label={text.soon}>
+            <Link href={routes.publish}>{text.header.publishPackages}</Link>
           </FeatureGate>
           <Link href={routes.categories}>{text.header.categories}</Link>
         </nav>
@@ -91,6 +102,9 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
             <Link href={routes.books}>{text.header.store}</Link>
             <Link href={routes.authors}>{text.header.authors}</Link>
             <Link href={routes.categories}>{text.header.categories}</Link>
+            <FeatureGate feature="publish-packages" label={text.soon}>
+              <Link href={routes.publish}>{text.header.publishPackages}</Link>
+            </FeatureGate>
             <Link href={staticPageRoute('about')}>{text.footer.about}</Link>
             <Link href={staticPageRoute('shipping-policy')}>{text.footer.shipping}</Link>
             <Link href={staticPageRoute('contact')}>{text.footer.contact}</Link>
