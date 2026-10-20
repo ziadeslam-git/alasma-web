@@ -22,6 +22,40 @@
       "danger": "لون التنبيه"
     }
   },
+  "devComponents": {
+    "title": "مكونات الواجهة",
+    "button": {
+      "heading": "الأزرار والروابط",
+      "action": "إجراء",
+      "internalLink": "رابط داخلي",
+      "externalLink": "رابط خارجي",
+      "states": "الحالات",
+      "defaultState": "الحالة الافتراضية",
+      "disabledState": "معطل",
+      "loadingState": "جارٍ التحميل",
+      "iconOnlyLabel": "إضافة إلى المفضلة",
+      "variants": {
+        "primary": "أساسي",
+        "outline": "محدد",
+        "ghost": "شفاف",
+        "soft": "ناعم"
+      }
+    },
+    "field": {
+      "heading": "الحقول والإدخال",
+      "label": "البريد الإلكتروني",
+      "filledLabel": "حقل ممتلئ",
+      "disabledLabel": "حقل معطل",
+      "readOnlyLabel": "للقراءة فقط",
+      "adornmentsLabel": "مع إضافات",
+      "hint": "سنستخدمه للرد عليك فقط.",
+      "error": "أدخل بريداً إلكترونياً صحيحاً.",
+      "placeholder": "اكتب هنا",
+      "filledValue": "example@alasma.com",
+      "invalidValue": "example",
+      "adornmentText": "بحث"
+    }
+  },
   "apiErrors": {
     "codes": {
       "auth_email_taken": "هذا البريد الإلكتروني مسجّل لدينا بالفعل. جرّب تسجيل الدخول أو استعادة كلمة المرور.",

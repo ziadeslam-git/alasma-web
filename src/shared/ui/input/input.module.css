@@ -1,0 +1,61 @@
+.wrapper {
+  position: relative;
+  display: block;
+}
+
+.input {
+  inline-size: 100%;
+  min-block-size: calc(var(--space-12) - 2px);
+  padding-inline: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.input:read-only {
+  background: var(--surface);
+}
+
+.error {
+  border-color: var(--danger-ink);
+}
+
+.wrapper:has(.startAdornment) .input {
+  padding-inline-start: calc(var(--space-10) + var(--space-1));
+}
+
+.wrapper:has(.endAdornment) .input {
+  padding-inline-end: calc(var(--space-10) + var(--space-1));
+}
+
+.startAdornment,
+.endAdornment {
+  position: absolute;
+  inset-block: 0;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+
+.startAdornment {
+  inset-inline-start: var(--space-3);
+}
+
+.endAdornment {
+  inset-inline-end: var(--space-3);
+}
