@@ -9,3 +9,5 @@ next-env.d.ts
 # copied byte for byte from design/ds/al-asma/tokens.css
 src/styles/tokens.css
 src/assets/fonts/
+playwright-report/
+test-results/

@@ -55,6 +55,23 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   properties only (`margin-inline-start`, `inline-size`), no hex, no left/right.
 - `/dev/tokens` is a development-only page that shows every token. It returns 404 in production and is `noindex`.
 
+## Testing
+
+- Unit and component tests (Vitest + Testing Library + vitest-axe) sit next to the code as `*.test.ts` / `*.test.tsx`.
+  `pnpm test` runs them once; `pnpm test:watch` watches. It must work OFFLINE with no browser: never add a unit test
+  that needs the network or a real browser.
+- MSW is a TEST tool only. Handlers are in `src/mocks/handlers.ts`, the Node server in `src/mocks/server.ts`, started in
+  `src/test/setup.ts` with `onUnhandledFrame: 'error'`, so a request without a handler fails the test. There is no
+  service worker, no browser entry and no mock mode: never enable MSW in dev or production. Add a handler only for an
+  endpoint the delivered backend really has.
+- jsdom cannot compute colour contrast, so `src/test/axe.ts` turns that one rule off; contrast is covered by the
+  Playwright axe run.
+- End-to-end and accessibility tests (Playwright, Chromium only, 360 / 768 / 1280 wide, port 3100, against the
+  production build) live in `e2e/`. `pnpm test:e2e` is run by the OWNER or Claude Code, NOT by Codex (its sandbox cannot
+  run a browser reliably). CI runs it in a separate job.
+- `src/test/examples` and `e2e/examples` are examples to copy, to be replaced by real tests.
+- A task is not finished until its tests pass. Definition of Done: see section 14 of the Architecture page (Notion).
+
 ## The "Soon" rule
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API
@@ -67,8 +84,9 @@ backend that does not exist yet (that feature shows as Soon).
 
 ## Scripts
 
-`pnpm dev`, `pnpm build`, `pnpm start`, `pnpm typecheck`, `pnpm lint`, `pnpm lint:css`, `pnpm format:check`.
-Run typecheck, lint, lint:css, format:check and build before reporting a task done.
+`pnpm dev`, `pnpm build`, `pnpm start`, `pnpm typecheck`, `pnpm lint`, `pnpm lint:css`, `pnpm format:check`,
+`pnpm test`, `pnpm test:watch`, `pnpm test:e2e`. Run typecheck, lint, lint:css, format:check, test and build before
+reporting a task done.
 
 ## Process
 

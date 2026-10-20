@@ -69,7 +69,16 @@ const sourceRules = [
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(['design/**', '.next/**', 'out/**', 'build/**', 'coverage/**', 'next-env.d.ts']),
+  globalIgnores([
+    'design/**',
+    '.next/**',
+    'out/**',
+    'build/**',
+    'coverage/**',
+    'playwright-report/**',
+    'test-results/**',
+    'next-env.d.ts',
+  ]),
   {
     linterOptions: { reportUnusedDisableDirectives: 'error' },
   },
