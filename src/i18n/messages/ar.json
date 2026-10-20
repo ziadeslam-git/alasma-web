@@ -54,6 +54,45 @@
       "filledValue": "example@alasma.com",
       "invalidValue": "example",
       "adornmentText": "بحث"
+    },
+    "skeleton": {
+      "heading": "هياكل التحميل",
+      "shapes": {
+        "line": "سطر",
+        "block": "كتلة",
+        "circle": "دائرة",
+        "card": "بطاقة"
+      }
+    },
+    "emptyState": {
+      "heading": "الحالات الفارغة",
+      "retry": "إعادة المحاولة",
+      "variants": {
+        "empty": {
+          "title": "لا توجد عناصر",
+          "description": "أضف عنصراً جديداً للبدء."
+        },
+        "search": {
+          "title": "لا توجد نتائج",
+          "description": "جرّب كلمات بحث مختلفة."
+        },
+        "error": {
+          "title": "تعذر تحميل المحتوى",
+          "description": "حاول مرة أخرى بعد قليل."
+        }
+      }
+    },
+    "safeImage": {
+      "heading": "الصورة الآمنة",
+      "withSource": "مع مصدر صورة",
+      "missingSource": "مصدر مفقود",
+      "imageAlt": "غلاف كتاب"
+    },
+    "bookCover": {
+      "heading": "غلاف الكتاب",
+      "drawn": "غلاف مرسوم",
+      "image": "غلاف بصورة",
+      "title": "رحلة الحكايات"
     }
   },
   "apiErrors": {

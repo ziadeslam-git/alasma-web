@@ -1,0 +1,105 @@
+.skeleton {
+  --skeleton-base: var(--surface-sunken);
+  --skeleton-highlight: var(--surface);
+}
+
+.shape {
+  display: block;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base),
+    var(--skeleton-highlight),
+    var(--skeleton-base)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.line {
+  inline-size: 100%;
+  block-size: var(--space-3);
+  border-radius: var(--radius-pill);
+}
+
+.block {
+  inline-size: 100%;
+  block-size: var(--space-12);
+  border-radius: var(--radius-md);
+}
+
+.circle {
+  inline-size: var(--space-12);
+  block-size: var(--space-12);
+  border-radius: var(--radius-pill);
+}
+
+.sizeSmall.line {
+  inline-size: 60%;
+}
+
+.sizeLarge.line {
+  inline-size: 100%;
+  block-size: var(--space-4);
+}
+
+.sizeSmall.block {
+  block-size: var(--space-8);
+}
+
+.sizeLarge.block {
+  block-size: var(--space-16);
+}
+
+.sizeSmall.circle {
+  inline-size: var(--space-8);
+  block-size: var(--space-8);
+}
+
+.sizeLarge.circle {
+  inline-size: var(--space-16);
+  block-size: var(--space-16);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardImage {
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius-sm);
+}
+
+.cardTitle {
+  inline-size: 80%;
+  block-size: var(--space-4);
+  border-radius: var(--radius-pill);
+}
+
+.cardText {
+  inline-size: 55%;
+  block-size: var(--space-3);
+  border-radius: var(--radius-pill);
+}
+
+.reducedMotion .shape,
+.reducedMotion.shape {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shape {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}

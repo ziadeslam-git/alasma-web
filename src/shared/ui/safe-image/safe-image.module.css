@@ -1,0 +1,16 @@
+.wrapper {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--surface-sunken);
+}
+
+.placeholder {
+  min-block-size: var(--space-12);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--surface-sunken), var(--chip-bg));
+}
+
+.wrapper :global(img) {
+  object-fit: cover;
+}

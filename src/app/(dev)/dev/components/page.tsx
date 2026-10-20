@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { ButtonSection } from './sections/button-section';
+import { BookCoverSection } from './sections/book-cover-section';
+import { EmptyStateSection } from './sections/empty-state-section';
 import { FieldInputSection } from './sections/field-input-section';
+import { SafeImageSection } from './sections/safe-image-section';
+import { SkeletonSection } from './sections/skeleton-section';
 import styles from './components.module.css';
 
 export const metadata: Metadata = {
@@ -20,6 +24,10 @@ export default function ComponentsPage() {
     <main className={styles.page}>
       <ButtonSection />
       <FieldInputSection />
+      <SkeletonSection />
+      <EmptyStateSection />
+      <SafeImageSection />
+      <BookCoverSection />
     </main>
   );
 }

@@ -1,0 +1,82 @@
+.cover {
+  position: relative;
+  container-type: inline-size;
+  display: flex;
+  aspect-ratio: 2 / 3;
+  inline-size: 100%;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 13% 11% 11%;
+  border-radius: var(--radius-xs) var(--radius-sm) var(--radius-sm) var(--radius-xs);
+  background: var(--green-700);
+  box-shadow: var(--shadow-book);
+  color: var(--cream-200);
+  flex-direction: column;
+  text-align: center;
+}
+
+.cover::before {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 6%;
+  background: linear-gradient(to left, var(--overlay), transparent);
+  content: '';
+}
+
+.cover::after {
+  position: absolute;
+  inset: 6%;
+  border: 1px solid currentcolor;
+  border-radius: var(--radius-xs);
+  content: '';
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.line,
+.authorLine {
+  display: block;
+  border-radius: var(--radius-xs);
+  background: currentcolor;
+  opacity: 0.7;
+}
+
+.line {
+  inline-size: 20%;
+  block-size: 2px;
+}
+
+.authorLine {
+  inline-size: 42%;
+  block-size: 2px;
+  opacity: 0.9;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 14cqw;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.variantOne {
+  background: var(--green-700);
+  color: var(--cream-200);
+}
+
+.variantTwo {
+  background: var(--brass-700);
+  color: var(--cream-50);
+}
+
+.variantThree {
+  background: var(--green-900);
+  color: var(--brass-100);
+}
+
+.variantFour {
+  background: var(--red-700);
+  color: var(--cream-50);
+}
