@@ -97,6 +97,15 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   Add the Arabic text for a new backend `code` there, never in code.
 - The UI never computes prices, discounts, shipping or totals: it shows what the API returns.
 
+## The client boundary ('use client')
+
+A file that uses a React hook (including our own, like `useFieldContext`), `createContext` or an inline event handler
+(`onClick={...}`) must start with `'use client'`, or a Server Component importing it breaks the build and every page
+returns 500. `scripts/check-use-client.mjs` (run by `pnpm lint`) fails and lists such files. Keep the boundary small:
+put the directive only on the file that needs it, never on a file just to silence an error, and keep presentational
+components (Icon, Skeleton, EmptyState, pages) as Server Components. Tests, `src/test`, `src/mocks`, `*.d.ts` and the
+generated icon registry are not checked.
+
 ## The "Soon" rule
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API

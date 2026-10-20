@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { useFieldContext } from '@/shared/ui/field/field-context';

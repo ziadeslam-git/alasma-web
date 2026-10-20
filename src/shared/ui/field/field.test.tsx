@@ -20,7 +20,7 @@ describe('Field and Input', () => {
       </Field>,
     );
 
-    const input = screen.getByLabelText('Email');
+    const input = screen.getByLabelText(/^Email/);
     expect(input).toHaveAttribute('aria-describedby', 'email-hint email-error');
     expect(input).toHaveAttribute('aria-invalid', 'true');
     expect(input).toHaveAttribute('aria-required', 'true');

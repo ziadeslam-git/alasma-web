@@ -1,4 +1,6 @@
-import { createContext, useContext } from 'react';
+'use client';
+
+import { createContext, useContext, type ReactNode } from 'react';
 
 export type FieldContextValue = {
   describedBy?: string;
@@ -9,7 +11,17 @@ export type FieldContextValue = {
 
 const FieldContext = createContext<FieldContextValue | null>(null);
 
-export const FieldProvider = FieldContext.Provider;
+// A component (not the raw Context.Provider) so a Server Component can render it: the context itself stays in
+// the client module.
+export function FieldProvider({
+  children,
+  value,
+}: {
+  children: ReactNode;
+  value: FieldContextValue;
+}) {
+  return <FieldContext.Provider value={value}>{children}</FieldContext.Provider>;
+}
 
 export function useFieldContext() {
   return useContext(FieldContext);
