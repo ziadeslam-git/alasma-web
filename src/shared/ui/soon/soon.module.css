@@ -1,0 +1,33 @@
+.soon {
+  position: relative;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--space-5);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.corner .badge {
+  position: absolute;
+  inset-block-start: var(--space-2);
+  inset-inline-end: var(--space-2);
+}
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}

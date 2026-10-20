@@ -124,6 +124,25 @@
         "warning": "تحقق من البيانات قبل المتابعة."
       }
     },
+    "soon": {
+      "heading": "الميزات القادمة",
+      "badge": "قريباً",
+      "button": "إجراء تجريبي",
+      "inputLabel": "بحث تجريبي",
+      "inputPlaceholder": "ابحث في الكتب",
+      "sortLabel": "ترتيب تجريبي",
+      "sortOption": "الأكثر شعبية",
+      "cardTitle": "اختيار المحرر",
+      "cardDescription": "مجموعة مختارة ستتوفر قريباً.",
+      "link": "رابط مختصر",
+      "tableFeature": "الميزة",
+      "tableState": "الحالة",
+      "states": {
+        "live": "متاح",
+        "soon": "قريباً",
+        "hidden": "مخفي"
+      }
+    },
     "modal": {
       "heading": "النافذة المنبثقة (Modal)",
       "close": "إغلاق",

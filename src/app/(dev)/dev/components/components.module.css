@@ -53,3 +53,36 @@
   border-radius: var(--radius-md);
   background: var(--surface);
 }
+
+.soonSelect {
+  inline-size: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.soonBlock {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.linkLike {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.featureTable {
+  inline-size: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.featureTable th,
+.featureTable td {
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  text-align: start;
+}

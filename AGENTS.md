@@ -119,6 +119,8 @@ The page scroll lock is shared (`src/shared/lib/dom/scroll-lock.ts`), so stacked
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API
 call, no working link. One list controls it: `features.ts`, each entry `live`, `soon` or `hidden` (hidden = not planned).
+Add every new feature exactly once in `src/shared/config/features.ts`, then render it through `FeatureGate` so live
+features render normally, soon features are inert and labelled, and hidden features render nothing.
 
 ## Sequencing rule
 

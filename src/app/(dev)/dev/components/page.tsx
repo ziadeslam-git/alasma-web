@@ -11,6 +11,7 @@ import { ModalSection } from './sections/modal-section';
 import { PaginationSection } from './sections/pagination-section';
 import { SafeImageSection } from './sections/safe-image-section';
 import { SkeletonSection } from './sections/skeleton-section';
+import { SoonSection } from './sections/soon-section';
 import { ToastSection } from './sections/toast-section';
 import styles from './components.module.css';
 
@@ -36,6 +37,7 @@ export default function ComponentsPage() {
       <PaginationSection />
       <BreadcrumbsSection />
       <ToastSection />
+      <SoonSection />
       <ModalSection />
       <DrawerSection />
     </main>
