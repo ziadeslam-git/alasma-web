@@ -1,0 +1,50 @@
+.breadcrumbs,
+.list,
+.item {
+  min-inline-size: 0;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.link,
+.current {
+  max-inline-size: 16ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--primary);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.current {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.separator {
+  color: var(--ink-subtle);
+  transform: scaleX(-1);
+}

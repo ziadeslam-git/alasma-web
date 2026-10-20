@@ -1,0 +1,44 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-block-start: calc(var(--space-10) + var(--space-1));
+}
+
+.pageLink,
+.ellipsis {
+  display: grid;
+  place-items: center;
+  min-inline-size: calc(var(--space-10) + var(--space-1));
+  block-size: calc(var(--space-10) + var(--space-1));
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.pageLink:hover {
+  background: var(--chip-bg);
+}
+
+.pageLink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.pageLink[aria-current='page'] {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.disabled:hover {
+  background: transparent;
+}
