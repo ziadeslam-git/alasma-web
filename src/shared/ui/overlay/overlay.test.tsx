@@ -180,7 +180,8 @@ describe.each(overlays)('%s', (_name, Overlay, exitDuration) => {
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(), {
       timeout: exitDuration * 5,
     });
-    expect(document.body.style.overflow).toBe('');
+    // the lock and the focus are released in the effect cleanup, a moment after the dialog leaves the DOM
+    await waitFor(() => expect(document.body.style.overflow).toBe(''));
     expect(trigger).toHaveFocus();
   });
 

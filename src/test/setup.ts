@@ -6,6 +6,7 @@ import * as axeMatchers from 'vitest-axe/matchers';
 import { server } from '@/mocks/server';
 
 import './dialog-polyfill';
+import './dom-stubs';
 
 expect.extend(axeMatchers);
 

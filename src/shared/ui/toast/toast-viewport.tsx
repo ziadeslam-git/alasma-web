@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { prefersReducedMotion } from '@/shared/lib/dom/prefers-reduced-motion';
 import { Icon, type IconName } from '@/shared/ui/icon';
 
 import { TOAST_EXIT_DURATION } from './toast-constants';
@@ -36,13 +37,6 @@ export function ToastViewport({ label, onDismiss, toasts }: ToastViewportProps) 
         <ToastItem key={toast.id} onDismiss={onDismiss} toast={toast} />
       ))}
     </div>
-  );
-}
-
-function prefersReducedMotion() {
-  return (
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 }
 

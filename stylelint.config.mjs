@@ -2,7 +2,15 @@
 const stylelintConfig = {
   extends: ['stylelint-config-standard', 'stylelint-config-css-modules'],
   plugins: ['stylelint-use-logical'],
-  ignoreFiles: ['design/**', 'node_modules/**', '.next/**', 'out/**', 'build/**', 'coverage/**'],
+  ignoreFiles: [
+    'design/**',
+    'node_modules/**',
+    '.next/**',
+    '.next-e2e/**',
+    'out/**',
+    'build/**',
+    'coverage/**',
+  ],
   rules: {
     // Colours come from the design tokens only (var(--...)); a hex value is allowed only in the tokens file below.
     'color-no-hex': true,

@@ -115,6 +115,10 @@ on the element that should get focus on open. Do not write a third dialog implem
 The page scroll lock is shared (`src/shared/lib/dom/scroll-lock.ts`), so stacked overlays are safe. The overlay e2e spec
 (`e2e/overlays.spec.ts`) runs against `next dev` on port 3101 because it uses the dev-only `/dev/components` page.
 
+## Landmarks
+
+`SiteShell` owns the only `<main>` (`id="main-content"`). Pages and components rendered inside it must not render another one (axe reports duplicate and nested main landmarks). The dev pages under `(dev)` are outside the shell and have their own.
+
 ## The "Soon" rule
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API

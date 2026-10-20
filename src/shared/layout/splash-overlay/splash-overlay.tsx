@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
+import { prefersReducedMotion } from '@/shared/lib/dom/prefers-reduced-motion';
 
 import styles from './splash-overlay.module.css';
 
@@ -14,11 +15,12 @@ export function SplashOverlay() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (prefersReducedMotion()) {
       return undefined;
     }
 
     try {
+      // A harmless per-session flag, not a token. ESLint bans window.sessionStorage along with localStorage, hence globalThis.
       const session = globalThis['sessionStorage'];
       if (session.getItem(splashSessionKey)) {
         return undefined;

@@ -40,9 +40,11 @@ export default defineConfig({
       timeout: 300_000,
     },
     {
-      // next dev (it writes to .next/dev, so it does not clash with the build): the dev-only /dev/components page that
+      // next dev (its own .next-e2e folder, so it clashes with neither the build nor a normal dev server): the dev-only /dev/components page that
       // the overlay specs use. That page returns 404 in a production build.
       command: `pnpm exec next dev -p ${devPort}`,
+      // its own output folder, so it can run while the owner's `pnpm dev` is running on port 3000
+      env: { NEXT_DIST_DIR: '.next-e2e' },
       url: `http://localhost:${devPort}/dev/components`,
       reuseExistingServer: !process.env.CI,
       timeout: 300_000,
