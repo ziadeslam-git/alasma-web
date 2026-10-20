@@ -1,0 +1,54 @@
+.appBar {
+  display: none;
+}
+
+.menu {
+  display: none;
+}
+
+@media (width <= 1000px) {
+  .menu {
+    display: block;
+  }
+}
+
+@media (width <= 760px) {
+  .appBar {
+    position: fixed;
+    z-index: 80;
+    inset-inline: var(--space-3);
+    inset-block-end: var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    min-block-size: 68px;
+    padding-inline: var(--space-2);
+    border-radius: var(--radius-xl);
+    background: var(--surface-brand);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .appBar a,
+  .appBar [data-feature] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    min-block-size: 60px;
+    color: var(--on-brand-muted);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .appBar [aria-current='page'] {
+    color: var(--on-brand);
+  }
+
+  .appBar [aria-current='page'] svg {
+    padding: var(--space-1);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--surface-brand);
+  }
+}

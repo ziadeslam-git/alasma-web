@@ -30,6 +30,12 @@ describe('features registry', () => {
     expect(liveKeys).toEqual(expectedLiveKeys);
   });
 
+  it('keeps the deferred navigation areas marked as soon', () => {
+    expect(getFeatureState('cart-page')).toBe('soon');
+    expect(getFeatureState('checkout-flow')).toBe('soon');
+    expect(getFeatureState('account-area')).toBe('soon');
+  });
+
   it('contains no duplicate keys and exposes consistent helpers', () => {
     const keys = Object.keys(features) as FeatureKey[];
 

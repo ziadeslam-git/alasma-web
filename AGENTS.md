@@ -121,6 +121,8 @@ Anything in the design that is not in V1 is shown dimmed and disabled with a "ق
 call, no working link. One list controls it: `features.ts`, each entry `live`, `soon` or `hidden` (hidden = not planned).
 Add every new feature exactly once in `src/shared/config/features.ts`, then render it through `FeatureGate` so live
 features render normally, soon features are inert and labelled, and hidden features render nothing.
+Keep every user-facing path in `src/shared/config/routes.ts`; use its helpers for dynamic path segments so Arabic slugs
+are encoded safely.
 
 ## Sequencing rule
 

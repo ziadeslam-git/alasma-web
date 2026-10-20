@@ -1,0 +1,148 @@
+.header {
+  position: sticky;
+  z-index: 20;
+  inset-block-start: 0;
+  border-block-end: 1px solid var(--hair);
+  background: var(--surface);
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  max-inline-size: 1200px;
+  min-block-size: 68px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.skipLink {
+  position: fixed;
+  z-index: 100;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--primary);
+  translate: 0 -200%;
+}
+
+.skipLink:focus {
+  translate: 0 0;
+}
+
+.logo {
+  flex: none;
+  color: var(--primary);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.search {
+  position: relative;
+  flex: 1;
+  max-inline-size: 460px;
+}
+
+.search svg {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--space-4);
+  color: var(--ink-muted);
+  translate: 0 -50%;
+}
+
+.search input {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-inline: var(--space-10) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--pg);
+}
+
+.links,
+.actions,
+.guestLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.links {
+  margin-inline-start: auto;
+}
+
+.links a,
+.links [data-feature] {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.actions {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 1px solid var(--hair);
+}
+
+.iconLink,
+.language {
+  display: grid;
+  place-items: center;
+  min-inline-size: 38px;
+  min-block-size: 38px;
+  border-radius: var(--radius-pill);
+}
+
+.iconLink:hover {
+  background: var(--pg);
+}
+
+.language {
+  font-size: 12px;
+}
+
+.menuLinks {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.menuLinks a {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.menuLinks a:hover {
+  background: var(--surface-sunken);
+}
+
+.links a:hover {
+  background: var(--g-t);
+  color: var(--primary);
+}
+
+@media (width <= 1000px) {
+  .wrap {
+    min-block-size: 60px;
+    gap: var(--space-2);
+  }
+
+  .search,
+  .links,
+  .actions {
+    display: none;
+  }
+
+  .logo {
+    margin-inline-end: auto;
+  }
+}
+
+@media (width <= 760px) {
+  .wrap {
+    padding-inline: var(--space-4);
+  }
+}
