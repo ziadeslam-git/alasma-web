@@ -1,0 +1,13 @@
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.form h1,
+.form p {
+  margin: 0;
+}
+
+.form p {
+  color: var(--ink-muted);
+}

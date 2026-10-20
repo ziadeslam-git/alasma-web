@@ -1,0 +1,9 @@
+.card {
+  inline-size: min(100%, 520px);
+  margin: var(--space-12) auto;
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}

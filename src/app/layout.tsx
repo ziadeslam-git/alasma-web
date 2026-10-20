@@ -5,6 +5,10 @@ import type { ReactNode } from 'react';
 import '@/shared/config/fonts';
 import '@/styles/globals.css';
 
+import messages from '@/i18n/messages/ar.json';
+import { AuthProvider } from '@/modules/auth';
+import { ToastProvider } from '@/shared/ui/toast';
+
 export const metadata: Metadata = {
   title: 'Al-Asma Pro',
 };
@@ -12,7 +16,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <ToastProvider label={messages.auth.toastLabel}>{children}</ToastProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

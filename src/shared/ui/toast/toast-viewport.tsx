@@ -32,7 +32,7 @@ const iconNames: Record<ToastKind, IconName> = {
 
 export function ToastViewport({ label, onDismiss, toasts }: ToastViewportProps) {
   return (
-    <div aria-label={label} className={styles.viewport}>
+    <div aria-label={label} className={styles.viewport} role="region">
       {toasts.map((toast) => (
         <ToastItem key={toast.id} onDismiss={onDismiss} toast={toast} />
       ))}
