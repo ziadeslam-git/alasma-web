@@ -11,3 +11,5 @@ src/styles/tokens.css
 src/assets/fonts/
 playwright-report/
 test-results/
+src/shared/lib/api/openapi.json
+src/shared/lib/api/schema.d.ts

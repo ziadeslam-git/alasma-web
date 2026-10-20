@@ -72,6 +72,28 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
 - `src/test/examples` and `e2e/examples` are examples to copy, to be replaced by real tests.
 - A task is not finished until its tests pass. Definition of Done: see section 14 of the Architecture page (Notion).
 
+## API layer (src/shared/lib/api)
+
+- The contract is `openapi.json`, a COMMITTED copy of `../AlAsmaPro/docs/openapi.json`, and `schema.d.ts` is generated
+  from it. `pnpm api:sync` copies the contract from the sibling backend folder, `pnpm api:types` regenerates
+  `schema.d.ts`, `pnpm api:check` (CI) fails when the committed `schema.d.ts` is stale. Never edit either file by hand
+  (both are ignored by Prettier and ESLint). Codex and CI never need the backend folder.
+- Never type an API shape by hand: import `paths` / `components` from `schema.d.ts` (or `@/shared/lib/api`).
+- Two clients, both from `openapi-fetch`. `createServerClient()` is for Server Components and ISR: absolute
+  `API_ORIGIN` (default `http://localhost:5198`), no cookies, no auth; pass Next caching per call with
+  `nextFetch({ revalidate, tags })`; use `throwIfError(result)` to turn a failed result into an `ApiError`.
+  `createBrowserClient(hooks)` is for Client Components: same-origin, cookies included, `Authorization: Bearer` from the
+  injected `getAccessToken()` (the token lives in memory only), every failure THROWN as an `ApiError`, and
+  `onUnauthorized` called once per 401. This layer never retries; the single-flight refresh is the AuthProvider's job.
+- The schema paths already start with `/api/v1`, so the client base URL is the origin, not `/api/v1`.
+- In development `next.config.ts` rewrites `/api/v1/*` to `API_ORIGIN` so the refresh cookie stays same-origin (ADR-18).
+  Copy `.env.example` to `.env.local` to change the origin. Never put a secret in a `NEXT_PUBLIC_` variable.
+- Errors: `ApiError` carries status, type, title, detail, `code`, traceId, field `errors` and `retryAfterSeconds` (429).
+  Show users `getApiErrorMessage(error)`: Arabic text from `src/i18n/messages/ar.json` (`apiErrors`: `codes` for the
+  public and auth screens, `adminCodes` for admin and later features, then the status, kind and generic fallbacks).
+  Add the Arabic text for a new backend `code` there, never in code.
+- The UI never computes prices, discounts, shipping or totals: it shows what the API returns.
+
 ## The "Soon" rule
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API
@@ -85,7 +107,7 @@ backend that does not exist yet (that feature shows as Soon).
 ## Scripts
 
 `pnpm dev`, `pnpm build`, `pnpm start`, `pnpm typecheck`, `pnpm lint`, `pnpm lint:css`, `pnpm format:check`,
-`pnpm test`, `pnpm test:watch`, `pnpm test:e2e`. Run typecheck, lint, lint:css, format:check, test and build before
+`pnpm test`, `pnpm test:watch`, `pnpm test:e2e`, `pnpm api:sync`, `pnpm api:types`, `pnpm api:check`. Run typecheck, lint, lint:css, format:check, test and build before
 reporting a task done.
 
 ## Process

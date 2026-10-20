@@ -75,6 +75,7 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'coverage/**',
+    'src/shared/lib/api/schema.d.ts',
     'playwright-report/**',
     'test-results/**',
     'next-env.d.ts',
