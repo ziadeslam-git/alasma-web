@@ -13,7 +13,7 @@ const stylelintConfig = {
   },
   overrides: [
     {
-      files: ['src/styles/tokens.css'],
+      files: ['src/styles/tokens.css', 'src/styles/tokens-site.css'],
       // The tokens file is copied byte for byte from the design system, so only its notation rules are relaxed.
       rules: {
         'color-no-hex': null,

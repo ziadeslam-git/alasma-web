@@ -5,6 +5,23 @@
     "samplePrice": "1250 ج.م",
     "sampleNumbers": "0123456789"
   },
+  "devIcons": {
+    "title": "أيقونات التصميم",
+    "sizes": "المقاسات",
+    "allIcons": "كل الأيقونات",
+    "colourInheritance": "توريث اللون",
+    "sampleLabel": "أيقونة بحث",
+    "sizeNames": {
+      "sm": "صغير",
+      "md": "متوسط",
+      "lg": "كبير"
+    },
+    "colourNames": {
+      "primary": "اللون الأساسي",
+      "accent": "اللون المميز",
+      "danger": "لون التنبيه"
+    }
+  },
   "apiErrors": {
     "codes": {
       "auth_email_taken": "هذا البريد الإلكتروني مسجّل لدينا بالفعل. جرّب تسجيل الدخول أو استعادة كلمة المرور.",

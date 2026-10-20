@@ -46,6 +46,9 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   design changes, copy the file again. Colours, spacing, radii, shadows and fonts are used ONLY through its variables
   (`var(--primary)`, `var(--space-4)`, `var(--font-sans)`). Its text classes (`display-*`, `h1`..`h4`, `body*`,
   `caption`, `label`, `price*`, `quote`, `excerpt`) are the only global text styles; do not invent new ones.
+- `src/styles/tokens-site.css` contains the verbatim `:root` declarations from `design/site.css` that are used by the
+  site design but absent from the design-system token file. It is imported immediately after `tokens.css`; never
+  replace values with invented ones. Breakpoints are literal `760px` and `1000px` values in media queries.
 - Fonts are self-hosted woff2 files in `src/assets/fonts` (licences in `LICENSES.md`), loaded with `next/font/local` in
   `src/shared/config/fonts.ts`. Never use `next/font/google` or a Google Fonts URL. The family names match the ones
   in `tokens.css`, so only the variables are used in CSS, never a literal family name.
