@@ -14,8 +14,15 @@ const stylelintConfig = {
   overrides: [
     {
       files: ['src/styles/tokens.css'],
+      // The tokens file is copied byte for byte from the design system, so only its notation rules are relaxed.
       rules: {
         'color-no-hex': null,
+        'alpha-value-notation': null,
+        'color-function-alias-notation': null,
+        'color-function-notation': null,
+        'color-hex-length': null,
+        'declaration-block-single-line-max-declarations': null,
+        'value-keyword-case': null,
       },
     },
   ],

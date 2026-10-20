@@ -1,0 +1,7 @@
+/* Imported once, from the root layout. Order matters: tokens first, then the reset that uses them. */
+@import url('./tokens.css');
+@import url('./reset.css');
+
+html {
+  direction: rtl;
+}

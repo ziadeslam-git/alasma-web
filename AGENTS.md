@@ -40,6 +40,21 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
 - Hiding a button is not security. Use API types generated from `openapi.json`; never hand-write them.
 - Conventional Commits. No secrets in code or Git (`.env.local` only).
 
+## Tokens, fonts and base styles
+
+- `src/styles/tokens.css` is copied byte for byte from `design/ds/al-asma/tokens.css`. Never edit it by hand: if the
+  design changes, copy the file again. Colours, spacing, radii, shadows and fonts are used ONLY through its variables
+  (`var(--primary)`, `var(--space-4)`, `var(--font-sans)`). Its text classes (`display-*`, `h1`..`h4`, `body*`,
+  `caption`, `label`, `price*`, `quote`, `excerpt`) are the only global text styles; do not invent new ones.
+- Fonts are self-hosted woff2 files in `src/assets/fonts` (licences in `LICENSES.md`), loaded with `next/font/local` in
+  `src/shared/config/fonts.ts`. Never use `next/font/google` or a Google Fonts URL. The family names match the ones
+  in `tokens.css`, so only the variables are used in CSS, never a literal family name.
+- Font weight 700 is the maximum (weight 800 does not exist in these fonts). Allowed weights: Aref Ruqaa 400 and 700,
+  IBM Plex Sans Arabic 300-700, Amiri 400 and 700.
+- `src/styles/globals.css` is imported once, from the root layout, and pulls in `tokens.css` and `reset.css`. Logical
+  properties only (`margin-inline-start`, `inline-size`), no hex, no left/right.
+- `/dev/tokens` is a development-only page that shows every token. It returns 404 in production and is `noindex`.
+
 ## The "Soon" rule
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API
