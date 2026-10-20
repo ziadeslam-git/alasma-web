@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: السلة</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.cl{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;align-items:start;padding-block:12px 8px}
+.it{display:grid;grid-template-columns:134px minmax(0,1fr);gap:26px;padding:26px;margin-bottom:22px}
+.it .th{background:var(--t);border-radius:12px;padding:14% 14%;display:grid;place-items:center;align-self:start}
+.it .th .cv{width:100%}
+.it__b{display:grid;grid-template-rows:auto auto 1fr;gap:6px;min-width:0}
+.it__top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.it__top h3{font:700 20px/1.4 var(--font-sans)}
+.it__pr{font:700 20px/1.3 var(--font-sans);color:var(--g);white-space:nowrap}
+.it__ft{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.acts{display:flex;gap:22px}
+.acts button{display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:var(--ink-muted);font:500 14px/1 var(--font-sans);cursor:pointer;padding:6px 0}
+.acts button:hover{color:var(--g)}
+.chip{display:inline-flex;align-self:start;width:fit-content;height:26px;align-items:center;padding-inline:12px;border-radius:999px;background:#eef3f1;font:500 12px/1 var(--font-sans);color:var(--ink)}
+.sum{position:sticky;top:92px;padding:30px}
+.row{display:flex;justify-content:space-between;align-items:center;padding-block:9px;color:var(--ink-muted);font-size:15px}
+.row b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.sv{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:20px;align-items:center;padding:20px 22px;border:1.5px dashed #cbd9d5;border-radius:16px;background:rgba(255,255,255,.5)}
+@media (max-width:1000px){
+.cl{grid-template-columns:minmax(0,1fr);gap:28px}
+.it{grid-template-columns:96px minmax(0,1fr);gap:16px;padding:16px}
+.sum{position:static}
+}
+</style>
+</helmet>
+<div class="page">
+
+<header class="nav"><div class="wrap nav__in">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html">الرئيسية</a><a href="Store.dc.html">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html">باقات النشر</a></nav>
+<div class="nav__act">
+<a class="ibtn" href="Wishlist.dc.html" aria-label="المفضلة"><i class="ic ic-heart"></i></a>
+<a class="ibtn" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="num">3</span></a>
+<a href="Account.dc.html" class="avatar" aria-label="حسابي">أ</a>
+</div>
+<!--mbtn--><dc-import name="SearchBox" hint-size="44px,44px"></dc-import><label class="nav__burger" for="mnav" aria-label="القائمة"><span></span><span></span><span></span></label><!--/mbtn--></div></header><!--mnav--><input type="checkbox" id="mnav" class="mn__cb" aria-hidden="true" tabindex="-1"><label class="mn__bd" for="mnav" aria-hidden="true"></label><aside class="mn__sheet" aria-label="القائمة"><div class="mn__top"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><label class="mn__x" for="mnav" aria-label="إغلاق"><i class="ic ic-x"></i></label></div><div class="mn__qs"><a class="mn__q" href="Account.dc.html"><i class="ic ic-user"></i><span>حسابي</span></a><a class="mn__q" href="Wishlist.dc.html"><i class="ic ic-heart"></i><span>المفضلة</span></a><a class="mn__q" href="Cart.dc.html" aria-current="page"><i class="ic ic-bag"></i><span>السلة</span><em>3</em></a></div><nav class="mn__list" aria-label="صفحات الموقع"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية<i class="ic ic-chev-l mn__ch"></i></a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر<i class="ic ic-chev-l mn__ch"></i></a><a href="Bestsellers.dc.html"><i class="ic ic-sparkle"></i>الأكثر مبيعًا<i class="ic ic-chev-l mn__ch"></i></a><a href="Offers.dc.html"><i class="ic ic-tag"></i>العروض<i class="ic ic-chev-l mn__ch"></i></a><a href="Authors.dc.html"><i class="ic ic-users"></i>المؤلفون<i class="ic ic-chev-l mn__ch"></i></a><a href="Events.dc.html"><i class="ic ic-calendar"></i>الأحداث<i class="ic ic-chev-l mn__ch"></i></a><a href="Packages.dc.html"><i class="ic ic-package"></i>باقات النشر<i class="ic ic-chev-l mn__ch"></i></a><a href="Where.dc.html"><i class="ic ic-pin"></i>أين تجد الكتب<i class="ic ic-chev-l mn__ch"></i></a><a href="About.dc.html"><i class="ic ic-book-open"></i>عن الدار<i class="ic ic-chev-l mn__ch"></i></a><a href="Policies.dc.html"><i class="ic ic-shield"></i>الشحن والسياسات<i class="ic ic-chev-l mn__ch"></i></a></nav></aside><!--/mnav-->
+
+<main class="wrap" style="padding-top:26px">
+<nav class="crumb" aria-label="مسار التصفح"><a href="Store.dc.html" style="display:inline-flex;gap:8px;align-items:center"><i class="ic ic-arrow-r ic--s"></i>متابعة التسوق</a><span>/</span><b>سلتك</b></nav>
+<div style="display:flex;align-items:baseline;gap:14px;margin-block:20px 34px;padding-bottom:22px;border-bottom:1px solid var(--hair)"><h1 style="font:700 44px/1.3 var(--font-sans)">سلة مشترياتك</h1><span style="color:var(--ink-muted);font-size:18px">(3 كتب)</span></div>
+
+<div class="cl">
+<section aria-label="كتب السلة">
+<sc-for list="{{items}}" as="b" hint-placeholder-count="3">
+<article class="card it">
+<div class="th" style="--t:{{b.t}}"><div class="cv" style="--c1:{{b.c1}};--c2:{{b.c2}}"><i></i><b>{{b.title}}</b><span>{{b.author}}</span></div></div>
+<div class="it__b">
+<div class="it__top"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3>{{b.title}}</h3><sc-if value="{{b.low}}" hint-placeholder-val="{{false}}"><span class="tag tag--low">كمية محدودة</span></sc-if></div><span class="it__pr">{{b.price}} ج.م</span></div>
+<div style="display:grid;gap:10px;align-content:start"><span style="color:var(--ink-muted);font-size:15px">تأليف {{b.author}}</span><span class="chip">{{b.fmt}}</span></div>
+<div class="it__ft"><div class="acts"><button type="button"><i class="ic ic-trash ic--s"></i>حذف</button><button type="button"><i class="ic ic-bookmark ic--s"></i>حفظ لوقت لاحق</button></div>
+<div class="qty" style="height:42px"><button type="button" aria-label="زيادة {{b.title}}"><i class="ic ic-plus ic--s"></i></button><span>1</span><button type="button" aria-label="إنقاص {{b.title}}"><i class="ic ic-minus ic--s"></i></button></div></div>
+</div>
+</article>
+</sc-for>
+
+<h2 style="display:flex;align-items:center;gap:10px;font:700 22px/1.4 var(--font-sans);margin-block:44px 18px"><i class="ic ic-bookmark" style="color:var(--g)"></i>محفوظ لوقت لاحق (1)</h2>
+<div class="sv"><div class="cv" style="--c1:#8c8f8e;--c2:#f0f0ee;width:76px;box-shadow:none"><i></i><b style="font-size:13cqw">مدن مجردة</b></div>
+<div style="display:grid;gap:4px"><h3 style="font:700 18px/1.4 var(--font-sans);color:var(--ink-muted)">مدن مجردة</h3><span style="color:var(--ink-muted);font-size:14px">تأليف ماريا سفاربوفا</span><a href="Cart.dc.html" style="color:var(--g);font-weight:700;font-size:14px;margin-top:4px">انقل إلى السلة</a></div>
+<span style="font:700 18px/1 var(--font-sans);color:var(--ink-muted)">150 ج.م</span></div>
+</section>
+
+<aside class="card sum" aria-label="ملخص الطلب">
+<h2 style="font:700 22px/1.4 var(--font-sans);margin-bottom:12px">ملخص الطلب</h2>
+<div class="row"><span>المجموع الفرعي</span><b>340 ج.م</b></div>
+<div class="row"><span>الشحن</span><b style="color:var(--success-ink)">مجاني</b></div>
+<div class="row"><span>خصم الكوبون</span><b style="color:var(--discount-ink)">- 20 ج.م</b></div>
+<div style="height:1px;background:var(--hair);margin-block:12px"></div>
+<div style="font:700 11px/1 var(--font-sans);color:var(--ink-muted);margin-bottom:10px">كود الخصم</div>
+<div style="display:flex;gap:8px"><input class="field" placeholder="أدخل الكود" aria-label="كود الخصم" style="flex:1;min-width:0"><button class="btn btn--soft" type="button" style="height:46px">تطبيق</button></div>
+<div style="height:1px;background:var(--hair);margin-block:22px"></div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end"><span style="font:700 17px/1 var(--font-sans)">الإجمالي</span><span style="text-align:end"><b style="font:700 34px/1 var(--font-sans)">320 ج.م</b></span></div>
+<a class="btn btn--p btn--lg btn--blk" href="Checkout.dc.html" style="margin-top:24px;font-size:16px">إتمام الطلب<i class="ic ic-arrow ic--s"></i></a>
+<div style="display:flex;justify-content:center;gap:22px;margin-top:18px;color:var(--ink-muted);font-size:12px"><span style="display:inline-flex;gap:6px;align-items:center"><i class="ic ic-lock ic--s"></i>دفع آمن</span><span style="display:inline-flex;gap:6px;align-items:center"><i class="ic ic-shield ic--s"></i>نسخ أصلية</span></div>
+<div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--hair);text-align:center;color:var(--ink-muted);font-size:12px">الدفع عند الاستلام · فودافون كاش · إنستاباي</div>
+</aside>
+</div>
+</main>
+
+<footer class="foot"><div class="wrap"><div class="foot__b" style="border-top:0"><span>© دار الأسمى للنشر والتوزيع</span><span>سياسة الخصوصية · الشروط والأحكام</span></div></div></footer>
+</div>
+<nav class="appbar" aria-label="التنقل السفلي"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية</a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر</a><a class="fab" href="Cart.dc.html" aria-label="السلة، 3 كتب" aria-current="page"><i class="ic ic-bag"></i><span class="nb">3</span></a><a href="Wishlist.dc.html"><i class="ic ic-heart"></i>المفضلة</a><a href="Account.dc.html"><i class="ic ic-user"></i>حسابي</a></nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const items = [
+      { title: 'هندسة الضوء', author: 'توماس هيذروِك', price: 120, fmt: 'غلاف مقوى', t: '#0f3b3a', c1: '#d8dedb', c2: '#1d3d3a' },
+      { title: 'مطبخ حديث', author: 'ناثان ميرفولد', price: 150, fmt: 'طقم كتب', t: '#10211f', c1: '#1b2224', c2: '#e0b865' },
+      { title: 'فن القهوة', author: 'جيمس هوفمان', price: 70, fmt: 'غلاف ورقي', t: '#8a5a33', c1: '#a8703a', c2: '#fbe9d0', low: true }
+    ];
+    return { items };
+  }
+}
+</script>
+</body>
+</html>

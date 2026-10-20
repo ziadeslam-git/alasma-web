@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مكوّن: بحث لوحة التحكم</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div class="ax {{cls}}">
+<button class="ibtn ax__open" type="button" aria-label="بحث" onClick="{{openIt}}"><i class="ic ic-search"></i></button>
+<button class="ax__bd" type="button" tabindex="-1" aria-hidden="true" onClick="{{closeIt}}"></button>
+<div class="ax__panel" role="dialog" aria-label="البحث في لوحة التحكم">
+<div class="ax__in">
+<div class="ax__bar">
+<label class="ax__f"><i class="ic ic-search"></i><input id="axin" type="search" placeholder="ابحث عن أي شيء: طلب، كتاب، عميل، مؤلف، صفحة أو إعداد" value="{{q}}" onInput="{{onQ}}" aria-label="بحث"></label>
+<button class="ax__x" type="button" aria-label="إغلاق البحث" onClick="{{closeIt}}"><i class="ic ic-x"></i></button>
+</div>
+<div class="ax__tabs">
+<sc-for list="{{tabs}}" as="x" hint-placeholder-count="7"><button class="ax__tab {{x.cls}}" type="button" onClick="{{x.pick}}">{{x.l}}<em class="{{x.ecls}}">{{x.n}}</em></button></sc-for>
+</div>
+<div class="ax__res">
+<sc-if value="{{empty}}" hint-placeholder-val="{{true}}">
+<div class="ax__sec">إجراءات سريعة</div>
+<div class="ax__chips">
+<sc-for list="{{quick}}" as="s" hint-placeholder-count="6"><a class="ax__chip" href="{{s.href}}"><i class="ic {{s.icon}} ic--s"></i>{{s.t}}</a></sc-for>
+</div>
+<div class="ax__sec">الأكثر بحثًا</div>
+<div class="ax__chips">
+<sc-for list="{{pop}}" as="p" hint-placeholder-count="6"><button class="ax__chip" type="button" onClick="{{p.pick}}">{{p.t}}</button></sc-for>
+</div>
+</sc-if>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div class="ax__sec {{r.hc}}">{{r.label}}<em>{{r.n}}</em></div>
+<a class="ax__it {{r.ic}}" href="{{r.href}}"><span class="ax__ic {{r.tc}}"><i class="ic {{r.icon}} ic--s"></i></span><span class="ax__tx"><b>{{r.title}}</b><small>{{r.sub}}</small></span><span class="ax__bg">{{r.badge}}</span></a>
+</sc-for>
+<sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+<div class="ax__none"><i class="ic ic-search"></i><b>لا نتائج لـ «{{q}}»</b><span>جرّب رقم الطلب أو اسم العميل أو عنوان الكتاب أو اسم صفحة.</span></div>
+</sc-if>
+</div>
+<button class="ax__grab" type="button" aria-label="إغلاق" onClick="{{closeIt}}"><i></i></button>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":120,"height":60}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { open: false, q: '', t: 'all' }; }
+  norm(s) {
+    return String(s || '').toLowerCase()
+      .replace(/[\u064B-\u0652\u0640]/g, '')
+      .replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+      .replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+      .replace(/\s+/g, ' ').trim();
+  }
+  index() {
+    const PAGES = [["نظرة عامة", "نظرة عامة", "Admin.dc.html"], ["كل الكتب", "الكتب", "AdmBooks.dc.html"], ["إضافة/تعديل كتاب", "الكتب", "AdmBookEdit.dc.html"], ["الأقسام", "الكتب", "AdmCategories.dc.html"], ["المخزون", "الكتب", "AdmStock.dc.html"], ["الاقتباسات", "الكتب", "AdmQuotes.dc.html"], ["المراجعات", "الكتب", "AdmReviews.dc.html"], ["كل الطلبات", "الطلبات", "AdmOrders.dc.html"], ["تفاصيل طلب", "الطلبات", "AdmOrder.dc.html"], ["عرض الأدمن", "الطلبات", "AdmOrderLimited.dc.html"], ["مراجعة الدفع", "الطلبات", "AdmPayments.dc.html"], ["الشحن", "الطلبات", "AdmShipping.dc.html"], ["السلات المتروكة", "الطلبات", "AdmCarts.dc.html"], ["الحجوزات", "الطلبات", "AdmReservations.dc.html"], ["التقارير المطبوعة", "الطلبات", "AdmPrints.dc.html"], ["الخصومات", "العروض", "AdmDiscounts.dc.html"], ["الكوبونات", "العروض", "AdmCoupons.dc.html"], ["الـ Bundles", "العروض", "AdmBundles.dc.html"], ["العملاء", "العملاء والمؤلفون", "AdmUsers.dc.html"], ["المؤلفون", "العملاء والمؤلفون", "AdmAuthors.dc.html"], ["صفحة مؤلف", "العملاء والمؤلفون", "AdmAuthorEdit.dc.html"], ["أقسام الرئيسية", "المحتوى", "AdmHome.dc.html"], ["البنرات", "المحتوى", "AdmBanners.dc.html"], ["الأحداث والأخبار", "المحتوى", "AdmEvents.dc.html"], ["أين تجد الكتب", "المحتوى", "AdmStores.dc.html"], ["السياسات", "المحتوى", "AdmPolicies.dc.html"], ["النشرة البريدية", "المحتوى", "AdmNewsletter.dc.html"], ["الباقات", "الباقات", "AdmPackages.dc.html"], ["طلبات النشر", "الباقات", "AdmManuscripts.dc.html"], ["إعدادات المتجر", "الإعدادات", "AdmSettings.dc.html"], ["أسعار الشحن", "الإعدادات", "AdmShipRates.dc.html"], ["طرق الدفع", "الإعدادات", "AdmPayMethods.dc.html"], ["صلاحيات الأدمن", "الإعدادات", "AdmPermissions.dc.html"], ["التنبيهات", "الإعدادات", "AdmAlerts.dc.html"], ["سجل التدقيق", "الإعدادات", "AdmAudit.dc.html"], ["لوحة المطوّر", "الإعدادات", "AdmDev.dc.html"], ["كل الأقسام", "القائمة", "AdmMore.dc.html"]];
+    const I = [];
+    const add = (t, title, sub, href, k, badge) => I.push({ t, title, sub, href, k: k || '', badge: badge || '' });
+    [['#AS-20418', 'أحمد محمد', 'فودافون كاش', '412', 'بانتظار الدفع'], ['#AS-20397', 'أحمد محمد', 'إنستاباي', '265', 'في الطريق'],
+     ['#AS-20390', 'منى سعيد', 'عند الاستلام', '120', 'قيد التجهيز'], ['#AS-20311', 'سامح علي', 'إنستاباي', '155', 'تم التسليم'],
+     ['#AS-20266', 'رنا فؤاد', 'فودافون كاش', '148', 'ملغي'], ['#AS-20421', 'منى سعيد', 'إنستاباي', '190', 'بانتظار المراجعة'],
+     ['#AS-20425', 'سامي علي', 'فودافون كاش', '305', 'بانتظار المراجعة']].forEach((o) =>
+      add('order', 'طلب ' + o[0], o[1] + ' · ' + o[2] + ' · ' + o[3] + ' ج.م', 'AdmOrder.dc.html', o[1] + ' ' + o[2], o[4]));
+    [['ظلال الحكاية', 'سامي الحكيم', '978-977-6000-01-1', 120], ['ليالي القاهرة', 'عمر الشريف', '978-977-6000-02-8', 130],
+     ['همس الصحراء', 'ليلى المنصوري', '978-977-6000-03-5', 140], ['مدينة الحبر', 'منى عبد الرحمن', '978-977-6000-04-2', 95],
+     ['رسائل لم تصل', 'رنا سعيد', '978-977-6000-05-9', 90], ['حدائق الكلمات', 'نادية فؤاد', '978-977-6000-06-6', 85],
+     ['فن الإنصات', 'خالد منصور', '978-977-6000-07-3', 110], ['بيت على النيل', 'سلمى عادل', '978-977-6000-10-3', 99],
+     ['أغنية المساء', 'هبة جمال', '978-977-6000-12-7', 92], ['عادات صغيرة', 'دينا حسن', '978-977-6000-13-4', 88]].forEach((b) =>
+      add('book', b[0], b[1] + ' · ' + b[2], 'AdmBookEdit.dc.html', 'isbn كتاب', b[3] + ' ج.م'));
+    [['أحمد محمد', 'ahmed@mail.com', '3 طلبات'], ['منى سعيد', 'mona@mail.com', 'طلبان'], ['سامح علي', 'sameh@mail.com', 'طلب واحد'],
+     ['رنا فؤاد', 'rana@mail.com', 'طلب واحد'], ['سامي علي', 'samy@mail.com', 'طلب واحد']].forEach((c) =>
+      add('cust', c[0], c[1] + ' · عميل', 'AdmUsers.dc.html', 'عميل ايميل', c[2]));
+    [['سامي الحكيم', 'ظلال الحكاية'], ['عمر الشريف', 'ليالي القاهرة'], ['ليلى المنصوري', 'همس الصحراء'], ['منى عبد الرحمن', 'مدينة الحبر'],
+     ['نادية فؤاد', 'حدائق الكلمات'], ['سلمى عادل', 'بيت على النيل']].forEach((a) =>
+      add('author', a[0], 'مؤلف · ' + a[1], 'AdmAuthorEdit.dc.html', 'مؤلف كاتب', 'مؤلف'));
+    PAGES.forEach((p) => add('page', p[0], p[1], p[2], 'صفحة قسم', p[1]));
+    [['حد الشحن المجاني', 'إعدادات المتجر › الشحن والطلبات', 'AdmSettings.dc.html'], ['مهلة الطلب المعلّق', 'إعدادات المتجر › الشحن والطلبات', 'AdmSettings.dc.html'],
+     ['مدة الحجز', 'إعدادات المتجر › الشحن والطلبات', 'AdmSettings.dc.html'], ['سياسة الإلغاء', 'إعدادات المتجر', 'AdmSettings.dc.html'],
+     ['حدود الكوبونات', 'إعدادات المتجر', 'AdmSettings.dc.html'], ['إشعارات Gmail', 'إعدادات المتجر', 'AdmSettings.dc.html'],
+     ['فودافون كاش', 'طرق الدفع', 'AdmPayMethods.dc.html'], ['إنستاباي', 'طرق الدفع', 'AdmPayMethods.dc.html'], ['الدفع عند الاستلام', 'طرق الدفع', 'AdmPayMethods.dc.html'],
+     ['صلاحيات الأدمن', 'الإعدادات', 'AdmPermissions.dc.html'], ['سجل التدقيق', 'الإعدادات', 'AdmAudit.dc.html'], ['Feature Flags', 'لوحة المطوّر', 'AdmDev.dc.html'],
+     ['كوبون WELCOME10', 'الكوبونات', 'AdmCoupons.dc.html'], ['كوبون RAMADAN20', 'الكوبونات', 'AdmCoupons.dc.html']].forEach((s) => add('set', s[0], s[1], s[2], 'اعداد', 'إعداد'));
+    return I;
+  }
+  renderVals() {
+    const self = this;
+    const q = this.state.q || '';
+    const nq = this.norm(q);
+    const t = this.state.t;
+    const words = nq.split(' ').filter(Boolean);
+    const TY = [['order', 'الطلبات', 'ic-list', 'order'], ['book', 'الكتب', 'ic-book', 'book'], ['cust', 'العملاء', 'ic-users', 'cust'],
+      ['author', 'المؤلفون', 'ic-user', 'author'], ['page', 'الصفحات', 'ic-grid', 'page'], ['set', 'الإعدادات', 'ic-settings', 'set']];
+    const enough = nq.length >= 1;
+    const all = this.index();
+    const hits = enough ? all.filter((x) => { const h = this.norm(x.title + ' ' + x.sub + ' ' + x.k); return words.every((w) => h.indexOf(w) > -1); }) : [];
+    const count = (k) => hits.filter((x) => x.t === k).length;
+    const tabs = [{ k: 'all', l: 'الكل', n: hits.length }].concat(TY.map((y) => ({ k: y[0], l: y[1], n: count(y[0]) })))
+      .map((x) => ({ l: x.l, n: enough ? x.n : '', ecls: enough ? '' : 'is-off', cls: t === x.k ? 'on' : '', pick: () => self.setState({ t: x.k }) }));
+    const rows = [];
+    TY.forEach((y) => {
+      if (t !== 'all' && t !== y[0]) return;
+      const list = hits.filter((x) => x.t === y[0]);
+      if (!list.length) return;
+      rows.push({ hc: '', ic: 'is-off', label: y[1], n: list.length, href: '#', tc: '', icon: '', title: '', sub: '', badge: '' });
+      list.slice(0, t === 'all' ? 4 : 12).forEach((x) => rows.push({ hc: 'is-off', ic: '', label: '', n: '', href: x.href, tc: y[3], icon: y[2], title: x.title, sub: x.sub, badge: x.badge }));
+    });
+    const quick = [['إضافة كتاب', 'ic-plus', 'AdmBookEdit.dc.html'], ['مراجعة الدفع', 'ic-shield', 'AdmPayments.dc.html'], ['كل الطلبات', 'ic-list', 'AdmOrders.dc.html'],
+      ['المخزون', 'ic-package', 'AdmStock.dc.html'], ['الخصومات', 'ic-tag', 'AdmDiscounts.dc.html'], ['الإعدادات', 'ic-settings', 'AdmSettings.dc.html']].map((s) => ({ t: s[0], icon: s[1], href: s[2] }));
+    const pop = ['AS-204', 'ظلال الحكاية', 'أحمد محمد', 'فودافون كاش', 'الشحن', 'سامي الحكيم'].map((x) => ({ t: x, pick: () => self.setState({ q: x, t: 'all' }) }));
+    return {
+      cls: this.state.open ? 'is-open' : '',
+      q, tabs, rows, quick, pop,
+      empty: !enough,
+      none: enough && hits.length === 0,
+      openIt: () => {
+        this.setState({ open: true });
+        setTimeout(() => { const el = document.getElementById('axin'); if (el) el.focus(); }, 120);
+      },
+      closeIt: () => this.setState({ open: false, q: '', t: 'all' }),
+      onQ: (e) => this.setState({ q: e.target.value, t: 'all' })
+    };
+  }
+}
+</script>
+</body>
+</html>

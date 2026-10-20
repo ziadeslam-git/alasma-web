@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: تفاصيل الطلب</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css"><link rel="stylesheet" href="account.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+
+.ostat{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.ostat .k{flex:1;min-width:150px;background:#fff;border-radius:14px;box-shadow:var(--shadow-card);padding:16px 18px;display:grid;gap:4px}
+.ostat .k b{font:700 26px/1.2 var(--font-sans);color:var(--g)}
+.ostat .k span{font-size:13px;color:var(--ink-muted)}
+.tabs.wide{margin-bottom:22px;max-width:100%;overflow:auto}
+.oc{background:#fff;border-radius:16px;box-shadow:var(--shadow-card);margin-bottom:20px;overflow:hidden}
+.oc__h{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 24px;border-bottom:1px solid var(--hair);background:#fafcfb}
+.oc__h .m{display:flex;gap:28px;flex-wrap:wrap}
+.oc__h .m div{display:grid;gap:4px}
+.oc__h .m span{font-size:12px;color:var(--ink-muted)}
+.oc__h .m b{font:600 14px/1.3 var(--font-sans)}
+.st{display:inline-flex;align-items:center;gap:6px;height:28px;padding-inline:12px;border-radius:999px;font:700 12px/1 var(--font-sans)}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st--wait{background:#fff4dc;color:#8a5a00}
+.st--ship{background:var(--g-t);color:var(--g)}
+.st--done{background:var(--success-soft);color:var(--success-ink)}
+.st--x{background:var(--danger-soft);color:var(--danger-ink)}
+.oc__b{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr);gap:32px;padding:22px 24px;align-items:center}
+.its{display:grid;gap:12px}
+.it{display:flex;gap:14px;align-items:center}
+.th{width:46px;flex:none}
+.th .cv{width:100%}
+.it b{display:block;font:600 14px/1.4 var(--font-sans)}
+.it small{color:var(--ink-muted);font-size:12px}
+.it .p{margin-inline-start:auto;font:600 14px/1 var(--font-sans);white-space:nowrap}
+.trk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%}
+.trk i{display:block;height:7px;border-radius:5px;background:#e4ece9}
+.trk i.on{background:var(--g)}
+.trk span{font:500 12px/1.4 var(--font-sans);color:var(--ink-muted)}
+.trk span.on{color:var(--g);font-weight:700}
+.trk.x i{background:#f1d3d3}
+.note{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:12px;background:#fff8e6;color:#6b4a00;font-size:13px;line-height:1.7}
+.note.g{background:var(--g-t);color:var(--g)}
+.oc__f{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 24px;border-top:1px solid var(--hair)}
+.oc__f .tot{font:700 18px/1 var(--font-sans)}
+.oc__f .tot small{font-weight:400;color:var(--ink-muted);font-size:13px;margin-inline-end:8px}
+.oc__f .act{display:flex;gap:10px;flex-wrap:wrap}
+.btn--dg{color:var(--discount-ink);border-color:#efc4c4}
+@media (max-width:1000px){.oc__b{grid-template-columns:minmax(0,1fr);gap:18px}}
+
+.two2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+.kv{display:grid;gap:12px}.kv div{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--ink-muted)}.kv b{color:var(--ink);font-weight:600}
+.rcp{width:100%;height:120px;border-radius:12px;background:repeating-linear-gradient(45deg,#e6efec,#e6efec 10px,#eef4f2 10px,#eef4f2 20px);display:grid;place-items:center;color:var(--ink-muted);font-size:13px}
+.dis{opacity:.5;cursor:not-allowed}
+@media (max-width:1100px){.two2{grid-template-columns:minmax(0,1fr)}}
+</style>
+</helmet>
+<div class="page"><header class="nav"><div class="nav__in" style="padding-inline:28px">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html">الرئيسية</a><a href="Store.dc.html">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html">باقات النشر</a></nav>
+<div class="nav__act"><a class="ibtn" href="Wishlist.dc.html" aria-label="المفضلة"><i class="ic ic-heart"></i></a><a class="ibtn" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="num">3</span></a><a href="Account.dc.html" class="avatar" aria-label="حسابي">أ</a></div>
+<!--mbtn--><dc-import name="SearchBox" hint-size="44px,44px"></dc-import><label class="nav__burger" for="mnav" aria-label="القائمة"><span></span><span></span><span></span></label><!--/mbtn--></div></header><!--mnav--><input type="checkbox" id="mnav" class="mn__cb" aria-hidden="true" tabindex="-1"><label class="mn__bd" for="mnav" aria-hidden="true"></label><aside class="mn__sheet" aria-label="القائمة"><div class="mn__top"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><label class="mn__x" for="mnav" aria-label="إغلاق"><i class="ic ic-x"></i></label></div><div class="mn__qs"><a class="mn__q" href="Account.dc.html" aria-current="page"><i class="ic ic-user"></i><span>حسابي</span></a><a class="mn__q" href="Wishlist.dc.html"><i class="ic ic-heart"></i><span>المفضلة</span></a><a class="mn__q" href="Cart.dc.html"><i class="ic ic-bag"></i><span>السلة</span><em>3</em></a></div><nav class="mn__list" aria-label="صفحات الموقع"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية<i class="ic ic-chev-l mn__ch"></i></a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر<i class="ic ic-chev-l mn__ch"></i></a><a href="Bestsellers.dc.html"><i class="ic ic-sparkle"></i>الأكثر مبيعًا<i class="ic ic-chev-l mn__ch"></i></a><a href="Offers.dc.html"><i class="ic ic-tag"></i>العروض<i class="ic ic-chev-l mn__ch"></i></a><a href="Authors.dc.html"><i class="ic ic-users"></i>المؤلفون<i class="ic ic-chev-l mn__ch"></i></a><a href="Events.dc.html"><i class="ic ic-calendar"></i>الأحداث<i class="ic ic-chev-l mn__ch"></i></a><a href="Packages.dc.html"><i class="ic ic-package"></i>باقات النشر<i class="ic ic-chev-l mn__ch"></i></a><a href="Where.dc.html"><i class="ic ic-pin"></i>أين تجد الكتب<i class="ic ic-chev-l mn__ch"></i></a><a href="About.dc.html"><i class="ic ic-book-open"></i>عن الدار<i class="ic ic-chev-l mn__ch"></i></a><a href="Policies.dc.html"><i class="ic ic-shield"></i>الشحن والسياسات<i class="ic ic-chev-l mn__ch"></i></a></nav></aside><!--/mnav--><div class="shell"><aside class="sb" aria-label="قائمة الحساب"><h6>القائمة</h6><a href="Account.dc.html"><i class="ic ic-dash"></i>نظرة عامة</a><a href="Account.dc.html"><i class="ic ic-book-open"></i>كتبي</a><a href="Wishlist.dc.html"><i class="ic ic-heart"></i>المفضلة</a><a href="Orders.dc.html" aria-current="page"><i class="ic ic-package"></i>طلباتي</a><hr><h6>الإعدادات</h6><a href="Profile.dc.html"><i class="ic ic-user"></i>بياناتي</a><a href="Addresses.dc.html"><i class="ic ic-pin"></i>عناويني</a><a href="Notifications.dc.html"><i class="ic ic-bell"></i>الإشعارات</a>
+<div class="goal"><i class="ic ic-book-open ic--l" style="color:var(--g)"></i><div style="flex:1;display:grid;gap:7px"><span style="font-size:13px;color:var(--ink-muted)">هدف القراءة <b style="color:var(--ink)">12 / 24 كتابًا</b></span><span style="display:block;height:6px;border-radius:4px;background:#dfe8e5;position:relative;overflow:hidden"><span style="position:absolute;inset-block:0;inset-inline-start:0;width:50%;background:var(--accent);border-radius:4px"></span></span></div></div></aside><main class="main"><div class="ph"><div><a class="link" href="Orders.dc.html" style="color:var(--ink-muted)"><i class="ic ic-arrow-r ic--s"></i>طلباتي</a><h1 style="margin-top:8px">طلب <span dir="ltr">#AS-20397</span></h1><p>بتاريخ 10 أكتوبر 2026</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn--o" type="button"><i class="ic ic-share ic--s"></i>طباعة الفاتورة</button><span class="st st--ship" style="height:44px;padding-inline:18px;font-size:14px">في الطريق إليك</span></div></div>
+<section class="panel" style="margin-bottom:24px"><h2>حالة الطلب</h2><div class="trk"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><span class="on">تم الطلب</span><span class="on">تأكيد الدفع</span><span class="on">خرج للتوصيل</span><span>تم التسليم</span></div>
+<div class="note g"><i class="ic ic-truck ic--s"></i><span><b>الشحن:</b> [اسم شركة الشحن] · رقم التتبع <b dir="ltr">[TRACKING-NO]</b> · خرج الطلب 11 أكتوبر، التسليم المتوقع 14 أكتوبر.</span></div></section>
+<div class="two2"><div style="display:grid;gap:24px"><section class="panel"><h2>الكتب</h2><div class="its"><div class="it"><div class="th"><div class="cv" style="--c1:#2e8f72;--c2:#e8f4ee"><i></i><b>همس الصحراء</b><span>ليلى المنصوري</span></div></div><div><b>همس الصحراء</b><small>ليلى المنصوري · الكمية 1</small></div><span class="p">140 ج.م</span></div><div class="it"><div class="th"><div class="cv" style="--c1:#f6e1c4;--c2:var(--green-800)"><i></i><b>حدائق الكلمات</b><span>نادية فؤاد</span></div></div><div><b>حدائق الكلمات</b><small>نادية فؤاد · الكمية 1</small></div><span class="p">85 ج.م</span></div></div></section><section class="panel"><h2>عنوان التوصيل</h2><p style="margin:0;line-height:2;color:var(--ink-muted)"><b style="color:var(--ink)">أحمد محمد</b><br>12 شارع الحرية، سموحة، الإسكندرية<br><span dir="ltr">01012345678</span></p></section></div>
+<div style="display:grid;gap:24px"><section class="panel"><h2>ملخص الدفع</h2><div class="kv"><div><span>المجموع الفرعي</span><b>225 ج.م</b></div><div><span>الشحن · الإسكندرية</span><b>40 ج.م</b></div><div><span>الإجمالي</span><b style="font-size:18px">265 ج.م</b></div><div><span>طريقة الدفع</span><b>إنستاباي</b></div></div><h2 style="margin-top:22px;font-size:15px">إيصال التحويل</h2><div class="rcp">صورة الإيصال (خاصة)</div><span class="tag tag--ok" style="margin-top:10px">تم تأكيد الدفع</span></section>
+<section class="panel"><h2>إجراءات</h2><div style="display:grid;gap:10px"><button class="btn btn--o btn--blk dis" type="button" disabled>تعديل الطلب</button><button class="btn btn--o btn--blk dis" type="button" disabled>إلغاء الطلب</button><span style="font-size:12px;color:var(--ink-muted);line-height:1.8">لا يمكن التعديل أو الإلغاء بعد خروج الطلب للشحن.</span><a class="btn btn--p btn--blk" href="Store.dc.html"><i class="ic ic-plus ic--s"></i>طلب جديد</a></div></section></div></div></main></div></div>
+<nav class="appbar" aria-label="التنقل السفلي"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية</a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر</a><a class="fab" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="nb">3</span></a><a href="Wishlist.dc.html"><i class="ic ic-heart"></i>المفضلة</a><a href="Account.dc.html" aria-current="page"><i class="ic ic-user"></i>حسابي</a></nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

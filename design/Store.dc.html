@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: الروايات</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.lay{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;align-items:start;padding-block:36px 8px}
+.fh{font:700 12px/1 var(--font-sans);color:var(--ink-muted);letter-spacing:0;margin:34px 0 10px}
+.fh:first-child{margin-top:6px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.rng{position:relative;height:30px;margin:10px 6px 0}
+.rng__t,.rng__f{position:absolute;top:13px;height:4px;border-radius:3px}
+.rng__t{inset-inline:0;background:#dbe5e2}
+.rng__f{background:var(--g);inset-inline-start:var(--lo);inset-inline-end:calc(100% - var(--hi))}
+.rng__k{position:absolute;top:5px;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--g);margin-inline-start:-10px;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.rate{display:flex;align-items:center;gap:10px;padding:6px 0;color:var(--ink-muted);font-size:14px}
+.filt-btn{display:none}
+@media (max-width:1000px){
+.lay{grid-template-columns:minmax(0,1fr);gap:20px}
+.side{display:none}
+.filt-btn{display:inline-flex}
+.g4{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ttl{font-size:32px!important}
+}
+</style>
+</helmet>
+<div class="page">
+
+<header class="nav"><div class="wrap nav__in">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html">الرئيسية</a><a href="Store.dc.html" aria-current="page">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html">باقات النشر</a></nav>
+<div class="nav__act">
+<a class="ibtn" href="Wishlist.dc.html" aria-label="المفضلة"><i class="ic ic-heart"></i></a>
+<a class="ibtn" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="num">3</span></a>
+<a href="Account.dc.html" class="avatar" aria-label="حسابي">أ</a>
+</div>
+<!--mbtn--><dc-import name="SearchBox" hint-size="44px,44px"></dc-import><label class="nav__burger" for="mnav" aria-label="القائمة"><span></span><span></span><span></span></label><!--/mbtn--></div></header><!--mnav--><input type="checkbox" id="mnav" class="mn__cb" aria-hidden="true" tabindex="-1"><label class="mn__bd" for="mnav" aria-hidden="true"></label><aside class="mn__sheet" aria-label="القائمة"><div class="mn__top"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><label class="mn__x" for="mnav" aria-label="إغلاق"><i class="ic ic-x"></i></label></div><div class="mn__qs"><a class="mn__q" href="Account.dc.html"><i class="ic ic-user"></i><span>حسابي</span></a><a class="mn__q" href="Wishlist.dc.html"><i class="ic ic-heart"></i><span>المفضلة</span></a><a class="mn__q" href="Cart.dc.html"><i class="ic ic-bag"></i><span>السلة</span><em>3</em></a></div><nav class="mn__list" aria-label="صفحات الموقع"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية<i class="ic ic-chev-l mn__ch"></i></a><a href="Store.dc.html" aria-current="page"><i class="ic ic-book"></i>المتجر<i class="ic ic-chev-l mn__ch"></i></a><a href="Bestsellers.dc.html"><i class="ic ic-sparkle"></i>الأكثر مبيعًا<i class="ic ic-chev-l mn__ch"></i></a><a href="Offers.dc.html"><i class="ic ic-tag"></i>العروض<i class="ic ic-chev-l mn__ch"></i></a><a href="Authors.dc.html"><i class="ic ic-users"></i>المؤلفون<i class="ic ic-chev-l mn__ch"></i></a><a href="Events.dc.html"><i class="ic ic-calendar"></i>الأحداث<i class="ic ic-chev-l mn__ch"></i></a><a href="Packages.dc.html"><i class="ic ic-package"></i>باقات النشر<i class="ic ic-chev-l mn__ch"></i></a><a href="Where.dc.html"><i class="ic ic-pin"></i>أين تجد الكتب<i class="ic ic-chev-l mn__ch"></i></a><a href="About.dc.html"><i class="ic ic-book-open"></i>عن الدار<i class="ic ic-chev-l mn__ch"></i></a><a href="Policies.dc.html"><i class="ic ic-shield"></i>الشحن والسياسات<i class="ic ic-chev-l mn__ch"></i></a></nav></aside><!--/mnav-->
+
+<main class="wrap">
+<div class="lay"><input type="checkbox" id="fsheet" class="fsw" aria-hidden="true" tabindex="-1"><label for="fsheet" class="fbd" aria-hidden="true"></label>
+<aside class="side flt" aria-label="تصفية النتائج"><div class="fl-h"><b>التصفية</b><a href="#" class="fl-clr">مسح الكل</a><label for="fsheet" class="fl-x" aria-label="إغلاق"><i class="ic ic-x"></i></label></div>
+<form onsubmit="return false" class="fl-f">
+<details class="fl-g" open><summary>القسم<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><label class="rd fl-i"><input type="radio" name="g" checked><span>كل الروايات</span><em>248</em></label><label class="rd fl-i"><input type="radio" name="g"><span>غموض وتشويق</span><em>54</em></label><label class="rd fl-i"><input type="radio" name="g"><span>خيال وفانتازيا</span><em>41</em></label><label class="rd fl-i"><input type="radio" name="g"><span>رومانسية</span><em>33</em></label><label class="rd fl-i"><input type="radio" name="g"><span>سير وتراجم</span><em>19</em></label></div></details>
+<details class="fl-g" open><summary>المؤلف<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><div class="fl-s"><i class="ic ic-search ic--s"></i><input class="field" placeholder="ابحث عن مؤلف" aria-label="ابحث عن مؤلف"></div><label class="cb fl-i"><input type="checkbox"><span>سامي الحكيم</span><em>14</em></label><label class="cb fl-i"><input type="checkbox"><span>عمر الشريف</span><em>9</em></label><label class="cb fl-i"><input type="checkbox"><span>ليلى المنصوري</span><em>7</em></label><label class="cb fl-i"><input type="checkbox"><span>نادية فؤاد</span><em>6</em></label><label class="cb fl-i"><input type="checkbox"><span>سلمى عادل</span><em>5</em></label><label class="cb fl-i"><input type="checkbox"><span>هبة جمال</span><em>4</em></label><a href="#" class="fl-more">عرض كل المؤلفين (38)</a></div></details>
+<details class="fl-g" open><summary>السعر<b class="fl-bd">60 – 350</b><i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><div class="fl-rng"><div class="fl-trk"><span style="inset-inline-start:12%;inset-inline-end:28%"></span><i style="inset-inline-start:12%"></i><i style="inset-inline-start:72%"></i></div></div>
+<div class="fl-mm"><label><span>من</span><input class="field" inputmode="numeric" value="60" aria-label="السعر من"><u>ج.م</u></label><b>–</b><label><span>إلى</span><input class="field" inputmode="numeric" value="350" aria-label="السعر إلى"><u>ج.م</u></label></div>
+<div class="fl-q"><button type="button">أقل من 100</button><button type="button">100 – 200</button><button type="button">أكثر من 200</button></div></div></details>
+<details class="fl-g" open><summary>اللغة<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><label class="cb fl-i"><input type="checkbox" checked><span>العربية</span><em>241</em></label><label class="cb fl-i"><input type="checkbox"><span>English</span><em>7</em></label></div></details>
+<details class="fl-g" open><summary>التوفر<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><label class="rd fl-i"><input type="radio" name="a" checked><span>الكل</span><em>248</em></label><label class="rd fl-i"><input type="radio" name="a"><span>متاح</span><em>231</em></label><label class="rd fl-i"><input type="radio" name="a"><span>نفد (أبلغني عند التوفر)</span><em>17</em></label></div></details>
+<details class="fl-g"><summary>الناشر<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><label class="cb fl-i"><input type="checkbox" checked><span>دار الأسمى</span><em>196</em></label><label class="cb fl-i"><input type="checkbox"><span>ناشرون آخرون</span><em>52</em></label></div></details>
+<details class="fl-g"><summary>نوع الغلاف والعروض<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><label class="cb fl-i"><input type="checkbox"><span>غلاف مقوى</span><em>120</em></label><label class="cb fl-i"><input type="checkbox"><span>غلاف ورقي</span><em>128</em></label><label class="cb fl-i"><input type="checkbox"><span>عليه خصم</span><em>41</em></label></div></details>
+<details class="fl-g"><summary>التقييم<i class="ic ic-chev-d ic--s"></i></summary><div class="fl-b"><label class="rd fl-i"><input type="radio" name="r"><span><span class="stars stars--gold" style="--r:4"></span> وأعلى</span></label><label class="rd fl-i"><input type="radio" name="r"><span><span class="stars stars--gold" style="--r:3"></span> وأعلى</span></label></div></details>
+</form>
+<div class="fl-ft"><button class="btn btn--p btn--blk btn--lg" type="button" onclick="document.getElementById('fsheet').checked=false">عرض 42 نتيجة</button></div></aside>
+
+<section aria-label="نتائج الروايات">
+<div class="fl-top"><div><h1 class="ttl" style="font:700 46px/1.3 var(--font-sans)">الروايات</h1><p style="color:var(--ink-muted);font-size:17px">42 نتيجة</p></div><div class="fl-bar"><label for="fsheet" class="btn btn--o btn--sm filt-btn"><i class="ic ic-filter ic--s"></i>تصفية<b class="fl-n">4</b></label>
+<label class="fl-sel"><span>ترتيب</span><select class="sel" aria-label="ترتيب"><option>الأكثر شعبية</option><option>الأحدث</option><option>الأكثر مبيعًا</option><option>السعر: من الأقل</option><option>السعر: من الأعلى</option><option>الأعلى تقييمًا</option></select></label>
+<label class="fl-sel"><span>عرض</span><select class="sel" aria-label="عدد المنتجات بالصفحة"><option>12 منتج</option><option>24 منتج</option><option>48 منتج</option></select></label></div></div>
+<div class="fl-act" aria-label="التصفية الحالية"><span class="fl-chip">الروايات<button type="button" aria-label="إزالة الروايات"><i class="ic ic-x ic--s"></i></button></span><span class="fl-chip">دار الأسمى<button type="button" aria-label="إزالة دار الأسمى"><i class="ic ic-x ic--s"></i></button></span><span class="fl-chip">60 – 350 ج.م<button type="button" aria-label="إزالة 60 – 350 ج.م"><i class="ic ic-x ic--s"></i></button></span><span class="fl-chip">متاح<button type="button" aria-label="إزالة متاح"><i class="ic ic-x ic--s"></i></button></span><a href="#" class="fl-clr">مسح الكل</a></div>
+
+<div class="g4">
+<sc-for list="{{books}}" as="b" hint-placeholder-count="8">
+<article class="sc {{b.state}}">
+<div class="sc__fig">
+<a class="sc__top" oncontextmenu="return false" href="Product.dc.html" aria-label="{{b.title}}">
+<sc-if value="{{b.best}}" hint-placeholder-val="{{false}}"><span class="tag tag--best">الأكثر مبيعًا</span></sc-if>
+<sc-if value="{{b.isNew}}" hint-placeholder-val="{{false}}"><span class="tag tag--new">جديد</span></sc-if>
+<sc-if value="{{b.disc}}" hint-placeholder-val="{{false}}"><span class="tag tag--disc">{{b.disc}}</span></sc-if>
+<sc-if value="{{b.out}}" hint-placeholder-val="{{false}}"><span class="tag tag--low">نفد</span></sc-if>
+<div class="cv" style="--c1:{{b.c1}};--c2:{{b.c2}}"><i></i><b>{{b.title}}</b><span>{{b.author}}</span></div>
+</a>
+<div class="sc__bar"><button type="button" aria-label="معاينة سريعة: {{b.title}}"><i class="ic ic-eye"></i></button><button type="button" aria-label="أضف {{b.title}} إلى السلة"><i class="ic ic-bag"></i></button><button class="sc__wish" type="button" aria-label="أضف {{b.title}} إلى المفضلة"><i class="ic ic-heart ic--s"></i></button></div>
+</div>
+<div class="sc__body">
+<span class="au">تأليف: {{b.author}}</span>
+<h3><a href="Product.dc.html">{{b.title}}</a></h3>
+<div class="sc__foot"><span class="sc__price {{b.cls}}">{{b.price}} ج.م<sc-if value="{{b.old}}" hint-placeholder-val="{{false}}"><s>{{b.old}}</s></sc-if></span></div>
+</div>
+</article>
+</sc-for>
+</div>
+
+<nav class="pgn" aria-label="الصفحات"><a href="Store.dc.html" aria-label="السابق"><i class="ic ic-chev-r ic--s"></i></a><a href="Store.dc.html" aria-current="page">1</a><a href="Store.dc.html">2</a><a href="Store.dc.html">3</a><a href="Store.dc.html" aria-hidden="true">...</a><a href="Store.dc.html">12</a><a href="Store.dc.html" aria-label="التالي"><i class="ic ic-chev-l ic--s"></i></a></nav>
+</section>
+</div>
+</main>
+
+<footer class="foot"><div class="wrap">
+<div class="foot__g">
+<div style="display:grid;gap:14px;align-content:start"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى" style="height:52px;width:auto;justify-self:start"><p style="color:var(--ink-muted);font-size:14px;line-height:1.9;max-width:34ch">نقطة.. فكرة.. وأثر لا يزول! ننشر الكتاب الجيد ونوصله إلى قارئه أينما كان.</p></div>
+<div><h4>استكشف</h4><a class="fl" href="Store.dc.html">الأكثر مبيعًا</a><a class="fl" href="Store.dc.html">وصل حديثًا</a><a class="fl" href="Store.dc.html">العروض</a></div>
+<div><h4>المساعدة</h4><a class="fl" href="Main.dc.html">الشحن والإرجاع</a><a class="fl" href="Main.dc.html">طرق الدفع</a><a class="fl" href="Main.dc.html">تواصل معنا</a></div>
+<div><h4>ابقَ على اطلاع</h4><p style="color:var(--ink-muted);font-size:14px;margin-bottom:12px">اشترك لتصلك ترشيحات الكتب الأسبوعية.</p><form onsubmit="return false" style="display:grid;gap:10px"><input class="field" type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني"><button class="btn btn--p btn--blk" type="submit">اشترك</button></form></div>
+</div>
+<div class="foot__b"><span>© دار الأسمى للنشر والتوزيع</span><span>الدفع عند الاستلام · فودافون كاش · إنستاباي</span></div>
+</div></footer>
+</div>
+<nav class="appbar" aria-label="التنقل السفلي"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية</a><a href="Store.dc.html" aria-current="page"><i class="ic ic-book"></i>المتجر</a><a class="fab" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="nb">3</span></a><a href="Wishlist.dc.html"><i class="ic ic-heart"></i>المفضلة</a><a href="Account.dc.html"><i class="ic ic-user"></i>حسابي</a></nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":2200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mk = (title, author, price, old, rating, t, c1, c2, x) => {
+      const disc = old ? 'خصم ' + Math.round((1 - price / old) * 100) + '%' : ''; const pct = old ? '-' + Math.round((1 - price / old) * 100) + '%' : '';
+      return Object.assign({ title, author, price, old: old || '', disc, pct, out: false, rating, t, c1, c2, cls: old ? 'sale' : '', best: false, isNew: false, state: '' }, x || {});
+    };
+    const books = [
+      mk('ليالي القاهرة', 'عمر الشريف', 130, 0, 4.7, '#5b8f78', '#f1ebdc', 'var(--green-800)', { best: true }),
+      mk('ظلال الحكاية', 'سامي الحكيم', 120, 150, 4.8, '#ecefec', 'var(--green-700)', 'var(--cream-200)'),
+      mk('مدينة الحبر', 'منى عبد الرحمن', 95, 0, 5, '#a7cbb9', '#7fb3a0', '#0f3b35'),
+      mk('حدائق الكلمات', 'نادية فؤاد', 85, 100, 3.5, '#1b6b6a', '#f6e1c4', 'var(--green-800)'),
+      mk('بيت على النيل', 'سلمى عادل', 105, 0, 4, '#7ea3b4', '#f4e7c6', '#5b3d1d', { isNew: true }),
+      mk('همس الصحراء', 'ليلى المنصوري', 140, 0, 5, '#a1b9b0', '#2e8f72', '#e8f4ee'),
+      mk('رسائل لم تصل', 'رنا سعيد', 90, 0, 4.2, '#4a9992', '#f8dcc0', '#5a3a22'),
+      mk('أغنية المساء', 'هبة جمال', 98, 0, 3.4, '#efefe9', '#f1ead0', 'var(--green-800)', { state: 'is-out', out: true })
+    ];
+    return { books };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مكوّن البحث</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div class="sx {{cls}}">
+<button class="nav__sbtn sx__open" type="button" aria-label="بحث" onClick="{{openIt}}"><i class="ic ic-search"></i></button>
+<div class="sx__panel" role="dialog" aria-label="البحث في المتجر">
+<div class="sx__bar">
+<label class="sx__f"><i class="ic ic-search"></i><input id="sxin" type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" value="{{q}}" onInput="{{onQ}}" aria-label="بحث"></label>
+<button class="sx__x" type="button" aria-label="إغلاق البحث" onClick="{{closeIt}}"><i class="ic ic-x"></i></button>
+</div>
+<div class="sx__res">
+<sc-if value="{{empty}}" hint-placeholder-val="{{true}}">
+<div class="sx__sec">الأكثر بحثًا</div>
+<div class="sx__chips">
+<sc-for list="{{pop}}" as="p" hint-placeholder-count="5"><button class="sx__chip" type="button" onClick="{{p.pick}}">{{p.t}}</button></sc-for>
+</div>
+<p class="sx__tip">اكتب حرفين أو أكثر من اسم الكتاب أو المؤلف، أو رقم ISBN.</p>
+</sc-if>
+<sc-if value="{{hasBooks}}" hint-placeholder-val="{{false}}">
+<div class="sx__sec">كتب<em>{{bookCount}}</em></div>
+<sc-for list="{{books}}" as="b" hint-placeholder-count="3">
+<a class="sx__it" href="Product.dc.html">
+<span class="sx__cv" style="background:{{b.c1}};color:{{b.c2}}"></span>
+<span class="sx__tx"><b>{{b.title}}</b><small>{{b.author}} · {{b.isbn}}</small></span>
+<span class="sx__pr">{{b.price}} ج.م</span>
+</a>
+</sc-for>
+</sc-if>
+<sc-if value="{{hasAuthors}}" hint-placeholder-val="{{false}}">
+<div class="sx__sec">مؤلفون<em>{{authorCount}}</em></div>
+<sc-for list="{{authors}}" as="a" hint-placeholder-count="2">
+<a class="sx__it" href="Author.dc.html">
+<span class="sx__av">{{a.ch}}</span>
+<span class="sx__tx"><b>{{a.name}}</b><small>{{a.books}} كتب في المتجر</small></span>
+<i class="ic ic-chev-l"></i>
+</a>
+</sc-for>
+</sc-if>
+<sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+<div class="sx__none"><i class="ic ic-search"></i><b>لا نتائج لـ «{{q}}»</b><p>جرّب اسمًا آخر للكتاب أو المؤلف، أو رقم ISBN.</p><a class="btn btn--p btn--sm" href="Store.dc.html">تصفح المتجر</a></div>
+</sc-if>
+<sc-if value="{{hasAny}}" hint-placeholder-val="{{false}}">
+<a class="sx__all" href="Search.dc.html">عرض كل النتائج<i class="ic ic-arrow ic--s"></i></a>
+</sc-if>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":120,"height":60}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { open: false, q: '' }; }
+  norm(s) {
+    return String(s || '').toLowerCase()
+      .replace(/[ً-ْـ]/g, '')
+      .replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+      .replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+      .replace(/\s+/g, ' ').trim();
+  }
+  renderVals() {
+    const self = this;
+    const q = this.state.q || '';
+    const nq = this.norm(q);
+    const digits = nq.replace(/\D/g, '');
+    const B = [
+      ['ظلال الحكاية', 'سامي الحكيم', 120, '978-977-6000-01-1', 'var(--green-700)', 'var(--cream-200)'],
+      ['ليالي القاهرة', 'عمر الشريف', 130, '978-977-6000-02-8', '#f1ebdc', 'var(--green-800)'],
+      ['همس الصحراء', 'ليلى المنصوري', 140, '978-977-6000-03-5', '#2e8f72', '#e8f4ee'],
+      ['مدينة الحبر', 'منى عبد الرحمن', 95, '978-977-6000-04-2', 'var(--cream-100)', 'var(--green-700)'],
+      ['رسائل لم تصل', 'رنا سعيد', 90, '978-977-6000-05-9', '#c9a24f', 'var(--ink-900)'],
+      ['حدائق الكلمات', 'نادية فؤاد', 85, '978-977-6000-06-6', '#1f5f63', 'var(--cream-100)'],
+      ['فن الإنصات', 'خالد منصور', 110, '978-977-6000-07-3', '#d9532b', '#1d1d1b'],
+      ['تشريح الصمت', 'كارين فيجل', 125, '978-977-6000-08-0', '#a9c4d6', '#233c4a'],
+      ['دليل الحياة الأفضل', 'جوكانا', 105, '978-977-6000-09-7', '#e9bd3a', '#2b2312'],
+      ['بيت على النيل', 'سلمى عادل', 99, '978-977-6000-10-3', '#e7dfc9', '#004743'],
+      ['خريطة الذاكرة', 'يوسف عزت', 115, '978-977-6000-11-0', '#14302d', '#e0b865'],
+      ['أغنية المساء', 'هبة جمال', 92, '978-977-6000-12-7', '#e9dcc0', '#004743'],
+      ['عادات صغيرة', 'دينا حسن', 88, '978-977-6000-13-4', '#306963', '#f0ede4']
+    ].map((x) => ({ title: x[0], author: x[1], price: x[2], isbn: x[3], c1: x[4], c2: x[5] }));
+    const authorsAll = {};
+    B.forEach((b) => { authorsAll[b.author] = (authorsAll[b.author] || 0) + 1; });
+    const A = Object.keys(authorsAll).map((n) => ({ name: n, ch: n.charAt(0), books: authorsAll[n] }));
+    const enough = nq.length >= 2 || digits.length >= 3;
+    const hitB = enough ? B.filter((b) => this.norm(b.title).indexOf(nq) > -1 || this.norm(b.author).indexOf(nq) > -1 || (digits.length >= 3 && b.isbn.replace(/\D/g, '').indexOf(digits) > -1)) : [];
+    const hitA = enough ? A.filter((a) => this.norm(a.name).indexOf(nq) > -1) : [];
+    const pop = ['رواية', 'ظلال الحكاية', 'سامي الحكيم', 'تنمية ذاتية', '978-977'].map((t) => ({ t, pick: () => self.setState({ q: t }) }));
+    return {
+      cls: this.state.open ? 'is-open' : '',
+      q,
+      empty: !enough && q.length < 2,
+      books: hitB.slice(0, 5),
+      authors: hitA.slice(0, 3),
+      hasBooks: hitB.length > 0,
+      hasAuthors: hitA.length > 0,
+      bookCount: hitB.length,
+      authorCount: hitA.length,
+      none: enough && hitB.length === 0 && hitA.length === 0,
+      hasAny: hitB.length + hitA.length > 0,
+      pop,
+      openIt: () => {
+        this.setState({ open: true });
+        setTimeout(() => { const el = document.getElementById('sxin'); if (el) el.focus(); }, 80);
+      },
+      closeIt: () => this.setState({ open: false, q: '' }),
+      onQ: (e) => this.setState({ q: e.target.value })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: نسيت كلمة المرور</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+
+body{margin:0}
+.au{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:880px}
+.au__l{background:var(--g);color:#fff;padding:48px 56px;display:grid;align-content:space-between;position:relative;overflow:hidden}
+.au__l .bg{width:110%;inset:auto auto -12% -30%;color:#fff;opacity:.08;transform:scaleX(-1) rotate(-6deg)}
+.au__l .au__fly{width:46%;inset:14% 8% auto auto;color:var(--cream-200);opacity:.9;filter:drop-shadow(0 18px 24px rgba(0,16,14,.4))}
+.au__l img.lg{height:54px;width:auto;filter:brightness(0) invert(1);justify-self:start;position:relative}
+.au__l q{font:400 38px/1.9 var(--font-display);color:var(--cream-200);position:relative;display:block;max-width:14ch;quotes:none}
+.au__l p{color:#cfe3df;position:relative;line-height:1.9;max-width:40ch}
+.au__r{display:grid;place-items:center;padding:48px 32px;background:#fff}
+.au__f{width:100%;max-width:420px;display:grid;gap:18px}
+.au__f h1{font:700 34px/1.4 var(--font-sans)}
+.au__f .sub{color:var(--ink-muted);margin-top:-10px}
+.lbl{display:grid;gap:8px;font:600 13px/1.4 var(--font-sans)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pw{position:relative}
+.pw button{position:absolute;inset-inline-end:8px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--ink-muted);width:34px;height:34px;cursor:pointer}
+.mid{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.note2{display:flex;gap:10px;padding:12px 14px;border-radius:12px;background:var(--g-t);color:var(--g);font-size:13px;line-height:1.7}
+.hint{font-size:12px;color:var(--ink-muted);font-weight:400}
+@media (max-width:1000px){.au{grid-template-columns:minmax(0,1fr)}.au__l{display:none}}
+
+</style>
+</helmet>
+<div class="page"><div class="au"><aside class="au__l"><img class="lg" src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><i class="fth bg"></i><i class="fth fth--fly au__fly"></i><div style="display:grid;gap:20px"><q>نقطة.. فكرة.. وأثر لا يزول!</q><p>سجّل حسابك لتتابع طلباتك، وتحفظ مفضلتك، وتستلم تنبيهات الكتب التي تنتظرها.</p></div><span style="color:#9fc3bd;font-size:13px;position:relative">© دار الأسمى للنشر والتوزيع</span></aside><main class="au__r"><form class="au__f" onsubmit="return false"><a class="link" href="Login.dc.html" style="color:var(--ink-muted)"><i class="ic ic-arrow-r ic--s"></i>العودة لتسجيل الدخول</a><h1>استعادة كلمة المرور</h1><p class="sub">أدخل بريدك وسنرسل لك رابطًا لتعيين كلمة مرور جديدة.</p>
+<label class="lbl">البريد الإلكتروني<input class="field" type="email" placeholder="name@mail.com" dir="ltr"></label>
+<button class="btn btn--p btn--lg btn--blk" type="submit">إرسال الرابط</button>
+<div class="note2"><i class="ic ic-mail ic--s"></i><span>الرابط صالح لمدة ساعة. إن لم يصلك خلال دقائق، راجع البريد غير المرغوب.</span></div></form></main></div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

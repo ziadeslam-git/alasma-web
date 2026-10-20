@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: الرئيسية</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.hero{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:24px}
+.hero__main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);overflow:visible;min-height:430px}
+.hero__txt{padding:44px;display:grid;gap:18px;align-content:center;justify-items:start}
+.hero__vis{position:relative;background:transparent;display:grid;place-items:center;overflow:visible;z-index:2}
+.hero__vis{perspective:1100px}
+.hero__vis:after{content:"";position:absolute;left:22%;right:22%;bottom:16%;height:26px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,32,30,.28),transparent);filter:blur(6px);animation:bkShadow 5s ease-in-out infinite}
+.hero__vis .cv{animation:bkFloat 5s ease-in-out infinite}
+@keyframes bkFloat{0%,100%{translate:0 0}50%{translate:0 -14px}}
+@keyframes bkShadow{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(.85);opacity:.6}}
+.hero__vis .cv{margin-top:-150px;width:58%;transform:rotateY(-28deg) rotateX(6deg) rotateZ(5deg) translateY(-4px);transform-style:preserve-3d;box-shadow:-26px 30px 40px -18px rgba(60,40,0,.5),0 6px 12px rgba(0,0,0,.2);transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s ease}
+.hero__vis:hover .cv,.hero__vis:focus-within .cv{transform:rotateY(0) rotateX(0) rotateZ(0) translateY(-10px) scale(1.03);box-shadow:0 34px 44px -18px rgba(60,40,0,.55),0 8px 14px rgba(0,0,0,.2)}
+@media (prefers-reduced-motion:reduce){.hero__vis .cv{transition:none}}
+.hero__side{display:grid;gap:24px;grid-template-rows:1fr 1fr}
+.chips{display:flex;flex-wrap:wrap;gap:14px}
+.gchip{display:inline-flex;align-items:center;gap:10px;height:50px;padding-inline:8px 22px;border-radius:999px;background:#fff;box-shadow:var(--shadow-card);font:600 14px/1 var(--font-sans)}
+.gchip i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--g-t);color:var(--g)}
+.gchip:hover{box-shadow:0 8px 18px -8px rgba(0,47,44,.3)}
+.new5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
+.spot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);overflow:hidden;min-height:340px;background:var(--soft)}
+.spot__txt{padding:48px;display:grid;gap:16px;align-content:center;justify-items:start}
+.spot__vis{position:relative;background:var(--green-700);display:grid;place-items:center;overflow:hidden;padding:32px}
+.band{background:var(--g);padding-block:56px;margin-top:72px}
+.trend{background:#fff;border-radius:24px;padding:36px 36px 40px;position:relative;overflow:hidden}
+.trend__row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;align-items:stretch;margin-top:28px}
+.t-it{display:grid;gap:12px;align-content:start;justify-items:center;text-align:center;padding:16px 14px;border-inline-end:1px solid var(--hair)}
+.t-it:last-child{border-inline-end:0}
+.t-it h3{font:500 14px/1.5 var(--font-sans)}
+.t-it .box{width:100%;background:#e6ebe9;border-radius:12px;padding:12% 0;display:grid;place-items:center}
+.t-it .box .cv{width:56%}
+.t-hl{background:var(--g);color:#fff;border-radius:18px;padding:22px 18px;display:grid;gap:14px;justify-items:center;text-align:center;box-shadow:0 22px 34px -16px rgba(0,47,44,.55);margin-block:-8px}
+.t-hl .box{width:100%;background:rgba(255,255,255,.12);border-radius:14px;padding:10% 0;display:grid;place-items:center}
+.t-hl .box .cv{width:60%}
+.t-meta{display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px}
+.t-meta div{display:grid;gap:4px;justify-items:center;font-size:12px;color:var(--on-brand-muted)}
+.t-price{background:#fff;color:var(--ink);border-radius:8px;overflow:hidden;display:grid;text-align:center;min-width:70px}
+.t-price b{padding:6px 10px;font:700 15px/1.2 var(--font-sans)}
+.t-price i{background:var(--green-950);color:#fff;display:grid;place-items:center;padding-block:4px}
+.sqb{width:42px;height:34px;border:1px solid var(--ink);background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer;border-radius:4px}
+.sqb--f{background:var(--green-950);color:#fff}
+.picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.pick{display:grid;grid-template-columns:96px minmax(0,1fr);gap:18px;padding:20px;align-items:center}
+.pick .cv{width:96px}
+.quote{display:flex;gap:10px;align-items:center;margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--pg);font:400 13px/1.5 var(--font-sans);color:var(--ink-muted)}
+.quote .avatar{width:28px;height:28px;font-size:12px}
+@media (max-width:1000px){
+.hero,.hero__main,.spot,.picks{grid-template-columns:minmax(0,1fr)}
+.hero__side{grid-template-rows:none}
+.hero__txt,.spot__txt{padding:28px 22px}
+.hero__vis{min-height:300px}
+.new5{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.trend__row{grid-template-columns:minmax(0,1fr);gap:16px}
+.t-it{border:0}
+.trend{padding:24px 16px}
+}
+
+/* MANIFESTO HERO (animated) */
+.mf{position:relative;overflow:hidden;background:radial-gradient(120% 120% at 70% 0%,var(--green-600) 0%,var(--green-800) 45%,var(--green-950) 100%);color:#fff;isolation:isolate}
+.mf__in{position:relative;z-index:3;min-height:560px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:24px;padding-block:72px 96px}
+.mf__eyebrow{display:inline-flex;align-items:center;gap:12px;font:600 14px/1 var(--font-sans);color:var(--green-300);letter-spacing:0;opacity:0;animation:mfUp .9s .2s forwards}
+.mf__eyebrow:before{content:"";width:42px;height:1px;background:var(--green-300)}
+.mf h2{font:700 clamp(40px,6.2vw,92px)/1.25 "Aref Ruqaa","Amiri",var(--font-display);margin:22px 0 0;letter-spacing:0}
+.mf h2 span{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(26px);animation:mfWord 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+.mf h2 span:nth-child(1){animation-delay:.6s}.mf h2 span:nth-child(2){animation-delay:1.3s}.mf h2 span:nth-child(3){animation-delay:2s;color:var(--green-200)}
+.mf h2 .dot{margin-inline:.12em;color:var(--green-300)}
+.mf p{max-width:46ch;color:rgba(255,255,255,.78);font:400 18px/2 var(--font-sans);margin:22px 0 0;opacity:0;animation:mfUp 1s 2.6s forwards}
+.mf__cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;opacity:0;animation:mfUp 1s 3s forwards}
+.mf__cta .btn--g{background:var(--cream-200);color:var(--green-800)}
+.mf__cta .btn--g:hover{background:#ffffff}
+.mf__cta .btn--ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+.mf__art{position:relative;height:460px;display:grid;place-items:center}
+.mf__fw{position:relative;width:min(560px,100%);aspect-ratio:620/410;direction:ltr;transform-origin:8% 92%;animation:mfFloat 7s 4s ease-in-out infinite}
+.mf__quill{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 18px 24px rgba(0,16,14,.45))}
+@property --p{syntax:"<percentage>";inherits:false;initial-value:-20%}
+.mf__form{--p:-20%;-webkit-mask-image:linear-gradient(40deg,#000 var(--p),transparent calc(var(--p) + 20%));mask-image:linear-gradient(40deg,#000 var(--p),transparent calc(var(--p) + 20%));animation:mfForm 4s .5s cubic-bezier(.45,.05,.25,1) forwards}
+.mf__quill .edge{fill:none;stroke:#f3d996;stroke-width:.16;stroke-linecap:round;stroke-linejoin:round}
+.mf__quill .spine{fill:none;stroke:#fff3cf;stroke-width:.2;stroke-linecap:round}
+.mf__quill .barb{fill:none;stroke:#7a5a1b;stroke-width:.09;stroke-linecap:round;opacity:.55}
+.mf__ink{position:absolute;left:4.5%;top:90%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--cream-200);opacity:0;animation:mfDrop 5s 4.2s infinite}
+.mf__rip{position:absolute;left:4.5%;top:108%;width:70px;height:24px;margin-left:-35px;border:1.5px solid rgba(225,236,233,.85);border-radius:50%;opacity:0;transform:scale(.2);animation:mfRip 5s 4.7s infinite}
+.mf__rip.b{animation-delay:5.1s}
+.mf__orb{position:absolute;z-index:1;border-radius:50%;filter:blur(70px);opacity:.5;animation:mfDrift 16s ease-in-out infinite alternate}
+.mf__orb.o1{width:420px;height:420px;background:#306963;inset-inline-start:-80px;top:-60px}
+.mf__orb.o2{width:360px;height:360px;background:#5a8a84;inset-inline-end:10%;bottom:-120px;opacity:.28;animation-duration:20s}
+.mf__dust{position:absolute;inset:0;z-index:2;pointer-events:none}
+.mf__dust i{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--green-200);opacity:0;animation:mfRise linear infinite}
+.mf__dust i:nth-child(1){left:6%;animation-duration:11s;animation-delay:0s}.mf__dust i:nth-child(2){left:16%;animation-duration:14s;animation-delay:2s;width:3px;height:3px}
+.mf__dust i:nth-child(3){left:27%;animation-duration:12s;animation-delay:5s}.mf__dust i:nth-child(4){left:38%;animation-duration:16s;animation-delay:1s;width:5px;height:5px}
+.mf__dust i:nth-child(5){left:49%;animation-duration:13s;animation-delay:7s;width:3px;height:3px}.mf__dust i:nth-child(6){left:58%;animation-duration:15s;animation-delay:3s}
+.mf__dust i:nth-child(7){left:67%;animation-duration:11s;animation-delay:6s;width:3px;height:3px}.mf__dust i:nth-child(8){left:76%;animation-duration:17s;animation-delay:4s;width:5px;height:5px}
+.mf__dust i:nth-child(9){left:85%;animation-duration:12s;animation-delay:8s}.mf__dust i:nth-child(10){left:93%;animation-duration:14s;animation-delay:2.5s;width:3px;height:3px}
+.mf__wave{position:absolute;z-index:2;inset-inline:0;bottom:-1px;height:90px;width:200%;animation:mfWave 18s linear infinite}
+.mf__wave path{fill:var(--pg)}
+@keyframes mfUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes mfWord{to{opacity:1;filter:blur(0);transform:none}}
+@keyframes mfDraw{to{stroke-dashoffset:0}}
+@keyframes mfFade{to{opacity:1}}
+@keyframes mfFloat{0%,100%{transform:translate(0,0) rotate(-3deg)}35%{transform:translate(6px,-14px) rotate(1deg)}70%{transform:translate(-4px,-6px) rotate(3.5deg)}}
+@keyframes mfForm{to{--p:100%}}
+@keyframes mfSheen{0%,40%{opacity:0;transform:translateX(-60%)}60%{opacity:.9}100%{opacity:0;transform:translateX(70%)}}
+@keyframes mfDrop{0%{opacity:0;transform:translateY(-34px) scale(.6)}15%{opacity:1}45%{opacity:1;transform:translateY(8px) scale(1)}55%,100%{opacity:0;transform:translateY(14px) scale(.2)}}
+@keyframes mfRip{0%{opacity:.9;transform:scale(.2)}60%,100%{opacity:0;transform:scale(2.4)}}
+@keyframes mfDrift{to{transform:translate(60px,40px) scale(1.15)}}
+@keyframes mfRise{0%{opacity:0;transform:translateY(560px)}15%{opacity:.8}85%{opacity:.6}100%{opacity:0;transform:translateY(-40px)}}
+@keyframes mfWave{to{transform:translateX(50%)}}
+@media (max-width:900px){.mf__in{grid-template-columns:minmax(0,1fr);padding-block:48px 80px;min-height:0;text-align:start}.mf__art{height:260px;order:-1}.mf p{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.mf *{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}.mf__form{--p:100%}}
+</style>
+</helmet>
+<div class="page">
+
+<header class="nav"><div class="wrap nav__in">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html" aria-current="page">الرئيسية</a><a href="Store.dc.html">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html">باقات النشر</a></nav>
+<div class="nav__act">
+<a class="ibtn" href="Wishlist.dc.html" aria-label="المفضلة"><i class="ic ic-heart"></i></a>
+<a class="ibtn" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="num">3</span></a>
+<a href="Account.dc.html" class="avatar" aria-label="حسابي">أ</a>
+</div>
+<!--mbtn--><dc-import name="SearchBox" hint-size="44px,44px"></dc-import><label class="nav__burger" for="mnav" aria-label="القائمة"><span></span><span></span><span></span></label><!--/mbtn--></div></header><!--mnav--><input type="checkbox" id="mnav" class="mn__cb" aria-hidden="true" tabindex="-1"><label class="mn__bd" for="mnav" aria-hidden="true"></label><aside class="mn__sheet" aria-label="القائمة"><div class="mn__top"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><label class="mn__x" for="mnav" aria-label="إغلاق"><i class="ic ic-x"></i></label></div><div class="mn__qs"><a class="mn__q" href="Account.dc.html"><i class="ic ic-user"></i><span>حسابي</span></a><a class="mn__q" href="Wishlist.dc.html"><i class="ic ic-heart"></i><span>المفضلة</span></a><a class="mn__q" href="Cart.dc.html"><i class="ic ic-bag"></i><span>السلة</span><em>3</em></a></div><nav class="mn__list" aria-label="صفحات الموقع"><a href="Main.dc.html" aria-current="page"><i class="ic ic-lib"></i>الرئيسية<i class="ic ic-chev-l mn__ch"></i></a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر<i class="ic ic-chev-l mn__ch"></i></a><a href="Bestsellers.dc.html"><i class="ic ic-sparkle"></i>الأكثر مبيعًا<i class="ic ic-chev-l mn__ch"></i></a><a href="Offers.dc.html"><i class="ic ic-tag"></i>العروض<i class="ic ic-chev-l mn__ch"></i></a><a href="Authors.dc.html"><i class="ic ic-users"></i>المؤلفون<i class="ic ic-chev-l mn__ch"></i></a><a href="Events.dc.html"><i class="ic ic-calendar"></i>الأحداث<i class="ic ic-chev-l mn__ch"></i></a><a href="Packages.dc.html"><i class="ic ic-package"></i>باقات النشر<i class="ic ic-chev-l mn__ch"></i></a><a href="Where.dc.html"><i class="ic ic-pin"></i>أين تجد الكتب<i class="ic ic-chev-l mn__ch"></i></a><a href="About.dc.html"><i class="ic ic-book-open"></i>عن الدار<i class="ic ic-chev-l mn__ch"></i></a><a href="Policies.dc.html"><i class="ic ic-shield"></i>الشحن والسياسات<i class="ic ic-chev-l mn__ch"></i></a></nav></aside><!--/mnav-->
+
+<main>
+<!-- manifesto -->
+<section class="mf" aria-label="رسالة الدار">
+<span class="mf__orb o1"></span><span class="mf__orb o2"></span>
+<div class="mf__dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="wrap mf__in">
+<div>
+<span class="mf__eyebrow">دار الأسمى للنشر والتوزيع</span>
+<h2><span>نقطة</span><span class="dot">·</span><span>فكرة</span><span class="dot">·</span><span>وأثرٌ لا يزول</span></h2>
+<p>من نقطة حبر تبدأ الحكاية، وتكبر فكرةً، ثم تبقى أثرًا في قلب قارئها. نصنع الكتاب بعناية، ونوصله إليك كما يستحق.</p>
+<div class="mf__cta"><a class="btn btn--lg btn--g" href="Store.dc.html">تصفح الإصدارات<i class="ic ic-arrow ic--s"></i></a><a class="btn btn--lg btn--ghost" href="Packages.dc.html">انشر معنا</a></div>
+</div>
+<div class="mf__art" aria-hidden="true">
+<div class="mf__fw">
+<svg class="mf__quill mf__form" viewBox="40 150 620 410" fill="none" shape-rendering="geometricPrecision">
+<defs>
+<linearGradient id="mfg" gradientUnits="userSpaceOnUse" x1="68" y1="535" x2="638" y2="170"><stop offset="0" stop-color="#a3c1bc"/><stop offset=".5" stop-color="#e1ece9"/><stop offset="1" stop-color="#f5f2ea"/></linearGradient>
+</defs>
+<path fill="url(#mfg)" fill-rule="evenodd" d="M68.6 537.0C67.8 536.5 67.6 534.9 68.1 533.6C68.6 532.5 78.2 521.2 84.3 514.7C86.1 512.7 89.8 508.6 92.7 505.5C110.4 485.9 140.5 457.7 166.9 436.1C217.3 394.8 281.7 357.5 353.8 327.8C365.9 322.8 395.4 312.1 409.5 307.7C411.2 307.1 414.4 306.1 416.7 305.3C426.6 302.1 443.2 297.1 453.3 294.4C482.2 286.6 495.3 282.6 512.7 276.2C535.4 267.7 547.6 262.2 565.5 252.5C579.7 244.8 585.8 241.0 595.8 233.7C598.4 231.8 600.5 230.4 600.6 230.5C601.1 231.0 596.4 235.5 590.0 240.7C569.3 257.5 543.1 272.3 510.3 285.6C497.9 290.6 489.9 293.4 462.5 302.0C434.6 310.9 396.5 324.8 369.8 335.9C361.2 339.5 351.3 343.6 347.8 345.1C330.9 352.1 292.2 370.6 276.5 379.2C216.1 412.0 157.8 455.8 133.5 486.5C131.0 489.7 129.5 491.8 122.9 501.8C116.5 511.7 112.1 515.0 100.4 519.2C89.3 523.2 84.0 526.2 75.1 533.8C70.9 537.3 69.9 537.8 68.6 537.0ZM166.3 429.2C166.3 428.8 166.9 426.9 167.5 425.0C171.0 414.2 170.1 406.5 164.7 401.0C159.5 395.6 153.0 393.9 144.3 395.4C137.9 396.6 141.8 393.7 149.2 391.9C162.2 388.6 174.8 396.1 176.9 408.5C177.8 414.0 178.8 413.2 181.5 405.1C184.1 397.2 184.9 387.1 183.5 379.8C183.2 378.2 182.1 372.8 181.2 367.8C180.2 362.9 179.1 356.9 178.8 354.5C176.8 336.7 182.0 320.0 193.0 309.9C196.1 307.0 196.3 307.6 193.3 312.0C188.0 320.0 185.3 328.7 185.3 338.2C185.3 346.1 186.3 349.1 192.2 361.5C198.7 374.9 199.8 378.1 200.8 385.6C201.4 390.4 202.2 390.7 203.4 386.8C204.7 382.9 205.3 379.9 208.2 362.8C211.3 344.1 215.8 331.1 224.0 317.3C233.7 300.8 250.8 285.0 270.7 274.2C275.7 271.5 275.7 271.8 271.2 278.0C260.0 293.8 254.2 308.4 252.9 324.3C252.7 325.7 252.5 328.4 252.3 330.3C252.1 332.3 251.7 337.1 251.3 341.0C251.0 344.9 250.6 348.8 250.5 349.6C249.9 353.3 252.0 349.4 253.6 343.6C254.7 339.7 256.5 331.7 257.8 324.5C262.3 301.0 269.3 286.3 282.1 273.5C293.9 261.8 308.8 253.3 329.5 246.4C340.9 242.6 350.4 239.9 366.2 235.8C369.3 235.0 376.0 233.3 381.2 232.0C390.2 229.6 393.3 229.0 393.3 229.5C393.3 229.6 391.8 231.3 389.9 233.3C377.4 246.3 370.4 258.4 363.9 278.7C362.3 283.6 357.2 298.8 356.7 300.1C356.5 300.6 356.3 301.4 356.3 301.8C356.4 304.1 360.4 296.5 363.3 288.7C364.4 285.6 366.5 279.9 368.0 275.8C381.6 238.8 403.5 221.3 439.4 218.6C445.0 218.2 449.7 218.5 470.0 220.2C484.0 221.4 497.3 221.1 509.7 219.3C516.5 218.3 518.0 218.1 533.5 215.1C542.7 213.4 542.7 213.3 534.8 218.8C522.5 227.5 510.8 240.6 508.7 248.2C508.0 250.6 508.9 250.0 513.8 244.7C522.7 234.9 530.5 229.4 541.7 224.8C548.1 222.2 552.9 220.7 573.3 215.2C599.0 208.2 611.9 201.9 623.6 190.5C629.3 185.0 631.9 181.5 635.5 174.7C638.0 169.9 638.5 169.5 638.5 172.2C638.5 181.9 634.4 207.0 630.6 221.2C618.5 266.0 587.6 298.7 543.8 313.2C537.9 315.1 529.0 317.4 525.2 318.0C517.3 319.2 518.2 320.3 527.7 321.0C539.8 322.0 549.2 320.2 563.6 314.0C572.9 310.0 573.1 310.0 568.9 314.6C557.7 326.9 538.5 339.6 524.7 343.8C504.9 349.8 487.4 348.9 463.2 340.8C460.3 339.8 457.7 339.1 457.6 339.2C455.9 340.3 472.6 349.2 481.5 351.9C489.9 354.5 500.2 355.0 509.5 353.4C515.6 352.3 516.0 352.2 516.0 352.6C516.0 353.3 506.5 360.7 505.5 360.7C505.2 360.7 504.3 360.3 503.6 359.9C501.0 358.4 498.8 358.0 493.6 358.2C484.4 358.6 474.9 357.0 466.5 353.7C463.2 352.4 461.2 351.3 450.7 345.0C432.1 333.9 426.6 331.9 413.8 331.2C407.5 330.8 407.3 330.3 412.6 328.5C426.2 324.0 441.8 325.0 461.0 331.7C482.4 339.1 485.4 339.8 497.7 339.8C511.2 339.8 520.0 337.9 531.8 332.2C538.4 329.0 538.6 328.3 532.9 328.3C520.8 328.3 509.6 324.6 500.4 317.6C497.5 315.4 498.0 314.9 502.8 315.4C524.3 317.5 551.5 308.5 573.9 291.8C602.5 270.5 619.6 242.0 626.5 204.3C627.4 199.2 626.9 199.2 623.0 204.2C601.0 232.8 567.8 252.3 505.7 273.0C494.7 276.6 492.0 277.4 484.3 279.3C472.4 282.3 463.3 284.6 457.8 286.0C447.4 288.7 443.7 289.6 437.2 291.3C426.9 294.0 421.9 295.4 412.4 298.7C406.3 300.8 406.5 300.9 407.0 295.3C408.9 274.0 410.9 264.8 416.2 253.8C420.5 244.6 426.0 237.5 433.2 231.5C438.2 227.3 438.2 227.0 432.6 227.8C416.2 230.3 401.1 238.2 391.5 249.4C384.4 257.5 380.7 264.1 375.5 277.2C366.3 300.7 362.9 306.9 355.2 315.0C348.3 322.1 342.8 325.5 328.5 331.5C300.5 343.2 278.3 354.5 253.7 369.5C232.0 382.7 233.7 381.8 233.7 381.0C233.7 380.7 235.1 377.7 236.8 374.2C242.9 361.9 244.7 354.0 245.2 338.3C245.7 320.5 247.8 308.4 252.0 298.5C254.7 292.4 254.2 292.5 245.5 300.3C234.6 310.0 225.6 325.0 220.3 342.0C218.0 349.2 217.0 353.9 215.0 366.2C210.8 391.9 206.9 400.4 196.5 407.4C192.6 410.0 192.6 410.0 194.0 403.3C195.5 396.3 195.6 390.8 194.3 383.5C193.1 376.1 188.9 364.9 188.0 366.3C187.7 366.9 187.8 367.4 188.9 372.2C191.6 383.8 191.6 396.7 189.0 406.0C186.8 413.8 186.0 415.2 182.3 417.8C180.7 419.0 176.7 422.0 173.4 424.6C166.9 429.7 166.3 430.1 166.3 429.2Z"/>
+</svg>
+<span class="mf__ink"></span><span class="mf__rip"></span><span class="mf__rip b"></span>
+</div>
+</div>
+<svg class="mf__wave" viewBox="0 0 2400 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50C200 90 400 90 600 50S1000 10 1200 50 1600 90 1800 50 2200 10 2400 50V90H0z"/></svg>
+</section>
+
+<!-- hero -->
+<section class="wrap" style="padding-block:28px 12px">
+<div class="hero">
+<div class="card hero__main" style="border-radius:24px">
+<div class="hero__txt">
+<div style="display:flex;gap:10px;align-items:center"><span class="tag tag--g" style="background:var(--g);color:#fff;height:26px;padding-inline:12px">كتاب الشهر</span><span style="display:inline-flex;gap:6px;align-items:center;font:700 13px/1 var(--font-sans);color:var(--ink-muted)"><span class="stars stars--s stars--gold" style="--r:4.9"></span>4.9</span></div>
+<h1 style="font:700 56px/1.25 var(--font-sans);letter-spacing:0">ظلال<br>الحكاية</h1>
+<p style="color:var(--ink-muted);font-size:16px;line-height:1.9;max-width:44ch">بين الذاكرة والحاضر، تحفظ قرية صغيرة تاريخها في حكايات الجدات، ويعود شاب ليكتب ما لم يُكتب. رواية عن الخيارات التي تصنع حياة كاملة.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn--p btn--lg" href="Product.dc.html">اطلب الآن<i class="ic ic-arrow ic--s"></i></a><button class="btn btn--o btn--lg" type="button"><i class="ic ic-heart ic--s"></i>أضف للمفضلة</button></div>
+</div>
+<div class="hero__vis"><div class="cv" style="--c1:var(--green-700);--c2:var(--cream-200)"><i></i><b>ظلال الحكاية</b><span>سامي الحكيم</span></div></div>
+</div>
+<div class="hero__side">
+<a class="card" href="Main.dc.html" style="position:relative;overflow:hidden;padding:28px;display:grid;align-content:center;gap:10px;background:#f7ecd5;box-shadow:none;border-radius:24px">
+<i class="ic ic-feather" style="position:absolute;width:150px;height:150px;inset-inline-end:-18px;bottom:-24px;color:#e9d6a8"></i>
+<h3 style="font:700 22px/1.4 var(--font-sans);position:relative">لقاء مع الكاتب</h3>
+<p style="color:var(--ink-muted);font-size:14px;position:relative">انضم إلى سامي الحكيم يوم الجمعة الساعة 6 مساءً لحوار مفتوح.</p>
+<span style="font:600 14px/1 var(--font-sans);color:var(--accent-ink);text-decoration:underline;text-underline-offset:5px;position:relative">سجّل مجانًا</span>
+</a>
+<a class="card" href="Store.dc.html" style="background:var(--green-950);color:#fff;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-radius:24px">
+<div style="display:grid;gap:6px"><h3 style="font:700 22px/1.4 var(--font-sans)">إصدارات جديدة</h3><span style="font-size:14px;color:var(--on-brand-muted)">اكتشف أحدث ما صدر عن الدار</span></div>
+<span style="width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;flex:none"><i class="ic ic-arrow"></i></span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- genres -->
+<section class="wrap" style="padding-block:40px 8px" aria-label="تصفح حسب القسم">
+<h2 style="font:700 22px/1.4 var(--font-sans);margin-bottom:18px">تصفح حسب القسم</h2>
+<div class="chips">
+<a class="gchip" href="Store.dc.html"><i><span class="ic ic-book ic--s"></span></i>الروايات</a>
+<a class="gchip" href="Store.dc.html"><i><span class="ic ic-feather ic--s"></span></i>الشعر والأدب</a>
+<a class="gchip" href="Store.dc.html"><i><span class="ic ic-bulb ic--s"></span></i>التنمية الذاتية</a>
+<a class="gchip" href="Store.dc.html"><i><span class="ic ic-lib ic--s"></span></i>التاريخ والفكر</a>
+<a class="gchip" href="Store.dc.html"><i><span class="ic ic-brain ic--s"></span></i>الفلسفة</a>
+<a class="gchip" href="Store.dc.html"><i><span class="ic ic-smile ic--s"></span></i>كتب الأطفال</a>
+</div>
+</section>
+
+<!-- new arrivals -->
+<section class="wrap" style="padding-block:48px 8px">
+<div class="sec-h"><div><h2>وصل حديثًا</h2><p>أحدث الإصدارات، جاهزة للقراءة</p></div><a class="link" href="Store.dc.html">عرض الكل<i class="ic ic-arrow ic--s"></i></a></div>
+<div class="new5">
+<sc-for list="{{newBooks}}" as="b" hint-placeholder-count="5">
+<a class="mini" href="Product.dc.html">
+<div class="box" style="--t:{{b.t}}"><sc-if value="{{b.isNew}}" hint-placeholder-val="{{true}}"><span class="tag tag--best">جديد</span></sc-if><sc-if value="{{b.disc}}" hint-placeholder-val="{{true}}"><span class="tag tag--disc">{{b.disc}}</span></sc-if><div class="cv" style="--c1:{{b.c1}};--c2:{{b.c2}}"><i></i><b>{{b.title}}</b><span>{{b.author}}</span></div></div>
+<div><h3>{{b.title}}</h3><small>{{b.author}}</small></div>
+<div class="pr {{b.cls}}">{{b.price}} ج.م<sc-if value="{{b.old}}" hint-placeholder-val="{{true}}"><s>{{b.old}}</s></sc-if></div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<!-- spotlight -->
+<section class="wrap" style="padding-block:56px 8px">
+<div class="card spot" style="border-radius:24px;box-shadow:none">
+<div class="spot__txt">
+<span style="font:700 12px/1 var(--font-sans);color:var(--accent-ink);letter-spacing:0">اختيار المحرر</span>
+<h2 style="font:700 34px/1.4 var(--font-sans)">أدب جديد بروح كلاسيكية</h2>
+<p style="color:var(--ink-muted);font-size:16px;line-height:1.9;max-width:46ch">مختارات من إصدارات الدار تتناول أسئلة العصر بلغة تحترم القارئ. ليست مجرد كتب، بل محادثات مع جيلنا.</p>
+<a class="link" href="Main.dc.html">اقرأ المقال<i class="ic ic-arrow ic--s"></i></a>
+</div>
+<div class="spot__vis">
+<i class="fth fth--fly" style="inset:-16% -22% auto auto;width:125%;color:#fff;opacity:.13"></i><i class="fth" style="inset:auto auto -30% -8%;width:55%;color:#e1ece9;opacity:.08;transform:scaleX(-1) rotate(12deg)"></i>
+<p style="position:relative;font:400 30px/1.8 var(--font-display);color:var(--cream-200);text-align:center;max-width:16ch">نقطة.. فكرة.. وأثر لا يزول!</p>
+</div>
+</div>
+</section>
+
+<!-- trending -->
+<div class="band"><div class="wrap">
+<div class="trend">
+<h2 style="text-align:center;font:700 44px/1.4 var(--font-display)">الأكثر رواجًا</h2>
+<div style="display:flex;justify-content:space-between;margin-top:-34px;position:relative"><button class="sqb" type="button" aria-label="السابق"><i class="ic ic-arrow-r ic--s"></i></button><button class="sqb sqb--f" type="button" aria-label="التالي"><i class="ic ic-arrow ic--s"></i></button></div>
+<div class="trend__row">
+<sc-for list="{{trend}}" as="t" hint-placeholder-count="5">
+<sc-if value="{{t.hl}}" hint-placeholder-val="{{false}}">
+<div class="t-hl">
+<div><div style="font:500 14px/1.5 var(--font-sans)">{{t.title}}</div><div style="font:400 13px/1.5 var(--font-sans);color:var(--on-brand-muted)">{{t.author}}</div></div>
+<div class="box"><div class="cv" style="--c1:{{t.c1}};--c2:{{t.c2}}"><i></i><b>{{t.title}}</b><span>{{t.author}}</span></div></div>
+<div class="t-meta"><div><i class="ic ic-book-open ic--s" style="color:#fff"></i>448 صفحة</div><div><i class="ic ic-globe ic--s" style="color:#fff"></i>العربية</div><div class="t-price"><b>{{t.price}} ج.م</b><i><span class="ic ic-arrow ic--s"></span></i></div></div>
+</div>
+</sc-if>
+<sc-if value="{{t.plain}}" hint-placeholder-val="{{true}}">
+<div class="t-it"><h3>{{t.title}}<br><span style="color:var(--ink-muted)">{{t.author}}</span></h3><div class="box"><div class="cv" style="--c1:{{t.c1}};--c2:{{t.c2}}"><i></i><b>{{t.title}}</b><span>{{t.author}}</span></div></div></div>
+</sc-if>
+</sc-for>
+</div>
+<div style="display:flex;justify-content:center;margin-top:36px"><a href="Store.dc.html" style="display:inline-flex;border:1px solid var(--ink);border-radius:4px;overflow:hidden;font:600 14px/1 var(--font-sans)"><span style="padding:14px 30px;background:#fff">عرض الكل</span><span style="width:56px;display:grid;place-items:center;background:var(--green-950);color:#fff"><i class="ic ic-arrow"></i></span></a></div>
+</div>
+</div></div>
+
+<!-- staff picks -->
+<section class="wrap" style="padding-block:64px 8px">
+<div class="sec-h"><div><h2>اختيارات فريق الأسمى</h2><p>ما نقرؤه في استراحة الدار</p></div></div>
+<div class="picks">
+<sc-for list="{{picks}}" as="p" hint-placeholder-count="3">
+<a class="card pick" href="Product.dc.html">
+<div class="cv" style="--c1:{{p.c1}};--c2:{{p.c2}}"><i></i><b>{{p.title}}</b><span>{{p.author}}</span></div>
+<div><h3 style="font:700 17px/1.5 var(--font-sans)">{{p.title}}</h3><small style="color:var(--ink-muted);font-size:14px">{{p.author}}</small>
+<div class="quote"><span class="avatar">{{p.who}}</span><span>{{p.quote}}</span></div></div>
+</a>
+</sc-for>
+</div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap">
+<div class="foot__g">
+<div style="display:grid;gap:14px;align-content:start"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى" style="height:52px;width:auto;justify-self:start"><p style="color:var(--ink-muted);font-size:14px;line-height:1.9;max-width:34ch">نقطة.. فكرة.. وأثر لا يزول! ننشر الكتاب الجيد ونوصله إلى قارئه أينما كان.</p></div>
+<div><h4>استكشف</h4><a class="fl" href="Bestsellers.dc.html">الأكثر مبيعًا</a><a class="fl" href="Store.dc.html">وصل حديثًا</a><a class="fl" href="Offers.dc.html">العروض</a><a class="fl" href="Packages.dc.html">باقات النشر</a></div>
+<div><h4>المساعدة</h4><a class="fl" href="Main.dc.html">مركز المساعدة</a><a class="fl" href="Main.dc.html">الشحن والإرجاع</a><a class="fl" href="Checkout.dc.html">طرق الدفع</a><a class="fl" href="Main.dc.html">تواصل معنا</a></div>
+<div><h4>ابقَ على اطلاع</h4><p style="color:var(--ink-muted);font-size:14px;margin-bottom:12px">اشترك لتصلك ترشيحات الكتب الأسبوعية.</p><form onsubmit="return false" style="display:grid;gap:10px"><input class="field" type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني"><button class="btn btn--p btn--blk" type="submit">اشترك</button></form></div>
+</div>
+<div class="foot__b"><span>© دار الأسمى للنشر والتوزيع</span><span>الدفع عند الاستلام · فودافون كاش · إنستاباي</span></div>
+</div></footer>
+</div>
+<nav class="appbar" aria-label="التنقل السفلي"><a href="Main.dc.html" aria-current="page"><i class="ic ic-lib"></i>الرئيسية</a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر</a><a class="fab" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="nb">3</span></a><a href="Wishlist.dc.html"><i class="ic ic-heart"></i>المفضلة</a><a href="Account.dc.html"><i class="ic ic-user"></i>حسابي</a></nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":3300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const T = { g: 'var(--green-100)', c: '#f1ece0', b: '#f7ecd5', s: 'var(--green-200)' };
+    const mk = (title, author, price, old, t, c1, c2, isNew) => {
+      const disc = old ? 'خصم ' + Math.round((1 - price / old) * 100) + '%' : '';
+      return { title, author, price, old: old || '', disc, t, c1, c2, isNew: !!isNew && !old, cls: old ? 'sale' : '' };
+    };
+    const newBooks = [
+      mk('ظلال الحكاية', 'سامي الحكيم', 120, 150, T.g, 'var(--green-700)', 'var(--cream-200)'),
+      mk('مدينة الحبر', 'منى عبد الرحمن', 95, 0, T.c, 'var(--cream-100)', 'var(--green-700)', true),
+      mk('رسائل لم تصل', 'رنا سعيد', 90, 0, T.b, '#c9a24f', 'var(--ink-900)', true),
+      mk('حدائق الكلمات', 'نادية فؤاد', 85, 100, T.s, '#1f5f63', 'var(--cream-100)'),
+      mk('همس الصحراء', 'ليلى المنصوري', 140, 0, T.g, '#e9dcc0', '#5b3d1d', true)
+    ];
+    const trend = [
+      { plain: true, title: 'فن الإنصات', author: 'خالد منصور', c1: '#d9532b', c2: '#1d1d1b' },
+      { plain: true, title: 'تشريح الصمت', author: 'كارين فيجل', c1: '#a9c4d6', c2: '#233c4a' },
+      { hl: true, title: 'ليالي القاهرة', author: 'عمر الشريف', price: 130, c1: '#14302d', c2: '#e0b865' },
+      { plain: true, title: 'دليل الحياة الأفضل', author: 'جوكانا', c1: '#e9bd3a', c2: '#2b2312' },
+      { plain: true, title: 'بيت على النيل', author: 'سلمى عادل', c1: '#e7dfc9', c2: '#004743' }
+    ];
+    const picks = [
+      { title: 'خريطة الذاكرة', author: 'يوسف عزت', c1: '#14302d', c2: '#e0b865', who: 'م', quote: 'نص مدهش، يمسك بيدك حتى آخر صفحة.' },
+      { title: 'أغنية المساء', author: 'هبة جمال', c1: '#e9dcc0', c2: '#004743', who: 'ن', quote: 'لغة ساحرة وإيقاع لا تنساه.' },
+      { title: 'عادات صغيرة', author: 'دينا حسن', c1: '#306963', c2: '#f0ede4', who: 'ه', quote: 'كتاب لا يُنسى، غيّر طريقة تفكيري.' }
+    ];
+    return { newBooks, trend, picks };
+  }
+}
+</script>
+</body>
+</html>

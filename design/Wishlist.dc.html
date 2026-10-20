@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: المفضلة</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+<link rel="stylesheet" href="account.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.g3 .sc{position:relative}
+.rm{position:absolute;top:10px;inset-inline-start:10px;inset-inline-end:auto;z-index:7;width:34px;height:34px;border-radius:50%;border:0;background:#fff;color:var(--discount);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px -4px rgba(0,0,0,.25)}
+.sc__top .tag{top:54px!important}
+.rm:hover{background:var(--discount);color:#fff}
+@media (max-width:1000px){.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+</style>
+</helmet>
+<div class="page">
+<header class="nav"><div class="nav__in" style="padding-inline:28px">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html">الرئيسية</a><a href="Store.dc.html">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html">باقات النشر</a></nav>
+<div class="nav__act"><a class="ibtn" href="Cart.dc.html" aria-label="السلة"><i class="ic ic-cart" style="color:var(--g)"></i><span class="dot"></span></a><a class="ibtn" href="Notifications.dc.html" aria-label="الإشعارات"><i class="ic ic-bell" style="color:var(--g)"></i></a><span class="avatar">أ</span></div>
+<!--mbtn--><dc-import name="SearchBox" hint-size="44px,44px"></dc-import><label class="nav__burger" for="mnav" aria-label="القائمة"><span></span><span></span><span></span></label><!--/mbtn--></div></header><!--mnav--><input type="checkbox" id="mnav" class="mn__cb" aria-hidden="true" tabindex="-1"><label class="mn__bd" for="mnav" aria-hidden="true"></label><aside class="mn__sheet" aria-label="القائمة"><div class="mn__top"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><label class="mn__x" for="mnav" aria-label="إغلاق"><i class="ic ic-x"></i></label></div><div class="mn__qs"><a class="mn__q" href="Account.dc.html"><i class="ic ic-user"></i><span>حسابي</span></a><a class="mn__q" href="Wishlist.dc.html" aria-current="page"><i class="ic ic-heart"></i><span>المفضلة</span></a><a class="mn__q" href="Cart.dc.html"><i class="ic ic-bag"></i><span>السلة</span><em>3</em></a></div><nav class="mn__list" aria-label="صفحات الموقع"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية<i class="ic ic-chev-l mn__ch"></i></a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر<i class="ic ic-chev-l mn__ch"></i></a><a href="Bestsellers.dc.html"><i class="ic ic-sparkle"></i>الأكثر مبيعًا<i class="ic ic-chev-l mn__ch"></i></a><a href="Offers.dc.html"><i class="ic ic-tag"></i>العروض<i class="ic ic-chev-l mn__ch"></i></a><a href="Authors.dc.html"><i class="ic ic-users"></i>المؤلفون<i class="ic ic-chev-l mn__ch"></i></a><a href="Events.dc.html"><i class="ic ic-calendar"></i>الأحداث<i class="ic ic-chev-l mn__ch"></i></a><a href="Packages.dc.html"><i class="ic ic-package"></i>باقات النشر<i class="ic ic-chev-l mn__ch"></i></a><a href="Where.dc.html"><i class="ic ic-pin"></i>أين تجد الكتب<i class="ic ic-chev-l mn__ch"></i></a><a href="About.dc.html"><i class="ic ic-book-open"></i>عن الدار<i class="ic ic-chev-l mn__ch"></i></a><a href="Policies.dc.html"><i class="ic ic-shield"></i>الشحن والسياسات<i class="ic ic-chev-l mn__ch"></i></a></nav></aside><!--/mnav-->
+<div class="shell">
+<aside class="sb" aria-label="قائمة الحساب">
+<h6>القائمة</h6>
+<a href="Account.dc.html"><i class="ic ic-dash"></i>نظرة عامة</a>
+<a href="Account.dc.html"><i class="ic ic-book-open"></i>كتبي</a>
+<a href="Wishlist.dc.html" aria-current="page"><i class="ic ic-heart"></i>المفضلة</a>
+<a href="Orders.dc.html"><i class="ic ic-package"></i>طلباتي</a>
+<hr>
+<h6>الإعدادات</h6>
+<a href="Profile.dc.html"><i class="ic ic-user"></i>بياناتي</a>
+<a href="Addresses.dc.html"><i class="ic ic-pin"></i>عناويني</a>
+<a href="Notifications.dc.html"><i class="ic ic-bell"></i>الإشعارات</a>
+<div class="goal"><i class="ic ic-book-open ic--l" style="color:var(--g)"></i><div style="flex:1;display:grid;gap:7px"><span style="font-size:13px;color:var(--ink-muted)">هدف القراءة <b style="color:var(--ink)">12 / 24 كتابًا</b></span><span style="display:block;height:6px;border-radius:4px;background:#dfe8e5;position:relative;overflow:hidden"><span style="position:absolute;inset-block:0;inset-inline-start:0;width:50%;background:var(--accent);border-radius:4px"></span></span></div></div>
+</aside>
+<main class="main">
+<div class="ph"><div><h1>المفضلة</h1><p>6 كتب تنتظر قرارك. نخبرك عند توفر أي كتاب نفد من المخزون.</p></div>
+<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn--o" type="button"><i class="ic ic-trash ic--s"></i>تفريغ المفضلة</button><button class="btn btn--p" type="button"><i class="ic ic-cart ic--s"></i>أضف المتاح إلى السلة</button></div></div>
+<div class="g3">
+<sc-for list="{{books}}" as="b" hint-placeholder-count="6">
+<article class="sc {{b.state}}">
+<div class="sc__fig">
+<a class="sc__top" oncontextmenu="return false" href="Product.dc.html" aria-label="{{b.title}}">
+<sc-if value="{{b.disc}}" hint-placeholder-val="{{false}}"><span class="tag tag--disc">{{b.disc}}</span></sc-if>
+<sc-if value="{{b.out}}" hint-placeholder-val="{{false}}"><span class="tag tag--low">نفد</span></sc-if>
+<div class="cv" style="--c1:{{b.c1}};--c2:{{b.c2}}"><i></i><b>{{b.title}}</b><span>{{b.author}}</span></div>
+</a>
+<div class="sc__bar"><button type="button" aria-label="معاينة سريعة: {{b.title}}"><i class="ic ic-eye"></i></button><sc-if value="{{b.ok}}" hint-placeholder-val="{{true}}"><button type="button" aria-label="أضف {{b.title}} إلى السلة"><i class="ic ic-bag"></i></button></sc-if><sc-if value="{{b.out}}" hint-placeholder-val="{{false}}"><button class="nt" type="button"><i class="ic ic-bell ic--s"></i>أبلغني</button></sc-if></div>
+</div>
+<button class="rm" type="button" aria-label="إزالة {{b.title}} من المفضلة"><i class="ic ic-heart-f ic--s"></i></button>
+<div class="sc__body">
+<span class="au">تأليف: {{b.author}}</span>
+<h3><a href="Product.dc.html">{{b.title}}</a></h3>
+<div class="sc__foot"><span class="sc__price {{b.cls}}">{{b.price}} ج.م<sc-if value="{{b.old}}" hint-placeholder-val="{{false}}"><s>{{b.old}}</s></sc-if></span></div>
+</div>
+</article>
+</sc-for>
+</div>
+<section class="panel" style="margin-top:44px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">هل تبحث عن شيء آخر؟</h2><span style="color:var(--ink-muted);font-size:15px">تصفح الأكثر مبيعًا هذا الأسبوع وأضف ما يعجبك إلى مفضلتك.</span></div><a class="btn btn--p" href="Bestsellers.dc.html">استكشف الأكثر مبيعًا<i class="ic ic-arrow ic--s"></i></a></section>
+</main>
+</div>
+</div>
+<nav class="appbar" aria-label="التنقل السفلي"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية</a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر</a><a class="fab" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="nb">3</span></a><a href="Wishlist.dc.html" aria-current="page"><i class="ic ic-heart"></i>المفضلة</a><a href="Account.dc.html"><i class="ic ic-user"></i>حسابي</a></nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mk = (title, author, price, old, rating, t, c1, c2, x) => {
+      const disc = old ? 'خصم ' + Math.round((1 - price / old) * 100) + '%' : ''; const pct = old ? '-' + Math.round((1 - price / old) * 100) + '%' : '';
+      return Object.assign({ title, author, price, old: old || '', disc, pct, rating, t, c1, c2, cls: old ? 'sale' : '', state: '', out: false, ok: true }, x || {});
+    };
+    const books = [
+      mk('ظلال الحكاية', 'سامي الحكيم', 120, 150, 4.8, '#ecefec', 'var(--green-700)', 'var(--cream-200)'),
+      mk('ليالي القاهرة', 'عمر الشريف', 130, 0, 4.7, '#5b8f78', '#f1ebdc', 'var(--green-800)'),
+      mk('أغنية المساء', 'هبة جمال', 98, 0, 3.4, '#efefe9', '#f1ead0', 'var(--green-800)', { out: true, ok: false, state: 'is-out' }),
+      mk('همس الصحراء', 'ليلى المنصوري', 140, 0, 5, '#a1b9b0', '#2e8f72', '#e8f4ee'),
+      mk('حدائق الكلمات', 'نادية فؤاد', 85, 100, 3.5, '#1b6b6a', '#f6e1c4', 'var(--green-800)'),
+      mk('بيت على النيل', 'سلمى عادل', 105, 0, 4, '#7ea3b4', '#f4e7c6', '#5b3d1d')
+    ];
+    return { books };
+  }
+}
+</script>
+</body>
+</html>

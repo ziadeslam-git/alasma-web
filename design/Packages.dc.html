@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: باقات النشر</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+
+.hh{text-align:center;max-width:760px;margin:0 auto;padding-block:48px 12px}
+.hh .eb{font:700 13px/1 var(--font-sans);color:var(--g);background:var(--g-t);padding:8px 14px;border-radius:999px;display:inline-block}
+.hh h1{font:700 44px/1.4 var(--font-sans);margin:16px 0 10px}
+.hh p{color:var(--ink-muted);font-size:17px;line-height:1.9}
+.pkg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}.pkg4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}.pkg4 .pk{padding:26px}.pk2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
+.pk{background:#fff;border-radius:24px;box-shadow:var(--shadow-card);padding:34px;display:grid;gap:22px;align-content:start;position:relative;border:1.5px solid transparent}
+.pk.hot{border-color:var(--g);background:linear-gradient(180deg,#f2faf8,#fff 40%)}
+.pk .flag{position:absolute;top:-14px;inset-inline-start:30px;background:var(--accent);color:var(--on-accent);font:700 12px/1 var(--font-sans);height:28px;padding-inline:14px;border-radius:999px;display:flex;align-items:center}
+.pk h2{font:700 26px/1.3 var(--font-sans);margin:0}
+.pk .dur{color:var(--ink-muted);font-size:14px}
+.pk .price{display:flex;align-items:baseline;gap:8px}
+.pk .price b{font:700 38px/1 var(--font-sans);color:var(--g)}
+.pk .price span{color:var(--ink-muted);font-size:14px}
+.pk ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.pk li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.7}
+.pk li i{color:var(--g);margin-top:4px;flex:none}
+.pk li.no{color:var(--ink-subtle)}
+.pk li.no i{color:var(--ink-subtle)}
+.cmp{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow-card)}
+.cmp th,.cmp td{padding:16px 22px;text-align:start;border-bottom:1px solid var(--hair);font-size:15px}
+.cmp thead th{background:var(--g);color:#fff;font-weight:700}
+.cmp tbody th{font-weight:600;background:#fafcfb}
+.cmp tr:last-child th,.cmp tr:last-child td{border-bottom:0}
+.stp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;counter-reset:s}
+.stp div{background:#fff;border-radius:16px;box-shadow:var(--shadow-card);padding:24px;display:grid;gap:10px;counter-increment:s}
+.stp div::before{content:counter(s);width:40px;height:40px;border-radius:50%;background:var(--g-t);color:var(--g);display:grid;place-items:center;font:700 16px/1 var(--font-sans)}
+.stp b{font:700 16px/1.4 var(--font-sans)}
+.stp span{color:var(--ink-muted);font-size:14px;line-height:1.8}
+.get{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.get div{background:#fff;border-radius:16px;box-shadow:var(--shadow-card);padding:24px;display:grid;gap:10px;align-content:start}
+.get .ic-w{width:46px;height:46px;border-radius:12px;background:var(--g);color:#fff;display:grid;place-items:center}
+.get b{font:700 16px/1.4 var(--font-sans)}
+.get span{color:var(--ink-muted);font-size:14px;line-height:1.8}
+.rq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:0;background:#fff;border-radius:24px;box-shadow:var(--shadow-card);overflow:hidden}
+.rq .l{background:var(--g);color:#fff;padding:44px;display:grid;gap:16px;align-content:center}
+.rq .l h2{font:700 30px/1.5 var(--font-sans);margin:0}
+.rq .l p{color:#cfe3df;line-height:1.9;margin:0}
+.rq .l li{list-style:none;display:flex;gap:10px;color:#e6f1ef;font-size:14px}
+.rq .l ul{padding:0;margin:0;display:grid;gap:10px}
+.rq form{padding:36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.rq .full{grid-column:1/-1}
+.rq .lbl{display:grid;gap:8px;font:600 13px/1.4 var(--font-sans)}
+.rq textarea.field{height:110px;padding-block:12px;resize:vertical;font-family:inherit}
+.drop{border:2px dashed #bccbc7;border-radius:12px;padding:18px;text-align:center;color:var(--ink-muted);font-size:13px;display:grid;gap:6px;place-items:center;background:var(--pg)}
+.faq details{background:#fff;border-radius:14px;box-shadow:var(--shadow-card);padding:18px 22px;margin-bottom:12px}
+.faq summary{font:600 16px/1.6 var(--font-sans);cursor:pointer}
+.faq p{color:var(--ink-muted);line-height:1.9;margin:10px 0 0;font-size:14px}
+@media (max-width:1100px){.pkg3,.pkg4,.pk2,.get,.stp,.rq{grid-template-columns:minmax(0,1fr)}.rq form{grid-template-columns:minmax(0,1fr)}.hh h1{font-size:32px}}
+
+</style>
+</helmet>
+<div class="page"><header class="nav"><div class="nav__in" style="padding-inline:28px">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html">الرئيسية</a><a href="Store.dc.html">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html" aria-current="page">باقات النشر</a></nav>
+<div class="nav__act"><a class="ibtn" href="Wishlist.dc.html" aria-label="المفضلة"><i class="ic ic-heart"></i></a><a class="ibtn" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="num">3</span></a><a href="Account.dc.html" class="avatar" aria-label="حسابي">أ</a></div>
+<!--mbtn--><dc-import name="SearchBox" hint-size="44px,44px"></dc-import><label class="nav__burger" for="mnav" aria-label="القائمة"><span></span><span></span><span></span></label><!--/mbtn--></div></header><!--mnav--><input type="checkbox" id="mnav" class="mn__cb" aria-hidden="true" tabindex="-1"><label class="mn__bd" for="mnav" aria-hidden="true"></label><aside class="mn__sheet" aria-label="القائمة"><div class="mn__top"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى"><label class="mn__x" for="mnav" aria-label="إغلاق"><i class="ic ic-x"></i></label></div><div class="mn__qs"><a class="mn__q" href="Account.dc.html"><i class="ic ic-user"></i><span>حسابي</span></a><a class="mn__q" href="Wishlist.dc.html"><i class="ic ic-heart"></i><span>المفضلة</span></a><a class="mn__q" href="Cart.dc.html"><i class="ic ic-bag"></i><span>السلة</span><em>3</em></a></div><nav class="mn__list" aria-label="صفحات الموقع"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية<i class="ic ic-chev-l mn__ch"></i></a><a href="Store.dc.html"><i class="ic ic-book"></i>المتجر<i class="ic ic-chev-l mn__ch"></i></a><a href="Bestsellers.dc.html"><i class="ic ic-sparkle"></i>الأكثر مبيعًا<i class="ic ic-chev-l mn__ch"></i></a><a href="Offers.dc.html"><i class="ic ic-tag"></i>العروض<i class="ic ic-chev-l mn__ch"></i></a><a href="Authors.dc.html"><i class="ic ic-users"></i>المؤلفون<i class="ic ic-chev-l mn__ch"></i></a><a href="Events.dc.html"><i class="ic ic-calendar"></i>الأحداث<i class="ic ic-chev-l mn__ch"></i></a><a href="Packages.dc.html" aria-current="page"><i class="ic ic-package"></i>باقات النشر<i class="ic ic-chev-l mn__ch"></i></a><a href="Where.dc.html"><i class="ic ic-pin"></i>أين تجد الكتب<i class="ic ic-chev-l mn__ch"></i></a><a href="About.dc.html"><i class="ic ic-book-open"></i>عن الدار<i class="ic ic-chev-l mn__ch"></i></a><a href="Policies.dc.html"><i class="ic ic-shield"></i>الشحن والسياسات<i class="ic ic-chev-l mn__ch"></i></a></nav></aside><!--/mnav--><main><section class="wrap">
+<div class="hh"><span class="eb">باقات النشر</span><h1>انشر كتابك مع دار الأسمى</h1><p>باقتان واضحتان للمؤلفين: اختر المدة التي تناسب مشروعك، وأرسل طلبك لنتواصل معك خلال 48 ساعة.</p></div>
+<div class="sec-h" style="margin-top:56px"><div><h2>باقات السنة الواحدة</h2><p>مدة التعاقد 12 شهرًا · الأسعار والمحتوى يحددهما المالك من لوحة التحكم</p></div></div><div class="pkg3"><article class="pk "><div><h2>الأساسية</h2><span class="dur">مدة التعاقد 12 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>تحرير لغوي</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>تصميم غلاف</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>طباعة [العدد] نسخة</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>ISBN وإيداع</span></li></ul><a class="btn btn--o btn--blk" href="#req">اطلب هذه الباقة</a></article><article class="pk hot"><span class="flag">الأكثر طلبًا</span><div><h2>المتقدمة</h2><span class="dur">مدة التعاقد 12 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>كل ما في الأساسية</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>عرض في المتجر</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>حملة تسويق رقمي</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>تقرير مبيعات سنوي</span></li></ul><a class="btn btn--p btn--blk" href="#req">اطلب هذه الباقة</a></article><article class="pk "><div><h2>المتكاملة</h2><span class="dur">مدة التعاقد 12 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>كل ما في المتقدمة</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>مشاركة في معرض</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>جلسة توقيع</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>مدير حساب</span></li></ul><a class="btn btn--o btn--blk" href="#req">اطلب هذه الباقة</a></article></div>
+<div class="sec-h" style="margin-top:56px"><div><h2>باقات الثلاث سنوات</h2><p>مدة التعاقد 36 شهرًا · الأسعار والمحتوى يحددهما المالك من لوحة التحكم</p></div></div><div class="pkg4"><article class="pk "><div><h2>الانطلاقة</h2><span class="dur">مدة التعاقد 36 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>تحرير وتصميم</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>طباعة على دفعات</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>عرض في المتجر</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>تقرير سنوي</span></li></ul><a class="btn btn--o btn--blk" href="#req">اطلب هذه الباقة</a></article><article class="pk hot"><span class="flag">الأكثر طلبًا</span><div><h2>النمو</h2><span class="dur">مدة التعاقد 36 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>كل ما في الانطلاقة</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>حملة تسويق سنوية</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>تقرير ربع سنوي</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>مشاركة في معرض سنويًا</span></li></ul><a class="btn btn--p btn--blk" href="#req">اطلب هذه الباقة</a></article><article class="pk "><div><h2>الانتشار</h2><span class="dur">مدة التعاقد 36 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>كل ما في النمو</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>معرضان سنويًا</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>ترويج في نقاط البيع</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>أولوية في الطبعات</span></li></ul><a class="btn btn--o btn--blk" href="#req">اطلب هذه الباقة</a></article><article class="pk "><div><h2>الشراكة</h2><span class="dur">مدة التعاقد 36 شهرًا</span></div><div class="price"><b>[السعر]</b><span>ج.م</span></div><ul><li class=""><i class="ic ic-check-c ic--s"></i><span>كل ما في الانتشار</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>مدير حساب مخصص</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>كتاب إضافي بخصم</span></li><li class=""><i class="ic ic-check-c ic--s"></i><span>عقد مرن</span></li></ul><a class="btn btn--o btn--blk" href="#req">اطلب هذه الباقة</a></article></div>
+<div class="sec-h" style="margin-top:64px"><div><h2>ماذا يحصل عليه المؤلف؟</h2></div></div>
+<div class="get"><div><span class="ic-w"><i class="ic ic-feather"></i></span><b>نص مصقول</b><span>محرر متخصص يراجع النص لغويًا وفنيًا بالتنسيق معك.</span></div><div><span class="ic-w"><i class="ic ic-book"></i></span><b>كتاب بجودة تليق بك</b><span>غلاف وتجهيز وطباعة بمعايير الدار.</span></div><div><span class="ic-w"><i class="ic ic-chart"></i></span><b>متابعة وشفافية</b><span>تتابع مبيعات كتابك من لوحة خاصة بك.</span></div></div>
+<div class="sec-h" style="margin-top:64px"><div><h2>كيف تسير الخطوات؟</h2></div></div>
+<div class="stp"><div><b>أرسل الطلب</b><span>املأ النموذج وأرفق نبذة عن الكتاب.</span></div><div><b>مراجعة المخطوط</b><span>يقيّم فريق الدار العمل خلال أيام.</span></div><div><b>توقيع العقد</b><span>نتفق على الباقة والجدول الزمني.</span></div><div><b>الإنتاج والإصدار</b><span>تحرير وتصميم وطباعة ثم عرض الكتاب.</span></div></div>
+<div class="sec-h" style="margin-top:64px"><div><h2>الشروط الأساسية</h2></div></div>
+<div class="faq"><details open><summary>هل أحتفظ بحقوق الملكية؟</summary><p>نعم، تبقى حقوق المؤلف الفكرية له، ويحدد العقد حقوق الطباعة والتوزيع خلال مدة الباقة.</p></details><details><summary>كيف يتم الدفع؟</summary><p>على دفعات تُحدد في العقد. الدفع يدوي بالتحويل ويؤكده فريق الدار.</p></details><details><summary>كم يستغرق إصدار الكتاب؟</summary><p>غالبًا من 6 إلى 10 أسابيع بعد اعتماد النص النهائي.</p></details></div>
+<section id="req" class="rq" style="margin-top:64px"><div class="l"><h2>أرسل طلب النشر</h2><p>سيتواصل معك فريق الدار خلال 48 ساعة لمناقشة مشروعك.</p><ul><li><i class="ic ic-check ic--s"></i>لا التزام قبل توقيع العقد</li><li><i class="ic ic-check ic--s"></i>سرية كاملة لمخطوطك</li><li><i class="ic ic-check ic--s"></i>رد خلال 48 ساعة</li></ul></div>
+<form onsubmit="return false"><label class="lbl">الاسم الكامل<input class="field" type="text" placeholder="اسمك"></label><label class="lbl">رقم الموبايل<input class="field" type="tel" dir="ltr" placeholder="01XXXXXXXXX"></label><label class="lbl full">البريد الإلكتروني<input class="field" type="email" dir="ltr" placeholder="name@mail.com"></label><label class="lbl">الباقة<select class="sel"><option>الباقة السنوية</option><option>باقة الثلاث سنوات</option></select></label><label class="lbl">تصنيف الكتاب<select class="sel"><option>رواية</option><option>شعر</option><option>علمي</option><option>أطفال</option></select></label><label class="lbl full">عنوان الكتاب ونبذة عنه<textarea class="field" placeholder="اكتب فكرة الكتاب في أسطر قليلة"></textarea></label><div class="lbl full">المخطوط (اختياري)<div class="drop"><i class="ic ic-plus"></i><span>اسحب الملف هنا أو اضغط للاختيار · PDF أو DOCX</span></div></div><button class="btn btn--p btn--lg full" type="submit">إرسال الطلب<i class="ic ic-arrow ic--s"></i></button></form></section>
+</section></main><footer class="foot"><div class="wrap">
+<div class="foot__g">
+<div style="display:grid;gap:14px;align-content:start"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى" style="height:52px;width:auto;justify-self:start"><p style="color:var(--ink-muted);font-size:14px;line-height:1.9;max-width:34ch">نقطة.. فكرة.. وأثر لا يزول! ننشر الكتاب الجيد ونوصله إلى قارئه أينما كان.</p></div>
+<div><h4>استكشف</h4><a class="fl" href="Bestsellers.dc.html">الأكثر مبيعًا</a><a class="fl" href="Store.dc.html">وصل حديثًا</a><a class="fl" href="Offers.dc.html">العروض</a><a class="fl" href="Packages.dc.html">باقات النشر</a><a class="fl" href="About.dc.html">عن الدار</a></div>
+<div><h4>المساعدة</h4><a class="fl" href="Policies.dc.html">الشحن والاسترجاع</a><a class="fl" href="Policies.dc.html">الخصوصية والشروط</a><a class="fl" href="Where.dc.html">أين تجد الكتب</a><a class="fl" href="Checkout.dc.html">طرق الدفع</a></div>
+<div><h4>ابقَ على اطلاع</h4><p style="color:var(--ink-muted);font-size:14px;margin-bottom:12px">اشترك لتصلك ترشيحات الكتب الأسبوعية.</p><form onsubmit="return false" style="display:grid;gap:10px"><input class="field" type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني"><button class="btn btn--p btn--blk" type="submit">اشترك</button></form></div>
+</div>
+<div class="foot__b"><span>© دار الأسمى للنشر والتوزيع</span><span>الدفع عند الاستلام · فودافون كاش · إنستاباي</span></div>
+</div></footer></div>
+<nav class="appbar" aria-label="التنقل السفلي"><a href="Main.dc.html"><i class="ic ic-lib"></i>الرئيسية</a><a href="Store.dc.html" aria-current="page"><i class="ic ic-book"></i>المتجر</a><a class="fab" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="nb">3</span></a><a href="Wishlist.dc.html"><i class="ic ic-heart"></i>المفضلة</a><a href="Account.dc.html"><i class="ic ic-user"></i>حسابي</a></nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":3300}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

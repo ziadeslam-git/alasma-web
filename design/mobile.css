@@ -1,0 +1,172 @@
+/* MOBILE APP LAYOUTS (phone <= 760px). Selectors are prefixed with "html body" to win over page-level styles. */
+@media (max-width:760px){
+html body{font-size:15px;background:var(--pg)}
+html body .wrap,html body .nav__in{padding-inline:16px}
+html body .nav{position:sticky;top:0;background:#fff}
+html body .sec-h{margin-bottom:14px;align-items:center}
+html body .sec-h h2{font-size:21px;line-height:1.3}
+html body .sec-h p{display:none}
+html body .page section,html body .page .sect{margin-top:30px}
+html body .card{border-radius:20px}
+html body .crumb{display:none}
+
+/* horizontal swipe rows (app carousels) */
+html body .new5,html body .like5,html body .picks,html body .rowx,html body .trend__row,html body .chips,html body .cps{display:flex;flex-wrap:nowrap;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-16px;padding:2px 16px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+html body .new5::-webkit-scrollbar,html body .like5::-webkit-scrollbar,html body .picks::-webkit-scrollbar,html body .rowx::-webkit-scrollbar,html body .trend__row::-webkit-scrollbar,html body .chips::-webkit-scrollbar,html body .cps::-webkit-scrollbar{display:none}
+html body .new5>*,html body .like5>*{flex:0 0 150px;scroll-snap-align:start}
+html body .picks>*{flex:0 0 280px;scroll-snap-align:start}
+html body .cps>*{flex:0 0 260px;scroll-snap-align:start}
+html body .trend__row>*{flex:0 0 150px;scroll-snap-align:start;border:0}
+html body .t-hl{margin-block:0}
+html body .gchip{flex:none;scroll-snap-align:start}
+
+/* home */
+html body .hero{gap:14px}
+html body .hero__main{min-height:0;border-radius:24px;display:flex;flex-direction:column-reverse}
+html body .hero__vis{min-height:250px;overflow:visible;padding-bottom:24px}
+html body .hero__vis .cv{width:46%;margin-top:-64px}
+html body .hero__txt{padding:20px 18px 22px;gap:12px}
+html body .hero__txt h1{font-size:30px!important}
+html body .hero__side{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding-inline:16px;scrollbar-width:none}
+html body .hero__side>*{flex:0 0 82%;scroll-snap-align:start;min-height:150px}
+html body .spot{min-height:0;border-radius:22px;display:flex;flex-direction:column-reverse}
+html body .spot__vis{padding:20px}
+html body .spot__txt{padding:20px 18px}
+html body .band{padding-block:28px;margin-top:34px}
+html body .trend{padding:20px 16px;border-radius:22px}
+html body .pick{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:14px}
+html body .pick .cv{width:76px}
+
+/* product grids: 2 columns */
+html body .g4,html body .g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+html body .lay{grid-template-columns:minmax(0,1fr);gap:14px;padding-block:14px 0}
+html body .ttl{font-size:26px!important}
+
+/* single column stacks */
+html body .pod,html body .ag2,html body .pkg3,html body .get,html body .stp,html body .evg,html body .ct,html body .pil,html body .col,html body .cur,html body .trk,html body .two,html body .two2,html body .oc__b,html body .evf,html body .rq,html body .wh,html body .pl,html body .ck,html body .info,html body .ph2,html body .pd,html body .rev,html body .auth,html body .hero2,html body .cl,html body .grid3,html body .cs{grid-template-columns:minmax(0,1fr)!important;gap:14px}
+html body .trk{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html body .sum,html body .sum{position:static}
+
+/* product page */
+html body .pd{padding-block:6px 0}
+html body .pd__img{border-radius:22px;padding:8% 0}
+html body .pd__img .cv{width:46%}
+html body .fmt{gap:8px}
+html body .fmt label{padding:12px 6px}
+html body .auth{padding:20px 16px}
+
+/* cart */
+html body .it{grid-template-columns:84px minmax(0,1fr);gap:12px;padding:12px;margin-bottom:12px;border-radius:18px}
+html body .it__top h3{font-size:16px}
+html body .it__pr{font-size:16px}
+html body .sv{grid-template-columns:56px minmax(0,1fr);gap:12px;padding:14px}
+html body .sv>*:last-child{grid-column:1/-1}
+html body .sum{padding:18px;border-radius:20px}
+
+/* tables inside cards scroll sideways */
+html body table{display:block;overflow-x:auto;max-width:100%}
+
+/* forms and buttons: thumb size */
+html body .field,html body .sel,html body input[type=text],html body input[type=email],html body input[type=password],html body input[type=search]{min-height:48px;font-size:16px}
+html body .btn{min-height:46px}
+html body .btn--lg{min-height:52px}
+
+/* auth screens: full-bleed app style */
+html body .au{grid-template-columns:minmax(0,1fr);min-height:0}
+html body .au__l{padding:28px 20px;min-height:0}
+html body .au__l q{font-size:24px;max-width:none}
+html body .au__l p,html body .au__l img.bg{display:none}
+html body .au__r{padding:24px 16px 36px;place-items:start}
+html body .au__f h1{font-size:26px!important}
+html body .row2{grid-template-columns:minmax(0,1fr)}
+
+/* policies / events etc */
+html body .pl{gap:12px}
+
+/* header + footer */
+html body .nav__in{flex-wrap:nowrap;height:60px;padding-block:0;gap:8px}
+html body .nav__links{display:none}
+html body .nav__act{display:none}
+html body .nav__search{display:none}
+html body .nav__logo img{height:34px;width:auto}
+html body .foot{margin-top:34px;border-radius:26px 26px 0 0}
+html body .foot__g{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding-block:26px 12px}
+html body .foot__g>div:first-child,html body .foot__g>div:last-child{display:none}
+html body .foot__b{flex-direction:column;gap:6px;padding-block:14px}
+html body h1{font-size:clamp(25px,7.6vw,32px)!important;line-height:1.35}
+}
+
+/* tables -> cards, compare, checkout */
+@media (max-width:760px){
+html body table{display:block;overflow:visible}
+html body table:not(.cmpt):not([style*="border-collapse"]) thead{display:none}
+html body table:not(.cmpt):not([style*="border-collapse"]) tbody{display:grid;gap:10px}
+html body table:not(.cmpt):not([style*="border-collapse"]) tr{display:grid;gap:8px;background:#fff;border-radius:16px;padding:14px;box-shadow:var(--shadow-card)}
+html body table:not(.cmpt):not([style*="border-collapse"]) td{display:flex;justify-content:space-between;gap:12px;padding:0;border:0}
+html body table:not(.cmpt):not([style*="border-collapse"]) td::before{content:attr(data-label);color:var(--ink-muted);font-size:13px}
+html body .cmpt{display:block}
+html body .cmpt thead,html body .cmpt tbody{display:block}
+html body .cmpt tr{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0;border-bottom:1px solid var(--hair)}
+html body .cmpt th{flex:0 0 100%;text-align:start;font:700 12px/1.4 var(--font-sans);color:var(--ink-muted);padding:0}
+html body .cmpt td{flex:1 1 0;min-width:0;padding:0;font-size:13px}
+html body .cmpt thead th:empty{display:none}
+html body .cmpt .cv{width:70%;margin-inline:auto}
+
+/* checkout */
+html body .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px}
+html body .steps hr{display:none}
+html body .steps span{flex-direction:column;gap:6px;text-align:center;font-size:12px}
+html body .pn{padding:18px 16px;border-radius:20px}
+html body .pn h2{font-size:17px}
+html body .opt{display:grid;grid-template-columns:22px minmax(0,1fr);column-gap:12px;row-gap:8px;padding:14px}
+html body .opt>i.ic{display:none}
+html body .opt>.lg{grid-column:2;justify-self:start;margin:0;height:28px}
+html body .opt b{font-size:15px}
+html body .num{flex-direction:column;align-items:stretch;gap:10px;text-align:center}
+html body .num b{font-size:24px}
+html body .num button{padding:12px;font-size:14px}
+html body .pay{padding:14px}
+html body .cpn{flex-wrap:wrap}
+html body .sum .li .p{font-size:13px}
+html body .ck .sum{padding:18px}
+html body .tabs,html body .pl nav{display:flex;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+html body .tabs a,html body .pl nav a{flex:none;white-space:nowrap}
+}
+
+/* 360px safety */
+@media (max-width:760px){
+  html body .tabs,html body .pl nav{overflow-x:auto;flex-wrap:nowrap;max-width:100%}
+  html body .ban{max-width:100%;box-sizing:border-box;overflow:hidden}
+  html body form,html body .field{max-width:100%;box-sizing:border-box;min-width:0}
+}
+@media (max-width:760px){
+  html body form[class*="s"],html body .sbar,html body .sform{width:100%;min-width:0}
+  html body input.field{width:100%;min-width:0}
+}
+@media (max-width:760px){html body form[style*="min-width"]{min-width:0!important;width:100%}}
+@media (max-width:760px){
+html body .sc__bar{gap:3px;padding:4px;bottom:10px}
+html body .sc__bar button,html body .sc__bar .sc__wish{width:31px;height:31px}
+html body .sc__bar .ic{width:16px;height:16px}
+}
+
+/* ===== compare (mobile) ===== */
+@media (max-width:760px){
+html body .cmpt tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px;padding:12px 10px;align-items:start}
+html body .cmpt thead tr{padding:16px 10px;gap:10px 8px;align-items:start}
+html body .cmpt th{grid-column:1/-1;background:#f3f7f6;border-radius:8px;padding:7px 10px;font:700 12px/1.4 var(--font-sans)}
+html body .cmpt td{flex:none;padding:0;text-align:center;font:600 14px/1.5 var(--font-sans)}
+html body .cmpt thead td{padding:0}
+html body .cmpt thead td:last-child{grid-column:1/-1}
+html body .cmpt tbody td:last-child{display:none}
+html body .cmpt thead .cv{width:86%;margin:0 auto 8px}
+html body .cmpt thead td b[style]{display:block;font-size:13px!important;line-height:1.4!important}
+html body .cmpt thead td div[style*="font-size:13px"]{font-size:11px!important;margin:2px 0 6px!important}
+html body .cmpt thead td div[style*="margin-top:12px"]{margin-top:8px!important}
+html body .cmpt thead .btn{width:100%;height:36px;padding-inline:4px;font-size:12px}
+html body .cmpt .slot{padding:14px 10px;grid-auto-flow:column;justify-content:center;gap:10px}
+}
+@media (max-width:760px){
+html body .cmpt th{width:auto}
+html body .cmpt th,html body .cmpt td{border-bottom:0}
+}

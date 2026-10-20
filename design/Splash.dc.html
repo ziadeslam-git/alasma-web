@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: شاشة التحميل</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.sp{position:relative;overflow:hidden;min-height:900px;display:grid;place-items:center;background:radial-gradient(120% 120% at 70% 0%,var(--green-600) 0%,var(--green-800) 45%,var(--green-950) 100%);color:var(--cream-200);isolation:isolate}
+.sp__orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;animation:spDrift 14s ease-in-out infinite alternate;z-index:0}
+.sp__orb.a{width:460px;height:460px;background:#306963;inset:-100px auto auto -100px}
+.sp__orb.b{width:380px;height:380px;background:#5a8a84;inset:auto -80px -120px auto;opacity:.28;animation-duration:18s}
+.sp__in{position:relative;z-index:2;display:grid;justify-items:center;gap:26px;padding:40px 24px;text-align:center}
+.sp__fw{position:relative;width:min(360px,70vw);aspect-ratio:1;animation:spFloat 6s ease-in-out infinite}
+.sp__fw .fth{position:absolute;inset:0;width:100%;color:var(--cream-200);filter:drop-shadow(0 20px 26px rgba(0,16,14,.45));-webkit-mask-image:var(--fm),linear-gradient(40deg,#000 var(--p),transparent calc(var(--p) + 20%));mask-image:var(--fm),linear-gradient(40deg,#000 var(--p),transparent calc(var(--p) + 20%));-webkit-mask-composite:source-in;mask-composite:intersect;-webkit-mask-size:contain,100% 100%;mask-size:contain,100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;--p:-20%;animation:spForm 4.5s cubic-bezier(.45,.05,.25,1) infinite}
+.sp__ink{position:absolute;left:11%;top:79%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--cream-200);opacity:0;animation:spDrop 4.5s infinite}
+.sp__logo{height:56px;width:auto;filter:brightness(0) invert(1);opacity:0;animation:spUp 1s .8s forwards}
+.sp__q{font:400 24px/1.8 var(--font-display);margin:0;opacity:0;animation:spUp 1s 1.3s forwards}
+.sp__bar{width:min(240px,60vw);height:4px;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden;opacity:0;animation:spUp .8s 1.6s forwards}
+.sp__bar i{display:block;height:100%;width:40%;border-radius:4px;background:var(--cream-200);animation:spLoad 1.6s ease-in-out infinite}
+@property --p{syntax:"<percentage>";inherits:false;initial-value:-20%}
+@keyframes spForm{0%{--p:-20%}70%,100%{--p:105%}}
+@keyframes spFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes spDrop{0%,55%{opacity:0;transform:translateY(-30px) scale(.6)}65%{opacity:1}85%{opacity:1;transform:translateY(14px)}95%,100%{opacity:0;transform:translateY(22px) scale(.2)}}
+@keyframes spUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes spLoad{0%{transform:translateX(120%)}100%{transform:translateX(-260%)}}
+@keyframes spDrift{to{transform:translate(60px,40px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.sp *{animation-duration:.01s!important;animation-iteration-count:1!important}.sp__fw .fth{--p:105%}}
+</style>
+</helmet>
+<main class="sp" aria-label="جارٍ التحميل">
+<span class="sp__orb a"></span><span class="sp__orb b"></span>
+<div class="sp__in">
+<div class="sp__fw" aria-hidden="true"><i class="fth"></i><span class="sp__ink"></span></div>
+<img class="sp__logo" src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع">
+<p class="sp__q">نقطة · فكرة · وأثرٌ لا يزول</p>
+<div class="sp__bar" role="progressbar" aria-label="جارٍ التحميل"><i></i></div>
+</div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

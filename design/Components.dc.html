@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: المكونات والحالات</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+
+body{margin:0}
+.cp{padding:48px;display:grid;gap:40px}
+.cp h1{font:700 34px/1.4 var(--font-sans)}
+.cp h2.sx{font:700 13px/1 var(--font-sans);color:var(--ink-muted);margin:0 0 14px;letter-spacing:0}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;align-items:start}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+.bgx{background:rgba(10,30,28,.55);padding:36px;border-radius:20px;display:grid;place-items:center}
+.mdl{background:#fff;border-radius:20px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);padding:28px;width:100%;max-width:440px;display:grid;gap:16px;position:relative}
+.mdl h3{font:700 20px/1.4 var(--font-sans);margin:0}.mdl p{margin:0;color:var(--ink-muted);line-height:1.9;font-size:14px}
+.mdl .x{position:absolute;top:14px;inset-inline-end:14px;width:36px;height:36px;border:0;border-radius:50%;background:var(--pg);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.mdl .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.lbl{display:grid;gap:8px;font:600 13px/1.4 var(--font-sans)}
+.qv{display:grid;grid-template-columns:130px 1fr;gap:20px;max-width:560px}
+.toast{display:flex;align-items:center;gap:14px;background:#111;color:#fff;border-radius:14px;padding:14px 18px;max-width:440px;box-shadow:0 14px 30px -10px rgba(0,0,0,.5)}
+.toast .ic-w{width:36px;height:36px;border-radius:50%;background:var(--g);display:grid;place-items:center;flex:none}
+.toast a{margin-inline-start:auto;color:#9fe3d6;font-weight:700;font-size:14px}
+.empty{background:#fff;border-radius:18px;box-shadow:var(--shadow-card);padding:36px 24px;display:grid;gap:12px;justify-items:center;text-align:center}
+.empty .ic-w{width:72px;height:72px;border-radius:50%;background:var(--g-t);color:var(--g);display:grid;place-items:center}
+.empty b{font:700 18px/1.5 var(--font-sans)}.empty span{color:var(--ink-muted);font-size:14px;line-height:1.8}
+.loader{background:#fff;border-radius:20px;height:330px;display:grid;place-items:center;align-content:center;gap:12px;box-shadow:var(--shadow-card)}
+.loader .nm{font:400 64px/1.4 var(--font-display);color:var(--g);position:relative;display:inline-block;clip-path:inset(0 0 0 100%);animation:wr 2.6s ease-in-out infinite}
+.loader .fe{width:56px;height:56px;color:var(--accent);animation:fl 2.6s ease-in-out infinite;transform-origin:bottom right}
+@keyframes wr{0%{clip-path:inset(0 0 0 100%)}70%,100%{clip-path:inset(0 0 0 0)}}
+@keyframes fl{0%{transform:translateX(120px) rotate(-10deg)}70%,100%{transform:translateX(-120px) rotate(-30deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.loader .nm{animation:none;clip-path:none}.loader .fe{animation:none}}
+.dim{opacity:.45;pointer-events:none}
+.tip{display:inline-flex;gap:8px;align-items:center;background:#fff4dc;color:#6b4a00;border-radius:10px;padding:8px 12px;font-size:13px;margin-top:8px}
+.starsel{display:flex;gap:6px;color:var(--star)}
+.cs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.cs .sc.hv .sc__bar{transform:translateY(0)}
+
+</style>
+</helmet>
+<div class="page"><div class="cp"><h1>المكونات والحالات</h1>
+<div><h2 class="sx">كارت الكتاب: عادي · عند الـ Hover · خصم · نفد</h2><div class="cs"><article class="sc "><div class="sc__fig"><div class="sc__top"><div class="cv" style="--c1:#f1ebdc;--c2:var(--green-800)"><i></i><b>ليالي القاهرة</b><span>عمر الشريف</span></div></div><div class="sc__bar"><button type="button" aria-label="معاينة"><i class="ic ic-eye"></i></button><button type="button" aria-label="أضف للسلة"><i class="ic ic-bag"></i></button></div></div><div class="sc__body"><span class="au">تأليف: عمر الشريف</span><h3>ليالي القاهرة</h3><div class="sc__foot"><span class="sc__price ">130 ج.م</span></div></div></article><article class="sc hv"><div class="sc__fig"><div class="sc__top"><div class="cv" style="--c1:#f4e7c6;--c2:#5b3d1d"><i></i><b>بيت على النيل</b><span>سلمى عادل</span></div></div><div class="sc__bar"><button type="button" aria-label="معاينة"><i class="ic ic-eye"></i></button><button type="button" aria-label="أضف للسلة"><i class="ic ic-bag"></i></button></div></div><div class="sc__body"><span class="au">تأليف: سلمى عادل</span><h3>بيت على النيل</h3><div class="sc__foot"><span class="sc__price ">105 ج.م</span></div></div></article><article class="sc "><div class="sc__fig"><div class="sc__top"><span class="tag tag--disc">خصم 15%</span><div class="cv" style="--c1:#f6e1c4;--c2:var(--green-800)"><i></i><b>حدائق الكلمات</b><span>نادية فؤاد</span></div></div><div class="sc__bar"><button type="button" aria-label="معاينة"><i class="ic ic-eye"></i></button><button type="button" aria-label="أضف للسلة"><i class="ic ic-bag"></i></button></div></div><div class="sc__body"><span class="au">تأليف: نادية فؤاد</span><h3>حدائق الكلمات</h3><div class="sc__foot"><span class="sc__price sale">85 ج.م<s>100</s></span></div></div></article><article class="sc is-out"><div class="sc__fig"><div class="sc__top"><span class="tag tag--low">نفد</span><div class="cv" style="--c1:#f1ead0;--c2:var(--green-800)"><i></i><b>أغنية المساء</b><span>هبة جمال</span></div></div><div class="sc__bar"><button class="nt" type="button"><i class="ic ic-bell ic--s"></i>أبلغني</button></div></div><div class="sc__body"><span class="au">تأليف: هبة جمال</span><h3>أغنية المساء</h3><div class="sc__foot"><span class="sc__price ">98 ج.م</span></div></div></article></div></div>
+<div><h2 class="sx">نوافذ</h2><div class="grid2"><div class="bgx"><div class="mdl" style="max-width:600px"><button class="x" type="button" aria-label="إغلاق"><i class="ic ic-x ic--s"></i></button><div class="qv"><div><div class="cv" style="--c1:var(--green-700);--c2:var(--cream-200)"><i></i><b>ظلال الحكاية</b><span>سامي الحكيم</span></div></div><div style="display:grid;gap:10px;align-content:start"><h3>ظلال الحكاية</h3><span style="color:var(--ink-muted);font-size:14px">تأليف: سامي الحكيم</span><div><b style="font:700 24px/1 var(--font-sans);color:var(--discount-ink)">120 ج.م</b> <s style="color:var(--ink-subtle)">150</s></div><p>بين الذاكرة والحاضر، تحفظ قرية صغيرة تاريخها في حكايات الجدات.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><div class="qty"><button type="button" aria-label="زيادة"><i class="ic ic-plus ic--s"></i></button><span>1</span><button type="button" aria-label="إنقاص"><i class="ic ic-minus ic--s"></i></button></div><button class="btn btn--p" type="button" style="flex:1"><i class="ic ic-bag ic--s"></i>أضف للسلة</button></div><a class="link" href="Product.dc.html" style="color:var(--g)">عرض التفاصيل الكاملة<i class="ic ic-arrow ic--s"></i></a></div></div></div></div><div class="bgx"><div class="mdl"><button class="x" type="button" aria-label="إغلاق"><i class="ic ic-x ic--s"></i></button><h3>أبلغني عند التوفر</h3><p>«أغنية المساء» نفد من المخزون. سنراسلك عند عودته.</p><label class="lbl">البريد الإلكتروني<input class="field" type="email" value="ahmed@gmail.com" dir="ltr"></label><label class="cb" style="padding:0"><input type="checkbox" checked>أرسل لي إشعارًا فور توفر الكتاب</label><div class="acts"><button class="btn btn--o" type="button">إلغاء</button><button class="btn btn--p" type="button"><i class="ic ic-bell ic--s"></i>أبلغني</button></div></div></div><div class="bgx"><div class="mdl"><button class="x" type="button" aria-label="إغلاق"><i class="ic ic-x ic--s"></i></button><h3>اكتب تقييمك</h3><div class="starsel" role="radiogroup" aria-label="التقييم"><i class="ic ic-sparkle ic--l"></i><i class="ic ic-sparkle ic--l"></i><i class="ic ic-sparkle ic--l"></i><i class="ic ic-sparkle ic--l"></i><i class="ic ic-sparkle ic--l" style="color:#cbd8d4"></i></div><label class="lbl">عنوان التقييم<input class="field" placeholder="جملة تلخص رأيك"></label><label class="lbl">رأيك<textarea class="field" style="height:100px;padding-block:12px;font-family:inherit" placeholder="ماذا أعجبك؟"></textarea></label><p style="font-size:12px">يظهر تقييمك بعد اعتماد المراجعة.</p><div class="acts"><button class="btn btn--o" type="button">إلغاء</button><button class="btn btn--p" type="button">نشر التقييم</button></div></div></div><div class="bgx"><div class="mdl"><button class="x" type="button" aria-label="إغلاق"><i class="ic ic-x ic--s"></i></button><h3>إلغاء الطلب #AS-20418؟</h3><p>سيُلغى الطلب ولن يُشحن. إن كنت دفعت، سنتواصل معك لاسترداد المبلغ.</p><div class="acts"><button class="btn btn--o" type="button">تراجع</button><button class="btn btn--p" type="button" style="background:var(--discount);border-color:var(--discount)">نعم، ألغِ الطلب</button></div></div></div><div class="bgx"><div class="mdl"><button class="x" type="button" aria-label="إغلاق"><i class="ic ic-x ic--s"></i></button><h3>الإبلاغ عن خطأ</h3><p>«ظلال الحكاية» · تصلنا ملاحظتك ويراجعها فريق الدار.</p><label class="lbl">نوع الخطأ<select class="sel" style="width:100%"><option>اسم المؤلف أو الغلاف</option><option>السعر</option><option>بيانات الكتاب (ISBN، الصفحات)</option><option>أخرى</option></select></label><label class="lbl">التفاصيل<textarea class="field" style="height:100px;padding-block:12px;font-family:inherit" placeholder="ما الخطأ الذي لاحظته؟"></textarea></label><div class="acts"><button class="btn btn--o" type="button">إلغاء</button><button class="btn btn--p" type="button">إرسال</button></div></div></div>
+<div style="display:grid;gap:20px;align-content:start"><div><h2 class="sx">إشعار إضافة للسلة</h2><div class="toast"><span class="ic-w"><i class="ic ic-check"></i></span><span>أُضيف «ظلال الحكاية» إلى السلة</span><a href="Cart.dc.html">عرض السلة</a></div></div>
+<div><h2 class="sx">ميزة معطّلة (بقرار المالك أو المطوّر)</h2><button class="btn btn--o dim" type="button" disabled><i class="ic ic-lock ic--s"></i>ميزة غير متاحة</button></div></div></div></div>
+<div><h2 class="sx">شاشة التحميل (مرة واحدة في أول زيارة)</h2><div class="loader"><i class="ic ic-feather fe"></i><span class="nm">الأسمى</span></div></div>
+<div><h2 class="sx">حالات فارغة</h2><div class="grid3">
+<div class="empty"><span class="ic-w"><i class="ic ic-bag ic--l"></i></span><b>سلتك فارغة</b><span>أضف كتبًا لتبدأ طلبك.</span><a class="btn btn--p" href="Store.dc.html">تصفح المتجر</a></div>
+<div class="empty"><span class="ic-w"><i class="ic ic-heart ic--l"></i></span><b>لا كتب في مفضلتك</b><span>اضغط على القلب في أي كتاب لتحفظه.</span><a class="btn btn--p" href="Bestsellers.dc.html">الأكثر مبيعًا</a></div>
+<div class="empty"><span class="ic-w"><i class="ic ic-package ic--l"></i></span><b>لا طلبات بعد</b><span>ستظهر طلباتك هنا بعد أول عملية شراء.</span><a class="btn btn--p" href="Store.dc.html">ابدأ التسوق</a></div></div></div>
+</div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":2900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأسمى: إتمام الطلب</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/al-asma/tokens.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+
+.steps{display:flex;gap:14px;align-items:center;margin-bottom:26px;font:600 14px/1 var(--font-sans);color:var(--ink-muted);flex-wrap:wrap}
+.steps span{display:flex;gap:8px;align-items:center}
+.steps i.n{width:28px;height:28px;border-radius:50%;background:#e4ece9;display:grid;place-items:center;font-style:normal;font-size:13px}
+.steps .on{color:var(--g)}
+.steps .on i.n{background:var(--g);color:#fff}
+.steps hr{flex:1;border:0;border-top:1px solid var(--hair);min-width:20px;margin:0}
+.ck{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);gap:28px;align-items:start}
+.stk{display:grid;gap:22px}
+.pn{background:#fff;border-radius:16px;box-shadow:var(--shadow-card);padding:26px}
+.pn h2{font:700 19px/1.4 var(--font-sans);margin:0 0 16px;display:flex;gap:10px;align-items:center}
+.pn h2 em{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-size:13px}
+.opt{display:flex;gap:14px;align-items:flex-start;padding:16px;border:1.5px solid var(--hair);border-radius:14px;margin-bottom:12px;cursor:pointer;background:#fff}
+.opt:has(input:checked){border-color:var(--g);background:#f4fbf9}
+.opt input{appearance:none;-webkit-appearance:none;width:20px;height:20px;margin:2px 0 0;border-radius:50%;border:1.5px solid #bccbc7;background:#fff;display:grid;place-content:center;flex:none}
+.opt input:checked{border-color:var(--g)}
+.opt input:checked::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--g)}
+.opt b{display:block;font:600 15px/1.4 var(--font-sans)}
+.opt span.d{display:block;font-size:13px;color:var(--ink-muted);margin-top:2px}
+.opt .lg{margin-inline-start:auto;height:32px;padding-inline:12px;border-radius:8px;display:grid;place-items:center;font:700 12px/1 var(--font-sans);flex:none}
+.opt.dis{opacity:.5;cursor:not-allowed}
+.pay{display:none;margin:-2px 0 14px;padding:20px;border-radius:14px;background:var(--pg);border:1px solid var(--hair);gap:14px}
+.pn:has(#p-vf:checked) .pay.vf,.pn:has(#p-ip:checked) .pay.ip,.pn:has(#p-cod:checked) .pay.cod{display:grid}
+.num{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:14px 16px}
+.num b{font:700 22px/1 var(--font-sans);letter-spacing:1px}
+.num button{border:0;background:var(--g-t);color:var(--g);border-radius:8px;padding:8px 12px;font:600 12px/1 var(--font-sans);cursor:pointer}
+.drop{border:2px dashed #bccbc7;border-radius:12px;padding:22px;text-align:center;color:var(--ink-muted);font-size:13px;display:grid;gap:6px;place-items:center;background:#fff}
+.addrs .opt{margin-bottom:10px}
+.sum{position:sticky;top:96px}
+.sum .li{display:flex;gap:14px;align-items:center;padding-block:12px;border-bottom:1px solid var(--hair)}
+.sum .li .th{width:44px;flex:none}.sum .li .th .cv{width:100%}
+.sum .li b{display:block;font:600 14px/1.4 var(--font-sans)}.sum .li small{color:var(--ink-muted);font-size:12px}
+.sum .li .p{margin-inline-start:auto;font:600 14px/1 var(--font-sans);white-space:nowrap}
+.sum .rw{display:flex;justify-content:space-between;padding-block:8px;font-size:15px;color:var(--ink-muted)}
+.sum .rw b{color:var(--ink);font-weight:600}
+.sum .rw.d b{color:var(--discount-ink)}
+.sum .rw.t{border-top:1px solid var(--hair);margin-top:8px;padding-top:16px;font:700 19px/1 var(--font-sans);color:var(--ink)}
+.cpn{display:flex;gap:8px;margin-top:16px}
+.cpn .field{flex:1}
+.sec{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--ink-muted);line-height:1.7;margin-top:14px}
+@media (max-width:1000px){.ck{grid-template-columns:minmax(0,1fr)}.sum{position:static}}
+
+</style>
+</helmet>
+<div class="page"><header class="nav"><div class="nav__in" style="padding-inline:28px">
+<a class="nav__logo" href="Main.dc.html" aria-label="الأسمى للنشر والتوزيع"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى للنشر والتوزيع"></a>
+<form class="nav__search" role="search" onsubmit="return false"><i class="ic ic-search"></i><input type="search" placeholder="ابحث بعنوان الكتاب أو المؤلف أو ISBN" aria-label="بحث"></form>
+<nav class="nav__links" aria-label="الرئيسية"><a href="Main.dc.html">الرئيسية</a><a href="Store.dc.html">المتجر</a><a href="Bestsellers.dc.html">الأكثر مبيعًا</a><a href="Offers.dc.html">العروض</a><a href="Authors.dc.html">المؤلفون</a><a href="Events.dc.html">الأحداث</a><a href="Packages.dc.html">باقات النشر</a></nav>
+<div class="nav__act"><a class="ibtn" href="Wishlist.dc.html" aria-label="المفضلة"><i class="ic ic-heart"></i></a><a class="ibtn" href="Cart.dc.html" aria-label="السلة، 3 كتب"><i class="ic ic-bag"></i><span class="num">3</span></a><a href="Account.dc.html" class="avatar" aria-label="حسابي">أ</a></div>
+</div></header><main><section class="wrap" style="padding-block:28px 0">
+<div class="crumb" style="margin-bottom:14px"><a href="Cart.dc.html">السلة</a><i class="ic ic-chev-l ic--s"></i><b>إتمام الطلب</b></div>
+<div class="steps"><span class="on"><i class="n">1</i>السلة</span><hr><span class="on"><i class="n">2</i>الشحن والدفع</span><hr><span><i class="n">3</i>تأكيد الطلب</span></div>
+<div class="ck"><div class="stk">
+<section class="pn addrs"><h2><em>1</em>عنوان الشحن</h2>
+<label class="opt"><input type="radio" name="a" checked><div><b>المنزل · أحمد محمد</b><span class="d">12 شارع الحرية، سموحة، الإسكندرية · 01012345678</span></div><span class="tag tag--g" style="margin-inline-start:auto">الافتراضي</span></label>
+<label class="opt"><input type="radio" name="a"><div><b>العمل · أحمد محمد</b><span class="d">برج الأطباء، الدقي، الجيزة · 01012345678</span></div></label>
+<a class="link" href="Addresses.dc.html" style="color:var(--g)"><i class="ic ic-plus ic--s"></i>إضافة عنوان جديد</a></section>
+<section class="pn"><h2><em>2</em>طريقة الدفع</h2>
+<label class="opt"><input type="radio" name="p" id="p-cod"><i class="ic ic-truck" style="color:var(--g)"></i><div><b>الدفع عند الاستلام</b><span class="d">ادفع نقدًا لمندوب الشحن عند وصول الطلب.</span></div></label>
+<div class="pay cod"><span style="font-size:14px;line-height:1.8">سيتصل بك مندوب الشحن قبل الوصول. جهّز المبلغ <b>405 ج.م</b> بالضبط إن أمكن.</span></div>
+<label class="opt"><input type="radio" name="p" id="p-vf" checked><i class="ic ic-wallet" style="color:var(--discount-ink)"></i><div><b>فودافون كاش</b><span class="d">حوّل المبلغ ثم ارفع صورة الإيصال.</span></div><span class="lg" style="background:#fde8e8;color:var(--discount-ink)">Vodafone Cash</span></label>
+<div class="pay vf"><span style="font-size:14px">حوّل <b>405 ج.م</b> إلى الرقم التالي:</span><div class="num"><b dir="ltr">0100 123 4567</b><button type="button">نسخ الرقم</button></div><div class="drop"><i class="ic ic-plus"></i><b style="color:var(--ink)">ارفع صورة إيصال التحويل</b><span>PNG أو JPG حتى 5MB · يراجعه فريقنا قبل بدء التجهيز</span></div></div>
+<label class="opt"><input type="radio" name="p" id="p-ip"><i class="ic ic-wallet" style="color:var(--g)"></i><div><b>إنستاباي</b><span class="d">تحويل فوري على عنوان الدفع.</span></div><span class="lg" style="background:var(--g-t);color:var(--g)">InstaPay</span></label>
+<div class="pay ip"><span style="font-size:14px">حوّل <b>405 ج.م</b> إلى عنوان الدفع:</span><div class="num"><b dir="ltr">alasma@instapay</b><button type="button">نسخ العنوان</button></div><div class="drop"><i class="ic ic-plus"></i><b style="color:var(--ink)">ارفع لقطة شاشة التحويل</b><span>PNG أو JPG حتى 5MB</span></div></div>
+<label class="opt dis"><input type="radio" name="p" disabled><i class="ic ic-lock" style="color:var(--ink-muted)"></i><div><b>بطاقة Visa / Fawry</b><span class="d">غير متاح حاليًا.</span></div><span class="tag tag--low" style="margin-inline-start:auto">قريبًا</span></label></section>
+<section class="pn"><h2><em>3</em>ملاحظات الطلب</h2><textarea class="field" style="height:90px;padding-block:12px;font-family:inherit" placeholder="مثال: الاتصال قبل الوصول (اختياري)"></textarea></section>
+</div>
+<aside class="pn sum" aria-label="ملخص الطلب"><h2 style="margin-bottom:6px">ملخص الطلب</h2><div class="li"><div class="th"><div class="cv" style="--c1:var(--green-700);--c2:var(--cream-200)"><i></i><b>ظلال الحكاية</b><span>سامي الحكيم</span></div></div><div><b>ظلال الحكاية</b><small>الكمية 1</small></div><span class="p">120 ج.م</span></div><div class="li"><div class="th"><div class="cv" style="--c1:#f1ebdc;--c2:var(--green-800)"><i></i><b>ليالي القاهرة</b><span>عمر الشريف</span></div></div><div><b>ليالي القاهرة</b><small>الكمية 2</small></div><span class="p">260 ج.م</span></div><div class="li"><div class="th"><div class="cv" style="--c1:#f6e1c4;--c2:var(--green-800)"><i></i><b>حدائق الكلمات</b><span>نادية فؤاد</span></div></div><div><b>حدائق الكلمات</b><small>الكمية 1</small></div><span class="p">85 ج.م</span></div>
+<div class="cpn"><input class="field" placeholder="كود الخصم" aria-label="كود الخصم" value="ASMA20"><button class="btn btn--soft" type="button">تطبيق</button></div>
+<div style="margin-top:12px"><div class="rw"><span>المجموع الفرعي</span><b>465 ج.م</b></div><div class="rw d"><span>خصم ASMA20</span><b>− 93 ج.م</b></div><div class="rw"><span>الشحن · الإسكندرية</span><b>40 ج.م</b></div><div class="rw t"><span>الإجمالي</span><span>412 ج.م</span></div></div>
+<a class="btn btn--p btn--lg btn--blk" href="OrderSuccess.dc.html" style="margin-top:18px">تأكيد الطلب<i class="ic ic-arrow ic--s"></i></a>
+<p class="sec"><i class="ic ic-shield ic--s"></i><span>يُحجز طلبك 48 ساعة بانتظار تأكيد الدفع، ثم يُلغى تلقائيًا إن لم يُؤكد.</span></p></aside>
+</div></section></main><footer class="foot"><div class="wrap">
+<div class="foot__g">
+<div style="display:grid;gap:14px;align-content:start"><img src="/_blob/24a523f9f8546d4a3412a99fb59ba59f" alt="دار الأسمى" style="height:52px;width:auto;justify-self:start"><p style="color:var(--ink-muted);font-size:14px;line-height:1.9;max-width:34ch">نقطة.. فكرة.. وأثر لا يزول! ننشر الكتاب الجيد ونوصله إلى قارئه أينما كان.</p></div>
+<div><h4>استكشف</h4><a class="fl" href="Bestsellers.dc.html">الأكثر مبيعًا</a><a class="fl" href="Store.dc.html">وصل حديثًا</a><a class="fl" href="Offers.dc.html">العروض</a><a class="fl" href="Packages.dc.html">باقات النشر</a><a class="fl" href="About.dc.html">عن الدار</a></div>
+<div><h4>المساعدة</h4><a class="fl" href="Policies.dc.html">الشحن والاسترجاع</a><a class="fl" href="Policies.dc.html">الخصوصية والشروط</a><a class="fl" href="Where.dc.html">أين تجد الكتب</a><a class="fl" href="Checkout.dc.html">طرق الدفع</a></div>
+<div><h4>ابقَ على اطلاع</h4><p style="color:var(--ink-muted);font-size:14px;margin-bottom:12px">اشترك لتصلك ترشيحات الكتب الأسبوعية.</p><form onsubmit="return false" style="display:grid;gap:10px"><input class="field" type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني"><button class="btn btn--p btn--blk" type="submit">اشترك</button></form></div>
+</div>
+<div class="foot__b"><span>© دار الأسمى للنشر والتوزيع</span><span>الدفع عند الاستلام · فودافون كاش · إنستاباي</span></div>
+</div></footer></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

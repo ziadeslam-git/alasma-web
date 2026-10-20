@@ -1,0 +1,734 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "About.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "title": "عن الدار",
+      "w": 1360,
+      "x": 0,
+      "y": 24860
+    },
+    "Account.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "حساب العميل",
+      "w": 1360,
+      "x": 0,
+      "y": 6240
+    },
+    "Addresses.dc.html": {
+      "expand": "fill",
+      "h": 1400,
+      "is_interactive": true,
+      "title": "عناويني",
+      "w": 1360,
+      "x": 0,
+      "y": 11420
+    },
+    "AdmAlerts.dc.html": {
+      "expand": "fill",
+      "h": 850,
+      "title": "لوحة: التنبيهات",
+      "w": 1440,
+      "x": 0,
+      "y": 57100
+    },
+    "AdmAudit.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: سجل التدقيق",
+      "w": 1440,
+      "x": 1560,
+      "y": 57100
+    },
+    "AdmAuthorEdit.dc.html": {
+      "expand": "fill",
+      "h": 1250,
+      "title": "لوحة: صفحة مؤلف",
+      "w": 1440,
+      "x": 3120,
+      "y": 50450
+    },
+    "AdmAuthors.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: المؤلفون",
+      "w": 1440,
+      "x": 1560,
+      "y": 50450
+    },
+    "AdmBanners.dc.html": {
+      "expand": "fill",
+      "h": 950,
+      "title": "لوحة: البنرات",
+      "w": 1440,
+      "x": 1560,
+      "y": 51940
+    },
+    "AdmBookEdit.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "title": "لوحة: تعديل كتاب",
+      "w": 1440,
+      "x": 3120,
+      "y": 40160
+    },
+    "AdmBooks.dc.html": {
+      "expand": "fill",
+      "h": 1450,
+      "title": "لوحة: الكتب",
+      "w": 1440,
+      "x": 1560,
+      "y": 40160
+    },
+    "AdmBundles.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "title": "لوحة: Bundles",
+      "w": 1440,
+      "x": 3120,
+      "y": 49160
+    },
+    "AdmCarts.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "لوحة: السلات المتروكة",
+      "w": 1440,
+      "x": 0,
+      "y": 47820
+    },
+    "AdmCategories.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: الأقسام",
+      "w": 1440,
+      "x": 0,
+      "y": 42100
+    },
+    "AdmCoupons.dc.html": {
+      "expand": "fill",
+      "h": 950,
+      "title": "لوحة: الكوبونات",
+      "w": 1440,
+      "x": 1560,
+      "y": 49160
+    },
+    "AdmDev.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "لوحة: لوحة المطوّر",
+      "w": 1440,
+      "x": 3120,
+      "y": 57100
+    },
+    "AdmDiscounts.dc.html": {
+      "expand": "fill",
+      "h": 1050,
+      "title": "لوحة: الخصومات",
+      "w": 1440,
+      "x": 0,
+      "y": 49160
+    },
+    "AdmEvents.dc.html": {
+      "expand": "fill",
+      "h": 950,
+      "title": "لوحة: الأحداث والأخبار",
+      "w": 1440,
+      "x": 3120,
+      "y": 51940
+    },
+    "AdmHome.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "title": "لوحة: أقسام الرئيسية",
+      "w": 1440,
+      "x": 0,
+      "y": 51940
+    },
+    "AdmLogin.dc.html": {
+      "expand": "fill",
+      "h": 800,
+      "title": "لوحة: تسجيل الدخول",
+      "w": 1440,
+      "x": 0,
+      "y": 40160
+    },
+    "AdmManuscripts.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: طلبات النشر",
+      "w": 1440,
+      "x": 1560,
+      "y": 54320
+    },
+    "AdmMore.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "title": "لوحة: القائمة (موبايل)",
+      "w": 430,
+      "x": 0,
+      "y": 58440
+    },
+    "AdmNewsletter.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: النشرة البريدية",
+      "w": 1440,
+      "x": 3120,
+      "y": 53180
+    },
+    "AdmOrder.dc.html": {
+      "expand": "fill",
+      "h": 1800,
+      "title": "لوحة: تفاصيل الطلب",
+      "w": 1440,
+      "x": 3120,
+      "y": 43640
+    },
+    "AdmOrderLimited.dc.html": {
+      "expand": "fill",
+      "h": 1900,
+      "title": "لوحة: تفاصيل الطلب (أدمن)",
+      "w": 1440,
+      "x": 0,
+      "y": 45680
+    },
+    "AdmOrders.dc.html": {
+      "expand": "fill",
+      "h": 1350,
+      "title": "لوحة: الطلبات",
+      "w": 1440,
+      "x": 1560,
+      "y": 43640
+    },
+    "AdmPackages.dc.html": {
+      "expand": "fill",
+      "h": 1050,
+      "title": "لوحة: الباقات",
+      "w": 1440,
+      "x": 0,
+      "y": 54320
+    },
+    "AdmPayMethods.dc.html": {
+      "expand": "fill",
+      "h": 950,
+      "title": "لوحة: طرق الدفع",
+      "w": 1440,
+      "x": 1560,
+      "y": 55610
+    },
+    "AdmPayments.dc.html": {
+      "expand": "fill",
+      "h": 1050,
+      "title": "لوحة: مراجعة الدفع",
+      "w": 1440,
+      "x": 1560,
+      "y": 45680
+    },
+    "AdmPermissions.dc.html": {
+      "expand": "fill",
+      "h": 1250,
+      "title": "لوحة: صلاحيات الأدمن",
+      "w": 1440,
+      "x": 3120,
+      "y": 55610
+    },
+    "AdmPolicies.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: السياسات",
+      "w": 1440,
+      "x": 1560,
+      "y": 53180
+    },
+    "AdmPrints.dc.html": {
+      "expand": "fill",
+      "h": 950,
+      "title": "لوحة: التقارير المطبوعة",
+      "w": 1440,
+      "x": 3120,
+      "y": 47820
+    },
+    "AdmQuotes.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: الاقتباسات",
+      "w": 1440,
+      "x": 3120,
+      "y": 42100
+    },
+    "AdmReservations.dc.html": {
+      "expand": "fill",
+      "h": 950,
+      "title": "لوحة: الحجوزات",
+      "w": 1440,
+      "x": 1560,
+      "y": 47820
+    },
+    "AdmReviews.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "لوحة: المراجعات",
+      "w": 1440,
+      "x": 0,
+      "y": 43640
+    },
+    "AdmSettings.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "title": "لوحة: الإعدادات",
+      "w": 1440,
+      "x": 3120,
+      "y": 54320
+    },
+    "AdmShipRates.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: أسعار الشحن",
+      "w": 1440,
+      "x": 0,
+      "y": 55610
+    },
+    "AdmShipping.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "title": "لوحة: الشحن",
+      "w": 1440,
+      "x": 3120,
+      "y": 45680
+    },
+    "AdmStock.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "title": "لوحة: المخزون",
+      "w": 1440,
+      "x": 1560,
+      "y": 42100
+    },
+    "AdmStores.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "لوحة: أين تجد الكتب",
+      "w": 1440,
+      "x": 0,
+      "y": 53180
+    },
+    "AdmUsers.dc.html": {
+      "expand": "fill",
+      "h": 1150,
+      "title": "لوحة: العملاء",
+      "w": 1440,
+      "x": 0,
+      "y": 50450
+    },
+    "Admin.dc.html": {
+      "expand": "fill",
+      "h": 1420,
+      "title": "لوحة التحكم",
+      "w": 1440,
+      "x": 1480,
+      "y": 6240
+    },
+    "Author.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "صفحة مؤلف",
+      "w": 1360,
+      "x": 0,
+      "y": 26680
+    },
+    "Authors.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "المؤلفون",
+      "w": 1360,
+      "x": 1480,
+      "y": 24860
+    },
+    "Bestsellers.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "is_interactive": true,
+      "title": "الأكثر مبيعًا",
+      "w": 1360,
+      "x": 1480,
+      "y": 14860
+    },
+    "Cart.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "السلة",
+      "w": 1360,
+      "x": 1480,
+      "y": 3420
+    },
+    "Checkout.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "title": "إتمام الطلب",
+      "w": 1360,
+      "x": 0,
+      "y": 13040
+    },
+    "Compare.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "is_interactive": true,
+      "title": "مقارنة الكتب",
+      "w": 1360,
+      "x": 0,
+      "y": 31940
+    },
+    "Components.dc.html": {
+      "expand": "fill",
+      "h": 2900,
+      "is_interactive": true,
+      "title": "المكونات والحالات",
+      "w": 1360,
+      "x": 1480,
+      "y": 31940
+    },
+    "EmailMore.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "رسائل البريد الإضافية",
+      "w": 1360,
+      "x": 0,
+      "y": 34960
+    },
+    "EmailOrder.dc.html": {
+      "expand": "fill",
+      "h": 1350,
+      "is_interactive": true,
+      "title": "رسالة البريد (Gmail)",
+      "w": 1100,
+      "x": 0,
+      "y": 14860
+    },
+    "EventDetail.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "تفاصيل حدث",
+      "w": 1360,
+      "x": 0,
+      "y": 28500
+    },
+    "Events.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "title": "الأحداث والأخبار",
+      "w": 1360,
+      "x": 1480,
+      "y": 26680
+    },
+    "Forgot.dc.html": {
+      "expand": "fill",
+      "h": 820,
+      "is_interactive": true,
+      "title": "نسيت كلمة المرور",
+      "w": 1360,
+      "x": 0,
+      "y": 21820
+    },
+    "Login.dc.html": {
+      "expand": "fill",
+      "h": 880,
+      "is_interactive": true,
+      "title": "تسجيل الدخول",
+      "w": 1360,
+      "x": 0,
+      "y": 20700
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 3300,
+      "is_interactive": true,
+      "title": "الرئيسية",
+      "w": 1360,
+      "x": 0,
+      "y": 0
+    },
+    "Mobile.dc.html": {
+      "h": 920,
+      "is_interactive": true,
+      "title": "الموبايل",
+      "w": 1760,
+      "x": 0,
+      "y": 37780
+    },
+    "NotFound.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "404",
+      "w": 1360,
+      "x": 1480,
+      "y": 21820
+    },
+    "Notifications.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "الإشعارات",
+      "w": 1360,
+      "x": 1480,
+      "y": 11420
+    },
+    "Offers.dc.html": {
+      "expand": "fill",
+      "h": 2500,
+      "is_interactive": true,
+      "title": "العروض",
+      "w": 1360,
+      "x": 0,
+      "y": 17280
+    },
+    "OrderDetail.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "title": "تفاصيل الطلب",
+      "w": 1360,
+      "x": 1480,
+      "y": 30120
+    },
+    "OrderSuccess.dc.html": {
+      "expand": "fill",
+      "h": 1200,
+      "is_interactive": true,
+      "title": "تم الطلب",
+      "w": 1360,
+      "x": 1480,
+      "y": 13040
+    },
+    "Orders.dc.html": {
+      "expand": "fill",
+      "h": 1900,
+      "is_interactive": true,
+      "title": "طلباتي",
+      "w": 1360,
+      "x": 0,
+      "y": 9400
+    },
+    "Packages.dc.html": {
+      "expand": "fill",
+      "h": 3700,
+      "is_interactive": true,
+      "title": "باقات النشر",
+      "w": 1360,
+      "x": 1480,
+      "y": 17280
+    },
+    "Policies.dc.html": {
+      "expand": "fill",
+      "h": 1300,
+      "is_interactive": true,
+      "title": "السياسات",
+      "w": 1360,
+      "x": 0,
+      "y": 30120
+    },
+    "Product.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "صفحة الكتاب",
+      "w": 1360,
+      "x": 0,
+      "y": 3420
+    },
+    "Profile.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "title": "بياناتي",
+      "w": 1360,
+      "x": 1480,
+      "y": 9400
+    },
+    "Register.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "إنشاء حساب",
+      "w": 1360,
+      "x": 1480,
+      "y": 20700
+    },
+    "Search.dc.html": {
+      "expand": "fill",
+      "h": 1900,
+      "is_interactive": true,
+      "title": "نتائج البحث",
+      "w": 1360,
+      "x": 0,
+      "y": 22840
+    },
+    "SearchBox.dc.html": {
+      "h": 120,
+      "title": "مكوّن: البحث الحي (للهيدر)",
+      "w": 260,
+      "x": 3400,
+      "y": 38820
+    },
+    "SearchEmpty.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "لا نتائج",
+      "w": 1360,
+      "x": 1480,
+      "y": 22840
+    },
+    "Splash.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "شاشة التحميل",
+      "w": 1360,
+      "x": 1900,
+      "y": 38820
+    },
+    "Store.dc.html": {
+      "expand": "fill",
+      "h": 2200,
+      "is_interactive": true,
+      "title": "قائمة الكتب",
+      "w": 1360,
+      "x": 1480,
+      "y": 0
+    },
+    "Where.dc.html": {
+      "expand": "fill",
+      "h": 1200,
+      "is_interactive": true,
+      "title": "أين تجد الكتب",
+      "w": 1360,
+      "x": 1480,
+      "y": 28500
+    },
+    "Wishlist.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "is_interactive": true,
+      "title": "المفضلة",
+      "w": 1360,
+      "x": 0,
+      "y": 7780
+    },
+    "AdmSearch.dc.html": {
+      "h": 120,
+      "title": "مكوّن: بحث لوحة التحكم",
+      "w": 260,
+      "x": 3720,
+      "y": 38820
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-13T12:30:00Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/artifact/JZAsbq4ifWVXMmhcMruGFf",
+      "copiedAt": "2026-10-13T12:30:00Z",
+      "namespace": "al-asma",
+      "title": "Al-Asma Pro",
+      "version": "1791852944-76fd"
+    }
+  ],
+  "launch": {
+    "file": "Main.dc.html",
+    "view": "focused"
+  },
+  "notes": {},
+  "order": [
+    "Main.dc.html",
+    "Store.dc.html",
+    "Product.dc.html",
+    "Cart.dc.html",
+    "Account.dc.html",
+    "Admin.dc.html",
+    "Wishlist.dc.html",
+    "Orders.dc.html",
+    "Profile.dc.html",
+    "Addresses.dc.html",
+    "Notifications.dc.html",
+    "Checkout.dc.html",
+    "OrderSuccess.dc.html",
+    "EmailOrder.dc.html",
+    "Bestsellers.dc.html",
+    "Offers.dc.html",
+    "Packages.dc.html",
+    "Login.dc.html",
+    "Register.dc.html",
+    "Forgot.dc.html",
+    "NotFound.dc.html",
+    "Search.dc.html",
+    "SearchEmpty.dc.html",
+    "About.dc.html",
+    "Authors.dc.html",
+    "Author.dc.html",
+    "Events.dc.html",
+    "EventDetail.dc.html",
+    "Where.dc.html",
+    "Policies.dc.html",
+    "OrderDetail.dc.html",
+    "Compare.dc.html",
+    "Components.dc.html",
+    "EmailMore.dc.html",
+    "Mobile.dc.html",
+    "AdmLogin.dc.html",
+    "AdmBooks.dc.html",
+    "AdmBookEdit.dc.html",
+    "AdmCategories.dc.html",
+    "AdmStock.dc.html",
+    "AdmQuotes.dc.html",
+    "AdmReviews.dc.html",
+    "AdmOrders.dc.html",
+    "AdmOrder.dc.html",
+    "AdmOrderLimited.dc.html",
+    "AdmPayments.dc.html",
+    "AdmShipping.dc.html",
+    "AdmCarts.dc.html",
+    "AdmReservations.dc.html",
+    "AdmPrints.dc.html",
+    "AdmDiscounts.dc.html",
+    "AdmCoupons.dc.html",
+    "AdmBundles.dc.html",
+    "AdmUsers.dc.html",
+    "AdmAuthors.dc.html",
+    "AdmAuthorEdit.dc.html",
+    "AdmHome.dc.html",
+    "AdmBanners.dc.html",
+    "AdmEvents.dc.html",
+    "AdmStores.dc.html",
+    "AdmPolicies.dc.html",
+    "AdmNewsletter.dc.html",
+    "AdmPackages.dc.html",
+    "AdmManuscripts.dc.html",
+    "AdmSettings.dc.html",
+    "AdmShipRates.dc.html",
+    "AdmPayMethods.dc.html",
+    "AdmPermissions.dc.html",
+    "AdmAlerts.dc.html",
+    "AdmAudit.dc.html",
+    "AdmDev.dc.html",
+    "AdmMore.dc.html",
+    "Splash.dc.html",
+    "SearchBox.dc.html",
+    "AdmSearch.dc.html"
+  ],
+  "pages": [],
+  "title": "الأسمى برو: واجهات المتجر والداشبورد"
+}
