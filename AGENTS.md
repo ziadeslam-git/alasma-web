@@ -106,6 +106,15 @@ put the directive only on the file that needs it, never on a file just to silenc
 components (Icon, Skeleton, EmptyState, pages) as Server Components. Tests, `src/test`, `src/mocks`, `*.d.ts` and the
 generated icon registry are not checked.
 
+## Overlays (Modal, Drawer)
+
+`Modal` and `Drawer` (`src/shared/ui/modal`, `src/shared/ui/drawer`) sit on the native `<dialog>` through one shared
+`OverlayDialog` (`src/shared/ui/overlay`). They are client components: a Server page must not pass them functions, so
+keep the open state in a small client wrapper and render the overlay there (see the dev sections). Put `data-autofocus`
+on the element that should get focus on open. Do not write a third dialog implementation: extend `OverlayDialog`.
+The page scroll lock is shared (`src/shared/lib/dom/scroll-lock.ts`), so stacked overlays are safe. The overlay e2e spec
+(`e2e/overlays.spec.ts`) runs against `next dev` on port 3101 because it uses the dev-only `/dev/components` page.
+
 ## The "Soon" rule
 
 Anything in the design that is not in V1 is shown dimmed and disabled with a "قريباً" label: no fake data, no API

@@ -1,0 +1,117 @@
+.modal {
+  inline-size: min(var(--modal-width), calc(100vi - var(--space-8)));
+  margin: auto;
+}
+
+.sm {
+  --modal-width: 400px;
+}
+
+.md {
+  --modal-width: 560px;
+}
+
+.lg {
+  --modal-width: 760px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-block-size: calc(100dvh - var(--space-8));
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  color: var(--ink);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.description {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.body {
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.modal[data-state='open'] {
+  animation: modal-enter 0.22s ease-out;
+}
+
+.modal[data-state='open']::backdrop {
+  animation: modal-fade-in 0.25s ease-out;
+}
+
+.modal[data-state='closing'] {
+  animation: modal-exit 0.2s ease-in forwards;
+}
+
+.modal[data-state='closing']::backdrop {
+  animation: modal-fade-out 0.2s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[data-state],
+  .modal[data-state]::backdrop {
+    animation: none;
+  }
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-4)) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes modal-exit {
+  to {
+    opacity: 0;
+    transform: translateY(var(--space-2)) scale(0.98);
+  }
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-fade-out {
+  to {
+    opacity: 0;
+  }
+}

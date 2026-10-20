@@ -4,8 +4,10 @@ import { notFound } from 'next/navigation';
 import { ButtonSection } from './sections/button-section';
 import { BookCoverSection } from './sections/book-cover-section';
 import { BreadcrumbsSection } from './sections/breadcrumbs-section';
+import { DrawerSection } from './sections/drawer-section';
 import { EmptyStateSection } from './sections/empty-state-section';
 import { FieldInputSection } from './sections/field-input-section';
+import { ModalSection } from './sections/modal-section';
 import { PaginationSection } from './sections/pagination-section';
 import { SafeImageSection } from './sections/safe-image-section';
 import { SkeletonSection } from './sections/skeleton-section';
@@ -34,6 +36,8 @@ export default function ComponentsPage() {
       <PaginationSection />
       <BreadcrumbsSection />
       <ToastSection />
+      <ModalSection />
+      <DrawerSection />
     </main>
   );
 }

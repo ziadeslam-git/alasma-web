@@ -5,6 +5,8 @@ import * as axeMatchers from 'vitest-axe/matchers';
 
 import { server } from '@/mocks/server';
 
+import './dialog-polyfill';
+
 expect.extend(axeMatchers);
 
 // A request without a handler fails the test, so a test can never reach the real network by accident.

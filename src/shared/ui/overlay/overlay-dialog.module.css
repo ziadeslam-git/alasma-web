@@ -1,0 +1,15 @@
+/* The <dialog> itself is a bare, transparent box; the panel inside (Modal, Drawer) carries the look. */
+.dialog {
+  max-inline-size: 100vi;
+  max-block-size: 100dvh;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+}
+
+.dialog::backdrop {
+  background: var(--overlay);
+  backdrop-filter: blur(3px);
+}
