@@ -47,7 +47,7 @@ export function SplashOverlay() {
   return (
     <div aria-hidden="true" className={styles.overlay}>
       <div className={styles.content}>
-        <Image alt="" height={56} src="/logo-alasma.svg" unoptimized width={224} />
+        <Image alt="" height={181} src="/logo-alasma.svg" unoptimized width={224} />
         <p>{messages.site.splash.quote}</p>
         <span
           aria-label={messages.site.splash.loading}

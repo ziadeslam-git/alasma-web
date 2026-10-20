@@ -37,7 +37,7 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
         <Link aria-label={text.brand} className={styles.logo} href={routes.home}>
           <Image
             alt={text.brand}
-            height={42}
+            height={136}
             priority
             src="/logo-alasma.svg"
             unoptimized

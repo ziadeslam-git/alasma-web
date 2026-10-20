@@ -42,7 +42,7 @@ export function SiteFooter(props: SiteFooterProps) {
         <div className={styles.grid}>
           <section className={styles.brand}>
             <Link aria-label={text.brand} className={styles.logo} href={routes.home}>
-              <Image alt={text.brand} height={52} src="/logo-alasma.svg" unoptimized width={208} />
+              <Image alt={text.brand} height={168} src="/logo-alasma.svg" unoptimized width={208} />
             </Link>
             <p>{text.footer.description}</p>
           </section>

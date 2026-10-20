@@ -87,7 +87,9 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   `nextFetch({ revalidate, tags })`; use `throwIfError(result)` to turn a failed result into an `ApiError`.
   `createBrowserClient(hooks)` is for Client Components: same-origin, cookies included, `Authorization: Bearer` from the
   injected `getAccessToken()` (the token lives in memory only), every failure THROWN as an `ApiError`, and
-  `onUnauthorized` called once per 401. This layer never retries; the single-flight refresh is the AuthProvider's job.
+  `onUnauthorized` called once per 401. With the `refreshAccessToken` hook (the auth module sets it) a 401 outside the auth
+  routes gets ONE refresh and ONE retry; the auth routes (login, register, refresh, logout, forgot/reset password,
+  confirm email) never refresh. Feature code gets its client from `getApiClient()` of `@/modules/auth`.
 - The schema paths already start with `/api/v1`, so the client base URL is the origin, not `/api/v1`.
 - In development `next.config.ts` rewrites `/api/v1/*` to `API_ORIGIN` so the refresh cookie stays same-origin (ADR-18).
   Copy `.env.example` to `.env.local` to change the origin. Never put a secret in a `NEXT_PUBLIC_` variable.
@@ -96,6 +98,24 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   public and auth screens, `adminCodes` for admin and later features, then the status, kind and generic fallbacks).
   Add the Arabic text for a new backend `code` there, never in code.
 - The UI never computes prices, discounts, shipping or totals: it shows what the API returns.
+
+## Auth and the session (src/modules/auth)
+
+- The access token lives ONLY in the module-level session store (`session/session-store.ts`): never in web storage, a
+  cookie, the URL, a log or React state. The refresh token is the HttpOnly cookie `alasma_rt`; the front end never reads
+  it and the Next server never sees it (Path `/api/v1/auth`), so Server Components treat everyone as anonymous and the
+  client hydrates the session.
+- `alasma_has_session=1` is a hint cookie written by the front end after login or refresh (SameSite=Lax, 7 days, Secure
+  on https) and removed when the session ends. The bootstrap refresh runs only when it exists, so an anonymous visitor
+  makes no `/auth/refresh` request.
+- Get a token ONLY through `ensureFreshSession()`: one in-flight refresh per tab, serialised across tabs with Web Locks
+  (`alasma-auth-refresh`) and shared through a BroadcastChannel (`alasma-auth`), because the API treats parallel
+  refreshes as reuse and kills the session. A refresh that failed for network or server reasons is not repeated for
+  `REFRESH_RETRY_PAUSE_MS`. Never write a second refresh path or retry a failed refresh in a loop.
+- `<AuthProvider>` is mounted once in the root layout. `useAuth()` gives `{ status, user, login, logout }`
+  (`loading` on the server and the first client render). Errors are `ApiError`s.
+- `/dev/auth` (development only) exercises login, logout, parallel calls and a forced refresh without showing the token.
+  `e2e/auth-real-api.spec.ts` runs the same logic against the real API and is skipped unless `E2E_REAL_API=1`.
 
 ## The client boundary ('use client')
 
