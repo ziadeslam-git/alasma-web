@@ -10,6 +10,7 @@ import { Button, ButtonLink } from '@/shared/ui/button';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Field } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
+import { FeatureGate } from '@/shared/ui/soon';
 
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
 import { validateRegister } from '../validation';
@@ -72,12 +73,19 @@ export function RegisterForm() {
   // No automatic sign-in: the account must be confirmed from the email first.
   if (isDone) {
     return (
-      <EmptyState
-        action={<ButtonLink href={routes.login}>{text.login}</ButtonLink>}
-        description={text.registerSuccessDescription}
-        icon="check-c"
-        title={text.registerSuccessTitle}
-      />
+      <>
+        <EmptyState
+          action={<ButtonLink href={routes.login}>{text.login}</ButtonLink>}
+          description={text.registerSuccessDescription}
+          icon="check-c"
+          title={text.registerSuccessTitle}
+        />
+        <FeatureGate feature="resend-confirmation" label={text.soonBadge}>
+          <Button disabled fullWidth variant="outline">
+            {text.resendConfirmation}
+          </Button>
+        </FeatureGate>
+      </>
     );
   }
 

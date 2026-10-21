@@ -148,6 +148,7 @@ features render normally, soon features are inert and labelled, and hidden featu
 Keep every user-facing path in `src/shared/config/routes.ts`; use its helpers for dynamic path segments so Arabic slugs
 are encoded safely.
 Deferred navigation entries, including publishing packages, must remain registered as `soon` until their backend work is delivered.
+`resend-confirmation` is `soon` (the resend endpoint, S4, is not delivered): the control is rendered dimmed and inert through `FeatureGate`, with no API call.
 
 ## Sequencing rule
 

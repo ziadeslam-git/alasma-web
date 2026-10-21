@@ -11,27 +11,41 @@ import messages from '@/i18n/messages/ar.json';
 import { RegisterForm } from './register-form';
 
 const text = messages.auth;
+const user = userEvent.setup({ delay: null });
 const registerUrl = `${globalThis.location.origin}/api/v1/auth/register`;
 const password = 'Abcdefgh1x';
 
 const label = (name: string) => screen.getByLabelText(new RegExp(name));
 const submit = () => screen.getByRole('button', { name: text.register });
 
-async function fillValid(overrides: Partial<Record<string, string>> = {}) {
-  await userEvent.type(label(text.fullName), overrides.fullName ?? 'Test Reader');
-  await userEvent.type(label(text.email), overrides.email ?? 'reader@example.com');
-  await userEvent.type(label(text.phone), overrides.phone ?? '01012345678');
-  await userEvent.type(
-    document.querySelector('[name="password"]')!,
-    overrides.password ?? password,
-  );
-  await userEvent.type(
-    document.querySelector('[name="confirmPassword"]')!,
-    overrides.confirm ?? overrides.password ?? password,
-  );
-  await userEvent.click(screen.getByRole('checkbox'));
+// Fields that are not the subject of a test are pasted (one event); only the password is typed key by key when a
+// test passes its own password, because that test is about the rules.
+async function enter(element: HTMLElement, value: string, isTyped = false) {
+  if (isTyped) {
+    await user.type(element, value);
+
+    return;
+  }
+
+  await user.click(element);
+  await user.paste(value);
 }
 
+async function fillValid(overrides: Partial<Record<string, string>> = {}) {
+  await enter(label(text.fullName), overrides.fullName ?? 'Test Reader');
+  await enter(label(text.email), overrides.email ?? 'reader@example.com');
+  await enter(label(text.phone), overrides.phone ?? '01012345678');
+  await enter(
+    document.querySelector<HTMLElement>('[name="password"]')!,
+    overrides.password ?? password,
+    overrides.password !== undefined,
+  );
+  await enter(
+    document.querySelector<HTMLElement>('[name="confirmPassword"]')!,
+    overrides.confirm ?? overrides.password ?? password,
+  );
+  await user.click(screen.getByRole('checkbox'));
+}
 function captureBody() {
   const sent: { body?: unknown; calls: number } = { calls: 0 };
   server.use(
@@ -54,7 +68,7 @@ describe('RegisterForm', () => {
     const sent = captureBody();
     render(<RegisterForm />);
 
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(screen.getAllByText(text.required).length).toBeGreaterThanOrEqual(4);
     expect(label(text.fullName)).toHaveFocus();
@@ -66,7 +80,7 @@ describe('RegisterForm', () => {
     render(<RegisterForm />);
 
     await fillValid({ password: 'alllowercase1' });
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(screen.getByText(text.passwordNeedsUpper)).toBeInTheDocument();
     expect(sent.calls).toBe(0);
@@ -83,7 +97,7 @@ describe('RegisterForm', () => {
     render(<RegisterForm />);
 
     await fillValid({ confirm: 'Different1234' });
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(screen.getByText(text.passwordMismatch)).toBeInTheDocument();
     expect(sent.calls).toBe(0);
@@ -94,7 +108,7 @@ describe('RegisterForm', () => {
     render(<RegisterForm />);
 
     await fillValid();
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(await screen.findByText(text.registerSuccessTitle)).toBeInTheDocument();
     expect(screen.getByText(text.registerSuccessDescription)).toBeInTheDocument();
@@ -116,7 +130,7 @@ describe('RegisterForm', () => {
     render(<RegisterForm />);
 
     await fillValid();
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       messages.apiErrors.codes.auth_email_taken,
@@ -136,7 +150,7 @@ describe('RegisterForm', () => {
     render(<RegisterForm />);
 
     await fillValid();
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(await screen.findByText('Email problem')).toBeInTheDocument();
     expect(screen.getByText('Phone problem')).toBeInTheDocument();
@@ -160,7 +174,7 @@ describe('RegisterForm', () => {
 
   it('has no accessibility violations', async () => {
     const { container } = render(<RegisterForm />);
-    await userEvent.click(submit());
+    await user.click(submit());
 
     expect(await axe(container)).toHaveNoViolations();
   });

@@ -37,6 +37,10 @@ describe('features registry', () => {
     expect(getFeatureState('publish-packages')).toBe('soon');
   });
 
+  it('keeps resend-confirmation soon until the backend endpoint (S4) is delivered', () => {
+    expect(getFeatureState('resend-confirmation')).toBe('soon');
+  });
+
   it('contains no duplicate keys and exposes consistent helpers', () => {
     const keys = Object.keys(features) as FeatureKey[];
 

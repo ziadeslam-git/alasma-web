@@ -103,6 +103,28 @@ export function validateRegister(
   };
 }
 
+export type ForgotValues = { email: string };
+export type ResetValues = { confirmPassword: string; password: string };
+
+export function validateForgotPassword(
+  values: ForgotValues,
+  messages: LoginMessages,
+): ValidationErrors<ForgotValues> {
+  return { email: validateEmail(values.email.trim(), messages) };
+}
+
+// Same password rules as the register form (validateNewPassword); the confirmation is checked here only.
+export function validateResetPassword(
+  values: ResetValues,
+  messages: RegisterMessages,
+): ValidationErrors<ResetValues> {
+  return {
+    confirmPassword:
+      values.confirmPassword === values.password ? undefined : messages.passwordMismatch,
+    password: validateNewPassword(values.password, messages),
+  };
+}
+
 // Only same-site paths are followed after login: "//host", "/\host", absolute URLs and javascript: values are not.
 export function isSafeRedirectPath(path: string | null | undefined): path is string {
   return Boolean(
