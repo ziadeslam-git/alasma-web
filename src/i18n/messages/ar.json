@@ -464,7 +464,65 @@
     "notifyMe": "أبلغني",
     "emptyTitle": "لا توجد كتب",
     "emptyDescription": "لم نعثر على كتب مطابقة في هذا العرض حالياً.",
-    "loadingLabel": "جارٍ تحميل الكتب"
+    "loadingLabel": "جارٍ تحميل الكتب",
+    "filters": {
+      "panelLabel": "تصفية النتائج",
+      "title": "التصفية",
+      "clearAll": "مسح الكل",
+      "open": "تصفية",
+      "openWithCount": "تصفية، {count} مرشحات نشطة",
+      "close": "إغلاق",
+      "apply": "تطبيق التصفية",
+      "facetCountsNote": "أعداد النتائج بجانب كل خيار",
+      "groups": {
+        "category": "القسم",
+        "categoryAll": "كل الأقسام",
+        "author": "المؤلف",
+        "authorAll": "كل المؤلفين",
+        "authorSearch": "ابحث عن مؤلف",
+        "authorNone": "لا يوجد مؤلف مطابق",
+        "price": "السعر",
+        "priceMin": "من (ج.م)",
+        "priceMax": "إلى (ج.م)",
+        "availability": "التوفر والعروض",
+        "inStock": "المتوفر فقط",
+        "hasDiscount": "عليه خصم",
+        "publisher": "الناشر",
+        "publisherAll": "كل الناشرين",
+        "language": "اللغة",
+        "coverType": "نوع الغلاف",
+        "rating": "التقييم"
+      },
+      "errors": {
+        "priceInvalid": "أدخل رقماً صحيحاً غير سالب",
+        "priceRange": "الحد الأدنى أكبر من الحد الأعلى"
+      },
+      "chips": {
+        "label": "التصفية الحالية",
+        "remove": "إزالة {label}",
+        "query": "بحث: {q}",
+        "priceBetween": "{min} – {max} ج.م",
+        "priceFrom": "من {min} ج.م",
+        "priceTo": "حتى {max} ج.م",
+        "inStock": "المتوفر فقط",
+        "hasDiscount": "عليه خصم"
+      },
+      "sort": {
+        "label": "ترتيب",
+        "newest": "الأحدث",
+        "priceAsc": "السعر: من الأقل",
+        "priceDesc": "السعر: من الأعلى",
+        "title": "العنوان",
+        "popular": "الأكثر شعبية",
+        "bestSelling": "الأكثر مبيعاً",
+        "topRated": "الأعلى تقييماً"
+      },
+      "categoryNav": {
+        "label": "أقسام الكتب",
+        "all": "الكل",
+        "subLabel": "الأقسام الفرعية"
+      }
+    }
   },
   "devCatalog": {
     "title": "بطاقات وشبكة الكتب (تجريبي)",
@@ -491,6 +549,33 @@
       "noImageAuthor": "ليلى المنصوري",
       "translatorTitle": "رسائل لم تصل",
       "translatorAuthor": "رنا سعيد"
+    }
+  },
+  "devCatalogFilters": {
+    "title": "عناصر التصفية والترتيب (تجريبي)",
+    "description": "تتغير الحالة المحددة من عنوان الصفحة نفسه دون أي طلب إلى الخادم.",
+    "presetsHeading": "روابط جاهزة",
+    "presets": {
+      "empty": "بدون مرشحات",
+      "one": "مرشح واحد",
+      "many": "عدة مرشحات",
+      "invalid": "قيم غير صالحة",
+      "arabic": "رابط عربي"
+    },
+    "currentUrl": "العنوان الحالي",
+    "chipsHeading": "المرشحات النشطة",
+    "sortHeading": "الترتيب",
+    "categoriesHeading": "الأقسام",
+    "fixtures": {
+      "fiction": "روايات",
+      "mystery": "غموض وتشويق",
+      "fantasy": "خيال وفانتازيا",
+      "poetry": "شعر",
+      "authorOne": "سامي الحكيم",
+      "authorTwo": "عمر الشريف",
+      "authorThree": "ليلى المنصوري",
+      "publisherOne": "دار الأسمى",
+      "publisherTwo": "ناشرون آخرون"
     }
   }
 }

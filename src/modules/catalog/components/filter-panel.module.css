@@ -1,0 +1,99 @@
+.sidebar {
+  min-inline-size: 0;
+  padding-block: var(--space-1) var(--space-2);
+  padding-inline: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.sidebar[aria-busy='true'] {
+  opacity: 0.7;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-4) var(--space-3);
+  border-block-end: 1px solid var(--hair);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.clear {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.mobileBar {
+  display: none;
+}
+
+/* The design's "btn btn--o btn--sm" with the count badge ".fl-n". */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  block-size: 38px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.trigger:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.clear:focus-visible,
+.trigger:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.badge {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 20px;
+  block-size: 20px;
+  padding-inline: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (width <= 760px) {
+  .sidebar {
+    display: none;
+  }
+
+  .mobileBar {
+    display: block;
+  }
+}

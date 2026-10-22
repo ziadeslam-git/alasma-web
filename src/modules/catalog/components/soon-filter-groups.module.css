@@ -1,0 +1,23 @@
+.group {
+  padding-block: var(--space-4);
+  padding-inline-end: var(--space-12);
+  border-block-end: 1px solid var(--hair);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.note {
+  margin: 0;
+  padding-block: var(--space-4);
+  padding-inline-end: var(--space-12);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+}

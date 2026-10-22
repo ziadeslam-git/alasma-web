@@ -1,0 +1,60 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+
+.label {
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+/* Design ".sel": 44px, hair border, 12px radius (radius-md here), 14px / 500. */
+.select {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  block-size: 44px;
+  padding-inline: var(--space-4) var(--space-8);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-overflow: ellipsis;
+}
+
+.select:hover {
+  border-color: var(--primary);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+@media (width <= 760px) {
+  .wrapper {
+    inline-size: 100%;
+  }
+
+  /* Hidden like the design's span, but kept as the select's accessible name. */
+  .label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .select {
+    flex: 1;
+  }
+}
