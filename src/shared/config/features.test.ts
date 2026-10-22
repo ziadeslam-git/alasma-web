@@ -41,6 +41,10 @@ describe('features registry', () => {
     expect(getFeatureState('resend-confirmation')).toBe('soon');
   });
 
+  it('keeps quick-view hidden on book cards', () => {
+    expect(getFeatureState('quick-view')).toBe('hidden');
+  });
+
   it('contains no duplicate keys and exposes consistent helpers', () => {
     const keys = Object.keys(features) as FeatureKey[];
 

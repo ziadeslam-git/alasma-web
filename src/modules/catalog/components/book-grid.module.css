@@ -1,0 +1,64 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.skeletonFigure {
+  display: grid;
+  place-items: center;
+  padding-block: 12% 10%;
+  border-radius: var(--radius-md);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.skeletonCover {
+  aspect-ratio: 2 / 3;
+  inline-size: 58%;
+  block-size: auto;
+  border-radius: var(--radius-xs) var(--radius-sm) var(--radius-sm) var(--radius-xs);
+}
+
+.skeletonActions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  inline-size: 100%;
+  margin-block-start: var(--space-3);
+  padding-block-start: var(--space-2);
+  border-block-start: 1px solid var(--hair);
+}
+
+.skeletonActionCircle {
+  inline-size: var(--space-10);
+  block-size: var(--space-10);
+}
+
+.skeletonBody {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-3) var(--space-1);
+  padding-inline: 2px;
+}
+
+@media (width <= 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+@media (width <= 760px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+}

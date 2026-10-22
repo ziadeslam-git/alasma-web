@@ -446,5 +446,51 @@
     "meResult": "نتيجة /me",
     "refreshDone": "تم التجديد",
     "errorLabel": "خطأ"
+  },
+  "catalog": {
+    "authorPrefix": "تأليف: ",
+    "authorSeparator": "، ",
+    "currency": "ج.م",
+    "discountBadge": "خصم {percent}%",
+    "newBadge": "جديد",
+    "featuredBadge": "الأكثر مبيعاً",
+    "stock": {
+      "inStock": "متاح",
+      "lowStock": "كمية محدودة",
+      "outOfStock": "نفد"
+    },
+    "addToCart": "أضف {title} إلى السلة",
+    "addToWishlist": "أضف {title} إلى المفضلة",
+    "notifyMe": "أبلغني",
+    "emptyTitle": "لا توجد كتب",
+    "emptyDescription": "لم نعثر على كتب مطابقة في هذا العرض حالياً.",
+    "loadingLabel": "جارٍ تحميل الكتب"
+  },
+  "devCatalog": {
+    "title": "بطاقات وشبكة الكتب (تجريبي)",
+    "description": "معاينة لجميع حالات بطاقة الكتاب وشبكة الكتب.",
+    "statesHeading": "الشبكة مع جميع الحالات",
+    "loadingHeading": "حالة التحميل (Skeleton)",
+    "emptyHeading": "الحالة الفارغة (EmptyState)",
+    "fixtures": {
+      "plainTitle": "ليالي القاهرة",
+      "plainAuthor": "عمر الشريف",
+      "discountedTitle": "ظلال الحكاية",
+      "discountedAuthor": "سامي الحكيم",
+      "lowStockTitle": "حدائق الكلمات",
+      "lowStockAuthor": "نادية فؤاد",
+      "outOfStockTitle": "أغنية المساء",
+      "outOfStockAuthor": "هبة جمال",
+      "longTitle": "مذكرات مسافر عبر الأزمنة البعيدة في مدن الحبر والورق والحكايات المنسية على ضفاف النيل",
+      "longTitleAuthor": "سلمى عادل",
+      "manyAuthorsTitle": "موسوعة الأدب العربي المعاصر",
+      "manyAuthorsOne": "خالد منصور",
+      "manyAuthorsTwo": "ليلى المنصوري",
+      "manyAuthorsThree": "منى عبد الرحمن",
+      "noImageTitle": "همس الصحراء",
+      "noImageAuthor": "ليلى المنصوري",
+      "translatorTitle": "رسائل لم تصل",
+      "translatorAuthor": "رنا سعيد"
+    }
   }
 }

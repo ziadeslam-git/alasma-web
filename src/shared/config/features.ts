@@ -14,6 +14,7 @@ export const features = {
   'wishlist-heart': 'soon', // Wishlist heart on book cards and details.
   'reservations-notify-me': 'soon', // Notify-me action for unavailable books.
   'compare-books': 'soon', // Compare action in catalog and product designs.
+  'quick-view': 'hidden', // Quick-view modal action on book cards (not planned).
 
   // Account and discovery
   'notifications-center': 'soon', // Notifications icon in the header design.

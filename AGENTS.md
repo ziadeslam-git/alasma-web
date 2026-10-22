@@ -149,6 +149,7 @@ Keep every user-facing path in `src/shared/config/routes.ts`; use its helpers fo
 are encoded safely.
 Deferred navigation entries, including publishing packages, must remain registered as `soon` until their backend work is delivered.
 `resend-confirmation` is `soon` (the resend endpoint, S4, is not delivered): the control is rendered dimmed and inert through `FeatureGate`, with no API call.
+`quick-view` is `hidden` (the quick-view action on book cards is not planned): `BookCard` renders nothing for it.
 
 ## Sequencing rule
 

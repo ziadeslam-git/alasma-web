@@ -3,6 +3,7 @@ import { SafeImage } from '@/shared/ui/safe-image';
 import styles from './book-cover.module.css';
 
 export type BookCoverProps = {
+  as?: 'article' | 'div';
   className?: string;
   imageUrl?: string | null;
   title: string;
@@ -25,7 +26,13 @@ export function getBookCoverVariant(variantKey: string) {
   return Math.abs(hash) % coverVariants.length;
 }
 
-export function BookCover({ className, imageUrl, title, variantKey }: BookCoverProps) {
+export function BookCover({
+  as: Root = 'article',
+  className,
+  imageUrl,
+  title,
+  variantKey,
+}: BookCoverProps) {
   const coverClassName = [styles.cover, className].filter(Boolean).join(' ');
 
   if (imageUrl) {
@@ -43,10 +50,13 @@ export function BookCover({ className, imageUrl, title, variantKey }: BookCoverP
 
   const variantClass = coverVariants[getBookCoverVariant(variantKey)] ?? '';
   return (
-    <article aria-label={title} className={`${coverClassName} ${variantClass}`}>
+    <Root
+      aria-label={Root === 'article' ? title : undefined}
+      className={`${coverClassName} ${variantClass}`}
+    >
       <span aria-hidden="true" className={styles.line} />
       <b className={styles.title}>{title}</b>
       <span aria-hidden="true" className={styles.authorLine} />
-    </article>
+    </Root>
   );
 }
