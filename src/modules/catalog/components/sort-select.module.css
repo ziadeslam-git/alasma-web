@@ -38,7 +38,7 @@
   outline-offset: 1px;
 }
 
-@media (width <= 760px) {
+@media (width <= 1000px) {
   .wrapper {
     inline-size: 100%;
   }

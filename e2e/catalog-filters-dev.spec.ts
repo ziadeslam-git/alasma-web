@@ -9,11 +9,12 @@ test.use({ baseURL: 'http://localhost:3101' });
 const text = messages.catalog.filters;
 const fixtures = messages.devCatalogFilters.fixtures;
 const PAGE = '/dev/catalog-filters';
-const MOBILE_MAX_WIDTH = 760;
+const FILTER_DRAWER_MAX_WIDTH = 1000;
 
 const manyUrl = `${PAGE}?category=mystery&author=sami-alhakim&minPrice=60&maxPrice=350&inStock=true&sort=price_asc&page=2`;
 
-const isMobile = (page: Page) => (page.viewportSize()?.width ?? 1280) <= MOBILE_MAX_WIDTH;
+const isFilterDrawer = (page: Page) =>
+  (page.viewportSize()?.width ?? 1280) <= FILTER_DRAWER_MAX_WIDTH;
 const search = (page: Page) => new URL(page.url()).searchParams;
 
 async function expectNoOverflow(page: Page) {
@@ -44,7 +45,7 @@ test('many filters: selected state comes from the URL, a change rewrites it and 
     'true',
   );
 
-  if (isMobile(page)) {
+  if (isFilterDrawer(page)) {
     await expect(page.getByRole('complementary', { name: text.panelLabel })).toBeHidden();
 
     const trigger = page.getByRole('button', { name: text.openWithCount.replace('{count}', '4') });
@@ -158,7 +159,7 @@ test('the sort select, the price range and the chips rewrite the URL', async ({ 
   expect(search(page).get('page')).toBeNull();
   expect(search(page).get('category')).toBe('novels');
 
-  if (!isMobile(page)) {
+  if (!isFilterDrawer(page)) {
     const panel = page.getByRole('complementary', { name: text.panelLabel });
     const min = panel.getByRole('textbox', { name: text.groups.priceMin });
 

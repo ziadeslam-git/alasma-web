@@ -69,7 +69,7 @@
   outline-offset: 2px;
 }
 
-@media (width <= 760px) {
+@media (width <= 1000px) {
   .wrapper {
     flex-wrap: nowrap;
     overflow-x: auto;

@@ -17,7 +17,7 @@ next-env.d.ts
 /playwright-report
 /test-results
 
-# env files: only the *.local ones are secret; .env holds non-secret defaults
+# env files
 .env.local
 .env*.local
 

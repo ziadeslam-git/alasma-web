@@ -123,11 +123,10 @@ describe('filter helpers', () => {
     expect(withFilter(all, { category: 'other' })).toEqual({ ...all, category: 'other', page: 1 });
   });
 
-  it('withFilter swaps an inverted price range', () => {
-    expect(withFilter(base(), { minPrice: 9, maxPrice: 3 })).toMatchObject({
-      minPrice: 3,
-      maxPrice: 9,
-    });
+  it('withFilter drops maxPrice when minPrice > maxPrice', () => {
+    const next = withFilter(base(), { minPrice: 9, maxPrice: 3 });
+    expect(next.minPrice).toBe(9);
+    expect(next.maxPrice).toBeUndefined();
   });
 
   it.each([

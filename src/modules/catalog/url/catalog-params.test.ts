@@ -110,15 +110,20 @@ describe('parseCatalogParams', () => {
     ['', undefined],
     [' 5 ', 5],
     ['5,5', undefined],
+    [String(MAX_PRICE), MAX_PRICE],
+    [String(MAX_PRICE + 0.01), undefined],
     [String(MAX_PRICE + 1), undefined],
   ])('minPrice %j becomes %j', (value, expected) => {
+    expect(parseCatalogParams({ minPrice: value, maxPrice: value })).toMatchObject({
+      ...(expected === undefined ? {} : { minPrice: expected, maxPrice: expected }),
+    });
     expect(parseCatalogParams({ minPrice: value }).minPrice).toBe(expected);
   });
 
-  it('swaps a minimum above the maximum', () => {
+  it('drops maxPrice when minPrice > maxPrice', () => {
     const parsed = parseCatalogParams({ minPrice: '300', maxPrice: '100' });
-    expect(parsed.minPrice).toBe(100);
-    expect(parsed.maxPrice).toBe(300);
+    expect(parsed.minPrice).toBe(300);
+    expect(parsed.maxPrice).toBeUndefined();
     expect(parseCatalogParams({ minPrice: '100', maxPrice: '100' })).toMatchObject({
       minPrice: 100,
       maxPrice: 100,
@@ -145,11 +150,14 @@ describe('parseCatalogParams', () => {
     });
   });
 
-  it('keeps Arabic slugs as they are', () => {
+  it('keeps Arabic slugs as they are and enforces MAX_SLUG_LENGTH', () => {
     expect(parseCatalogParams({ category: 'روايات-عربية', author: 'سامي_الحكيم' })).toMatchObject({
       category: 'روايات-عربية',
       author: 'سامي_الحكيم',
     });
+    const maxSlug = 'أ'.repeat(MAX_SLUG_LENGTH);
+    expect(parseCatalogParams({ category: maxSlug }).category).toBe(maxSlug);
+    expect(parseCatalogParams({ category: `${maxSlug}ب` }).category).toBeUndefined();
   });
 
   it('survives hostile input without throwing and without letting it through', () => {
@@ -180,12 +188,13 @@ describe('parseCatalogParams', () => {
     expect(nested).toEqual(defaults);
   });
 
-  it('limits the free-text query and rejects control characters', () => {
+  it('limits the free-text query, collapses whitespace and rejects control characters', () => {
     expect(parseCatalogParams({ q: 'a'.repeat(MAX_QUERY_LENGTH) }).q).toHaveLength(
       MAX_QUERY_LENGTH,
     );
     expect(parseCatalogParams({ q: 'a'.repeat(MAX_QUERY_LENGTH + 1) }).q).toBeUndefined();
     expect(parseCatalogParams({ q: '   ' }).q).toBeUndefined();
+    expect(parseCatalogParams({ q: '  روايات   عربية\t\nحديثة  ' }).q).toBe('روايات عربية حديثة');
     expect(parseCatalogParams({ q: 'a\u0007b' }).q).toBeUndefined();
     // HTML in the text is only text: React escapes it and the href helper encodes it.
     expect(parseCatalogParams({ q: '<b>x</b>' }).q).toBe('<b>x</b>');

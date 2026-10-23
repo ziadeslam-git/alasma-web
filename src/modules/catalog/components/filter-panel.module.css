@@ -88,7 +88,7 @@
   line-height: 1;
 }
 
-@media (width <= 760px) {
+@media (width <= 1000px) {
   .sidebar {
     display: none;
   }

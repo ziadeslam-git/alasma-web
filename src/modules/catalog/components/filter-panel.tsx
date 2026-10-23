@@ -21,7 +21,7 @@ export type FilterPanelProps = {
   params: CatalogParams;
 };
 
-// From 760px up the filters are a sidebar and every change goes straight into the URL. Below that a button opens
+// Above 1000px the filters are a sidebar and every change goes straight into the URL. At or below 1000px a button opens
 // them in a Drawer; as in the design, the sheet works on a draft and "apply" writes it into the URL once.
 export function FilterPanel({ basePath, options, params }: FilterPanelProps) {
   const text = messages.catalog.filters;

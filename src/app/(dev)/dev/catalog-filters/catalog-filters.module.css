@@ -91,16 +91,16 @@
   .page {
     padding-inline: var(--space-4);
   }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
 }
 
 @media (width <= 760px) {
   .page {
     gap: var(--space-6);
     padding-block: var(--space-5);
-  }
-
-  .layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4);
   }
 }

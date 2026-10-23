@@ -7,12 +7,14 @@ export type CatalogSort = (typeof CATALOG_SORTS)[number];
 export const DEFAULT_CATALOG_SORT: CatalogSort = 'newest';
 export const DEFAULT_CATALOG_PAGE = 1;
 
-// Same limits as the backend validator (BookSearchFilterValidator and CatalogQueryLimits.MaxSlugLength).
+// Same limits as the backend validator (BookSearchFilterValidator.MaxQueryLength = 200) and the Category/Author/Publisher
+// Slug column max length (200 in CategoryConfiguration, AuthorConfiguration, PublisherConfiguration).
 export const MAX_QUERY_LENGTH = 200;
-export const MAX_SLUG_LENGTH = 350;
-// Far above any real price, it only keeps absurd numbers out of the URL.
-export const MAX_PRICE = 10_000_000;
-export const MAX_PAGE = 100_000;
+export const MAX_SLUG_LENGTH = 200;
+// Capped at 999,999.99 inside the backend's decimal(18,2) Book.Price column (AppDbContext.ConfigureConventions) and
+// safely inside IEEE-754 double precision so a hand-edited URL can never overflow SQL decimal or round at 0.01 precision.
+export const MAX_PRICE = 999_999.99;
+export const MAX_PAGE = 10_000;
 
 export type CatalogParams = {
   q?: string;
@@ -63,7 +65,7 @@ export function sanitizeQuery(value: unknown): string | undefined {
     return undefined;
   }
 
-  const query = value.trim();
+  const query = value.trim().replace(/\s+/g, ' ');
   if (query.length === 0 || query.length > MAX_QUERY_LENGTH || controlCharacters.test(query)) {
     return undefined;
   }
@@ -101,14 +103,13 @@ export function sanitizeFlag(value: unknown): boolean {
   return value === true || value === 'true';
 }
 
-// A minimum above the maximum is repaired by swapping the two (the visitor most likely typed them the wrong way
-// round), so the URL always describes a range the API accepts.
+// When min > max, max is dropped so the URL always describes a range the API accepts without rejecting (400).
 export function orderPriceRange(
   minPrice: number | undefined,
   maxPrice: number | undefined,
 ): Pick<CatalogParams, 'minPrice' | 'maxPrice'> {
   if (minPrice !== undefined && maxPrice !== undefined && minPrice > maxPrice) {
-    return { minPrice: maxPrice, maxPrice: minPrice };
+    return { minPrice };
   }
 
   return {

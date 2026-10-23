@@ -27,6 +27,10 @@ export {
   CATALOG_SORTS,
   DEFAULT_CATALOG_SORT,
   emptyCatalogParams,
+  MAX_PAGE,
+  MAX_PRICE,
+  MAX_QUERY_LENGTH,
+  MAX_SLUG_LENGTH,
   parseCatalogParams,
 } from './url/catalog-params';
 export type { CatalogParams, CatalogSort, RawSearchParams } from './url/catalog-params';
