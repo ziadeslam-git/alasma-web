@@ -6,6 +6,7 @@ export type BookCoverProps = {
   as?: 'article' | 'div';
   className?: string;
   imageUrl?: string | null;
+  priority?: boolean;
   title: string;
   variantKey: string;
 };
@@ -30,6 +31,7 @@ export function BookCover({
   as: Root = 'article',
   className,
   imageUrl,
+  priority = false,
   title,
   variantKey,
 }: BookCoverProps) {
@@ -41,6 +43,7 @@ export function BookCover({
         alt={title}
         aspectRatio="2 / 3"
         className={coverClassName}
+        priority={priority}
         src={imageUrl}
         width={400}
         height={600}

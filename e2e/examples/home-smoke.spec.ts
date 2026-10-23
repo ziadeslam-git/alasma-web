@@ -11,10 +11,9 @@ test('home page answers 200, is Arabic RTL and has no accessibility violations',
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
 
-  const results = await new AxeBuilder({ page })
-    // The home page is an empty placeholder until F1.12, so it has no h1 yet. Remove this exclusion then.
-    .disableRules(['page-has-heading-one'])
-    .analyze();
+  await expect(page.locator('h1')).toHaveCount(1);
+
+  const results = await new AxeBuilder({ page }).analyze();
 
   expect(results.violations).toEqual([]);
 });

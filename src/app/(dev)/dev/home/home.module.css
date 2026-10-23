@@ -1,0 +1,70 @@
+.page {
+  min-block-size: 100vh;
+  background: var(--pg);
+}
+
+.toolbar {
+  border-block-end: 1px solid var(--hair);
+  background: var(--surface);
+}
+
+.toolbarInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-8);
+}
+
+.toolbarTitle {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.presetList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.presetLink {
+  display: inline-flex;
+  align-items: center;
+  block-size: 34px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-pill);
+  background: var(--pg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.presetLink[aria-current='page'] {
+  border-color: var(--g);
+  background: var(--g);
+  color: var(--surface);
+}
+
+.presetLink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (width <= 1000px) {
+  .toolbarInner {
+    padding-inline: var(--space-4);
+  }
+}

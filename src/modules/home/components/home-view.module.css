@@ -1,0 +1,6 @@
+.page {
+  overflow-x: clip;
+  padding-block-end: var(--space-12);
+  background: var(--pg);
+  color: var(--ink);
+}

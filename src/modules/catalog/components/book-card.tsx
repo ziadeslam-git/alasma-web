@@ -12,9 +12,10 @@ import styles from './book-card.module.css';
 
 export type BookCardProps = {
   book: BookCardItem;
+  priority?: boolean;
 };
 
-export function BookCard({ book }: BookCardProps) {
+export function BookCard({ book, priority = false }: BookCardProps) {
   const text = messages.catalog;
   const soonLabel = messages.site.soon;
   const href = bookRoute(book.slug);
@@ -59,6 +60,7 @@ export function BookCard({ book }: BookCardProps) {
             as="div"
             className={styles.cover}
             imageUrl={book.coverImageUrl}
+            priority={priority}
             title={book.title}
             variantKey={book.slug}
           />

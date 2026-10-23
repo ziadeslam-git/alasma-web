@@ -8,6 +8,7 @@ import CatalogDevPage from './catalog/page';
 import CatalogFiltersDevPage from './catalog-filters/page';
 import ComponentsPage from './components/page';
 import ErrorTestPage from './error-test/page';
+import HomeDevPage from './home/page';
 import IconsPage from './icons/page';
 import TokensPage from './tokens/page';
 
@@ -30,6 +31,7 @@ describe('dev routes production guard', () => {
     ['/dev/catalog-filters', () => CatalogFiltersDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/components', () => ComponentsPage()],
     ['/dev/error-test', () => ErrorTestPage()],
+    ['/dev/home', () => HomeDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/icons', () => IconsPage()],
     ['/dev/tokens', () => TokensPage()],
   ])('calls notFound() on %s when NODE_ENV is production', async (_route, renderPage) => {
@@ -49,6 +51,7 @@ describe('dev routes production guard', () => {
       'catalog-filters',
       'components',
       'error-test',
+      'home',
       'icons',
       'tokens',
     ]);

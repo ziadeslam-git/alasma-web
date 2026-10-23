@@ -1,0 +1,255 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+    120% 120% at 70% 0%,
+    var(--green-600) 0%,
+    var(--green-800) 45%,
+    var(--green-950) 100%
+  );
+  color: var(--surface);
+  isolation: isolate;
+}
+
+.inner {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--space-6);
+  align-items: center;
+  max-inline-size: 1280px;
+  min-block-size: 560px;
+  margin-inline: auto;
+  padding-block: 72px 96px;
+  padding-inline: var(--space-8);
+}
+
+.copy {
+  display: grid;
+  justify-items: start;
+  min-inline-size: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--green-300);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.eyebrow::before {
+  inline-size: 42px;
+  block-size: 1px;
+  background: var(--green-300);
+  content: '';
+}
+
+.headline {
+  margin-block: 22px 0;
+  margin-inline: 0;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6.2vw, 92px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.word {
+  display: inline-block;
+}
+
+.wordAccent {
+  color: var(--green-200);
+}
+
+.dot {
+  margin-inline: 0.12em;
+  color: var(--green-300);
+}
+
+.description {
+  max-inline-size: 46ch;
+  margin-block: 22px 0;
+  margin-inline: 0;
+  color: var(--on-brand);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-start: 30px;
+}
+
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  block-size: 52px;
+  padding-inline: 28px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.primaryCta {
+  background: var(--cream-200);
+  color: var(--green-800);
+  transition: background 0.18s ease;
+}
+
+.primaryCta:hover {
+  background: var(--surface);
+}
+
+.primaryCta:focus-visible {
+  outline: 2px solid var(--cream-200);
+  outline-offset: 2px;
+}
+
+.secondaryCta {
+  border: 1px solid var(--green-300);
+  background: transparent;
+  color: var(--surface);
+}
+
+.art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  block-size: 460px;
+}
+
+.featherWrap {
+  position: relative;
+  aspect-ratio: 620 / 410;
+  inline-size: min(560px, 100%);
+  direction: ltr;
+}
+
+.quill {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  filter: drop-shadow(var(--shadow-lg));
+}
+
+.quillPath {
+  fill: var(--cream-200);
+}
+
+.inkDrop {
+  position: absolute;
+  inset-block-start: 90%;
+  inset-inline-start: 4.5%;
+  inline-size: 12px;
+  block-size: 12px;
+  margin-inline-start: -6px;
+  border-radius: 50%;
+  background: var(--cream-200);
+  opacity: 0.7;
+}
+
+.ripple {
+  position: absolute;
+  inset-block-start: 108%;
+  inset-inline-start: 4.5%;
+  inline-size: 70px;
+  block-size: 24px;
+  margin-inline-start: -35px;
+  border: 1.5px solid var(--green-100);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.rippleSecond {
+  transform: scale(1.45);
+  opacity: 0.25;
+}
+
+.orb {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.orbOne {
+  inset-block-start: -60px;
+  inset-inline-start: -80px;
+  inline-size: 420px;
+  block-size: 420px;
+  background: var(--green-600);
+}
+
+.orbTwo {
+  inset-block-end: -120px;
+  inset-inline-end: 10%;
+  inline-size: 360px;
+  block-size: 360px;
+  background: var(--green-500);
+  opacity: 0.28;
+}
+
+.wave {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: -1px;
+  inset-inline: 0;
+  inline-size: 100%;
+  block-size: 90px;
+  pointer-events: none;
+}
+
+.wavePath {
+  fill: var(--pg);
+}
+
+@media (width <= 1000px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    min-block-size: 0;
+    padding-block: var(--space-12) var(--space-20);
+    padding-inline: var(--space-4);
+    text-align: start;
+  }
+
+  .art {
+    order: -1;
+    block-size: 260px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+}
+
+@media (width <= 760px) {
+  .headline {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.35;
+  }
+
+  .art {
+    block-size: 200px;
+  }
+}

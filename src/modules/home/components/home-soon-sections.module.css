@@ -1,0 +1,517 @@
+.wrapSection {
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding-block: 56px var(--space-2);
+  padding-inline: var(--space-8);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block-end: var(--space-6);
+}
+
+.sectionHeading {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sectionSubtitle {
+  margin-block: var(--space-1) 0;
+  margin-inline: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+/* Matches ".spot" in Main.dc.html. */
+.spot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-block-size: 340px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--soft);
+}
+
+.spotText {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+  padding: var(--space-12);
+}
+
+.spotEyebrow {
+  color: var(--accent-ink);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.spotHeading {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.spotDescription {
+  max-inline-size: 46ch;
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.spotAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.spotVisual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: var(--space-8);
+  overflow: hidden;
+  background: var(--green-700);
+}
+
+.spotQuote {
+  position: relative;
+  max-inline-size: 16ch;
+  margin: 0;
+  color: var(--cream-200);
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* Matches ".band" and ".trend" in Main.dc.html. */
+.band {
+  margin-block-start: 72px;
+  padding-block: 56px;
+  background: var(--g);
+}
+
+.bandWrap {
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-8);
+}
+
+.trend {
+  position: relative;
+  padding: 36px 36px 40px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--card);
+}
+
+.trendHeading {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.trendControls {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: -34px;
+}
+
+.squareButton {
+  display: grid;
+  place-items: center;
+  inline-size: 42px;
+  block-size: 34px;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.squareButtonFilled {
+  background: var(--green-950);
+  color: var(--surface);
+}
+
+.trendRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  margin-block-start: 28px;
+}
+
+.trendItem {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 14px;
+  border-inline-end: 1px solid var(--hair);
+  text-align: center;
+}
+
+.trendItem:last-child {
+  border-inline-end: 0;
+}
+
+.trendHighlight {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin-block: -8px;
+  padding: 22px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--g);
+  box-shadow: var(--shadow-lg);
+  color: var(--surface);
+  text-align: center;
+}
+
+.trendItemHeader {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.trendItemTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.trendItemSubtitle {
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+.trendHighlightSubtitle {
+  color: var(--on-brand-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+.trendBox,
+.trendHighlightBox {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  padding-block: 12%;
+  border-radius: var(--radius-md);
+}
+
+.trendBox {
+  background: var(--soft);
+}
+
+.trendHighlightBox {
+  background: var(--green-800);
+}
+
+.trendCover {
+  inline-size: 56%;
+}
+
+.trendFooter {
+  display: flex;
+  justify-content: center;
+  margin-block-start: 36px;
+}
+
+.trendCta {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.trendCtaText {
+  padding: 14px 30px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.trendCtaIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 56px;
+  background: var(--green-950);
+  color: var(--surface);
+}
+
+/* Matches ".picks" and ".pick" in Main.dc.html. */
+.picksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.pickCard {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.pickCover {
+  inline-size: 96px;
+}
+
+.pickBody {
+  display: grid;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}
+
+.pickTitle {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.pickQuote {
+  margin: 0;
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--pg);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Remaining home campaign slots (home-banners, home-quotes, home-newsletter). */
+.campaignsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-block-start: var(--space-5);
+}
+
+.campaignCard {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-block-size: 100%;
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.campaignTitle {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.campaignDescription {
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.newsletterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-block-start: var(--space-1);
+}
+
+.newsletterField {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  min-inline-size: 140px;
+  block-size: 42px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-md);
+  background: var(--pg);
+  color: var(--ink-subtle);
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+.newsletterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 42px;
+  padding-inline: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--g);
+  color: var(--surface);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (width <= 1000px) {
+  .wrapSection,
+  .bandWrap {
+    padding-inline: var(--space-4);
+  }
+
+  .spot,
+  .picksGrid,
+  .campaignsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .spotText {
+    padding: 28px 22px;
+  }
+
+  .trend {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .trendRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .trendItem {
+    border: 0;
+  }
+}
+
+@media (width <= 760px) {
+  .wrapSection {
+    padding-block: 30px var(--space-2);
+  }
+
+  .sectionHeader {
+    margin-block-end: 14px;
+  }
+
+  .sectionHeading {
+    font-size: 21px;
+    line-height: 1.3;
+  }
+
+  .sectionSubtitle {
+    display: none;
+  }
+
+  .spot {
+    display: flex;
+    flex-direction: column-reverse;
+    min-block-size: 0;
+    border-radius: 22px;
+  }
+
+  .spotVisual {
+    padding: var(--space-5);
+  }
+
+  .spotText {
+    padding: var(--space-5) 18px;
+  }
+
+  .spotHeading {
+    font-size: 24px;
+  }
+
+  .band {
+    margin-block-start: 34px;
+    padding-block: 28px;
+  }
+
+  .trend {
+    padding: var(--space-5) var(--space-4);
+    border-radius: 22px;
+  }
+
+  .trendHeading {
+    font-size: 32px;
+  }
+
+  .trendControls {
+    margin-block-start: var(--space-3);
+  }
+
+  .trendRow,
+  .picksGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-3);
+    margin-inline: -16px;
+    padding-block: 2px 10px;
+    padding-inline: var(--space-4);
+    overflow-x: auto;
+    scroll-padding-inline: var(--space-4);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .trendRow::-webkit-scrollbar,
+  .picksGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .trendItem,
+  .trendHighlight {
+    flex: 0 0 156px;
+    margin-block: 0;
+    scroll-snap-align: start;
+  }
+
+  .pickCard {
+    flex: 0 0 280px;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: var(--space-3);
+    padding: 14px;
+    scroll-snap-align: start;
+  }
+
+  .pickCover {
+    inline-size: 76px;
+  }
+}
