@@ -46,7 +46,9 @@ export function FilterPanel({ basePath, options, params }: FilterPanelProps) {
         <button
           aria-haspopup="dialog"
           aria-label={
-            activeCount > 0 ? text.openWithCount.replace('{count}', String(activeCount)) : undefined
+            activeCount > 0
+              ? text.openWithCount.replace('{count}', formatNumber(activeCount))
+              : undefined
           }
           className={styles.trigger}
           onClick={openSheet}

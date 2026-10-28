@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { formatNumber } from '@/shared/lib/format';
 import { Icon } from '@/shared/ui/icon';
 
 import styles from './pagination.module.css';
@@ -57,7 +58,7 @@ export function Pagination({
             className={styles.pageLink}
             href={buildHref(item)}
           >
-            {item}
+            {formatNumber(item)}
           </Link>
         ),
       )}
