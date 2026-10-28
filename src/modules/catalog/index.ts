@@ -1,9 +1,19 @@
+export {
+  CATALOG_BOOKS_REVALIDATE_SECONDS,
+  CATALOG_CACHE_TAGS,
+  CATALOG_OPTIONS_REVALIDATE_SECONDS,
+  DEFAULT_CATALOG_PAGE_SIZE,
+  getCatalogData,
+} from './api/get-catalog-data';
+export type { GetCatalogDataOptions } from './api/get-catalog-data';
 export { ActiveFilterChips } from './components/active-filter-chips';
 export type { ActiveFilterChipsProps } from './components/active-filter-chips';
 export { BookCard } from './components/book-card';
 export type { BookCardProps } from './components/book-card';
 export { BookGrid, DEFAULT_SKELETON_COUNT } from './components/book-grid';
 export type { BookGridProps } from './components/book-grid';
+export { CatalogView } from './components/catalog-view';
+export type { CatalogViewProps } from './components/catalog-view';
 export { CategoryNav } from './components/category-nav';
 export type { CategoryNavProps } from './components/category-nav';
 export { FilterPanel } from './components/filter-panel';
@@ -38,6 +48,9 @@ export type {
   AuthorOption,
   BookCardItem,
   BookStockStatus,
+  CatalogBooksResult,
+  CatalogBooksStatus,
+  CatalogData,
   CategoryNode,
   FilterOptions,
   PagedBookCards,

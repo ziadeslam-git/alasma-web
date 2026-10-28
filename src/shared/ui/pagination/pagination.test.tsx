@@ -30,8 +30,11 @@ describe('Pagination', () => {
   });
 
   it('has no accessibility violations', async () => {
-    const { container } = render(<Pagination {...props} page={2} totalPages={3} />);
+    const { container, rerender } = render(<Pagination {...props} page={2} totalPages={3} />);
 
+    expect(await axe(container)).toHaveNoViolations();
+
+    rerender(<Pagination {...props} page={1} totalPages={3} />);
     expect(await axe(container)).toHaveNoViolations();
   });
 });

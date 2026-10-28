@@ -30,8 +30,6 @@ const author = (id: number, slug: string, name: string): AuthorOption => ({
   id,
   slug,
   name,
-  photoUrl: null,
-  shortBio: null,
 });
 
 export const fixtureAuthors: readonly AuthorOption[] = [

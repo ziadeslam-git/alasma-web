@@ -22,8 +22,8 @@ export const testFilterOptions: FilterOptions = {
     { id: 2, slug: text.poetry, name: text.poetry, imageUrl: null, children: [] },
   ],
   authors: [
-    { id: 1, slug: 'sami-alhakim', name: text.authorOne, photoUrl: null, shortBio: null },
-    { id: 2, slug: 'omar-alsharif', name: text.authorTwo, photoUrl: null, shortBio: null },
+    { id: 1, slug: 'sami-alhakim', name: text.authorOne },
+    { id: 2, slug: 'omar-alsharif', name: text.authorTwo },
   ],
   publishers: [{ id: 1, slug: 'dar-al-asma', name: text.publisherOne, logoUrl: null }],
 };

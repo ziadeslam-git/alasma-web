@@ -39,6 +39,7 @@ export function Pagination({
           aria-disabled="true"
           aria-label={previousLabel}
           className={`${styles.pageLink} ${styles.disabled}`}
+          role="link"
         >
           <Icon name="arrow-r" size="sm" />
         </span>
@@ -70,6 +71,7 @@ export function Pagination({
           aria-disabled="true"
           aria-label={nextLabel}
           className={`${styles.pageLink} ${styles.disabled}`}
+          role="link"
         >
           <Icon name="arrow" size="sm" />
         </span>
