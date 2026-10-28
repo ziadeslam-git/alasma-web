@@ -276,6 +276,77 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/coupons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Filter by status (All, Active, Inactive, Expired) and q (part of the code). */
+        get: operations["listAdminCoupons"];
+        put?: never;
+        /** @description maxUsesPerUser is optional (the store setting Coupon.MaxUsesPerUserDefault when missing). startsAt and endsAt are a date (2026-01-15) or a date with a time. An endsAt date alone means the end of that day in Cairo; a startsAt date alone means its start. */
+        post: operations["createAdminCoupon"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/coupons/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The coupon with its statistics and the rowVersion (base64) for the next update. */
+        get: operations["getAdminCoupon"];
+        /** @description A full replace. rowVersion (base64) is the one the details route returned. Every use of the coupon changes its rowVersion, so a coupon that is being used answers 409 coupon_concurrency_conflict: reload it and send again. A maxUsesTotal below the uses so far answers 422 coupon_total_below_used. */
+        put: operations["updateAdminCoupon"];
+        post?: never;
+        /** @description A soft delete: the uses and the orders keep their history and the usages list still works. A coupon used at the same moment can answer 409 coupon_concurrency_conflict. */
+        delete: operations["deleteAdminCoupon"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/coupons/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Switches the coupon on or off. If the coupon is used at the same moment the answer can be 409 coupon_concurrency_conflict: send it again. */
+        patch: operations["setAdminCouponStatus"];
+        trace?: never;
+    };
+    "/api/v1/admin/coupons/{id}/usages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Who used the coupon, in which order and for how much, newest first. Page size 1 to 100. */
+        get: operations["listAdminCouponUsages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/pages": {
         parameters: {
             query?: never;
@@ -628,6 +699,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/authors/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAuthorOptions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/authors/{slug}": {
         parameters: {
             query?: never;
@@ -724,6 +811,55 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/cart": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getCart"];
+        put?: never;
+        post?: never;
+        delete: operations["clearCart"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cart/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Returns 201 with the whole cart when a new line was created. When the quantity was merged into an existing line the status is 200 with the same body. A 409 stock_insufficient problem carries availableQuantity. */
+        post: operations["addCartItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cart/items/{itemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["updateCartItemQuantity"];
+        post?: never;
+        delete: operations["removeCartItem"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/categories": {
         parameters: {
             query?: never;
@@ -750,6 +886,39 @@ export interface paths {
         get: operations["getCategoryBySlug"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/checkout/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Read only: prices the current cart for an address or a shipping zone and an optional coupon. Nothing is reserved, used or stored. Send exactly one of addressId and zoneId. zone.shippingFee is the base price of the zone; the top-level shippingFee is the fee actually charged (0 when free shipping applies). */
+        post: operations["previewCheckout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/coupons/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateCoupon"];
         delete?: never;
         options?: never;
         head?: never;
@@ -804,6 +973,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/feature-flags/enabled": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listEnabledFeatureFlags"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me": {
         parameters: {
             query?: never;
@@ -813,6 +998,54 @@ export interface paths {
         };
         get: operations["getMe"];
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/addresses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listAddresses"];
+        put?: never;
+        post: operations["createAddress"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/addresses/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAddress"];
+        put: operations["updateAddress"];
+        post?: never;
+        delete: operations["deleteAddress"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/addresses/{id}/default": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["setDefaultAddress"];
         post?: never;
         delete?: never;
         options?: never;
@@ -920,6 +1153,27 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AddCartItemRequest: {
+            /** Format: int32 */
+            bookId: null | number;
+            /** Format: int32 */
+            bundleId: null | number;
+            /** Format: int32 */
+            quantity: number;
+        };
+        AddressDto: {
+            addressLine: string;
+            city: string;
+            governorateName: string;
+            /** Format: int32 */
+            id: number;
+            isDefault: boolean;
+            landmark: null | string;
+            phone: string;
+            recipientName: string;
+            /** Format: int32 */
+            shippingZoneId: number;
+        };
         AdjustBookStockRequest: {
             /** Format: int32 */
             quantityDelta: null | number;
@@ -929,7 +1183,7 @@ export interface components {
         AuthResponse: {
             accessToken: string;
             /** Format: date-time */
-            expiresAt: string;
+            expiresAt: unknown;
             user: components["schemas"]["AuthUserResponse"];
         };
         AuthUserResponse: {
@@ -944,7 +1198,7 @@ export interface components {
             /** Format: int32 */
             booksCount: number;
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             fullBio: null | string;
             hasPage: boolean;
             /** Format: int32 */
@@ -957,13 +1211,13 @@ export interface components {
             slug: string;
             socialLinks: null | string;
             /** Format: date-time */
-            updatedAt: null | string;
+            updatedAt: unknown;
         };
         AuthorAdminListItemDto: {
             /** Format: int32 */
             booksCount: number;
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             hasPage: boolean;
             /** Format: int32 */
             id: number;
@@ -993,6 +1247,12 @@ export interface components {
             shortBio: null | string;
             slug: string;
         };
+        AuthorOptionDto: {
+            /** Format: int32 */
+            id: number;
+            name: string;
+            slug: string;
+        };
         AuthorPhotoForm: {
             photo?: null | components["schemas"]["IFormFile"];
         };
@@ -1017,7 +1277,7 @@ export interface components {
             coverImageUrl: null | string;
             coverType: null | components["schemas"]["CoverType"];
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             description: null | string;
             /** Format: double */
             discountPercent: number;
@@ -1047,7 +1307,7 @@ export interface components {
             stockQuantity: number;
             title: string;
             /** Format: date-time */
-            updatedAt: null | string;
+            updatedAt: unknown;
         };
         BookAdminImageDto: {
             altText: null | string;
@@ -1062,7 +1322,7 @@ export interface components {
         BookAdminListItemDto: {
             coverImageUrl: null | string;
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             /** Format: double */
             discountPercent: number;
             /** Format: int32 */
@@ -1181,13 +1441,46 @@ export interface components {
         BulkUpdateShippingZonesRequest: {
             zones: null | components["schemas"]["BulkShippingZoneItem"][];
         };
+        CartDto: {
+            items: components["schemas"]["CartLineDto"][];
+            /** Format: double */
+            subtotal: number;
+        };
+        /** @enum {string} */
+        CartItemType: "Book" | "Bundle";
+        CartLineDto: {
+            coverImageUrl: null | string;
+            /** Format: double */
+            discountPercent: number;
+            /** Format: int32 */
+            itemId: number;
+            kind: components["schemas"]["CartItemType"];
+            /** Format: double */
+            lineTotal: number;
+            /** Format: double */
+            listUnitPrice: number;
+            /** Format: int32 */
+            productId: number;
+            /** Format: int32 */
+            quantity: number;
+            slug: string;
+            title: string;
+            /** Format: double */
+            unitPrice: number;
+            warnings: components["schemas"]["CartWarningDto"][];
+        };
+        CartWarningDto: {
+            /** Format: int32 */
+            availableQuantity: null | number;
+            code: string;
+        };
         CategoryAdminDto: {
             /** Format: int32 */
             booksCount: number;
             /** Format: int32 */
             childrenCount: number;
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             /** Format: int32 */
             displayOrder: number;
             /** Format: int32 */
@@ -1199,7 +1492,7 @@ export interface components {
             parentId: null | number;
             slug: string;
             /** Format: date-time */
-            updatedAt: null | string;
+            updatedAt: unknown;
         };
         CategoryDetailsDto: {
             breadcrumb: components["schemas"]["CategorySummaryDto"][];
@@ -1235,6 +1528,46 @@ export interface components {
             rowVersion: null | string;
             status: null | string;
         };
+        CheckoutPreviewDto: {
+            couponCode: null | string;
+            /** Format: double */
+            couponDiscount: number;
+            freeShippingApplied: boolean;
+            items: components["schemas"]["CheckoutPreviewItemDto"][];
+            /** Format: double */
+            shippingFee: number;
+            /** Format: double */
+            subtotal: number;
+            /** Format: double */
+            total: number;
+            zone: components["schemas"]["CheckoutPreviewZoneDto"];
+        };
+        CheckoutPreviewItemDto: {
+            /** Format: int32 */
+            availableQuantity: null | number;
+            /** Format: int32 */
+            bookId: null | number;
+            /** Format: int32 */
+            bundleId: null | number;
+            kind: components["schemas"]["CartItemType"];
+            /** Format: double */
+            lineTotal: number;
+            /** Format: int32 */
+            quantity: number;
+            title: string;
+            /** Format: double */
+            unitPrice: number;
+            warning: null | string;
+        };
+        CheckoutPreviewZoneDto: {
+            /** Format: double */
+            freeShippingThreshold: null | number;
+            governorate: string;
+            /** Format: int32 */
+            id: number;
+            /** Format: double */
+            shippingFee: number;
+        };
         ConfirmEmailCommand: {
             token: string;
             /** Format: int32 */
@@ -1248,8 +1581,118 @@ export interface components {
         };
         /** @enum {string} */
         ContributorRole: "Author" | "Translator" | "Editor" | "Illustrator";
+        CouponAdminDetailsDto: {
+            code: string;
+            /** Format: date-time */
+            createdAt: unknown;
+            discountType: components["schemas"]["CouponDiscountType"];
+            /** Format: double */
+            discountValue: number;
+            /** Format: date-time */
+            endsAt: unknown;
+            /** Format: int32 */
+            id: number;
+            isActive: boolean;
+            isExpired: boolean;
+            /** Format: double */
+            maxDiscountAmount: null | number;
+            /** Format: int32 */
+            maxUsesPerUser: number;
+            /** Format: int32 */
+            maxUsesTotal: null | number;
+            /** Format: double */
+            minOrderAmount: null | number;
+            /** Format: int32 */
+            ordersCount: number;
+            /** Format: int32 */
+            remainingUses: null | number;
+            rowVersion: string;
+            /** Format: date-time */
+            startsAt: unknown;
+            /** Format: double */
+            totalDiscount: number;
+            /** Format: date-time */
+            updatedAt: unknown;
+            /** Format: int32 */
+            usedCount: number;
+        };
+        CouponAdminListItemDto: {
+            code: string;
+            /** Format: date-time */
+            createdAt: unknown;
+            discountType: components["schemas"]["CouponDiscountType"];
+            /** Format: double */
+            discountValue: number;
+            /** Format: date-time */
+            endsAt: unknown;
+            /** Format: int32 */
+            id: number;
+            isActive: boolean;
+            isExpired: boolean;
+            /** Format: double */
+            maxDiscountAmount: null | number;
+            /** Format: int32 */
+            maxUsesPerUser: number;
+            /** Format: int32 */
+            maxUsesTotal: null | number;
+            /** Format: double */
+            minOrderAmount: null | number;
+            /** Format: date-time */
+            startsAt: unknown;
+            /** Format: int32 */
+            usedCount: number;
+        };
+        CouponBelowMinimumProblemDetails: {
+            detail?: null | string;
+            instance?: null | string;
+            /** Format: double */
+            minimumOrderAmount?: null | number;
+            /** Format: int32 */
+            status?: null | number;
+            title?: null | string;
+            type?: null | string;
+        };
+        /** @enum {string} */
+        CouponDiscountType: "Percent" | "Fixed";
+        /** @enum {string} */
+        CouponStatusFilter: "All" | "Active" | "Inactive" | "Expired";
+        CouponUsageDto: {
+            /** Format: double */
+            discountAmount: number;
+            /** Format: int32 */
+            id: number;
+            isOrderCancelled: boolean;
+            /** Format: uuid */
+            orderId: string;
+            orderNumber: string;
+            /** Format: date-time */
+            usedAt: unknown;
+            userEmail: null | string;
+            /** Format: int32 */
+            userId: number;
+            userName: string;
+        };
+        CouponValidationDto: {
+            code: string;
+            /** Format: double */
+            discountAmount: number;
+            discountType: components["schemas"]["CouponDiscountType"];
+            /** Format: double */
+            subtotal: number;
+            /** Format: double */
+            subtotalAfterDiscount: number;
+        };
         /** @enum {null|string} */
         CoverType: "Paperback" | "Hardcover" | null;
+        CreateAddressRequest: {
+            addressLine: null | string;
+            city: null | string;
+            landmark: null | string;
+            phone: null | string;
+            recipientName: null | string;
+            /** Format: int32 */
+            shippingZoneId: number;
+        };
         CreateAuthorRequest: {
             fullBio: null | string;
             hasPage: null | boolean;
@@ -1298,6 +1741,22 @@ export interface components {
             /** Format: int32 */
             parentId: null | number;
         };
+        CreateCouponRequest: {
+            code: null | string;
+            discountType: null | components["schemas"]["CouponDiscountType"];
+            /** Format: double */
+            discountValue: null | number;
+            endsAt: null | string;
+            /** Format: double */
+            maxDiscountAmount: null | number;
+            /** Format: int32 */
+            maxUsesPerUser: null | number;
+            /** Format: int32 */
+            maxUsesTotal: null | number;
+            /** Format: double */
+            minOrderAmount: null | number;
+            startsAt: null | string;
+        };
         CreatePublisherRequest: {
             isOwn: boolean;
             name: null | string;
@@ -1310,7 +1769,7 @@ export interface components {
             key: string;
             module: string;
             /** Format: date-time */
-            updatedAt: string;
+            updatedAt: unknown;
             visibleToOwner: boolean;
         };
         FeatureFlagStateDto: {
@@ -1416,6 +1875,32 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PagedResultOfCouponAdminListItemDto: {
+            hasNextPage?: boolean;
+            hasPreviousPage?: boolean;
+            items: components["schemas"]["CouponAdminListItemDto"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalCount: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PagedResultOfCouponUsageDto: {
+            hasNextPage?: boolean;
+            hasPreviousPage?: boolean;
+            items: components["schemas"]["CouponUsageDto"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalCount: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PagedResultOfPublisherAdminListItemDto: {
             hasNextPage?: boolean;
             hasPreviousPage?: boolean;
@@ -1453,6 +1938,13 @@ export interface components {
         PingResponse: {
             status: string;
         };
+        PreviewCheckoutRequest: {
+            /** Format: int32 */
+            addressId: null | number;
+            couponCode: null | string;
+            /** Format: int32 */
+            zoneId: null | number;
+        };
         ProblemDetails: {
             code?: null | string;
             detail?: null | string;
@@ -1472,7 +1964,7 @@ export interface components {
             /** Format: int32 */
             booksCount: number;
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             /** Format: int32 */
             id: number;
             isDeleted: boolean;
@@ -1482,7 +1974,7 @@ export interface components {
             shortDescription: null | string;
             slug: string;
             /** Format: date-time */
-            updatedAt: null | string;
+            updatedAt: unknown;
         };
         PublisherDto: {
             /** Format: int32 */
@@ -1537,6 +2029,9 @@ export interface components {
             permissions: components["schemas"]["RolePermissionItem"][];
             role: string;
         };
+        SetCouponStatusRequest: {
+            isActive: null | boolean;
+        };
         SetEnabledRequest: {
             enabled: null | boolean;
         };
@@ -1563,7 +2058,7 @@ export interface components {
             /** Format: double */
             shippingPrice: number;
             /** Format: date-time */
-            updatedAt: null | string;
+            updatedAt: unknown;
         };
         ShippingZonePublicDto: {
             /** Format: uint8 */
@@ -1582,22 +2077,32 @@ export interface components {
             key: string;
             title: string;
             /** Format: date-time */
-            updatedAt: string;
+            updatedAt: unknown;
         };
         StaticPageListItemDto: {
             key: string;
             title: string;
             /** Format: date-time */
-            updatedAt: string;
+            updatedAt: unknown;
         };
         StaticPagePublicDto: {
             body: string;
             key: string;
             title: string;
         };
+        StockInsufficientProblemDetails: {
+            /** Format: int32 */
+            availableQuantity?: number;
+            detail?: null | string;
+            instance?: null | string;
+            /** Format: int32 */
+            status?: null | number;
+            title?: null | string;
+            type?: null | string;
+        };
         StockMovementDto: {
             /** Format: date-time */
-            createdAt: string;
+            createdAt: unknown;
             /** Format: int32 */
             createdBy: null | number;
             /** Format: int32 */
@@ -1622,7 +2127,7 @@ export interface components {
             key: string;
             rowVersion: string;
             /** Format: date-time */
-            updatedAt: string;
+            updatedAt: unknown;
             value: string;
             valueType: string;
         };
@@ -1635,6 +2140,15 @@ export interface components {
         TransferNumbers: {
             instaPay: string;
             vodafoneCash: string;
+        };
+        UpdateAddressRequest: {
+            addressLine: null | string;
+            city: null | string;
+            landmark: null | string;
+            phone: null | string;
+            recipientName: null | string;
+            /** Format: int32 */
+            shippingZoneId: number;
         };
         UpdateAuthorRequest: {
             fullBio: null | string;
@@ -1666,6 +2180,10 @@ export interface components {
             rowVersion?: null | string;
             title?: null | string;
         };
+        UpdateCartItemQuantityRequest: {
+            /** Format: int32 */
+            quantity: number;
+        };
         UpdateCategoryRequest: {
             /**
              * Format: int32
@@ -1677,6 +2195,23 @@ export interface components {
             name: null | string;
             /** Format: int32 */
             parentId: null | number;
+        };
+        UpdateCouponRequest: {
+            code: null | string;
+            discountType: null | components["schemas"]["CouponDiscountType"];
+            /** Format: double */
+            discountValue: null | number;
+            endsAt: null | string;
+            /** Format: double */
+            maxDiscountAmount: null | number;
+            /** Format: int32 */
+            maxUsesPerUser: null | number;
+            /** Format: int32 */
+            maxUsesTotal: null | number;
+            /** Format: double */
+            minOrderAmount: null | number;
+            rowVersion: null | string;
+            startsAt: null | string;
         };
         UpdatePageRequest: {
             body: null | string;
@@ -1698,6 +2233,9 @@ export interface components {
             isActive: null | boolean;
             /** Format: double */
             shippingPrice: null | number;
+        };
+        ValidateCouponRequest: {
+            code: null | string;
         };
     };
     responses: never;
@@ -3540,6 +4078,525 @@ export interface operations {
             };
         };
     };
+    listAdminCoupons: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["CouponStatusFilter"];
+                q?: string;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PagedResultOfCouponAdminListItemDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    createAdminCoupon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCouponRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CouponAdminDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    getAdminCoupon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CouponAdminDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    updateAdminCoupon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCouponRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CouponAdminDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    deleteAdminCoupon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    setAdminCouponStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetCouponStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CouponAdminDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    listAdminCouponUsages: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PagedResultOfCouponUsageDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
     listAdminPages: {
         parameters: {
             query?: never;
@@ -5112,6 +6169,35 @@ export interface operations {
             };
         };
     };
+    listAuthorOptions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthorOptionDto"][];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
     getAuthorBySlug: {
         parameters: {
             query?: never;
@@ -5367,6 +6453,339 @@ export interface operations {
             };
         };
     };
+    getCart: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CartDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    clearCart: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    addCartItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddCartItemRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CartDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["StockInsufficientProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    updateCartItemQuantity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCartItemQuantityRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CartDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["StockInsufficientProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    removeCartItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
     getCategoryTree: {
         parameters: {
             query?: never;
@@ -5432,6 +6851,171 @@ export interface operations {
                 };
                 content: {
                     "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    previewCheckout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreviewCheckoutRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CheckoutPreviewDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["CouponBelowMinimumProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    validateCoupon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ValidateCouponRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CouponValidationDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["CouponBelowMinimumProblemDetails"];
                 };
             };
             /** @description Too Many Requests */
@@ -5601,6 +7185,35 @@ export interface operations {
             };
         };
     };
+    listEnabledFeatureFlags: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string[];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
     getMe: {
         parameters: {
             query?: never;
@@ -5621,6 +7234,345 @@ export interface operations {
             };
             /** @description Unauthorized */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    listAddresses: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressDto"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    createAddress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAddressRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    getAddress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    updateAddress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAddressRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AddressDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    deleteAddress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    setDefaultAddress: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

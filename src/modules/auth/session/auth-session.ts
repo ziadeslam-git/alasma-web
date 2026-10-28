@@ -34,7 +34,10 @@ function getCoordinator(): RefreshCoordinator {
     refresh: async () => {
       const response = await refreshApi.refresh();
 
-      return { accessToken: response.accessToken, expiresAt: Date.parse(response.expiresAt) };
+      return {
+        accessToken: response.accessToken,
+        expiresAt: Date.parse(String(response.expiresAt)),
+      };
     },
     store: sessionStore,
   });

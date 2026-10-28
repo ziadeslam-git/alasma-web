@@ -97,7 +97,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     const response = await api.login(credentials);
     const session = {
       accessToken: response.accessToken,
-      expiresAt: Date.parse(response.expiresAt),
+      expiresAt: Date.parse(String(response.expiresAt)),
     };
 
     sessionStore.set(session.accessToken, session.expiresAt);

@@ -1,6 +1,82 @@
 {
   "components": {
     "schemas": {
+      "AddCartItemRequest": {
+        "properties": {
+          "bookId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "bundleId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "bookId",
+          "bundleId",
+          "quantity"
+        ],
+        "type": "object"
+      },
+      "AddressDto": {
+        "properties": {
+          "addressLine": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "governorateName": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "landmark": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "recipientName": {
+            "type": "string"
+          },
+          "shippingZoneId": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "recipientName",
+          "phone",
+          "shippingZoneId",
+          "governorateName",
+          "city",
+          "addressLine",
+          "landmark",
+          "isDefault"
+        ],
+        "type": "object"
+      },
       "AdjustBookStockRequest": {
         "properties": {
           "quantityDelta": {
@@ -36,8 +112,7 @@
             "type": "string"
           },
           "expiresAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "user": {
             "$ref": "#/components/schemas/AuthUserResponse"
@@ -88,8 +163,7 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "fullBio": {
             "type": [
@@ -135,11 +209,7 @@
             ]
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": [
-              "null",
-              "string"
-            ]
+            "format": "date-time"
           }
         },
         "required": [
@@ -166,8 +236,7 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "hasPage": {
             "type": "boolean"
@@ -304,6 +373,26 @@
         ],
         "type": "object"
       },
+      "AuthorOptionDto": {
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "type": "object"
+      },
       "AuthorPhotoForm": {
         "properties": {
           "photo": {
@@ -401,8 +490,7 @@
             ]
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "description": {
             "type": [
@@ -495,11 +583,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": [
-              "null",
-              "string"
-            ]
+            "format": "date-time"
           }
         },
         "required": [
@@ -578,8 +662,7 @@
             ]
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "discountPercent": {
             "format": "double",
@@ -1081,6 +1164,119 @@
         ],
         "type": "object"
       },
+      "CartDto": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CartLineDto"
+            },
+            "type": "array"
+          },
+          "subtotal": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "items",
+          "subtotal"
+        ],
+        "type": "object"
+      },
+      "CartItemType": {
+        "enum": [
+          "Book",
+          "Bundle"
+        ],
+        "type": "string"
+      },
+      "CartLineDto": {
+        "properties": {
+          "coverImageUrl": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "discountPercent": {
+            "format": "double",
+            "type": "number"
+          },
+          "itemId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/CartItemType"
+          },
+          "lineTotal": {
+            "format": "double",
+            "type": "number"
+          },
+          "listUnitPrice": {
+            "format": "double",
+            "type": "number"
+          },
+          "productId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "format": "double",
+            "type": "number"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/CartWarningDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "itemId",
+          "kind",
+          "productId",
+          "slug",
+          "title",
+          "coverImageUrl",
+          "quantity",
+          "listUnitPrice",
+          "discountPercent",
+          "unitPrice",
+          "lineTotal",
+          "warnings"
+        ],
+        "type": "object"
+      },
+      "CartWarningDto": {
+        "properties": {
+          "availableQuantity": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "availableQuantity"
+        ],
+        "type": "object"
+      },
       "CategoryAdminDto": {
         "properties": {
           "booksCount": {
@@ -1092,8 +1288,7 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "displayOrder": {
             "format": "int32",
@@ -1126,11 +1321,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": [
-              "null",
-              "string"
-            ]
+            "format": "date-time"
           }
         },
         "required": [
@@ -1294,6 +1485,145 @@
         ],
         "type": "object"
       },
+      "CheckoutPreviewDto": {
+        "properties": {
+          "couponCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "couponDiscount": {
+            "format": "double",
+            "type": "number"
+          },
+          "freeShippingApplied": {
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CheckoutPreviewItemDto"
+            },
+            "type": "array"
+          },
+          "shippingFee": {
+            "format": "double",
+            "type": "number"
+          },
+          "subtotal": {
+            "format": "double",
+            "type": "number"
+          },
+          "total": {
+            "format": "double",
+            "type": "number"
+          },
+          "zone": {
+            "$ref": "#/components/schemas/CheckoutPreviewZoneDto"
+          }
+        },
+        "required": [
+          "items",
+          "subtotal",
+          "couponCode",
+          "couponDiscount",
+          "shippingFee",
+          "freeShippingApplied",
+          "total",
+          "zone"
+        ],
+        "type": "object"
+      },
+      "CheckoutPreviewItemDto": {
+        "properties": {
+          "availableQuantity": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "bookId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "bundleId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "kind": {
+            "$ref": "#/components/schemas/CartItemType"
+          },
+          "lineTotal": {
+            "format": "double",
+            "type": "number"
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "format": "double",
+            "type": "number"
+          },
+          "warning": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "bookId",
+          "bundleId",
+          "title",
+          "unitPrice",
+          "quantity",
+          "lineTotal",
+          "warning",
+          "availableQuantity"
+        ],
+        "type": "object"
+      },
+      "CheckoutPreviewZoneDto": {
+        "properties": {
+          "freeShippingThreshold": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "governorate": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "shippingFee": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "governorate",
+          "shippingFee",
+          "freeShippingThreshold"
+        ],
+        "type": "object"
+      },
       "ConfirmEmailCommand": {
         "properties": {
           "token": {
@@ -1342,6 +1672,329 @@
         ],
         "type": "string"
       },
+      "CouponAdminDetailsDto": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time"
+          },
+          "discountType": {
+            "$ref": "#/components/schemas/CouponDiscountType"
+          },
+          "discountValue": {
+            "format": "double",
+            "type": "number"
+          },
+          "endsAt": {
+            "format": "date-time"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isExpired": {
+            "type": "boolean"
+          },
+          "maxDiscountAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "maxUsesPerUser": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "maxUsesTotal": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "minOrderAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "ordersCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "remainingUses": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "rowVersion": {
+            "type": "string"
+          },
+          "startsAt": {
+            "format": "date-time"
+          },
+          "totalDiscount": {
+            "format": "double",
+            "type": "number"
+          },
+          "updatedAt": {
+            "format": "date-time"
+          },
+          "usedCount": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "discountType",
+          "discountValue",
+          "maxDiscountAmount",
+          "minOrderAmount",
+          "startsAt",
+          "endsAt",
+          "maxUsesPerUser",
+          "maxUsesTotal",
+          "usedCount",
+          "remainingUses",
+          "isActive",
+          "isExpired",
+          "totalDiscount",
+          "ordersCount",
+          "rowVersion",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "CouponAdminListItemDto": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time"
+          },
+          "discountType": {
+            "$ref": "#/components/schemas/CouponDiscountType"
+          },
+          "discountValue": {
+            "format": "double",
+            "type": "number"
+          },
+          "endsAt": {
+            "format": "date-time"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isExpired": {
+            "type": "boolean"
+          },
+          "maxDiscountAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "maxUsesPerUser": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "maxUsesTotal": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "minOrderAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "startsAt": {
+            "format": "date-time"
+          },
+          "usedCount": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "discountType",
+          "discountValue",
+          "maxDiscountAmount",
+          "minOrderAmount",
+          "startsAt",
+          "endsAt",
+          "maxUsesPerUser",
+          "maxUsesTotal",
+          "usedCount",
+          "isActive",
+          "isExpired",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "CouponBelowMinimumProblemDetails": {
+        "properties": {
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "minimumOrderAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "status": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "CouponDiscountType": {
+        "enum": [
+          "Percent",
+          "Fixed"
+        ],
+        "type": "string"
+      },
+      "CouponStatusFilter": {
+        "enum": [
+          "All",
+          "Active",
+          "Inactive",
+          "Expired"
+        ],
+        "type": "string"
+      },
+      "CouponUsageDto": {
+        "properties": {
+          "discountAmount": {
+            "format": "double",
+            "type": "number"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "isOrderCancelled": {
+            "type": "boolean"
+          },
+          "orderId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "usedAt": {
+            "format": "date-time"
+          },
+          "userEmail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "userId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "userName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "userName",
+          "userEmail",
+          "orderId",
+          "orderNumber",
+          "discountAmount",
+          "usedAt",
+          "isOrderCancelled"
+        ],
+        "type": "object"
+      },
+      "CouponValidationDto": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "discountAmount": {
+            "format": "double",
+            "type": "number"
+          },
+          "discountType": {
+            "$ref": "#/components/schemas/CouponDiscountType"
+          },
+          "subtotal": {
+            "format": "double",
+            "type": "number"
+          },
+          "subtotalAfterDiscount": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "code",
+          "discountType",
+          "discountAmount",
+          "subtotal",
+          "subtotalAfterDiscount"
+        ],
+        "type": "object"
+      },
       "CoverType": {
         "enum": [
           "Paperback",
@@ -1352,6 +2005,53 @@
           "null",
           "string"
         ]
+      },
+      "CreateAddressRequest": {
+        "properties": {
+          "addressLine": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "city": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "landmark": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "phone": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "recipientName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "shippingZoneId": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "recipientName",
+          "phone",
+          "shippingZoneId",
+          "city",
+          "addressLine",
+          "landmark"
+        ],
+        "type": "object"
       },
       "CreateAuthorRequest": {
         "properties": {
@@ -1554,6 +2254,85 @@
         ],
         "type": "object"
       },
+      "CreateCouponRequest": {
+        "properties": {
+          "code": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "discountType": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/CouponDiscountType"
+              }
+            ]
+          },
+          "discountValue": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "endsAt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "maxDiscountAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "maxUsesPerUser": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "maxUsesTotal": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "minOrderAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "startsAt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "discountType",
+          "discountValue",
+          "maxDiscountAmount",
+          "minOrderAmount",
+          "startsAt",
+          "endsAt",
+          "maxUsesPerUser",
+          "maxUsesTotal"
+        ],
+        "type": "object"
+      },
       "CreatePublisherRequest": {
         "properties": {
           "isOwn": {
@@ -1597,8 +2376,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "visibleToOwner": {
             "type": "boolean"
@@ -1986,6 +2764,84 @@
         ],
         "type": "object"
       },
+      "PagedResultOfCouponAdminListItemDto": {
+        "properties": {
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CouponAdminListItemDto"
+            },
+            "type": "array"
+          },
+          "page": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "pageSize": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalPages": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "totalCount"
+        ],
+        "type": "object"
+      },
+      "PagedResultOfCouponUsageDto": {
+        "properties": {
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CouponUsageDto"
+            },
+            "type": "array"
+          },
+          "page": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "pageSize": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalPages": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "totalCount"
+        ],
+        "type": "object"
+      },
       "PagedResultOfPublisherAdminListItemDto": {
         "properties": {
           "hasNextPage": {
@@ -2106,6 +2962,36 @@
         ],
         "type": "object"
       },
+      "PreviewCheckoutRequest": {
+        "properties": {
+          "addressId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "couponCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "zoneId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          }
+        },
+        "required": [
+          "addressId",
+          "zoneId",
+          "couponCode"
+        ],
+        "type": "object"
+      },
       "ProblemDetails": {
         "properties": {
           "code": {
@@ -2175,8 +3061,7 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "id": {
             "format": "int32",
@@ -2207,11 +3092,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": [
-              "null",
-              "string"
-            ]
+            "format": "date-time"
           }
         },
         "required": [
@@ -2446,6 +3327,20 @@
         ],
         "type": "object"
       },
+      "SetCouponStatusRequest": {
+        "properties": {
+          "isActive": {
+            "type": [
+              "null",
+              "boolean"
+            ]
+          }
+        },
+        "required": [
+          "isActive"
+        ],
+        "type": "object"
+      },
       "SetEnabledRequest": {
         "properties": {
           "enabled": {
@@ -2543,11 +3438,7 @@
             "type": "number"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": [
-              "null",
-              "string"
-            ]
+            "format": "date-time"
           }
         },
         "required": [
@@ -2616,8 +3507,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           }
         },
         "required": [
@@ -2637,8 +3527,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           }
         },
         "required": [
@@ -2667,11 +3556,50 @@
         ],
         "type": "object"
       },
+      "StockInsufficientProblemDetails": {
+        "properties": {
+          "availableQuantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "type": "object"
+      },
       "StockMovementDto": {
         "properties": {
           "createdAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "createdBy": {
             "format": "int32",
@@ -2762,8 +3690,7 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time",
-            "type": "string"
+            "format": "date-time"
           },
           "value": {
             "type": "string"
@@ -2817,6 +3744,53 @@
         "required": [
           "vodafoneCash",
           "instaPay"
+        ],
+        "type": "object"
+      },
+      "UpdateAddressRequest": {
+        "properties": {
+          "addressLine": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "city": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "landmark": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "phone": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "recipientName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "shippingZoneId": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "recipientName",
+          "phone",
+          "shippingZoneId",
+          "city",
+          "addressLine",
+          "landmark"
         ],
         "type": "object"
       },
@@ -2969,6 +3943,18 @@
         },
         "type": "object"
       },
+      "UpdateCartItemQuantityRequest": {
+        "properties": {
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "quantity"
+        ],
+        "type": "object"
+      },
       "UpdateCategoryRequest": {
         "properties": {
           "displayOrder": {
@@ -2997,6 +3983,92 @@
         "required": [
           "name",
           "parentId"
+        ],
+        "type": "object"
+      },
+      "UpdateCouponRequest": {
+        "properties": {
+          "code": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "discountType": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/CouponDiscountType"
+              }
+            ]
+          },
+          "discountValue": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "endsAt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "maxDiscountAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "maxUsesPerUser": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "maxUsesTotal": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "minOrderAmount": {
+            "format": "double",
+            "type": [
+              "null",
+              "number"
+            ]
+          },
+          "rowVersion": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "startsAt": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "discountType",
+          "discountValue",
+          "maxDiscountAmount",
+          "minOrderAmount",
+          "startsAt",
+          "endsAt",
+          "maxUsesPerUser",
+          "maxUsesTotal",
+          "rowVersion"
         ],
         "type": "object"
       },
@@ -3098,6 +4170,20 @@
           "freeShippingThreshold",
           "estimatedDays",
           "isActive"
+        ],
+        "type": "object"
+      },
+      "ValidateCouponRequest": {
+        "properties": {
+          "code": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "code"
         ],
         "type": "object"
       }
@@ -5552,6 +6638,707 @@
         ]
       }
     },
+    "/api/v1/admin/coupons": {
+      "get": {
+        "description": "Filter by status (All, Active, Inactive, Expired) and q (part of the code).",
+        "operationId": "listAdminCoupons",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/CouponStatusFilter",
+              "default": "All"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfCouponAdminListItemDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      },
+      "post": {
+        "description": "maxUsesPerUser is optional (the store setting Coupon.MaxUsesPerUserDefault when missing). startsAt and endsAt are a date (2026-01-15) or a date with a time. An endsAt date alone means the end of that day in Cairo; a startsAt date alone means its start.",
+        "operationId": "createAdminCoupon",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCouponRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponAdminDetailsDto"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      }
+    },
+    "/api/v1/admin/coupons/{id}": {
+      "delete": {
+        "description": "A soft delete: the uses and the orders keep their history and the usages list still works. A coupon used at the same moment can answer 409 coupon_concurrency_conflict.",
+        "operationId": "deleteAdminCoupon",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      },
+      "get": {
+        "description": "The coupon with its statistics and the rowVersion (base64) for the next update.",
+        "operationId": "getAdminCoupon",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponAdminDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      },
+      "put": {
+        "description": "A full replace. rowVersion (base64) is the one the details route returned. Every use of the coupon changes its rowVersion, so a coupon that is being used answers 409 coupon_concurrency_conflict: reload it and send again. A maxUsesTotal below the uses so far answers 422 coupon_total_below_used.",
+        "operationId": "updateAdminCoupon",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCouponRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponAdminDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      }
+    },
+    "/api/v1/admin/coupons/{id}/status": {
+      "patch": {
+        "description": "Switches the coupon on or off. If the coupon is used at the same moment the answer can be 409 coupon_concurrency_conflict: send it again.",
+        "operationId": "setAdminCouponStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetCouponStatusRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponAdminDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      }
+    },
+    "/api/v1/admin/coupons/{id}/usages": {
+      "get": {
+        "description": "Who used the coupon, in which order and for how much, newest first. Page size 1 to 100.",
+        "operationId": "listAdminCouponUsages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfCouponUsageDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Coupons"
+        ]
+      }
+    },
     "/api/v1/admin/pages": {
       "get": {
         "operationId": "listAdminPages",
@@ -7546,6 +9333,39 @@
         ]
       }
     },
+    "/api/v1/authors/options": {
+      "get": {
+        "operationId": "listAuthorOptions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AuthorOptionDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "tags": [
+          "Catalog"
+        ]
+      }
+    },
     "/api/v1/authors/{slug}": {
       "get": {
         "operationId": "getAuthorBySlug",
@@ -7926,6 +9746,408 @@
         ]
       }
     },
+    "/api/v1/cart": {
+      "delete": {
+        "operationId": "clearCart",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Cart"
+        ]
+      },
+      "get": {
+        "operationId": "getCart",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Cart"
+        ]
+      }
+    },
+    "/api/v1/cart/items": {
+      "post": {
+        "description": "Returns 201 with the whole cart when a new line was created. When the quantity was merged into an existing line the status is 200 with the same body. A 409 stock_insufficient problem carries availableQuantity.",
+        "operationId": "addCartItem",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCartItemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartDto"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockInsufficientProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Cart"
+        ]
+      }
+    },
+    "/api/v1/cart/items/{itemId}": {
+      "delete": {
+        "operationId": "removeCartItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Cart"
+        ]
+      },
+      "put": {
+        "operationId": "updateCartItemQuantity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCartItemQuantityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockInsufficientProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Cart"
+        ]
+      }
+    },
     "/api/v1/categories": {
       "get": {
         "operationId": "getCategoryTree",
@@ -8016,6 +10238,207 @@
         },
         "tags": [
           "Catalog"
+        ]
+      }
+    },
+    "/api/v1/checkout/preview": {
+      "post": {
+        "description": "Read only: prices the current cart for an address or a shipping zone and an optional coupon. Nothing is reserved, used or stored. Send exactly one of addressId and zoneId. zone.shippingFee is the base price of the zone; the top-level shippingFee is the fee actually charged (0 when free shipping applies).",
+        "operationId": "previewCheckout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreviewCheckoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutPreviewDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponBelowMinimumProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Checkout"
+        ]
+      }
+    },
+    "/api/v1/coupons/validate": {
+      "post": {
+        "operationId": "validateCoupon",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateCouponRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponValidationDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponBelowMinimumProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Coupons"
         ]
       }
     },
@@ -8221,6 +10644,39 @@
         ]
       }
     },
+    "/api/v1/feature-flags/enabled": {
+      "get": {
+        "operationId": "listEnabledFeatureFlags",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "tags": [
+          "FeatureFlags"
+        ]
+      }
+    },
     "/api/v1/me": {
       "get": {
         "operationId": "getMe",
@@ -8263,6 +10719,434 @@
         ],
         "tags": [
           "Me"
+        ]
+      }
+    },
+    "/api/v1/me/addresses": {
+      "get": {
+        "operationId": "listAddresses",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AddressDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      },
+      "post": {
+        "operationId": "createAddress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAddressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressDto"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      }
+    },
+    "/api/v1/me/addresses/{id}": {
+      "delete": {
+        "operationId": "deleteAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      },
+      "get": {
+        "operationId": "getAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      },
+      "put": {
+        "operationId": "updateAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAddressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
+        ]
+      }
+    },
+    "/api/v1/me/addresses/{id}/default": {
+      "put": {
+        "operationId": "setDefaultAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Addresses"
         ]
       }
     },
@@ -8507,6 +11391,9 @@
   },
   "tags": [
     {
+      "name": "Addresses"
+    },
+    {
       "name": "Admin Authors"
     },
     {
@@ -8514,6 +11401,9 @@
     },
     {
       "name": "Admin Categories"
+    },
+    {
+      "name": "Admin Coupons"
     },
     {
       "name": "Admin Pages"
@@ -8534,7 +11424,16 @@
       "name": "Auth"
     },
     {
+      "name": "Cart"
+    },
+    {
       "name": "Catalog"
+    },
+    {
+      "name": "Checkout"
+    },
+    {
+      "name": "Coupons"
     },
     {
       "name": "Dev"
