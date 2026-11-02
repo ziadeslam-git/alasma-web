@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 import { CLOUDINARY_CLOUD_NAME } from './src/shared/config/cloudinary';
+import { getDevImageHosts } from './src/shared/config/dev-image-hosts';
 import { buildSecurityHeaders } from './src/shared/config/security-headers';
 import { defaultApiOrigin } from './src/shared/lib/api/api-origin';
 
@@ -18,6 +19,7 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: `/${CLOUDINARY_CLOUD_NAME}/**`,
       },
+      ...getDevImageHosts().remotePatterns,
     ],
   },
   async headers() {

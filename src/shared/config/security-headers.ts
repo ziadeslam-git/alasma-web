@@ -1,3 +1,5 @@
+import { getDevImageHosts } from './dev-image-hosts';
+
 export type SecurityHeader = {
   key: string;
   value: string;
@@ -14,6 +16,7 @@ export function buildCspReportOnlyHeader(options: SecurityHeadersOptions = {}): 
   const scriptSrc = isProduction
     ? "script-src 'self' 'unsafe-inline'"
     : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
+  const devImageHosts = isProduction ? [] : getDevImageHosts().cspHosts;
 
   return [
     "default-src 'self'",
@@ -21,7 +24,7 @@ export function buildCspReportOnlyHeader(options: SecurityHeadersOptions = {}): 
     "frame-ancestors 'none'",
     "object-src 'none'",
     "form-action 'self'",
-    "img-src 'self' data: blob: https://res.cloudinary.com",
+    ["img-src 'self' data: blob: https://res.cloudinary.com", ...devImageHosts].join(' '),
     "font-src 'self'",
     "style-src 'self' 'unsafe-inline'",
     scriptSrc,

@@ -1,9 +1,21 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CLOUDINARY_CLOUD_NAME } from './cloudinary';
 import { buildCspReportOnlyHeader, buildSecurityHeaders } from './security-headers';
 
 describe('securityHeaders', () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it('allows development image hosts only in development CSP', () => {
+    vi.stubEnv('NODE_ENV', 'development');
+    const development = buildCspReportOnlyHeader({ isProduction: false });
+    expect(development).toContain('https://picsum.photos');
+    expect(development).toContain('https://fastly.picsum.photos');
+    expect(buildCspReportOnlyHeader({ isProduction: true })).not.toContain('picsum');
+    vi.stubEnv('NODE_ENV', 'production');
+    expect(buildCspReportOnlyHeader()).not.toContain('picsum');
+    expect(buildCspReportOnlyHeader({ isProduction: false })).not.toContain('picsum');
+  });
   it('exports the expected Cloudinary cloud name', () => {
     expect(CLOUDINARY_CLOUD_NAME).toBe('grethdhn');
   });
