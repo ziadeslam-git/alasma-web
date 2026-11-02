@@ -15,6 +15,7 @@ export type SoonProps = {
 };
 
 export type FeatureGateProps = {
+  badge?: SoonBadgePosition;
   children: ReactNode;
   fallback?: ReactNode;
   feature: FeatureKey;
@@ -27,12 +28,20 @@ export function Soon({ badge = 'corner', children, className, feature, label }: 
   return (
     <div aria-disabled="true" className={wrapperClassName} data-feature={feature} inert>
       {children}
-      <span className={styles.badge}>{label}</span>
+      <span className={styles.badge} data-soon-badge>
+        {label}
+      </span>
     </div>
   );
 }
 
-export function FeatureGate({ children, fallback = null, feature, label }: FeatureGateProps) {
+export function FeatureGate({
+  badge,
+  children,
+  fallback = null,
+  feature,
+  label,
+}: FeatureGateProps) {
   const state = getFeatureState(feature);
   if (state === 'hidden') {
     return fallback;
@@ -40,7 +49,7 @@ export function FeatureGate({ children, fallback = null, feature, label }: Featu
 
   if (state === 'soon') {
     return (
-      <Soon feature={feature} label={label}>
+      <Soon badge={badge} feature={feature} label={label}>
         {children}
       </Soon>
     );

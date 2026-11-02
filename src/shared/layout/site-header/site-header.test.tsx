@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
@@ -39,6 +40,37 @@ describe('SiteHeader', () => {
     );
     expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
     expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
+    for (const feature of ['catalog-authors', 'catalog-categories', 'publish-packages']) {
+      const entries = container.querySelectorAll(`[data-feature="${feature}"]`);
+      expect(entries.length).toBeGreaterThan(0);
+      entries.forEach((entry) => {
+        expect(entry).toHaveAttribute('inert');
+        expect(entry.querySelector('a')).toBeNull();
+        expect(entry).toHaveTextContent(messages.site.soon);
+      });
+    }
+  });
+
+  it('keeps unfinished destinations inert in the mobile menu', async () => {
+    const user = userEvent.setup();
+    render(<SiteHeader />);
+    await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
+
+    const dialog = screen.getByRole('dialog');
+    for (const feature of [
+      'catalog-authors',
+      'catalog-categories',
+      'static-pages',
+      'publish-packages',
+    ]) {
+      const entries = dialog.querySelectorAll(`[data-feature="${feature}"]`);
+      expect(entries.length).toBeGreaterThan(0);
+      entries.forEach((entry) => {
+        expect(entry).toHaveAttribute('inert');
+        expect(entry.querySelector('a')).toBeNull();
+        expect(entry).toHaveTextContent(messages.site.soon);
+      });
+    }
   });
 
   it('uses an account slot instead of the guest links', () => {

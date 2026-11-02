@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import messages from '@/i18n/messages/ar.json';
 import { HomeView } from '@/modules/home';
+import { SiteHeader } from '@/shared/layout/site-header';
 
 import { buildDevHomeData, parseDevHomeState, type DevHomeState } from './home-fixtures';
 import styles from './home.module.css';
@@ -38,27 +39,30 @@ export default async function DevHomePage({ searchParams }: DevHomePageProps = {
   const text = messages.devHome;
 
   return (
-    <main className={styles.page} id="main-content">
-      <nav aria-label={text.presetsLabel} className={styles.toolbar}>
-        <div className={styles.toolbarInner}>
-          <span className={styles.toolbarTitle}>{text.title}</span>
-          <ul className={styles.presetList}>
-            {presets.map((preset) => (
-              <li key={preset.key}>
-                <Link
-                  aria-current={state === preset.key ? 'page' : undefined}
-                  className={styles.presetLink}
-                  href={preset.href}
-                >
-                  {text.presets[preset.key]}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
+    <>
+      <SiteHeader />
+      <main className={styles.page} id="main-content">
+        <nav aria-label={text.presetsLabel} className={styles.toolbar}>
+          <div className={styles.toolbarInner}>
+            <span className={styles.toolbarTitle}>{text.title}</span>
+            <ul className={styles.presetList}>
+              {presets.map((preset) => (
+                <li key={preset.key}>
+                  <Link
+                    aria-current={state === preset.key ? 'page' : undefined}
+                    className={styles.presetLink}
+                    href={preset.href}
+                  >
+                    {text.presets[preset.key]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
 
-      <HomeView data={data} />
-    </main>
+        <HomeView data={data} />
+      </main>
+    </>
   );
 }

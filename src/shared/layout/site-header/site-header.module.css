@@ -8,8 +8,9 @@
 
 .wrap {
   display: flex;
+  container-type: inline-size;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-2);
   max-inline-size: 1200px;
   min-block-size: 68px;
   margin-inline: auto;
@@ -40,9 +41,16 @@
   font-weight: 700;
 }
 
+.logo img {
+  display: block;
+  inline-size: auto;
+  block-size: 42px;
+}
+
 .search {
   position: relative;
   flex: 1;
+  min-inline-size: 0;
   max-inline-size: 460px;
 }
 
@@ -73,18 +81,27 @@
 
 .links {
   margin-inline-start: auto;
+  gap: 0;
+  flex: none;
 }
 
 .links a,
 .links [data-feature] {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-1);
   border-radius: var(--radius-pill);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
+  white-space: nowrap;
+}
+
+.links [data-feature] {
+  gap: var(--space-1);
 }
 
 .actions {
-  padding-inline-start: var(--space-4);
+  flex: none;
+  gap: var(--space-1);
+  padding-inline-start: var(--space-2);
   border-inline-start: 1px solid var(--hair);
 }
 
@@ -103,6 +120,16 @@
 
 .language {
   font-size: 12px;
+  white-space: nowrap;
+}
+
+.guestLinks {
+  flex: none;
+  gap: var(--space-1);
+}
+
+.guestLinks a {
+  white-space: nowrap;
 }
 
 .menuLinks {
@@ -124,6 +151,12 @@
   color: var(--primary);
 }
 
+@container (width <= 1000px) {
+  .actions [data-feature] {
+    display: none;
+  }
+}
+
 @media (width <= 1000px) {
   .wrap {
     min-block-size: 60px;
@@ -138,6 +171,10 @@
 
   .logo {
     margin-inline-end: auto;
+  }
+
+  .logo img {
+    block-size: 34px;
   }
 }
 

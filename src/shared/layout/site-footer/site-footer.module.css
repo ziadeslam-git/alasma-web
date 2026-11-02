@@ -32,6 +32,7 @@
 
 .brand p,
 .links a,
+.links [data-feature] > span:first-child,
 .bottom {
   color: var(--ink-muted);
   font-size: 14px;

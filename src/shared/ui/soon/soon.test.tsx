@@ -5,6 +5,7 @@ import * as featureConfig from '@/shared/config/features';
 import { axe } from '@/test/axe';
 
 import { FeatureGate, Soon } from './soon';
+import { FeatureLink } from './feature-link';
 
 describe('Soon', () => {
   it('keeps its children visible inside an inert, labelled wrapper', () => {
@@ -67,5 +68,25 @@ describe('FeatureGate', () => {
     expect(screen.getByText('Fallback')).toBeInTheDocument();
     expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
     stateSpy.mockRestore();
+  });
+});
+
+describe('FeatureLink', () => {
+  it('renders live destinations as links and deferred destinations without focusable links', () => {
+    const { rerender, container } = render(
+      <FeatureLink feature="catalog-search" href="/books" label="Soon">
+        Store
+      </FeatureLink>,
+    );
+    expect(screen.getByRole('link', { name: 'Store' })).toHaveAttribute('href', '/books');
+    rerender(
+      <FeatureLink feature="catalog-authors" href="/authors" label="Soon">
+        Authors
+      </FeatureLink>,
+    );
+    const gate = container.querySelector('[data-feature="catalog-authors"]');
+    expect(gate).toHaveAttribute('inert');
+    expect(gate?.querySelector('a, button, [tabindex]')).toBeNull();
+    expect(gate).toHaveTextContent('Soon');
   });
 });

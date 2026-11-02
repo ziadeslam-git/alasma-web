@@ -3,17 +3,35 @@ import Image from 'next/image';
 import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
+import type { FeatureKey } from '@/shared/config/features';
 import { routes, staticPageRoute } from '@/shared/config/routes';
 import { MobileNavMenu } from '@/shared/layout/mobile-nav';
 import { ButtonLink } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
-import { FeatureGate } from '@/shared/ui/soon';
+import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import styles from './site-header.module.css';
 
 export type SiteHeaderProps = {
   accountArea?: ReactNode;
 };
+
+function DeferredLink({
+  feature,
+  href,
+  label,
+}: {
+  feature: FeatureKey;
+  href: string;
+  label: string;
+  inline?: boolean;
+}) {
+  return (
+    <FeatureLink feature={feature} href={href} label={messages.site.soon}>
+      {label}
+    </FeatureLink>
+  );
+}
 
 export function SiteHeader({ accountArea }: SiteHeaderProps) {
   const text = messages.site;
@@ -56,32 +74,45 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
         <nav aria-label={text.header.home} className={styles.links}>
           <Link href={routes.home}>{text.header.home}</Link>
           <Link href={routes.books}>{text.header.store}</Link>
-          <FeatureGate feature="home-most-popular" label={text.soon}>
+          <FeatureGate badge="inline" feature="home-most-popular" label={text.soon}>
             <span>{text.header.bestSellers}</span>
           </FeatureGate>
-          <FeatureGate feature="offers-bundles" label={text.soon}>
+          <FeatureGate badge="inline" feature="offers-bundles" label={text.soon}>
             <span>{text.header.offers}</span>
           </FeatureGate>
-          <Link href={routes.authors}>{text.header.authors}</Link>
-          <FeatureGate feature="home-events" label={text.soon}>
+          <DeferredLink
+            feature="catalog-authors"
+            href={routes.authors}
+            inline
+            label={text.header.authors}
+          />
+          <FeatureGate badge="inline" feature="home-events" label={text.soon}>
             <span>{text.header.events}</span>
           </FeatureGate>
-          <FeatureGate feature="publish-packages" label={text.soon}>
-            <Link href={routes.publish}>{text.header.publishPackages}</Link>
-          </FeatureGate>
-          <Link href={routes.categories}>{text.header.categories}</Link>
+          <DeferredLink
+            feature="publish-packages"
+            href={routes.publish}
+            inline
+            label={text.header.publishPackages}
+          />
+          <DeferredLink
+            feature="catalog-categories"
+            href={routes.categories}
+            inline
+            label={text.header.categories}
+          />
         </nav>
         <div className={styles.actions}>
-          <FeatureGate feature="wishlist-heart" label={text.soon}>
-            <Link aria-label={text.header.wishlist} className={styles.iconLink} href={routes.home}>
+          <FeatureLink feature="wishlist-heart" label={text.soon} href={routes.home}>
+            <span aria-label={text.header.wishlist} className={styles.iconLink}>
               <Icon name="heart" />
-            </Link>
-          </FeatureGate>
-          <FeatureGate feature="cart-page" label={text.soon}>
-            <Link aria-label={text.header.cart} className={styles.iconLink} href={routes.cart}>
+            </span>
+          </FeatureLink>
+          <FeatureLink feature="cart-page" label={text.soon} href={routes.cart}>
+            <span aria-label={text.header.cart} className={styles.iconLink}>
               <Icon name="bag" />
-            </Link>
-          </FeatureGate>
+            </span>
+          </FeatureLink>
           <FeatureGate feature="notifications-center" label={text.soon}>
             <span aria-label={text.header.notifications} className={styles.iconLink}>
               <Icon name="bell" />
@@ -100,14 +131,42 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
           <nav aria-label={text.header.menu} className={styles.menuLinks}>
             <Link href={routes.home}>{text.header.home}</Link>
             <Link href={routes.books}>{text.header.store}</Link>
-            <Link href={routes.authors}>{text.header.authors}</Link>
-            <Link href={routes.categories}>{text.header.categories}</Link>
-            <FeatureGate feature="publish-packages" label={text.soon}>
-              <Link href={routes.publish}>{text.header.publishPackages}</Link>
-            </FeatureGate>
-            <Link href={staticPageRoute('about')}>{text.footer.about}</Link>
-            <Link href={staticPageRoute('shipping-policy')}>{text.footer.shipping}</Link>
-            <Link href={staticPageRoute('contact')}>{text.footer.contact}</Link>
+            <DeferredLink
+              feature="catalog-authors"
+              href={routes.authors}
+              inline
+              label={text.header.authors}
+            />
+            <DeferredLink
+              feature="catalog-categories"
+              href={routes.categories}
+              inline
+              label={text.header.categories}
+            />
+            <DeferredLink
+              feature="publish-packages"
+              href={routes.publish}
+              inline
+              label={text.header.publishPackages}
+            />
+            <DeferredLink
+              feature="static-pages"
+              href={staticPageRoute('about')}
+              inline
+              label={text.footer.about}
+            />
+            <DeferredLink
+              feature="static-pages"
+              href={staticPageRoute('shipping-policy')}
+              inline
+              label={text.footer.shipping}
+            />
+            <DeferredLink
+              feature="static-pages"
+              href={staticPageRoute('contact')}
+              inline
+              label={text.footer.contact}
+            />
           </nav>
         </MobileNavMenu>
       </div>

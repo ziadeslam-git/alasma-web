@@ -1,10 +1,9 @@
-import Link from 'next/link';
-
 import messages from '@/i18n/messages/ar.json';
 import type { CategoryNode } from '@/modules/catalog';
 import { categoryRoute } from '@/shared/config/routes';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Icon, type IconName } from '@/shared/ui/icon';
+import { FeatureLink } from '@/shared/ui/soon';
 
 import type { HomeSectionResult } from '../types';
 import styles from './home-categories-section.module.css';
@@ -31,12 +30,17 @@ export function HomeCategoriesSection({ result }: HomeCategoriesSectionProps) {
             const iconName = categoryIcons[index % categoryIcons.length] ?? 'book';
             return (
               <li className={styles.chipItem} key={category.id}>
-                <Link className={styles.chip} href={categoryRoute(category.slug)}>
+                <FeatureLink
+                  className={styles.chip}
+                  feature="catalog-categories"
+                  href={categoryRoute(category.slug)}
+                  label={messages.site.soon}
+                >
                   <span aria-hidden="true" className={styles.iconCircle}>
                     <Icon name={iconName} size="sm" />
                   </span>
                   <span>{category.name}</span>
-                </Link>
+                </FeatureLink>
               </li>
             );
           })}

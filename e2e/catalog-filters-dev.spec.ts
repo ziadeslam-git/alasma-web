@@ -151,6 +151,19 @@ test('an Arabic slug round-trips through the URL and selects its option', async 
   await expectNoOverflow(page);
 });
 
+test('category navigation filters the catalog and retains other filters', async ({ page }) => {
+  await page.goto(`${PAGE}?author=sami-alhakim&page=3`);
+  await page.getByRole('link', { name: fixtures.poetry, exact: true }).click();
+  await expect.poll(() => search(page).get('category')).toBe(fixtures.poetry);
+  expect(search(page).get('author')).toBe('sami-alhakim');
+  expect(search(page).get('page')).toBeNull();
+  await expect(page.getByRole('link', { name: fixtures.poetry, exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+  await expect(page.locator('a[href^="/categories/"]')).toHaveCount(0);
+});
+
 test('the sort select, the price range and the chips rewrite the URL', async ({ page }) => {
   await page.goto(`${PAGE}?category=novels&page=3`);
 

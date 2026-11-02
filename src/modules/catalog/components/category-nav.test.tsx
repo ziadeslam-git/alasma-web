@@ -17,18 +17,18 @@ describe('CategoryNav', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('renders "all" plus one real link per top-level category, using the category route helper', () => {
+  it('renders "all" plus one real link per top-level category, using catalog query parameters', () => {
     render(<CategoryNav categories={categories} />);
 
     const nav = screen.getByRole('navigation', { name: text.label });
     expect(within(nav).getByRole('link', { name: text.all })).toHaveAttribute('href', '/books');
     expect(within(nav).getByRole('link', { name: testText.fiction })).toHaveAttribute(
       'href',
-      '/categories/novels',
+      '/books?category=novels',
     );
     expect(within(nav).getByRole('link', { name: testText.poetry })).toHaveAttribute(
       'href',
-      `/categories/${encodeURIComponent(testText.poetry)}`,
+      `/books?category=${encodeURIComponent(testText.poetry)}`,
     );
   });
 
@@ -84,4 +84,17 @@ describe('CategoryNav', () => {
 
     expect(await axe(container)).toHaveNoViolations();
   });
+});
+
+it('preserves other filters and resets pagination when selecting a category', () => {
+  render(
+    <CategoryNav
+      categories={categories}
+      params={{ inStock: true, hasDiscount: false, sort: 'newest', page: 3, author: 'author' }}
+    />,
+  );
+  expect(screen.getByRole('link', { name: testText.fiction })).toHaveAttribute(
+    'href',
+    '/books?category=novels&author=author&inStock=true',
+  );
 });

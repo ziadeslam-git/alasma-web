@@ -1,12 +1,16 @@
 import Link from 'next/link';
 
+import messages from '@/i18n/messages/ar.json';
+import type { FeatureKey } from '@/shared/config/features';
 import { Icon } from '@/shared/ui/icon';
+import { FeatureLink } from '@/shared/ui/soon';
 
 import styles from './breadcrumbs.module.css';
 
 export type BreadcrumbItem = {
   href?: string;
   label: string;
+  feature?: FeatureKey;
 };
 
 export type BreadcrumbsProps = {
@@ -38,6 +42,15 @@ export function Breadcrumbs({ items, label }: BreadcrumbsProps) {
                 <span aria-current={isCurrent ? 'page' : undefined} className={styles.current}>
                   {item.label}
                 </span>
+              ) : item.feature ? (
+                <FeatureLink
+                  className={styles.link}
+                  feature={item.feature}
+                  href={item.href}
+                  label={messages.site.soon}
+                >
+                  {item.label}
+                </FeatureLink>
               ) : (
                 <Link className={styles.link} href={item.href}>
                   {item.label}

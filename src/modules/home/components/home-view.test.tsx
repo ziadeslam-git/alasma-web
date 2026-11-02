@@ -90,8 +90,11 @@ describe('HomeView', () => {
       screen.getByRole('heading', { level: 2, name: messages.home.featured.heading }),
     ).toBeInTheDocument();
 
-    const categoryLink = screen.getByRole('link', { name: messages.devHome.categories.novels });
-    expect(categoryLink).toHaveAttribute('href', '/categories/novels');
+    const categoryGate = screen
+      .getByText(messages.devHome.categories.novels)
+      .closest('[data-feature]');
+    expect(categoryGate).toHaveAttribute('inert');
+    expect(categoryGate?.querySelector('a')).toBeNull();
 
     const storeLinks = screen.getAllByRole('link', { name: messages.home.newArrivals.viewAll });
     expect(storeLinks.length).toBeGreaterThanOrEqual(2);
@@ -161,9 +164,7 @@ describe('HomeView', () => {
     const partialData = buildTestHomeData('partial');
     const { container } = render(<HomeView data={partialData} />);
 
-    expect(
-      screen.getByRole('link', { name: messages.devHome.categories.novels }),
-    ).toBeInTheDocument();
+    expect(screen.getByText(messages.devHome.categories.novels)).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { level: 3, name: messages.home.featured.emptyTitle }),
     ).toBeInTheDocument();

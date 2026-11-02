@@ -64,6 +64,25 @@ const sampleRelated: BookCardItem = {
 };
 
 describe('BookDetailsView', () => {
+  it('keeps author and category destinations inert and the catalog breadcrumb live', () => {
+    const { container } = render(
+      <BookDetailsView book={sampleBook} relatedBooks={[sampleRelated]} />,
+    );
+    for (const feature of ['catalog-authors', 'catalog-categories']) {
+      const gates = container.querySelectorAll(`[data-feature="${feature}"]`);
+      expect(gates.length).toBeGreaterThan(0);
+      gates.forEach((gate) => {
+        expect(gate).toHaveAttribute('inert');
+        expect(gate.querySelector('a')).toBeNull();
+        expect(gate).toHaveTextContent(messages.site.soon);
+      });
+    }
+    expect(screen.getByRole('link', { name: messages.site.header.store })).toHaveAttribute(
+      'href',
+      '/books',
+    );
+    expect(container.querySelector('a[href="/books/cairo-nights"]')).not.toBeNull();
+  });
   it('renders exactly one h1 and passes axe', async () => {
     const { container } = render(<BookDetailsView book={sampleBook} />);
 

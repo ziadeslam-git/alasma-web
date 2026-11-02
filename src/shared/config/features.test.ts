@@ -6,9 +6,6 @@ const expectedLiveKeys = [
   'catalog-search',
   'catalog-filters-basic',
   'catalog-sort-basic',
-  'catalog-authors',
-  'catalog-categories',
-  'static-pages',
   'auth-login',
   'auth-register',
   'auth-password-reset',
@@ -35,6 +32,9 @@ describe('features registry', () => {
     expect(getFeatureState('checkout-flow')).toBe('soon');
     expect(getFeatureState('account-area')).toBe('soon');
     expect(getFeatureState('publish-packages')).toBe('soon');
+    expect(getFeatureState('catalog-authors')).toBe('soon');
+    expect(getFeatureState('catalog-categories')).toBe('soon');
+    expect(getFeatureState('static-pages')).toBe('soon');
   });
 
   it('keeps resend-confirmation soon until the backend endpoint (S4) is delivered', () => {

@@ -77,7 +77,12 @@ export default async function DevCatalogFiltersPage({ searchParams }: PageProps)
         <h2 className={styles.heading} id="categories-heading">
           {text.categoriesHeading}
         </h2>
-        <CategoryNav activeSlug={params.category} categories={filterFixtures.categories} />
+        <CategoryNav
+          activeSlug={params.category}
+          basePath={BASE_PATH}
+          categories={filterFixtures.categories}
+          params={params}
+        />
       </section>
 
       <div className={styles.layout}>

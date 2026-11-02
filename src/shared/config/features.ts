@@ -53,9 +53,9 @@ export const features = {
   'catalog-search': 'live', // Catalog search field and results.
   'catalog-filters-basic': 'live', // Basic catalog filters.
   'catalog-sort-basic': 'live', // Basic catalog sorting.
-  'catalog-authors': 'live', // Catalog authors navigation.
-  'catalog-categories': 'live', // Catalog categories navigation.
-  'static-pages': 'live', // Static information pages.
+  'catalog-authors': 'soon', // Author pages are scheduled for T2.
+  'catalog-categories': 'soon', // Category pages are scheduled for T3.
+  'static-pages': 'soon', // Static information pages are scheduled for T4.
   'auth-login': 'live', // Login page.
   'auth-register': 'live', // Registration page.
   'auth-password-reset': 'live', // Password reset flow.

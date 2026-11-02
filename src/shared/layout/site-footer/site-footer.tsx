@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { routes, staticPageRoute } from '@/shared/config/routes';
-import { FeatureGate } from '@/shared/ui/soon';
+import { FeatureLink } from '@/shared/ui/soon';
 
 import styles from './site-footer.module.css';
 
@@ -14,10 +14,10 @@ export type SiteFooterProps = {
 };
 
 const catalogLinks = [
-  ['store', routes.books],
-  ['authors', routes.authors],
-  ['categories', routes.categories],
-  ['publishPackages', routes.publish],
+  ['store', routes.books, undefined],
+  ['authors', routes.authors, 'catalog-authors'],
+  ['categories', routes.categories, 'catalog-categories'],
+  ['publishPackages', routes.publish, 'publish-packages'],
 ] as const;
 
 const helpLinks = [
@@ -49,11 +49,11 @@ export function SiteFooter(props: SiteFooterProps) {
           <section>
             <h2>{text.footer.explore}</h2>
             <nav aria-label={text.footer.explore} className={styles.links}>
-              {catalogLinks.map(([key, href]) =>
-                key === 'publishPackages' ? (
-                  <FeatureGate feature="publish-packages" key={key} label={text.soon}>
-                    <Link href={href}>{text.header[key]}</Link>
-                  </FeatureGate>
+              {catalogLinks.map(([key, href, feature]) =>
+                feature ? (
+                  <FeatureLink feature={feature} href={href} key={key} label={text.soon}>
+                    {text.header[key]}
+                  </FeatureLink>
                 ) : (
                   <Link href={href} key={key}>
                     {text.header[key]}
@@ -66,9 +66,9 @@ export function SiteFooter(props: SiteFooterProps) {
             <h2>{text.footer.help}</h2>
             <nav aria-label={text.footer.help} className={styles.links}>
               {helpLinks.map(([key, href]) => (
-                <Link href={href} key={key}>
+                <FeatureLink feature="static-pages" href={href} key={key} label={text.soon}>
                   {text.footer[key]}
-                </Link>
+                </FeatureLink>
               ))}
             </nav>
           </section>

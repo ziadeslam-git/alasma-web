@@ -10,7 +10,7 @@ import { Button, ButtonLink } from '@/shared/ui/button';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Field } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
-import { FeatureGate } from '@/shared/ui/soon';
+import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
 import { validateRegister } from '../validation';
@@ -162,9 +162,13 @@ export function RegisterForm() {
         />{' '}
         {text.terms}
       </label>
-      <ButtonLink href={staticPageRoute('terms')} variant="ghost">
+      <FeatureLink
+        feature="static-pages"
+        href={staticPageRoute('terms')}
+        label={messages.site.soon}
+      >
         {text.termsLink}
-      </ButtonLink>
+      </FeatureLink>
       {errors.terms ? <p role="alert">{errors.terms}</p> : null}
       <Button fullWidth loading={isSubmitting} onClick={() => void submit()}>
         {text.register}

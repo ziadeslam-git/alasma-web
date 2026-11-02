@@ -21,6 +21,9 @@ test('/dev/books renders populated catalog, pagination, passes axe and saves scr
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.getByTestId('catalog-result-count')).toContainText('24');
   await expect(page.locator('article')).toHaveCount(8);
+  // The catalog uses live category filters, not links to unfinished category detail pages.
+  await expect(page.locator('a[href^="/categories/"]')).toHaveCount(0);
+  await expect(page.locator('input[type="radio"]')).not.toHaveCount(0);
 
   const pagination = page.getByRole('navigation', { name: pageText.pagination.label });
   await expect(pagination).toBeVisible();

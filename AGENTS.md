@@ -192,3 +192,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 10. Every number, status code or header in a report must come from a command you ran; anything you did not run is "not run" or "not measured".
 11. Stop and ask (in the report, after finishing the safe part) when: a contract or decision is missing and the answer changes behaviour; a security rule would be broken; or uncommitted files outside the task appear.
 12. REPORT SECTIONS (all required): A files changed (path + one line); B decisions and trade-offs; C commands you ran and their results; D commands the OWNER must run, each with the exact result that means success; E deviations from the prompt (every one, or "none") and every assertion you changed; F open questions and Notion-versus-repository differences; G backend requests.
+
+## Umbrella tasks (coordinator + sub-agents)
+
+1. One umbrella prompt = one coordinator + N packages = one report. Each package runs as a sub-agent. If your environment cannot start sub-agents, run the packages one after the other in the listed order with the same boundaries.
+2. Every package OWNS a listed set of paths and edits nothing outside them. If a package needs a change in a file it does not own, it writes the request in its report; it does not edit.
+3. SHARED FILES are edited only by the coordinator, after the packages report: src/i18n/messages/ar.json, ar.test.ts, src/shared/config/features.ts and features.test.ts, src/shared/config/routes.ts and routes.test.ts, AGENTS.md, src/app/(dev)/dev/dev-routes.test.ts, src/proxy.ts, src/shared/lib/routing/segment-guard.ts, package.json, and the index.ts barrel of any module that is not the package's own.
+4. Packages hand the coordinator "shared patches": exact ar.json keys with their Arabic values, feature keys and states, route helpers, dev-route registrations. The coordinator writes Arabic with the file-editing tool and resolves duplicates and key clashes.
+5. Phases: Phase 0 the coordinator creates the shared prerequisites; Phase 1 the packages (parallel); Phase 2 the coordinator applies all shared patches, runs pnpm typecheck, pnpm lint, pnpm lint:css and pnpm format:check, and fixes cross-package conflicts; Phase 3 the report.
+6. The umbrella report has: a coordinator summary; one block per package with the standard A to G sections; conflicts found and how they were resolved; every shared patch applied (file and keys); and "commit groups": for each package the exact list of paths the owner should commit together.
+7. Packages never import another package's module except through its index.ts, and never edit another package's tests.

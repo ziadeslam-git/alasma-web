@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { authorRoute, categoryRoute, routes } from '@/shared/config/routes';
@@ -8,7 +7,7 @@ import { BookCover } from '@/shared/ui/book-cover';
 import { Breadcrumbs, type BreadcrumbItem } from '@/shared/ui/breadcrumbs';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Icon } from '@/shared/ui/icon';
-import { FeatureGate } from '@/shared/ui/soon';
+import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import type { BookCardItem, BookDetails } from '../types';
 import { BookGrid } from './book-grid';
@@ -34,6 +33,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
     breadcrumbItems.push({
       label: primaryCategory.name,
       href: categoryRoute(primaryCategory.slug),
+      feature: 'catalog-categories',
     });
   }
   breadcrumbItems.push({ label: book.title });
@@ -153,16 +153,21 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               <div>
                 <span>{text.authorPrefix}</span>
                 {displayAuthors.map((author, index) => (
-                  <span key={author.name}>
+                  <Fragment key={author.name}>
                     {index > 0 ? messages.catalog.authorSeparator : null}
                     {author.pageSlug ? (
-                      <Link className={styles.authorLink} href={authorRoute(author.pageSlug)}>
+                      <FeatureLink
+                        className={styles.authorLink}
+                        feature="catalog-authors"
+                        href={authorRoute(author.pageSlug)}
+                        label={soonLabel}
+                      >
                         {author.name}
-                      </Link>
+                      </FeatureLink>
                     ) : (
                       <span className={styles.authorLink}>{author.name}</span>
                     )}
-                  </span>
+                  </Fragment>
                 ))}
               </div>
             ) : null}
@@ -359,13 +364,15 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               {book.categories.length > 0 ? (
                 <div className={styles.tagChips}>
                   {book.categories.map((category) => (
-                    <Link
+                    <FeatureLink
                       key={category.id}
                       className={styles.chip}
+                      feature="catalog-categories"
                       href={categoryRoute(category.slug)}
+                      label={soonLabel}
                     >
                       #{category.name}
-                    </Link>
+                    </FeatureLink>
                   ))}
                 </div>
               ) : null}

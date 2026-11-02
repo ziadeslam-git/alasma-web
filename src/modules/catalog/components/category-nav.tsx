@@ -1,15 +1,19 @@
 import Link from 'next/link';
 
 import messages from '@/i18n/messages/ar.json';
-import { categoryRoute, routes } from '@/shared/config/routes';
+import { routes } from '@/shared/config/routes';
 
 import type { CategoryNode } from '../types';
+import { buildCatalogHref, withFilter } from '../url/catalog-href';
+import { emptyCatalogParams, type CatalogParams } from '../url/catalog-params';
 import styles from './category-nav.module.css';
 
 export type CategoryNavProps = {
   // The tree of GET /categories.
   categories: readonly CategoryNode[];
   activeSlug?: string | undefined;
+  basePath?: string;
+  params?: CatalogParams;
 };
 
 const matches = (node: CategoryNode, slug: string | undefined) =>
@@ -18,7 +22,11 @@ const matches = (node: CategoryNode, slug: string | undefined) =>
 const containsActive = (node: CategoryNode, slug: string | undefined): boolean =>
   matches(node, slug) || node.children.some((child) => containsActive(child, slug));
 
-type ChipLinkProps = { current: 'page' | 'true' | undefined; href: string; label: string };
+type ChipLinkProps = {
+  current: 'page' | 'true' | undefined;
+  href: string;
+  label: string;
+};
 
 function ChipLink({ current, href, label }: ChipLinkProps) {
   return (
@@ -30,10 +38,13 @@ function ChipLink({ current, href, label }: ChipLinkProps) {
   );
 }
 
-// Category chips as real links to the category route (/categories/[slug]), the same pages the roadmap builds in F1.15b.
-// "All" goes to /books. The exact active category has aria-current="page"; its top-level parent has "true" and its
-// sub-categories show in a second row. No categories: nothing is rendered.
-export function CategoryNav({ activeSlug, categories }: CategoryNavProps) {
+// These chips filter the catalog; standalone category detail pages remain separately gated.
+export function CategoryNav({
+  activeSlug,
+  basePath = routes.books,
+  categories,
+  params = emptyCatalogParams,
+}: CategoryNavProps) {
   if (categories.length === 0) {
     return null;
   }
@@ -45,11 +56,15 @@ export function CategoryNav({ activeSlug, categories }: CategoryNavProps) {
   return (
     <nav aria-label={text.label} className={styles.nav}>
       <ul className={styles.list}>
-        <ChipLink current={isAll ? 'page' : undefined} href={routes.books} label={text.all} />
+        <ChipLink
+          current={isAll ? 'page' : undefined}
+          href={buildCatalogHref(basePath, withFilter(params, { category: undefined }))}
+          label={text.all}
+        />
         {categories.map((node) => (
           <ChipLink
             current={matches(node, activeSlug) ? 'page' : activeRoot === node ? 'true' : undefined}
-            href={categoryRoute(node.slug)}
+            href={buildCatalogHref(basePath, withFilter(params, { category: node.slug }))}
             key={node.id}
             label={node.name}
           />
@@ -60,7 +75,7 @@ export function CategoryNav({ activeSlug, categories }: CategoryNavProps) {
           {activeRoot.children.map((node) => (
             <ChipLink
               current={matches(node, activeSlug) ? 'page' : undefined}
-              href={categoryRoute(node.slug)}
+              href={buildCatalogHref(basePath, withFilter(params, { category: node.slug }))}
               key={node.id}
               label={node.name}
             />
