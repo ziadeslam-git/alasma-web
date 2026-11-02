@@ -4,6 +4,7 @@ import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import AuthDevPage from './auth/page';
+import BookDevPage from './book/page';
 import BooksDevPage from './books/page';
 import CatalogDevPage from './catalog/page';
 import CatalogFiltersDevPage from './catalog-filters/page';
@@ -28,6 +29,7 @@ describe('dev routes production guard', () => {
 
   it.each([
     ['/dev/auth', () => AuthDevPage()],
+    ['/dev/book', () => BookDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/books', () => BooksDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/catalog', () => CatalogDevPage()],
     ['/dev/catalog-filters', () => CatalogFiltersDevPage({ searchParams: Promise.resolve({}) })],
@@ -49,6 +51,7 @@ describe('dev routes production guard', () => {
 
     expect(routeDirs.sort()).toEqual([
       'auth',
+      'book',
       'books',
       'catalog',
       'catalog-filters',

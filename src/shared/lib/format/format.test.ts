@@ -15,9 +15,9 @@ describe('format helpers', () => {
       expect(formatNumber(1234.5)).toBe('1,234.5');
       expect(formatNumber(999999.99)).toBe('999,999.99');
       expect(formatNumber(-1234.5)).toBe('-1,234.5');
-      expect(formatNumber(NaN)).toBe('0');
-      expect(formatNumber(Infinity)).toBe('0');
-      expect(formatNumber(-Infinity)).toBe('0');
+      expect(formatNumber(NaN)).toBe('—');
+      expect(formatNumber(Infinity)).toBe('—');
+      expect(formatNumber(-Infinity)).toBe('—');
     });
 
     it('formats standard store numbers', () => {
@@ -34,10 +34,24 @@ describe('format helpers', () => {
   });
 
   describe('formatMoney', () => {
-    it('formats money with the Arabic currency label without changing the value', () => {
+    it('formats integer money without decimal places', () => {
       expect(formatMoney(130)).toBe(`130 ${messages.catalog.currency}`);
-      expect(formatMoney(85.5)).toBe(`85.5 ${messages.catalog.currency}`);
-      expect(formatMoney(1234.5)).toBe(`1,234.5 ${messages.catalog.currency}`);
+      expect(formatMoney(120)).toBe(`120 ${messages.catalog.currency}`);
+      expect(formatMoney(1250)).toBe(`1,250 ${messages.catalog.currency}`);
+      expect(formatMoney(0)).toBe(`0 ${messages.catalog.currency}`);
+    });
+
+    it('formats fractional money with exactly two decimal places and comma thousands separator', () => {
+      expect(formatMoney(85.5)).toBe(`85.50 ${messages.catalog.currency}`);
+      expect(formatMoney(127.5)).toBe(`127.50 ${messages.catalog.currency}`);
+      expect(formatMoney(1234.5)).toBe(`1,234.50 ${messages.catalog.currency}`);
+      expect(formatMoney(99.99)).toBe(`99.99 ${messages.catalog.currency}`);
+    });
+
+    it('returns an em dash for non-finite amounts without currency label', () => {
+      expect(formatMoney(NaN)).toBe('—');
+      expect(formatMoney(Infinity)).toBe('—');
+      expect(formatMoney(-Infinity)).toBe('—');
     });
   });
 
@@ -47,24 +61,14 @@ describe('format helpers', () => {
       expect(formatDiscountBadge(20)).toBe('خصم 20%');
       expect(formatDiscountBadge(0)).toBe('خصم 0%');
     });
+
+    it('accepts a custom template such as the product board saving badge', () => {
+      expect(formatDiscountBadge(20, 'وفّر {percent}%')).toBe('وفّر 20%');
+    });
   });
 
   describe('guard: absence of Eastern-Arabic digits', () => {
-    const testCases: number[] = [
-      0,
-      5,
-      99.5,
-      1234.5,
-      999999.99,
-      -1234.5,
-      NaN,
-      Infinity,
-      -Infinity,
-      120,
-      1250,
-      42,
-      448,
-    ];
+    const testCases: number[] = [0, 5, 99.5, 1234.5, 999999.99, -1234.5, 120, 1250, 42, 448];
 
     it('asserts formatNumber never outputs Eastern-Arabic digits and matches expected output', () => {
       for (const val of testCases) {

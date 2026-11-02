@@ -83,7 +83,7 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   (both are ignored by Prettier and ESLint). Codex and CI never need the backend folder.
 - Never type an API shape by hand: import `paths` / `components` from `schema.d.ts` (or `@/shared/lib/api`).
 - Two clients, both from `openapi-fetch`. `createServerClient()` is for Server Components and ISR: absolute
-  `API_ORIGIN` (default `http://localhost:5198`), no cookies, no auth; pass Next caching per call with
+  `API_ORIGIN` (default `http://127.0.0.1:5198`), no cookies, no auth; pass Next caching per call with
   `nextFetch({ revalidate, tags })`; use `throwIfError(result)` to turn a failed result into an `ApiError`.
   `createBrowserClient(hooks)` is for Client Components: same-origin, cookies included, `Authorization: Bearer` from the
   injected `getAccessToken()` (the token lives in memory only), every failure THROWN as an `ApiError`, and
@@ -177,3 +177,18 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Agent task protocol (applies to every task prompt from the Team Lead)
+
+1. Read this file first. Notion is read-only. design/ and the backend repo are read-only. If Notion and the repository disagree, list the difference in the report and continue.
+2. FORBIDDEN: git add/commit/push/stash/reset/checkout/restore/clean, installing packages, running E2E_REAL_API specs, starting the API, editing next.config.ts (unless the task says so), stopping the dev server on port 3000.
+3. Code rules: use-client guard; CSS Modules with tokens only; logical properties only (inline-start/end, never left/right); no hex colours; no !important; the only breakpoint literals are 760px and 1000px; no magic strings; strict TypeScript; no dangerouslySetInnerHTML.
+4. Arabic text only in src/i18n/messages/ar.json, written with the file-editing tool, never through PowerShell/echo/Set-Content/node -e. ar.test.ts must stay green.
+5. Soon rule: anything the backend or V1 does not support is dimmed and inert with the "قريباً" badge through FeatureGate with a 'soon' key (no fake data, no API call, no live link). Never build on MSW; MSW is for tests only.
+6. Numbers use the Latin-digit helpers in src/shared/lib/format. Never compute a price, discount, shipping or total: show API values only. Any 2xx is success.
+7. Cross-module imports only through a module's index.ts.
+8. Detail-route recipe (ISR): no route-level loading.tsx; await the main data in the page (so notFound() is decided before the response starts); export generateStaticParams() { return []; } and revalidate; API 404 or 400 means notFound(); API 5xx or network error means throw (error.tsx); validate the slug/key BEFORE any API call with a named constant per entity (book 350, author 200, category 200, page key 50 with only a-z 0-9 and "-"); secondary sections go in Suspense; use one fetch tag per entity family (never a tag per slug).
+9. Sandbox: you can run pnpm typecheck, pnpm lint, pnpm lint:css, pnpm format:check. You cannot run pnpm test, pnpm build or Playwright (spawn EPERM): do not work around it. Write tests anyway, and write "tests written, not run".
+10. Every number, status code or header in a report must come from a command you ran; anything you did not run is "not run" or "not measured".
+11. Stop and ask (in the report, after finishing the safe part) when: a contract or decision is missing and the answer changes behaviour; a security rule would be broken; or uncommitted files outside the task appear.
+12. REPORT SECTIONS (all required): A files changed (path + one line); B decisions and trade-offs; C commands you ran and their results; D commands the OWNER must run, each with the exact result that means success; E deviations from the prompt (every one, or "none") and every assertion you changed; F open questions and Notion-versus-repository differences; G backend requests.

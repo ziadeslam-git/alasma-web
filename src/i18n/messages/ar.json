@@ -545,6 +545,79 @@
         "previous": "الصفحة السابقة",
         "next": "الصفحة التالية"
       }
+    },
+    "detail": {
+      "breadcrumbsLabel": "مسار التصفح",
+      "authorPrefix": "تأليف ",
+      "translatorPrefix": "ترجمة ",
+      "savePercent": "وفّر {percent}%",
+      "stock": {
+        "inStock": "متوفر، جاهز للشحن",
+        "lowStock": "كمية محدودة، اطلب الآن",
+        "outOfStock": "غير متوفر حالياً"
+      },
+      "actions": {
+        "sample": "تصفح عينة",
+        "share": "مشاركة",
+        "addToCart": "أضف للسلة",
+        "buyNow": "اشترِ الآن",
+        "addToWishlist": "أضف للمفضلة",
+        "notifyMe": "أعلمني عند التوفر",
+        "decreaseQty": "إنقاص الكمية",
+        "increaseQty": "زيادة الكمية",
+        "quantity": "الكمية"
+      },
+      "formats": {
+        "legend": "نوع الغلاف",
+        "selected": "المحدد",
+        "hardcover": "غلاف مقوى",
+        "paperback": "غلاف ورقي",
+        "ebook": "نسخة إلكترونية"
+      },
+      "trust": {
+        "shipping": "شحن لكل المحافظات",
+        "payment": "الدفع عند الاستلام"
+      },
+      "description": {
+        "heading": "عن الكتاب",
+        "emptyTitle": "لا يوجد وصف متاح",
+        "emptyDescription": "سيتم إضافة وصف وتفاصيل هذا الكتاب قريباً."
+      },
+      "specs": {
+        "heading": "مواصفات الكتاب",
+        "isbn": "ISBN",
+        "author": "المؤلف",
+        "translator": "المترجم",
+        "publisher": "الناشر",
+        "publishYear": "سنة الإصدار",
+        "coverType": "نوع الغلاف",
+        "pageCount": "عدد الصفحات",
+        "language": "اللغة",
+        "languages": {
+          "Arabic": "العربية",
+          "English": "الإنجليزية",
+          "Other": "أخرى"
+        },
+        "coverTypes": {
+          "Paperback": "غلاف ورقي",
+          "Hardcover": "غلاف مقوى"
+        }
+      },
+      "extraOptions": {
+        "heading": "خيارات إضافية",
+        "samplePdf": "قراءة عينة PDF",
+        "shortLink": "نسخ الرابط المختصر",
+        "reportError": "الإبلاغ عن خطأ في بيانات الكتاب"
+      },
+      "reviews": {
+        "heading": "آراء القراء",
+        "summary": "بناءً على 2,400 تقييم",
+        "writeReview": "اكتب تقييمك",
+        "rating": "4.8"
+      },
+      "related": {
+        "heading": "قرّاء هذا الكتاب أحبّوا أيضًا"
+      }
     }
   },
   "devCatalog": {
@@ -707,6 +780,35 @@
       "empty": "لا توجد نتائج (empty)",
       "invalid": "مرشحات غير صالحة 400 (invalid)",
       "error": "خطأ خادم 500 (error)"
+    }
+  },
+  "devBook": {
+    "title": "معاينة صفحة الكتاب (تجريبي)",
+    "description": "معاينة تفاصيل الكتاب وحالاته المختلفة (متوفر، منخفض المخزون، نافد، ومواصفات مختلفة).",
+    "presetsLabel": "حالات الكتاب",
+    "presets": {
+      "inStock": "متوفر في المخزن (in-stock)",
+      "discounted": "كتاب بخصم (discounted)",
+      "lowStock": "كمية محدودة (low-stock)",
+      "outOfStock": "نفد من المخزن (out-of-stock)",
+      "withTranslator": "مع مترجم (with-translator)",
+      "longTitle": "عنوان طويل (long-title)",
+      "noCover": "بدون صورة غلاف (no-cover)",
+      "noDescription": "بدون وصف (no-description)",
+      "noRelated": "بدون كتب مشابهة (no-related)"
+    },
+    "fixtures": {
+      "bookTitle": "ظلال الحكاية وتفاصيل السرد العربي الحديث",
+      "bookDescription": "دراسة نقدية أدبية تبحر في أعماق السرد القصصي والروائي العربي، متتبعة تحولات البنية الزمنية والمكانية وتأثير التراث الشفهي على التقنيات المعاصرة.\n\nيقدم العمل قراءة معمقة لنصوص بارزة من القرن العشرين، مستعرضاً تطور أساليب الحوار، وبناء الشخصية، وتوظيف الرمز والأسطورة في فضاء النص الإبداعي.",
+      "authorName": "سامي الحكيم",
+      "authorBio": "كاتب وناقد أدبي مصري",
+      "categoryLiteraryStudies": "دراسات أدبية",
+      "categoryLiteraryCriticism": "نقد أدبي",
+      "publisherName": "دار الأسماء للنشر والتوزيع",
+      "translatorTitle": "مدن الملح والرماد: الترجمة العربية الكاملة",
+      "originalAuthor": "ألفرد إدواردز",
+      "translatorName": "د. هدى مصطفى",
+      "longTitle": "موسوعة التحولات الكبرى في تاريخ الفكر الفلسفي والاجتماعي العربي والإسلامي عبر العصور والقرون الوسيطة حتى مشارف العصر الحديث"
     }
   }
 }

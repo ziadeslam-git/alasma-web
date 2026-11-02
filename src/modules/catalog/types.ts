@@ -1,6 +1,7 @@
 import type { components } from '@/shared/lib/api';
 
 export type BookCardItem = components['schemas']['BookCardDto'];
+export type BookDetails = components['schemas']['BookDetailsDto'];
 export type BookStockStatus = components['schemas']['BookStockStatus'];
 export type PagedBookCards = components['schemas']['PagedResultOfBookCardDto'];
 

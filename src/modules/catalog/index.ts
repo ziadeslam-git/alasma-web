@@ -1,4 +1,11 @@
 export {
+  BOOK_DETAILS_CACHE_TAG,
+  BOOK_DETAILS_REVALIDATE_SECONDS,
+  getBook,
+  getRelatedBooks,
+} from './api/get-book';
+export type { BookResult, GetBookOptions } from './api/get-book';
+export {
   CATALOG_BOOKS_REVALIDATE_SECONDS,
   CATALOG_CACHE_TAGS,
   CATALOG_OPTIONS_REVALIDATE_SECONDS,
@@ -10,6 +17,9 @@ export { ActiveFilterChips } from './components/active-filter-chips';
 export type { ActiveFilterChipsProps } from './components/active-filter-chips';
 export { BookCard } from './components/book-card';
 export type { BookCardProps } from './components/book-card';
+export { BookDetailsSkeleton } from './components/book-details-skeleton';
+export { BookDetailsView } from './components/book-details-view';
+export type { BookDetailsViewProps } from './components/book-details-view';
 export { BookGrid, DEFAULT_SKELETON_COUNT } from './components/book-grid';
 export type { BookGridProps } from './components/book-grid';
 export { CatalogView } from './components/catalog-view';
@@ -37,6 +47,7 @@ export {
   CATALOG_SORTS,
   DEFAULT_CATALOG_SORT,
   emptyCatalogParams,
+  MAX_BOOK_SLUG_LENGTH,
   MAX_PAGE,
   MAX_PRICE,
   MAX_QUERY_LENGTH,
@@ -44,9 +55,11 @@ export {
   parseCatalogParams,
 } from './url/catalog-params';
 export type { CatalogParams, CatalogSort, RawSearchParams } from './url/catalog-params';
+export { normalizeBookSlug } from './url/normalize-book-slug';
 export type {
   AuthorOption,
   BookCardItem,
+  BookDetails,
   BookStockStatus,
   CatalogBooksResult,
   CatalogBooksStatus,

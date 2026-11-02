@@ -11,6 +11,8 @@ export const DEFAULT_CATALOG_PAGE = 1;
 // Slug column max length (200 in CategoryConfiguration, AuthorConfiguration, PublisherConfiguration).
 export const MAX_QUERY_LENGTH = 200;
 export const MAX_SLUG_LENGTH = 200;
+// Maximum book slug length allowed by the backend validator (CatalogQueryLimits.MaxSlugLength = 350).
+export const MAX_BOOK_SLUG_LENGTH = 350;
 // Capped at 999,999.99 inside the backend's decimal(18,2) Book.Price column (AppDbContext.ConfigureConventions) and
 // safely inside IEEE-754 double precision so a hand-edited URL can never overflow SQL decimal or round at 0.01 precision.
 export const MAX_PRICE = 999_999.99;

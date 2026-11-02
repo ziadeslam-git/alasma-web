@@ -4,6 +4,7 @@ import messages from './ar.json';
 
 // Keys (dot paths, or prefixes ending in ".") whose value is intentionally not Arabic.
 const englishAllowList: readonly string[] = [
+  'catalog.detail.specs.isbn', // standard international book identifier
   'devComponents.field.filledValue', // dev-page sample input value
   'devComponents.field.invalidValue', // dev-page sample input value
   'site.header.english', // the name of the English language option, written in English on purpose
