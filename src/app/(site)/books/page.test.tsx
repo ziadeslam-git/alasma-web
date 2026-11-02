@@ -9,6 +9,10 @@ import { defaultApiOrigin } from '@/shared/lib/api';
 import BooksLoading from './loading';
 import BooksPage, { metadata } from './page';
 
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ replace: vi.fn() }),
 }));

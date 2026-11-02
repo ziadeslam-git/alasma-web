@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { features, getFeatureState, isLive, type FeatureKey, type FeatureState } from './features';
 
 const expectedLiveKeys = [
+  'cart-page',
   'catalog-search',
   'catalog-filters-basic',
   'catalog-sort-basic',
@@ -32,7 +33,7 @@ describe('features registry', () => {
   });
 
   it('keeps the deferred navigation areas marked as soon', () => {
-    expect(getFeatureState('cart-page')).toBe('soon');
+    expect(getFeatureState('profile-edit')).toBe('soon');
     expect(getFeatureState('checkout-flow')).toBe('soon');
     expect(getFeatureState('account-area')).toBe('soon');
     expect(getFeatureState('publish-packages')).toBe('soon');

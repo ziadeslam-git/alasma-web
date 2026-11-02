@@ -19,6 +19,8 @@ export function getApiErrorMessage(
     return byCode;
   }
 
+  if (error.code?.startsWith('coupon_')) return table.couponFallback;
+
   const byStatus = lookup(
     table.status,
     error.status === undefined ? undefined : String(error.status),

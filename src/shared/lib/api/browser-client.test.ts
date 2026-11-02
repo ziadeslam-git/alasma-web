@@ -17,6 +17,85 @@ function client(getAccessToken: () => string | null | undefined) {
 }
 
 describe('browser client', () => {
+  it('preserves the requested cache mode when applying the timeout', async () => {
+    let observedCache: RequestCache | undefined;
+    const api = createBrowserClient(
+      { getAccessToken: () => null },
+      {
+        baseUrl: base,
+        fetch: async (request) => {
+          observedCache = request.cache;
+          return Response.json(emptyBooks);
+        },
+      },
+    );
+    await api.GET('/api/v1/books', { cache: 'no-store' });
+    expect(observedCache).toBe('no-store');
+  });
+  it('refreshes authentication if a transient retry receives 401', async () => {
+    let calls = 0;
+    server.use(
+      http.post(`${base}/api/v1/cart/items`, () => {
+        calls += 1;
+        if (calls === 1)
+          return HttpResponse.json(
+            { code: 'transient_conflict' },
+            { status: 409, headers: { 'Retry-After': '0' } },
+          );
+        if (calls === 2) return new HttpResponse(null, { status: 401 });
+        return HttpResponse.json({ items: [], subtotal: 0 }, { status: 201 });
+      }),
+    );
+    const refreshAccessToken = vi.fn().mockResolvedValue('fresh');
+    const api = createBrowserClient(
+      { getAccessToken: () => 'old', refreshAccessToken },
+      { baseUrl: base },
+    );
+    await api.POST('/api/v1/cart/items', { body: { bookId: 1, bundleId: null, quantity: 1 } });
+    expect(calls).toBe(3);
+    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
+  });
+  it('retries a transient conflict once with the same body and idempotency key', async () => {
+    const seen: { body: unknown; key: string | null }[] = [];
+    server.use(
+      http.post(`${base}/api/v1/cart/items`, async ({ request }) => {
+        seen.push({ body: await request.json(), key: request.headers.get('Idempotency-Key') });
+        return seen.length === 1
+          ? HttpResponse.json(
+              { code: 'transient_conflict' },
+              { status: 409, headers: { 'Retry-After': '0' } },
+            )
+          : HttpResponse.json({ items: [], subtotal: 0 }, { status: 201 });
+      }),
+    );
+    const { api } = client(() => null);
+    await api.POST('/api/v1/cart/items', {
+      body: { bookId: 1, bundleId: null, quantity: 1 },
+      headers: { 'Idempotency-Key': 'test-key' },
+    });
+    expect(seen).toHaveLength(2);
+    expect(seen[1]).toEqual(seen[0]);
+  });
+
+  it('does not retry other conflicts', async () => {
+    let calls = 0;
+    server.use(
+      http.post(`${base}/api/v1/cart/items`, () => {
+        calls += 1;
+        return HttpResponse.json(
+          { code: 'stock_insufficient', availableQuantity: 2 },
+          { status: 409, headers: { 'Retry-After': '0' } },
+        );
+      }),
+    );
+    const { api } = client(() => null);
+    const error = await api
+      .POST('/api/v1/cart/items', { body: { bookId: 1, bundleId: null, quantity: 3 } })
+      .catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(ApiError);
+    expect((error as ApiError).availableQuantity).toBe(2);
+    expect(calls).toBe(1);
+  });
   it('maps a 400 validation problem to field errors', async () => {
     server.use(
       http.post(`${base}/api/v1/auth/login`, () =>

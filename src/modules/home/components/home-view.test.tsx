@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import type { BookCardItem, CategoryNode } from '@/modules/catalog';
@@ -7,6 +7,10 @@ import { axe } from '@/test/axe';
 
 import type { HomeData } from '../types';
 import { HomeView } from './home-view';
+
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
 
 const sampleCategories: readonly CategoryNode[] = [
   { id: 1, slug: 'novels', name: messages.devHome.categories.novels, imageUrl: null, children: [] },

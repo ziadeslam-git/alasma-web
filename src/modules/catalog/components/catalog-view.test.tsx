@@ -8,6 +8,10 @@ import type { BookCardItem, CatalogData } from '../types';
 import { CatalogView } from './catalog-view';
 import { makeParams, testFilterOptions, testText } from './filter-test-data';
 
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ replace: vi.fn() }),
 }));

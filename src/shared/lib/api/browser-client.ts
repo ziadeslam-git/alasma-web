@@ -1,7 +1,7 @@
 import createClient, { type Middleware } from 'openapi-fetch';
 
 import { ApiError } from './api-error';
-import { parseResponseError, parseThrownError } from './parse-error';
+import { parseResponseError, parseThrownError, readRetryAfter } from './parse-error';
 import type { paths } from './schema';
 
 export type BrowserClientHooks = {
@@ -46,7 +46,7 @@ function withTimeout(
   return (input) => {
     const signal = AbortSignal.any([input.signal, AbortSignal.timeout(timeoutMs)]);
 
-    return send(new Request(input, { signal }));
+    return send(new Request(input, { signal, cache: input.cache }));
   };
 }
 
@@ -75,7 +75,9 @@ function createMiddleware(
     headers.set('Authorization', `Bearer ${fresh}`);
 
     try {
-      return await send(new Request(entry.copy, { headers }));
+      const retry = new Request(entry.copy.clone(), { headers });
+      entry.copy = retry.clone();
+      return await send(retry);
     } catch (error) {
       throw parseThrownError(error);
     }
@@ -89,9 +91,7 @@ function createMiddleware(
         request.headers.set('Authorization', `Bearer ${token}`);
       }
 
-      if (hooks.refreshAccessToken) {
-        pending.set(id, { copy: request.clone(), token: token ?? null });
-      }
+      pending.set(id, { copy: request.clone(), token: token ?? null });
 
       return request;
     },
@@ -103,19 +103,54 @@ function createMiddleware(
       }
 
       let final = response;
+      let hasRetriedAuth = false;
 
       if (response.status === 401 && hooks.refreshAccessToken) {
-        try {
-          final = await retryOnce(id, schemaPath, response);
-        } finally {
-          pending.delete(id);
-        }
+        hasRetriedAuth = true;
+        final = await retryOnce(id, schemaPath, response);
 
         if (final.ok) {
+          pending.delete(id);
           return final;
         }
       }
 
+      if (final.status === 409 && final.headers.has('Retry-After')) {
+        const problem = await parseResponseError(final.clone());
+        const seconds = readRetryAfter(final.headers.get('Retry-After'));
+        const entry = pending.get(id);
+        if (problem.code === 'transient_conflict' && seconds !== undefined && entry) {
+          try {
+            await new Promise<void>((resolve, reject) => {
+              if (request.signal.aborted) {
+                reject(request.signal.reason);
+                return;
+              }
+              const timer = setTimeout(
+                () => {
+                  request.signal.removeEventListener('abort', abort);
+                  resolve();
+                },
+                Math.min(seconds, 2) * 1000,
+              );
+              const abort = () => {
+                clearTimeout(timer);
+                reject(request.signal.reason);
+              };
+              request.signal.addEventListener('abort', abort, { once: true });
+            });
+            final = await send(entry.copy.clone());
+            if (final.status === 401 && hooks.refreshAccessToken && !hasRetriedAuth) {
+              final = await retryOnce(id, schemaPath, final);
+            }
+            if (final.ok) return final;
+          } catch (error) {
+            throw parseThrownError(error);
+          } finally {
+            pending.delete(id);
+          }
+        }
+      }
       pending.delete(id);
 
       const isAuthRoute = authRoutePaths.has(schemaPath);
@@ -138,7 +173,7 @@ function createMiddleware(
 // thrown as an ApiError (a non-2xx response, a network failure or a timeout).
 export function createBrowserClient(hooks: BrowserClientHooks, options: BrowserClientOptions = {}) {
   const send = withTimeout(
-    options.fetch ?? ((input: Request) => globalThis.fetch(input)),
+    options.fetch ?? ((input: Request) => globalThis.fetch(input, { cache: input.cache })),
     options.timeoutMs ?? defaultTimeoutMs,
   );
   const client = createClient<paths>({

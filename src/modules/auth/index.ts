@@ -1,6 +1,7 @@
 export { getApiClient } from './api/auth-client';
 export { getAuthApi } from './api/auth-client';
 export { AuthProvider } from './components/auth-provider';
+export { RequireAuth } from './components/require-auth';
 export { useAuth } from './hooks/use-auth';
 export { endSession, ensureFreshSession } from './session/auth-session';
 export type { AuthContextValue } from './auth-context';

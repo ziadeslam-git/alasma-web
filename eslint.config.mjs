@@ -10,6 +10,7 @@ const moduleNames = [
   'auth',
   'catalog',
   'authors',
+  'addresses',
   'pages',
   'home',
   'search',

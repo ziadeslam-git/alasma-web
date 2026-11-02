@@ -20,7 +20,10 @@ describe('MobileNav', () => {
       'href',
       '/books',
     );
-    expect(document.querySelector('[data-feature="cart-page"]')).toHaveAttribute('inert');
+    expect(screen.getByRole('link', { name: messages.site.header.cart })).toHaveAttribute(
+      'href',
+      '/cart',
+    );
     expect(document.querySelector('[data-feature="wishlist-heart"]')).toHaveAttribute('inert');
     expect(document.querySelector('[data-feature="account-area"]')).toHaveAttribute('inert');
   });

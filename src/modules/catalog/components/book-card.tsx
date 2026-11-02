@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import messages from '@/i18n/messages/ar.json';
+import { AddToCartButton } from '@/modules/cart';
 import { bookRoute } from '@/shared/config/routes';
 import { formatDiscountBadge, formatMoney, formatNumber } from '@/shared/lib/format';
 import { BookCover } from '@/shared/ui/book-cover';
@@ -82,16 +83,7 @@ export function BookCard({ book, priority = false }: BookCardProps) {
               </button>
             </FeatureGate>
           ) : (
-            <FeatureGate feature="cart-page" label={soonLabel}>
-              <button
-                aria-label={text.addToCart.replace('{title}', book.title)}
-                className={styles.actionButton}
-                disabled
-                type="button"
-              >
-                <Icon name="bag" />
-              </button>
-            </FeatureGate>
+            <AddToCartButton bookId={book.id} className={styles.actionButton} title={book.title} />
           )}
           <FeatureGate feature="wishlist-heart" label={soonLabel}>
             <button

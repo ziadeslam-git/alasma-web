@@ -9,6 +9,10 @@ import { defaultApiOrigin } from '@/shared/lib/api';
 
 import { RelatedBooks } from './related-books';
 
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
+
 const book: BookCardItem = {
   id: 99,
   slug: 'related-book',

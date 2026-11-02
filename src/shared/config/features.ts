@@ -43,7 +43,10 @@ export const features = {
   'save-for-later': 'soon', // Save-for-later action in the cart design.
   'offers-countdown': 'soon', // Offers countdown design element.
   'offers-bundles': 'soon', // Offers bundles design section.
-  'cart-page': 'soon', // Cart entry points in the header and mobile app bar.
+  'cart-page': 'live', // Cart entry points in the header and mobile app bar.
+  'profile-edit': 'soon', // Profile editing is not delivered.
+  'order-invoice': 'soon', // Customer invoice endpoint is not delivered.
+  'payment-proof': 'soon', // Customer payment proof endpoint is not delivered.
   'checkout-flow': 'soon', // Checkout flow after the cart.
   'account-area': 'soon', // Customer account entry points.
   'publish-packages': 'soon', // Publishing packages navigation entry.

@@ -1,11 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import { axe } from '@/test/axe';
 
 import type { BookCardItem, BookDetails } from '../types';
 import { BookDetailsView } from './book-details-view';
+
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
 
 const sampleBook: BookDetails = {
   id: 1,

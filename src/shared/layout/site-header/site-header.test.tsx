@@ -34,7 +34,10 @@ describe('SiteHeader', () => {
 
     expect(firstFocusable).toHaveAttribute('href', '#main-content');
     expect(document.querySelector('[data-feature="wishlist-heart"]')).toHaveAttribute('inert');
-    expect(document.querySelector('[data-feature="cart-page"]')).toHaveAttribute('inert');
+    expect(screen.getByRole('link', { name: messages.site.header.cart })).toHaveAttribute(
+      'href',
+      '/cart',
+    );
     expect(document.querySelector('[data-feature="notifications-center"]')).toHaveAttribute(
       'inert',
     );

@@ -15,6 +15,7 @@ import styles from './site-header.module.css';
 export type SiteHeaderProps = {
   accountArea?: ReactNode;
   search?: ReactNode;
+  cart?: ReactNode;
 };
 
 function DeferredLink({
@@ -34,7 +35,7 @@ function DeferredLink({
   );
 }
 
-export function SiteHeader({ accountArea, search }: SiteHeaderProps) {
+export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
   const text = messages.site;
   const guestLinks = (
     <div className={styles.guestLinks}>
@@ -113,11 +114,13 @@ export function SiteHeader({ accountArea, search }: SiteHeaderProps) {
               <Icon name="heart" />
             </span>
           </FeatureLink>
-          <FeatureLink feature="cart-page" label={text.soon} href={routes.cart}>
-            <span aria-label={text.header.cart} className={styles.iconLink}>
-              <Icon name="bag" />
-            </span>
-          </FeatureLink>
+          {cart ?? (
+            <FeatureLink feature="cart-page" label={text.soon} href={routes.cart}>
+              <span aria-label={text.header.cart} className={styles.iconLink}>
+                <Icon name="bag" />
+              </span>
+            </FeatureLink>
+          )}
           <FeatureGate feature="notifications-center" label={text.soon}>
             <span aria-label={text.header.notifications} className={styles.iconLink}>
               <Icon name="bell" />

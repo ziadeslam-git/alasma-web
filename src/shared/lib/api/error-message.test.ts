@@ -22,6 +22,12 @@ describe('getApiErrorMessage', () => {
     expect(getApiErrorMessage(error)).toBe(table.adminCodes.authors_has_books);
   });
 
+  it('provides a coupon-specific fallback for unknown coupon errors', () => {
+    expect(
+      getApiErrorMessage(new ApiError({ kind: 'problem', status: 422, code: 'coupon_unknown' })),
+    ).toBe(table.couponFallback);
+  });
+
   it('falls back to the status message when the code is unknown or missing', () => {
     const unknown = new ApiError({ kind: 'problem', status: 403, code: 'brand_new_code' });
     const missing = new ApiError({ kind: 'problem', status: 429 });

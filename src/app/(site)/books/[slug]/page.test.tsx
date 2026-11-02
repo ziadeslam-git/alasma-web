@@ -9,6 +9,10 @@ import { defaultApiOrigin } from '@/shared/lib/api';
 
 import BookPage, { generateMetadata, generateStaticParams, revalidate } from './page';
 
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
+
 const NOT_FOUND_SENTINEL = 'NEXT_NOT_FOUND';
 
 const notFoundMock = vi.fn(() => {

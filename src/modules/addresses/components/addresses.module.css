@@ -1,0 +1,32 @@
+.list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.card {
+  padding: var(--space-4);
+  background: var(--card);
+  border-radius: var(--radius-md);
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.form label {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.form input,
+.form select {
+  max-inline-size: 100%;
+}

@@ -66,6 +66,10 @@ export function buildProblemError(status: number, body: unknown, headers: Header
     traceId: textOf(fields.traceId),
     errors: readFieldErrors(fields.errors),
     retryAfterSeconds: status === 429 ? readRetryAfter(headers.get('Retry-After')) : undefined,
+    availableQuantity:
+      typeof fields.availableQuantity === 'number' && Number.isFinite(fields.availableQuantity)
+        ? fields.availableQuantity
+        : undefined,
   });
 }
 

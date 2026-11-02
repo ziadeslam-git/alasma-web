@@ -30,7 +30,7 @@ export function createAuthApi(client: BrowserClient) {
       await client.POST('/api/v1/auth/logout');
     },
     async me() {
-      const { data } = await client.GET('/api/v1/me');
+      const { data } = await client.GET('/api/v1/me', { cache: 'no-store' });
 
       return requireBody(data);
     },

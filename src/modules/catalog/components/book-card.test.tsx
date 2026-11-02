@@ -1,11 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import { axe } from '@/test/axe';
 
 import type { BookCardItem } from '../types';
 import { BookCard } from './book-card';
+
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
 
 const text = messages.catalog;
 
@@ -82,16 +86,13 @@ describe('BookCard', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('keeps the add-to-cart and wishlist controls inert with the Soon badge', () => {
+  it('renders add-to-cart while keeping the wishlist inert with the Soon badge', () => {
     const book = makeBook();
     const { container } = render(<BookCard book={book} />);
 
-    const cartGate = container.querySelector('[data-feature="cart-page"]');
     const wishlistGate = container.querySelector('[data-feature="wishlist-heart"]');
 
-    expect(cartGate).toHaveAttribute('inert');
-    expect(cartGate).toHaveTextContent(messages.site.soon);
-    expect(cartGate?.querySelector('button')).toBeDisabled();
+    expect(screen.getByRole('button', { name: book.title })).toBeEnabled();
 
     expect(wishlistGate).toHaveAttribute('inert');
     expect(wishlistGate).toHaveTextContent(messages.site.soon);

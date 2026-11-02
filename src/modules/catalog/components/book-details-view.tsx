@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
+import { AddToCartButton } from '@/modules/cart';
 import { authorRoute, categoryRoute, routes } from '@/shared/config/routes';
 import { formatDiscountBadge, formatMoney, formatNumber } from '@/shared/lib/format';
 import { BookCover } from '@/shared/ui/book-cover';
@@ -268,39 +269,12 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               </FeatureGate>
             ) : (
               <>
-                <FeatureGate feature="cart-page" label={soonLabel}>
-                  <div className={styles.qtyPicker}>
-                    <button
-                      aria-label={text.actions.decreaseQty}
-                      className={styles.qtyBtn}
-                      disabled
-                      type="button"
-                    >
-                      <Icon name="minus" size="sm" />
-                    </button>
-                    <span className={styles.qtyValue}>1</span>
-                    <button
-                      aria-label={text.actions.increaseQty}
-                      className={styles.qtyBtn}
-                      disabled
-                      type="button"
-                    >
-                      <Icon name="plus" size="sm" />
-                    </button>
-                  </div>
-                </FeatureGate>
-
-                <FeatureGate feature="cart-page" label={soonLabel}>
-                  <button
-                    aria-label={messages.catalog.addToCart.replace('{title}', book.title)}
-                    className={`${styles.optionBtn} ${styles.primaryAction}`}
-                    disabled
-                    type="button"
-                  >
-                    <Icon name="bag" size="sm" />
-                    <span>{text.actions.addToCart}</span>
-                  </button>
-                </FeatureGate>
+                <AddToCartButton
+                  bookId={book.id}
+                  className={`${styles.optionBtn} ${styles.primaryAction}`}
+                  title={book.title}
+                  showText
+                />
 
                 <FeatureGate feature="checkout-flow" label={soonLabel}>
                   <button className={styles.optionBtn} disabled type="button">

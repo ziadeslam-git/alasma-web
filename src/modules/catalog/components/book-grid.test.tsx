@@ -1,11 +1,15 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import { axe } from '@/test/axe';
 
 import type { BookCardItem } from '../types';
 import { BookGrid, DEFAULT_SKELETON_COUNT } from './book-grid';
+
+vi.mock('@/modules/cart', () => ({
+  AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
+}));
 
 const items: readonly BookCardItem[] = [
   {

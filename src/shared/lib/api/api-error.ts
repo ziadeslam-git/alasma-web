@@ -13,6 +13,7 @@ export type ApiErrorInit = {
   traceId?: string;
   errors?: FieldErrors;
   retryAfterSeconds?: number;
+  availableQuantity?: number;
   cause?: unknown;
 };
 
@@ -27,6 +28,7 @@ export class ApiError extends Error {
   readonly traceId: string | undefined;
   readonly errors: FieldErrors;
   readonly retryAfterSeconds: number | undefined;
+  readonly availableQuantity: number | undefined;
 
   constructor(init: ApiErrorInit) {
     super(init.title ?? init.detail ?? `API error (${init.kind})`, { cause: init.cause });
@@ -40,6 +42,7 @@ export class ApiError extends Error {
     this.traceId = init.traceId;
     this.errors = init.errors ?? {};
     this.retryAfterSeconds = init.retryAfterSeconds;
+    this.availableQuantity = init.availableQuantity;
   }
 
   get isValidation(): boolean {

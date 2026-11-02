@@ -5,10 +5,18 @@ import { SiteFooter } from '@/shared/layout/site-footer';
 import { SiteHeader } from '@/shared/layout/site-header';
 import { SplashOverlay } from '@/shared/layout/splash-overlay';
 
-export function SiteShell({ children, search }: { children: ReactNode; search?: ReactNode }) {
+export function SiteShell({
+  children,
+  search,
+  cart,
+}: {
+  children: ReactNode;
+  search?: ReactNode;
+  cart?: ReactNode;
+}) {
   return (
     <>
-      <SiteHeader search={search} />
+      <SiteHeader search={search} cart={cart} />
       <main id="main-content">{children}</main>
       <SiteFooter />
       <MobileNav />

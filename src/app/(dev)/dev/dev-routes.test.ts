@@ -3,10 +3,13 @@ import path from 'node:path';
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import AccountDevPage from './account/page';
+import AddressesDevPage from './addresses/page';
 import AuthDevPage from './auth/page';
 import AuthorsDevPage from './authors/page';
 import BookDevPage from './book/page';
 import BooksDevPage from './books/page';
+import CartDevPage from './cart/page';
 import CatalogDevPage from './catalog/page';
 import CatalogFiltersDevPage from './catalog-filters/page';
 import CategoryDevPage from './category/page';
@@ -15,6 +18,7 @@ import ComponentsPage from './components/page';
 import ErrorTestPage from './error-test/page';
 import HomeDevPage from './home/page';
 import IconsPage from './icons/page';
+import OrdersDevPage from './orders/page';
 import PageCmsDevPage from './page-cms/page';
 import SearchDevPage from './search/page';
 import TokensPage from './tokens/page';
@@ -33,10 +37,13 @@ describe('dev routes production guard', () => {
   });
 
   it.each([
+    ['/dev/account', () => AccountDevPage()],
+    ['/dev/addresses', () => AddressesDevPage()],
     ['/dev/auth', () => AuthDevPage()],
     ['/dev/authors', () => AuthorsDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/book', () => BookDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/books', () => BooksDevPage({ searchParams: Promise.resolve({}) })],
+    ['/dev/cart', () => CartDevPage()],
     ['/dev/catalog', () => CatalogDevPage()],
     ['/dev/catalog-filters', () => CatalogFiltersDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/category', () => CategoryDevPage()],
@@ -45,6 +52,7 @@ describe('dev routes production guard', () => {
     ['/dev/error-test', () => ErrorTestPage()],
     ['/dev/home', () => HomeDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/icons', () => IconsPage()],
+    ['/dev/orders', () => OrdersDevPage()],
     ['/dev/page-cms', () => PageCmsDevPage()],
     ['/dev/search', () => SearchDevPage()],
     ['/dev/tokens', () => TokensPage()],
@@ -60,10 +68,13 @@ describe('dev routes production guard', () => {
     const routeDirs = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name);
 
     expect(routeDirs.sort()).toEqual([
+      'account',
+      'addresses',
       'auth',
       'authors',
       'book',
       'books',
+      'cart',
       'catalog',
       'catalog-filters',
       'categories',
@@ -72,6 +83,7 @@ describe('dev routes production guard', () => {
       'error-test',
       'home',
       'icons',
+      'orders',
       'page-cms',
       'search',
       'tokens',
