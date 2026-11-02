@@ -205,6 +205,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** @description Adds or removes copies through the stock ledger. type is Purchase, Adjustment or Return; quantityDelta is signed, never 0, at most 1000000 in size, and only Adjustment may be negative; reason is required (500 characters after trimming). 201 returns the movement THIS call wrote (its own id, type, quantity, stockAfter, reason, createdAt, createdBy). 400 is the validation shape (errors.quantityDelta, errors.reason, errors.type). 409 stock_insufficient when the stock would go below zero, 409 stock_limit_exceeded when it would pass 2147483647, 404 for a missing or deleted book. */
         post: operations["adjustAdminBookStock"];
         delete?: never;
         options?: never;
@@ -422,6 +423,58 @@ export interface paths {
         put: operations["updateAdminPublisher"];
         post?: never;
         delete: operations["deleteAdminPublisher"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reservations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Newest first. Filter by status (Active, Fulfilled, Expired, Cancelled), bookId and userId. pageSize up to 100. */
+        get: operations["listAdminReservations"];
+        put?: never;
+        /** @description Reserves quantity copies of a book for the registered customer with this email, for the number of days of the store setting Reservation.DurationDays. The reservation lowers the available quantity until it is fulfilled, cancelled or expires. 409 stock_insufficient carries availableQuantity. There is no note field: the table has no column for it. */
+        post: operations["createAdminReservation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reservations/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Cancels an Active, unexpired reservation and frees its copies. No stock moves. A reservation that is not active, or whose time has passed, is 422 reservation_not_active. */
+        post: operations["cancelAdminReservation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reservations/{id}/fulfill": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Turns an Active, unexpired reservation into a sale: the stock is deducted once (a Sale movement). A reservation that is not active, or whose time has passed, is 422 reservation_not_active. If the stock is lower than the quantity the answer is 409 stock_insufficient with availableQuantity and nothing changes. */
+        post: operations["fulfillAdminReservation"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1053,6 +1106,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The caller's own orders, newest first. status is an OrderStatus name in PascalCase (an unknown value is 400). pageSize is 1 to 48 (default 20). The page has items, page, pageSize, totalCount, totalPages, hasPreviousPage and hasNextPage. itemsCount counts a bundle once. */
+        get: operations["listMyOrders"];
+        put?: never;
+        /** @description Places the order from the current cart. The Idempotency-Key header is required (400 idempotency_key_required). Sending the same key and the same body again returns the same 201 response with the same Location and the header Idempotency-Replayed: true and creates no second order; the same key with a different body is 422 idempotency_key_mismatch. Only a 201 is stored: a failed attempt does not lock the key, so it can be retried after the cart is fixed. Two simultaneous requests with the same key wait for each other and one order is made; a duplicate that waits too long (20 seconds) gets 409 idempotency_in_progress with Retry-After: 1. Location is /api/v1/orders/{id}. The body never carries a price, a total or a shipping fee; paymentMethod is ManualTransfer or CashOnDelivery. 409 stock_insufficient lists the books with availableQuantity, and 409 cart_has_unavailable_items lists the items. */
+        post: operations["createOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description One order of the caller. An order that does not exist and an order of another user both answer 404 order_not_found. An id that is not a guid does not match the route (404 without a body). */
+        get: operations["getMyOrder"];
+        /** @description Edits the shipping details of the caller's order before preparation (PendingPayment, PaymentReview or Confirmed; later = 422 order_not_editable). rowVersion (base64) is required and must be the one the details returned (stale = 409 order_concurrency_conflict). Only the supplied fields change: recipientName, phone, addressFields {city, addressLine, landmark}, zoneId, notes (empty notes or an empty landmark clear the value). A body with no field is 400. A zoneId that differs from the order's zone is allowed only in PendingPayment (otherwise 422 order_zone_change_locked); it recomputes only the shipping fee and the total from the stored subtotal and coupon discount. An edit that changes nothing returns 200 with the unchanged order and the same rowVersion. */
+        put: operations["updateMyOrder"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/orders/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Cancels the caller's order and gives the stock and the coupon use back in one transaction. reason is optional (at most 500 characters). Allowed up to the store setting Order.LastCancelableStatus (never later than Confirmed for a customer); otherwise, or when the order is already cancelled, 422 order_not_cancellable. A concurrent change of the order gives 409 order_concurrency_conflict and nothing is kept. An approved payment stays as it is (refund is manual). */
+        post: operations["cancelMyOrder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/pages/{key}": {
         parameters: {
             query?: never;
@@ -1061,6 +1167,23 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getStaticPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payment-methods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Only the payment methods POST /orders would accept right now (the same rule). method is the exact name POST /orders takes: CashOnDelivery or ManualTransfer. ManualTransfer carries details: the non-blank transferNumbers (each { channel: VodafoneCash or InstaPay, number }), instructions (null for now) and expiresInHours. A disabled method is absent; both closed gives an empty array. */
+        get: operations["listPaymentMethods"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1149,6 +1272,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/sitemap": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The publicly visible books, authors, categories (by slug) and CMS pages (by key) with their last change in UTC, newest first. No paging: at most 50000 items per type. */
+        get: operations["getSitemap"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1183,7 +1323,7 @@ export interface components {
         AuthResponse: {
             accessToken: string;
             /** Format: date-time */
-            expiresAt: unknown;
+            expiresAt: string;
             user: components["schemas"]["AuthUserResponse"];
         };
         AuthUserResponse: {
@@ -1198,7 +1338,7 @@ export interface components {
             /** Format: int32 */
             booksCount: number;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             fullBio: null | string;
             hasPage: boolean;
             /** Format: int32 */
@@ -1211,13 +1351,13 @@ export interface components {
             slug: string;
             socialLinks: null | string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: null | string;
         };
         AuthorAdminListItemDto: {
             /** Format: int32 */
             booksCount: number;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             hasPage: boolean;
             /** Format: int32 */
             id: number;
@@ -1277,7 +1417,7 @@ export interface components {
             coverImageUrl: null | string;
             coverType: null | components["schemas"]["CoverType"];
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             description: null | string;
             /** Format: double */
             discountPercent: number;
@@ -1307,7 +1447,7 @@ export interface components {
             stockQuantity: number;
             title: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: null | string;
         };
         BookAdminImageDto: {
             altText: null | string;
@@ -1322,7 +1462,7 @@ export interface components {
         BookAdminListItemDto: {
             coverImageUrl: null | string;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             /** Format: double */
             discountPercent: number;
             /** Format: int32 */
@@ -1441,6 +1581,9 @@ export interface components {
         BulkUpdateShippingZonesRequest: {
             zones: null | components["schemas"]["BulkShippingZoneItem"][];
         };
+        CancelOrderRequest: {
+            reason: null | string;
+        };
         CartDto: {
             items: components["schemas"]["CartLineDto"][];
             /** Format: double */
@@ -1480,7 +1623,7 @@ export interface components {
             /** Format: int32 */
             childrenCount: number;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             /** Format: int32 */
             displayOrder: number;
             /** Format: int32 */
@@ -1492,7 +1635,7 @@ export interface components {
             parentId: null | number;
             slug: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: null | string;
         };
         CategoryDetailsDto: {
             breadcrumb: components["schemas"]["CategorySummaryDto"][];
@@ -1584,12 +1727,12 @@ export interface components {
         CouponAdminDetailsDto: {
             code: string;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             discountType: components["schemas"]["CouponDiscountType"];
             /** Format: double */
             discountValue: number;
             /** Format: date-time */
-            endsAt: unknown;
+            endsAt: null | string;
             /** Format: int32 */
             id: number;
             isActive: boolean;
@@ -1608,23 +1751,23 @@ export interface components {
             remainingUses: null | number;
             rowVersion: string;
             /** Format: date-time */
-            startsAt: unknown;
+            startsAt: string;
             /** Format: double */
             totalDiscount: number;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: null | string;
             /** Format: int32 */
             usedCount: number;
         };
         CouponAdminListItemDto: {
             code: string;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             discountType: components["schemas"]["CouponDiscountType"];
             /** Format: double */
             discountValue: number;
             /** Format: date-time */
-            endsAt: unknown;
+            endsAt: null | string;
             /** Format: int32 */
             id: number;
             isActive: boolean;
@@ -1638,7 +1781,7 @@ export interface components {
             /** Format: double */
             minOrderAmount: null | number;
             /** Format: date-time */
-            startsAt: unknown;
+            startsAt: string;
             /** Format: int32 */
             usedCount: number;
         };
@@ -1666,7 +1809,7 @@ export interface components {
             orderId: string;
             orderNumber: string;
             /** Format: date-time */
-            usedAt: unknown;
+            usedAt: string;
             userEmail: null | string;
             /** Format: int32 */
             userId: number;
@@ -1685,11 +1828,11 @@ export interface components {
         /** @enum {null|string} */
         CoverType: "Paperback" | "Hardcover" | null;
         CreateAddressRequest: {
-            addressLine: null | string;
-            city: null | string;
+            addressLine: string;
+            city: string;
             landmark: null | string;
-            phone: null | string;
-            recipientName: null | string;
+            phone: string;
+            recipientName: string;
             /** Format: int32 */
             shippingZoneId: number;
         };
@@ -1757,10 +1900,24 @@ export interface components {
             minOrderAmount: null | number;
             startsAt: null | string;
         };
+        CreateOrderRequest: {
+            /** Format: int32 */
+            addressId: number;
+            couponCode: null | string;
+            notes: null | string;
+            paymentMethod: components["schemas"]["PaymentMethod"];
+        };
         CreatePublisherRequest: {
             isOwn: boolean;
             name: null | string;
             shortDescription: null | string;
+        };
+        CreateReservationRequest: {
+            /** Format: int32 */
+            bookId: number;
+            customerEmail: string;
+            /** Format: int32 */
+            quantity: number;
         };
         FeatureFlagAdminDto: {
             description: string;
@@ -1769,7 +1926,7 @@ export interface components {
             key: string;
             module: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: string;
             visibleToOwner: boolean;
         };
         FeatureFlagStateDto: {
@@ -1822,6 +1979,144 @@ export interface components {
             phone: null | string;
             preferredLanguage: string;
             roles: string[];
+        };
+        OrderAddressDto: {
+            addressLine: string;
+            city: string;
+            governorateName: string;
+            landmark: null | string;
+            phone: string;
+            recipientName: string;
+            /** Format: int32 */
+            shippingZoneId: number;
+        };
+        OrderAddressFieldsRequest: {
+            addressLine: null | string;
+            city: null | string;
+            landmark: null | string;
+        };
+        OrderConflictProblemDetails: {
+            books?: null | components["schemas"]["OrderStockShortageDto"][];
+            detail?: null | string;
+            instance?: null | string;
+            items?: null | components["schemas"]["UnavailableCartItemDto"][];
+            /** Format: int32 */
+            status?: null | number;
+            title?: null | string;
+            type?: null | string;
+        };
+        OrderDetailsDto: {
+            address: components["schemas"]["OrderAddressDto"];
+            canCancel: boolean;
+            canEdit: boolean;
+            cancelReason: null | string;
+            /** Format: date-time */
+            createdAt: string;
+            customerNotes: null | string;
+            /** Format: date-time */
+            expiresAt: null | string;
+            /** Format: uuid */
+            id: string;
+            items: components["schemas"]["OrderItemDto"][];
+            /** Format: int32 */
+            itemsCount: number;
+            orderNumber: string;
+            paymentMethod: components["schemas"]["PaymentMethod"];
+            payments: components["schemas"]["OrderPaymentDto"][];
+            pricing: components["schemas"]["OrderPricingDto"];
+            rowVersion: string;
+            shipment: null | components["schemas"]["OrderShipmentDto"];
+            status: components["schemas"]["OrderStatus"];
+            timeline: components["schemas"]["OrderTimelineStepDto"][];
+            /** Format: double */
+            total: number;
+        };
+        OrderItemComponentDto: {
+            /** Format: int32 */
+            bookId: number;
+            isbn: null | string;
+            /** Format: int32 */
+            quantity: number;
+            title: string;
+        };
+        OrderItemDto: {
+            /** Format: int32 */
+            bookId: null | number;
+            /** Format: int32 */
+            bundleId: null | number;
+            components: components["schemas"]["OrderItemComponentDto"][];
+            /** Format: double */
+            discountPercent: number;
+            /** Format: double */
+            finalUnitPrice: number;
+            isbn: null | string;
+            /** Format: double */
+            lineTotal: number;
+            /** Format: int32 */
+            quantity: number;
+            title: string;
+            type: components["schemas"]["OrderItemType"];
+            /** Format: double */
+            unitPrice: number;
+        };
+        /** @enum {string} */
+        OrderItemType: "Book" | "Bundle";
+        OrderListItemDto: {
+            canCancel: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: uuid */
+            id: string;
+            /** Format: int32 */
+            itemsCount: number;
+            orderNumber: string;
+            status: components["schemas"]["OrderStatus"];
+            /** Format: double */
+            total: number;
+        };
+        OrderPaymentDto: {
+            /** Format: double */
+            amount: number;
+            /** Format: uuid */
+            id: string;
+            method: components["schemas"]["PaymentMethod"];
+            rejectionReason: null | string;
+            status: components["schemas"]["PaymentStatus"];
+            /** Format: date-time */
+            submittedAt: null | string;
+        };
+        OrderPricingDto: {
+            couponCode: null | string;
+            /** Format: double */
+            couponDiscount: number;
+            /** Format: double */
+            shippingFee: number;
+            /** Format: double */
+            subtotal: number;
+            /** Format: double */
+            total: number;
+        };
+        OrderShipmentDto: {
+            carrierName: null | string;
+            /** Format: date-time */
+            deliveredAt: null | string;
+            /** Format: date-time */
+            shippedAt: null | string;
+            trackingNumber: null | string;
+        };
+        /** @enum {string} */
+        OrderStatus: "PendingPayment" | "PaymentReview" | "Confirmed" | "Preparing" | "Shipped" | "Delivered" | "Cancelled";
+        OrderStockShortageDto: {
+            /** Format: int32 */
+            availableQuantity: number;
+            /** Format: int32 */
+            bookId: number;
+            title: string;
+        };
+        OrderTimelineStepDto: {
+            /** Format: date-time */
+            at: string;
+            status: components["schemas"]["OrderStatus"];
         };
         PagedResultOfAuthorAdminListItemDto: {
             hasNextPage?: boolean;
@@ -1901,10 +2196,36 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PagedResultOfOrderListItemDto: {
+            hasNextPage?: boolean;
+            hasPreviousPage?: boolean;
+            items: components["schemas"]["OrderListItemDto"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalCount: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PagedResultOfPublisherAdminListItemDto: {
             hasNextPage?: boolean;
             hasPreviousPage?: boolean;
             items: components["schemas"]["PublisherAdminListItemDto"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalCount: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
+        PagedResultOfReservationDto: {
+            hasNextPage?: boolean;
+            hasPreviousPage?: boolean;
+            items: components["schemas"]["ReservationDto"][];
             /** Format: int32 */
             page: number;
             /** Format: int32 */
@@ -1927,6 +2248,20 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        /** @enum {string} */
+        PaymentMethod: "ManualTransfer" | "CashOnDelivery";
+        PaymentMethodDetailsDto: {
+            /** Format: int32 */
+            expiresInHours: number;
+            instructions: null | string;
+            transferNumbers: components["schemas"]["TransferNumberDto"][];
+        };
+        PaymentMethodDto: {
+            details: null | components["schemas"]["PaymentMethodDetailsDto"];
+            method: components["schemas"]["PaymentMethod"];
+        };
+        /** @enum {string} */
+        PaymentStatus: "Pending" | "Submitted" | "Approved" | "Rejected" | "Refunded";
         PermissionCatalogItem: {
             descriptionAr: string;
             group: string;
@@ -1964,7 +2299,7 @@ export interface components {
             /** Format: int32 */
             booksCount: number;
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             /** Format: int32 */
             id: number;
             isDeleted: boolean;
@@ -1974,7 +2309,7 @@ export interface components {
             shortDescription: null | string;
             slug: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: null | string;
         };
         PublisherDto: {
             /** Format: int32 */
@@ -2006,6 +2341,25 @@ export interface components {
         ReplaceRolePermissionsRequest: {
             permissions: null | string[];
         };
+        ReservationDto: {
+            /** Format: int32 */
+            bookId: number;
+            bookTitle: string;
+            /** Format: date-time */
+            createdAt: string;
+            customerEmail: string;
+            /** Format: int32 */
+            customerId: number;
+            /** Format: date-time */
+            expiresAt: string;
+            /** Format: int32 */
+            id: number;
+            /** Format: int32 */
+            quantity: number;
+            status: components["schemas"]["ReservationStatus"];
+        };
+        /** @enum {string} */
+        ReservationStatus: "Active" | "Fulfilled" | "Expired" | "Cancelled";
         ResetPasswordCommand: {
             newPassword: string;
             token: string;
@@ -2058,7 +2412,7 @@ export interface components {
             /** Format: double */
             shippingPrice: number;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: null | string;
         };
         ShippingZonePublicDto: {
             /** Format: uint8 */
@@ -2072,18 +2426,34 @@ export interface components {
             /** Format: double */
             shippingPrice: number;
         };
+        SitemapDto: {
+            authors: components["schemas"]["SitemapEntryDto"][];
+            books: components["schemas"]["SitemapEntryDto"][];
+            categories: components["schemas"]["SitemapEntryDto"][];
+            pages: components["schemas"]["SitemapPageDto"][];
+        };
+        SitemapEntryDto: {
+            slug: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        SitemapPageDto: {
+            key: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
         StaticPageDto: {
             body: string;
             key: string;
             title: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: string;
         };
         StaticPageListItemDto: {
             key: string;
             title: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: string;
         };
         StaticPagePublicDto: {
             body: string;
@@ -2102,7 +2472,7 @@ export interface components {
         };
         StockMovementDto: {
             /** Format: date-time */
-            createdAt: unknown;
+            createdAt: string;
             /** Format: int32 */
             createdBy: null | number;
             /** Format: int32 */
@@ -2127,7 +2497,7 @@ export interface components {
             key: string;
             rowVersion: string;
             /** Format: date-time */
-            updatedAt: unknown;
+            updatedAt: string;
             value: string;
             valueType: string;
         };
@@ -2137,16 +2507,27 @@ export interface components {
         };
         /** @enum {string} */
         SwitchState: "Off" | "Partial" | "On";
+        /** @enum {string} */
+        TransferChannel: "VodafoneCash" | "InstaPay";
+        TransferNumberDto: {
+            channel: components["schemas"]["TransferChannel"];
+            number: string;
+        };
         TransferNumbers: {
             instaPay: string;
             vodafoneCash: string;
         };
+        UnavailableCartItemDto: {
+            /** Format: int32 */
+            itemId: number;
+            title: string;
+        };
         UpdateAddressRequest: {
-            addressLine: null | string;
-            city: null | string;
+            addressLine: string;
+            city: string;
             landmark: null | string;
-            phone: null | string;
-            recipientName: null | string;
+            phone: string;
+            recipientName: string;
             /** Format: int32 */
             shippingZoneId: number;
         };
@@ -2213,6 +2594,15 @@ export interface components {
             rowVersion: null | string;
             startsAt: null | string;
         };
+        UpdateOrderRequest: {
+            addressFields: null | components["schemas"]["OrderAddressFieldsRequest"];
+            notes: null | string;
+            phone: null | string;
+            recipientName: null | string;
+            rowVersion: string;
+            /** Format: int32 */
+            zoneId: null | number;
+        };
         UpdatePageRequest: {
             body: null | string;
             title: null | string;
@@ -2235,7 +2625,7 @@ export interface components {
             shippingPrice: null | number;
         };
         ValidateCouponRequest: {
-            code: null | string;
+            code: string;
         };
     };
     responses: never;
@@ -4155,6 +4545,8 @@ export interface operations {
             /** @description Created */
             201: {
                 headers: {
+                    /** @description The URL of what was created (or of the collection, when it has no GET by id). */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -5095,6 +5487,327 @@ export interface operations {
             };
             /** @description Conflict */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    listAdminReservations: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["ReservationStatus"];
+                bookId?: number;
+                userId?: number;
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PagedResultOfReservationDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    createAdminReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReservationRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    /** @description The URL of what was created (or of the collection, when it has no GET by id). */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReservationDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["StockInsufficientProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    cancelAdminReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReservationDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    fulfillAdminReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReservationDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["StockInsufficientProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -6561,6 +7274,8 @@ export interface operations {
             /** @description Created */
             201: {
                 headers: {
+                    /** @description The URL of what was created (or of the collection, when it has no GET by id). */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7306,6 +8021,8 @@ export interface operations {
             /** @description Created */
             201: {
                 headers: {
+                    /** @description The URL of what was created (or of the collection, when it has no GET by id). */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7591,6 +8308,403 @@ export interface operations {
             };
         };
     };
+    listMyOrders: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["OrderStatus"];
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PagedResultOfOrderListItemDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    createOrder: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description 8 to 100 characters of letters, digits, hyphen or underscore. Scoped per user. */
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrderRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    /** @description The URL of what was created (or of the collection, when it has no GET by id). */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["OrderConflictProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["CouponBelowMinimumProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    getMyOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    updateMyOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateOrderRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    cancelMyOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelOrderRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDetailsDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
     getStaticPage: {
         parameters: {
             query?: never;
@@ -7622,6 +8736,53 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    listPaymentMethods: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaymentMethodDto"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7783,6 +8944,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ShippingZonePublicDto"][];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    getSitemap: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SitemapDto"];
                 };
             };
             /** @description Too Many Requests */

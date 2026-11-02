@@ -112,7 +112,8 @@
             "type": "string"
           },
           "expiresAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "user": {
             "$ref": "#/components/schemas/AuthUserResponse"
@@ -163,7 +164,8 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "fullBio": {
             "type": [
@@ -209,7 +211,11 @@
             ]
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           }
         },
         "required": [
@@ -236,7 +242,8 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "hasPage": {
             "type": "boolean"
@@ -490,7 +497,8 @@
             ]
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "description": {
             "type": [
@@ -583,7 +591,11 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           }
         },
         "required": [
@@ -662,7 +674,8 @@
             ]
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "discountPercent": {
             "format": "double",
@@ -1164,6 +1177,20 @@
         ],
         "type": "object"
       },
+      "CancelOrderRequest": {
+        "properties": {
+          "reason": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "type": "object"
+      },
       "CartDto": {
         "properties": {
           "items": {
@@ -1288,7 +1315,8 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "displayOrder": {
             "format": "int32",
@@ -1321,7 +1349,11 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           }
         },
         "required": [
@@ -1678,7 +1710,8 @@
             "type": "string"
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "discountType": {
             "$ref": "#/components/schemas/CouponDiscountType"
@@ -1688,7 +1721,11 @@
             "type": "number"
           },
           "endsAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "id": {
             "format": "int32",
@@ -1740,14 +1777,19 @@
             "type": "string"
           },
           "startsAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "totalDiscount": {
             "format": "double",
             "type": "number"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "usedCount": {
             "format": "int32",
@@ -1783,7 +1825,8 @@
             "type": "string"
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "discountType": {
             "$ref": "#/components/schemas/CouponDiscountType"
@@ -1793,7 +1836,11 @@
             "type": "number"
           },
           "endsAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "id": {
             "format": "int32",
@@ -1831,7 +1878,8 @@
             ]
           },
           "startsAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "usedCount": {
             "format": "int32",
@@ -1936,7 +1984,8 @@
             "type": "string"
           },
           "usedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "userEmail": {
             "type": [
@@ -2009,16 +2058,10 @@
       "CreateAddressRequest": {
         "properties": {
           "addressLine": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "city": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "landmark": {
             "type": [
@@ -2027,16 +2070,10 @@
             ]
           },
           "phone": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "recipientName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "shippingZoneId": {
             "format": "int32",
@@ -2333,6 +2370,36 @@
         ],
         "type": "object"
       },
+      "CreateOrderRequest": {
+        "properties": {
+          "addressId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "couponCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "notes": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "paymentMethod": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          }
+        },
+        "required": [
+          "addressId",
+          "paymentMethod",
+          "couponCode",
+          "notes"
+        ],
+        "type": "object"
+      },
       "CreatePublisherRequest": {
         "properties": {
           "isOwn": {
@@ -2358,6 +2425,27 @@
         ],
         "type": "object"
       },
+      "CreateReservationRequest": {
+        "properties": {
+          "bookId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "customerEmail": {
+            "type": "string"
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "customerEmail",
+          "bookId",
+          "quantity"
+        ],
+        "type": "object"
+      },
       "FeatureFlagAdminDto": {
         "properties": {
           "description": {
@@ -2376,7 +2464,8 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "visibleToOwner": {
             "type": "boolean"
@@ -2605,6 +2694,544 @@
           "roles",
           "permissions",
           "features"
+        ],
+        "type": "object"
+      },
+      "OrderAddressDto": {
+        "properties": {
+          "addressLine": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "governorateName": {
+            "type": "string"
+          },
+          "landmark": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "phone": {
+            "type": "string"
+          },
+          "recipientName": {
+            "type": "string"
+          },
+          "shippingZoneId": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "recipientName",
+          "phone",
+          "shippingZoneId",
+          "governorateName",
+          "city",
+          "addressLine",
+          "landmark"
+        ],
+        "type": "object"
+      },
+      "OrderAddressFieldsRequest": {
+        "properties": {
+          "addressLine": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "city": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "landmark": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "city",
+          "addressLine",
+          "landmark"
+        ],
+        "type": "object"
+      },
+      "OrderConflictProblemDetails": {
+        "properties": {
+          "books": {
+            "items": {
+              "$ref": "#/components/schemas/OrderStockShortageDto"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UnavailableCartItemDto"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "status": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "OrderDetailsDto": {
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/OrderAddressDto"
+          },
+          "canCancel": {
+            "type": "boolean"
+          },
+          "canEdit": {
+            "type": "boolean"
+          },
+          "cancelReason": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "customerNotes": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDto"
+            },
+            "type": "array"
+          },
+          "itemsCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "paymentMethod": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          },
+          "payments": {
+            "items": {
+              "$ref": "#/components/schemas/OrderPaymentDto"
+            },
+            "type": "array"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/OrderPricingDto"
+          },
+          "rowVersion": {
+            "type": "string"
+          },
+          "shipment": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/OrderShipmentDto"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/OrderTimelineStepDto"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "orderNumber",
+          "status",
+          "total",
+          "itemsCount",
+          "createdAt",
+          "canCancel",
+          "canEdit",
+          "items",
+          "address",
+          "pricing",
+          "paymentMethod",
+          "payments",
+          "shipment",
+          "customerNotes",
+          "cancelReason",
+          "expiresAt",
+          "timeline",
+          "rowVersion"
+        ],
+        "type": "object"
+      },
+      "OrderItemComponentDto": {
+        "properties": {
+          "bookId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "isbn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookId",
+          "title",
+          "isbn",
+          "quantity"
+        ],
+        "type": "object"
+      },
+      "OrderItemDto": {
+        "properties": {
+          "bookId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "bundleId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/OrderItemComponentDto"
+            },
+            "type": "array"
+          },
+          "discountPercent": {
+            "format": "double",
+            "type": "number"
+          },
+          "finalUnitPrice": {
+            "format": "double",
+            "type": "number"
+          },
+          "isbn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "lineTotal": {
+            "format": "double",
+            "type": "number"
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/OrderItemType"
+          },
+          "unitPrice": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "bookId",
+          "bundleId",
+          "title",
+          "isbn",
+          "unitPrice",
+          "discountPercent",
+          "finalUnitPrice",
+          "quantity",
+          "lineTotal",
+          "components"
+        ],
+        "type": "object"
+      },
+      "OrderItemType": {
+        "enum": [
+          "Book",
+          "Bundle"
+        ],
+        "type": "string"
+      },
+      "OrderListItemDto": {
+        "properties": {
+          "canCancel": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "itemsCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "orderNumber": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "total": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "orderNumber",
+          "status",
+          "total",
+          "itemsCount",
+          "createdAt",
+          "canCancel"
+        ],
+        "type": "object"
+      },
+      "OrderPaymentDto": {
+        "properties": {
+          "amount": {
+            "format": "double",
+            "type": "number"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "method": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          },
+          "rejectionReason": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "submittedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "method",
+          "status",
+          "amount",
+          "submittedAt",
+          "rejectionReason"
+        ],
+        "type": "object"
+      },
+      "OrderPricingDto": {
+        "properties": {
+          "couponCode": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "couponDiscount": {
+            "format": "double",
+            "type": "number"
+          },
+          "shippingFee": {
+            "format": "double",
+            "type": "number"
+          },
+          "subtotal": {
+            "format": "double",
+            "type": "number"
+          },
+          "total": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "required": [
+          "subtotal",
+          "couponCode",
+          "couponDiscount",
+          "shippingFee",
+          "total"
+        ],
+        "type": "object"
+      },
+      "OrderShipmentDto": {
+        "properties": {
+          "carrierName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "deliveredAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "shippedAt": {
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "trackingNumber": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        },
+        "required": [
+          "carrierName",
+          "trackingNumber",
+          "shippedAt",
+          "deliveredAt"
+        ],
+        "type": "object"
+      },
+      "OrderStatus": {
+        "enum": [
+          "PendingPayment",
+          "PaymentReview",
+          "Confirmed",
+          "Preparing",
+          "Shipped",
+          "Delivered",
+          "Cancelled"
+        ],
+        "type": "string"
+      },
+      "OrderStockShortageDto": {
+        "properties": {
+          "availableQuantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "bookId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookId",
+          "title",
+          "availableQuantity"
+        ],
+        "type": "object"
+      },
+      "OrderTimelineStepDto": {
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          }
+        },
+        "required": [
+          "status",
+          "at"
         ],
         "type": "object"
       },
@@ -2842,6 +3469,45 @@
         ],
         "type": "object"
       },
+      "PagedResultOfOrderListItemDto": {
+        "properties": {
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderListItemDto"
+            },
+            "type": "array"
+          },
+          "page": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "pageSize": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalPages": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "totalCount"
+        ],
+        "type": "object"
+      },
       "PagedResultOfPublisherAdminListItemDto": {
         "properties": {
           "hasNextPage": {
@@ -2853,6 +3519,45 @@
           "items": {
             "items": {
               "$ref": "#/components/schemas/PublisherAdminListItemDto"
+            },
+            "type": "array"
+          },
+          "page": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "pageSize": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalCount": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "totalPages": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "totalCount"
+        ],
+        "type": "object"
+      },
+      "PagedResultOfReservationDto": {
+        "properties": {
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReservationDto"
             },
             "type": "array"
           },
@@ -2919,6 +3624,71 @@
           "totalCount"
         ],
         "type": "object"
+      },
+      "PaymentMethod": {
+        "enum": [
+          "ManualTransfer",
+          "CashOnDelivery"
+        ],
+        "type": "string"
+      },
+      "PaymentMethodDetailsDto": {
+        "properties": {
+          "expiresInHours": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "instructions": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "transferNumbers": {
+            "items": {
+              "$ref": "#/components/schemas/TransferNumberDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "transferNumbers",
+          "instructions",
+          "expiresInHours"
+        ],
+        "type": "object"
+      },
+      "PaymentMethodDto": {
+        "properties": {
+          "details": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PaymentMethodDetailsDto"
+              }
+            ]
+          },
+          "method": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          }
+        },
+        "required": [
+          "method",
+          "details"
+        ],
+        "type": "object"
+      },
+      "PaymentStatus": {
+        "enum": [
+          "Pending",
+          "Submitted",
+          "Approved",
+          "Rejected",
+          "Refunded"
+        ],
+        "type": "string"
       },
       "PermissionCatalogItem": {
         "properties": {
@@ -3061,7 +3831,8 @@
             "type": "integer"
           },
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "id": {
             "format": "int32",
@@ -3092,7 +3863,11 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           }
         },
         "required": [
@@ -3239,6 +4014,64 @@
           "permissions"
         ],
         "type": "object"
+      },
+      "ReservationDto": {
+        "properties": {
+          "bookId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "bookTitle": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "customerEmail": {
+            "type": "string"
+          },
+          "customerId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "quantity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ReservationStatus"
+          }
+        },
+        "required": [
+          "id",
+          "bookId",
+          "bookTitle",
+          "customerId",
+          "customerEmail",
+          "quantity",
+          "status",
+          "expiresAt",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "ReservationStatus": {
+        "enum": [
+          "Active",
+          "Fulfilled",
+          "Expired",
+          "Cancelled"
+        ],
+        "type": "string"
       },
       "ResetPasswordCommand": {
         "properties": {
@@ -3438,7 +4271,11 @@
             "type": "number"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": [
+              "null",
+              "string"
+            ]
           }
         },
         "required": [
@@ -3495,6 +4332,73 @@
         ],
         "type": "object"
       },
+      "SitemapDto": {
+        "properties": {
+          "authors": {
+            "items": {
+              "$ref": "#/components/schemas/SitemapEntryDto"
+            },
+            "type": "array"
+          },
+          "books": {
+            "items": {
+              "$ref": "#/components/schemas/SitemapEntryDto"
+            },
+            "type": "array"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/SitemapEntryDto"
+            },
+            "type": "array"
+          },
+          "pages": {
+            "items": {
+              "$ref": "#/components/schemas/SitemapPageDto"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "books",
+          "authors",
+          "categories",
+          "pages"
+        ],
+        "type": "object"
+      },
+      "SitemapEntryDto": {
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "slug",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "SitemapPageDto": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
       "StaticPageDto": {
         "properties": {
           "body": {
@@ -3507,7 +4411,8 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           }
         },
         "required": [
@@ -3527,7 +4432,8 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           }
         },
         "required": [
@@ -3599,7 +4505,8 @@
       "StockMovementDto": {
         "properties": {
           "createdAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "createdBy": {
             "format": "int32",
@@ -3690,7 +4597,8 @@
             "type": "string"
           },
           "updatedAt": {
-            "format": "date-time"
+            "format": "date-time",
+            "type": "string"
           },
           "value": {
             "type": "string"
@@ -3732,6 +4640,28 @@
         ],
         "type": "string"
       },
+      "TransferChannel": {
+        "enum": [
+          "VodafoneCash",
+          "InstaPay"
+        ],
+        "type": "string"
+      },
+      "TransferNumberDto": {
+        "properties": {
+          "channel": {
+            "$ref": "#/components/schemas/TransferChannel"
+          },
+          "number": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "channel",
+          "number"
+        ],
+        "type": "object"
+      },
       "TransferNumbers": {
         "properties": {
           "instaPay": {
@@ -3747,19 +4677,29 @@
         ],
         "type": "object"
       },
+      "UnavailableCartItemDto": {
+        "properties": {
+          "itemId": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "itemId",
+          "title"
+        ],
+        "type": "object"
+      },
       "UpdateAddressRequest": {
         "properties": {
           "addressLine": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "city": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "landmark": {
             "type": [
@@ -3768,16 +4708,10 @@
             ]
           },
           "phone": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "recipientName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           },
           "shippingZoneId": {
             "format": "int32",
@@ -4072,6 +5006,57 @@
         ],
         "type": "object"
       },
+      "UpdateOrderRequest": {
+        "properties": {
+          "addressFields": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/OrderAddressFieldsRequest"
+              }
+            ]
+          },
+          "notes": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "phone": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "recipientName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "rowVersion": {
+            "type": "string"
+          },
+          "zoneId": {
+            "format": "int32",
+            "type": [
+              "null",
+              "integer"
+            ]
+          }
+        },
+        "required": [
+          "rowVersion",
+          "recipientName",
+          "phone",
+          "addressFields",
+          "zoneId",
+          "notes"
+        ],
+        "type": "object"
+      },
       "UpdatePageRequest": {
         "properties": {
           "body": {
@@ -4176,10 +5161,7 @@
       "ValidateCouponRequest": {
         "properties": {
           "code": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string"
           }
         },
         "required": [
@@ -5976,6 +6958,7 @@
     },
     "/api/v1/admin/books/{id}/stock-adjustments": {
       "post": {
+        "description": "Adds or removes copies through the stock ledger. type is Purchase, Adjustment or Return; quantityDelta is signed, never 0, at most 1000000 in size, and only Adjustment may be negative; reason is required (500 characters after trimming). 201 returns the movement THIS call wrote (its own id, type, quantity, stockAfter, reason, createdAt, createdBy). 400 is the validation shape (errors.quantityDelta, errors.reason, errors.type). 409 stock_insufficient when the stock would go below zero, 409 stock_limit_exceeded when it would pass 2147483647, 404 for a missing or deleted book.",
         "operationId": "adjustAdminBookStock",
         "parameters": [
           {
@@ -6760,7 +7743,15 @@
                 }
               }
             },
-            "description": "Created"
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "The URL of what was created (or of the collection, when it has no GET by id).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "400": {
             "content": {
@@ -8007,6 +8998,443 @@
         ],
         "tags": [
           "Admin Publishers"
+        ]
+      }
+    },
+    "/api/v1/admin/reservations": {
+      "get": {
+        "description": "Newest first. Filter by status (Active, Fulfilled, Expired, Cancelled), bookId and userId. pageSize up to 100.",
+        "operationId": "listAdminReservations",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/ReservationStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "bookId",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfReservationDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Reservations"
+        ]
+      },
+      "post": {
+        "description": "Reserves quantity copies of a book for the registered customer with this email, for the number of days of the store setting Reservation.DurationDays. The reservation lowers the available quantity until it is fulfilled, cancelled or expires. 409 stock_insufficient carries availableQuantity. There is no note field: the table has no column for it.",
+        "operationId": "createAdminReservation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReservationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDto"
+                }
+              }
+            },
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "The URL of what was created (or of the collection, when it has no GET by id).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockInsufficientProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Reservations"
+        ]
+      }
+    },
+    "/api/v1/admin/reservations/{id}/cancel": {
+      "post": {
+        "description": "Cancels an Active, unexpired reservation and frees its copies. No stock moves. A reservation that is not active, or whose time has passed, is 422 reservation_not_active.",
+        "operationId": "cancelAdminReservation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Reservations"
+        ]
+      }
+    },
+    "/api/v1/admin/reservations/{id}/fulfill": {
+      "post": {
+        "description": "Turns an Active, unexpired reservation into a sale: the stock is deducted once (a Sale movement). A reservation that is not active, or whose time has passed, is 422 reservation_not_active. If the stock is lower than the quantity the answer is 409 stock_insufficient with availableQuantity and nothing changes.",
+        "operationId": "fulfillAdminReservation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockInsufficientProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Admin Reservations"
         ]
       }
     },
@@ -9870,7 +11298,15 @@
                 }
               }
             },
-            "description": "Created"
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "The URL of what was created (or of the collection, when it has no GET by id).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "400": {
             "content": {
@@ -10790,7 +12226,15 @@
                 }
               }
             },
-            "description": "Created"
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "The URL of what was created (or of the collection, when it has no GET by id).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "400": {
             "content": {
@@ -11150,6 +12594,541 @@
         ]
       }
     },
+    "/api/v1/orders": {
+      "get": {
+        "description": "The caller\u0027s own orders, newest first. status is an OrderStatus name in PascalCase (an unknown value is 400). pageSize is 1 to 48 (default 20). The page has items, page, pageSize, totalCount, totalPages, hasPreviousPage and hasNextPage. itemsCount counts a bundle once.",
+        "operationId": "listMyOrders",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "$ref": "#/components/schemas/OrderStatus"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResultOfOrderListItemDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Orders"
+        ]
+      },
+      "post": {
+        "description": "Places the order from the current cart. The Idempotency-Key header is required (400 idempotency_key_required). Sending the same key and the same body again returns the same 201 response with the same Location and the header Idempotency-Replayed: true and creates no second order; the same key with a different body is 422 idempotency_key_mismatch. Only a 201 is stored: a failed attempt does not lock the key, so it can be retried after the cart is fixed. Two simultaneous requests with the same key wait for each other and one order is made; a duplicate that waits too long (20 seconds) gets 409 idempotency_in_progress with Retry-After: 1. Location is /api/v1/orders/{id}. The body never carries a price, a total or a shipping fee; paymentMethod is ManualTransfer or CashOnDelivery. 409 stock_insufficient lists the books with availableQuantity, and 409 cart_has_unavailable_items lists the items.",
+        "operationId": "createOrder",
+        "parameters": [
+          {
+            "description": "8 to 100 characters of letters, digits, hyphen or underscore. Scoped per user.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailsDto"
+                }
+              }
+            },
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "description": "The URL of what was created (or of the collection, when it has no GET by id).",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderConflictProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouponBelowMinimumProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Orders"
+        ]
+      }
+    },
+    "/api/v1/orders/{id}": {
+      "get": {
+        "description": "One order of the caller. An order that does not exist and an order of another user both answer 404 order_not_found. An id that is not a guid does not match the route (404 without a body).",
+        "operationId": "getMyOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Orders"
+        ]
+      },
+      "put": {
+        "description": "Edits the shipping details of the caller\u0027s order before preparation (PendingPayment, PaymentReview or Confirmed; later = 422 order_not_editable). rowVersion (base64) is required and must be the one the details returned (stale = 409 order_concurrency_conflict). Only the supplied fields change: recipientName, phone, addressFields {city, addressLine, landmark}, zoneId, notes (empty notes or an empty landmark clear the value). A body with no field is 400. A zoneId that differs from the order\u0027s zone is allowed only in PendingPayment (otherwise 422 order_zone_change_locked); it recomputes only the shipping fee and the total from the stored subtotal and coupon discount. An edit that changes nothing returns 200 with the unchanged order and the same rowVersion.",
+        "operationId": "updateMyOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Orders"
+        ]
+      }
+    },
+    "/api/v1/orders/{id}/cancel": {
+      "post": {
+        "description": "Cancels the caller\u0027s order and gives the stock and the coupon use back in one transaction. reason is optional (at most 500 characters). Allowed up to the store setting Order.LastCancelableStatus (never later than Confirmed for a customer); otherwise, or when the order is already cancelled, 422 order_not_cancellable. A concurrent change of the order gives 409 order_concurrency_conflict and nothing is kept. An approved payment stays as it is (refund is manual).",
+        "operationId": "cancelMyOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailsDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Orders"
+        ]
+      }
+    },
     "/api/v1/pages/{key}": {
       "get": {
         "operationId": "getStaticPage",
@@ -11207,6 +13186,65 @@
         },
         "tags": [
           "Pages"
+        ]
+      }
+    },
+    "/api/v1/payment-methods": {
+      "get": {
+        "description": "Only the payment methods POST /orders would accept right now (the same rule). method is the exact name POST /orders takes: CashOnDelivery or ManualTransfer. ManualTransfer carries details: the non-blank transferNumbers (each { channel: VodafoneCash or InstaPay, number }), instructions (null for now) and expiresInHours. A disabled method is absent; both closed gives an empty array.",
+        "operationId": "listPaymentMethods",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentMethodDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "401": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": [
+          "Checkout"
         ]
       }
     },
@@ -11387,6 +13425,37 @@
           "Shipping"
         ]
       }
+    },
+    "/api/v1/sitemap": {
+      "get": {
+        "description": "The publicly visible books, authors, categories (by slug) and CMS pages (by key) with their last change in UTC, newest first. No paging: at most 50000 items per type.",
+        "operationId": "getSitemap",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SitemapDto"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "429": {
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "tags": [
+          "Catalog"
+        ]
+      }
     }
   },
   "tags": [
@@ -11410,6 +13479,9 @@
     },
     {
       "name": "Admin Publishers"
+    },
+    {
+      "name": "Admin Reservations"
     },
     {
       "name": "Admin Roles"
@@ -11446,6 +13518,9 @@
     },
     {
       "name": "Me"
+    },
+    {
+      "name": "Orders"
     },
     {
       "name": "Pages"
