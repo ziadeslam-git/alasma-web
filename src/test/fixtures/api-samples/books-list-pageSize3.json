@@ -1,0 +1,56 @@
+{
+  "items": [
+    {
+      "id": 30,
+      "slug": "demo-book-030-morning-star",
+      "title": "نجمة الصباح",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-030-morning-star/600/900",
+      "authors": [
+        "سلمى الراشد"
+      ],
+      "price": 125.0,
+      "finalPrice": 125.0,
+      "discountPercent": 0.0,
+      "stockStatus": "InStock",
+      "isNew": true,
+      "isFeatured": false
+    },
+    {
+      "id": 29,
+      "slug": "demo-book-029-house-on-hill",
+      "title": "بيت على التل",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-029-house-on-hill/600/900",
+      "authors": [
+        "منى الخطيب"
+      ],
+      "price": 145.0,
+      "finalPrice": 145.0,
+      "discountPercent": 0.0,
+      "stockStatus": "InStock",
+      "isNew": true,
+      "isFeatured": false
+    },
+    {
+      "id": 28,
+      "slug": "demo-book-028-wooden-box",
+      "title": "سر الصندوق الخشبي",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-028-wooden-box/600/900",
+      "authors": [
+        "نور الجبالي",
+        "هالة البدر"
+      ],
+      "price": 99.0,
+      "finalPrice": 99.0,
+      "discountPercent": 0.0,
+      "stockStatus": "InStock",
+      "isNew": true,
+      "isFeatured": false
+    }
+  ],
+  "page": 1,
+  "pageSize": 3,
+  "totalCount": 30,
+  "totalPages": 10,
+  "hasPreviousPage": false,
+  "hasNextPage": true
+}

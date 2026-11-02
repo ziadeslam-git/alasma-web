@@ -1,0 +1,19 @@
+[
+  "Catalog.Bundles",
+  "Catalog.Reservations",
+  "Catalog.Reviews",
+  "Catalog.Wishlist",
+  "Cms.StaticPages",
+  "Marketing.Banners",
+  "Marketing.Coupons",
+  "Marketing.Events",
+  "Marketing.Newsletter",
+  "Marketing.Quotes",
+  "Orders.Alerts",
+  "Orders.InvoicePrint",
+  "Payments.Cod",
+  "Payments.ManualTransfer",
+  "Publishing.ManuscriptRequests",
+  "Publishing.Packages",
+  "Reports.Dashboard"
+]

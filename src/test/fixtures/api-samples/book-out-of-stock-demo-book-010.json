@@ -1,0 +1,41 @@
+{
+  "id": 10,
+  "title": "قصائد على حافة البحر",
+  "slug": "demo-book-010-sea-edge",
+  "description": "قصائد على حافة البحر — وصف تجريبي قصير لعرض صفحة الكتاب في الواجهة الأمامية.",
+  "price": 70.0,
+  "finalPrice": 70.0,
+  "discountPercent": 0.0,
+  "pageCount": 120,
+  "publishYear": 2024,
+  "coverType": "Hardcover",
+  "language": "Arabic",
+  "isbn": "9789000000010",
+  "coverImageUrl": "https://picsum.photos/seed/demo-book-010-sea-edge/600/900",
+  "images": [],
+  "authors": [
+    {
+      "name": "سلمى الراشد",
+      "role": "Author",
+      "displayOrder": 0,
+      "shortBio": "شاعرة تجريبية تكتب عن البحر والفجر.",
+      "pageSlug": "demo-salma-rashed"
+    }
+  ],
+  "publisher": {
+    "name": "دار النيل للنشر",
+    "slug": "demo-nile-press",
+    "shortDescription": "دار نشر تجريبية للواجهة الأمامية."
+  },
+  "categories": [
+    {
+      "id": 2,
+      "name": "الشعر",
+      "slug": "demo-poetry",
+      "isPrimary": true
+    }
+  ],
+  "stockStatus": "OutOfStock",
+  "isNew": false,
+  "isFeatured": false
+}

@@ -1,0 +1,218 @@
+[
+  {
+    "id": 25,
+    "nameAr": "أسوان",
+    "nameEn": "Aswan",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 21,
+    "nameAr": "أسيوط",
+    "nameEn": "Asyut",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 3,
+    "nameAr": "الإسكندرية",
+    "nameEn": "Alexandria",
+    "shippingPrice": 35.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 8,
+    "nameAr": "الإسماعيلية",
+    "nameEn": "Ismailia",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 24,
+    "nameAr": "الأقصر",
+    "nameEn": "Luxor",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 26,
+    "nameAr": "البحر الأحمر",
+    "nameEn": "Red Sea",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 14,
+    "nameAr": "البحيرة",
+    "nameEn": "Beheira",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 2,
+    "nameAr": "الجيزة",
+    "nameEn": "Giza",
+    "shippingPrice": 35.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 10,
+    "nameAr": "الدقهلية",
+    "nameEn": "Dakahlia",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 6,
+    "nameAr": "السويس",
+    "nameEn": "Suez",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 11,
+    "nameAr": "الشرقية",
+    "nameEn": "Sharqia",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 12,
+    "nameAr": "الغربية",
+    "nameEn": "Gharbia",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 19,
+    "nameAr": "الفيوم",
+    "nameEn": "Faiyum",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 1,
+    "nameAr": "القاهرة",
+    "nameEn": "Cairo",
+    "shippingPrice": 35.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 4,
+    "nameAr": "القليوبية",
+    "nameEn": "Qalyubia",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 13,
+    "nameAr": "المنوفية",
+    "nameEn": "Monufia",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 20,
+    "nameAr": "المنيا",
+    "nameEn": "Minya",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 18,
+    "nameAr": "الوادي الجديد",
+    "nameEn": "New Valley",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 16,
+    "nameAr": "بني سويف",
+    "nameEn": "Beni Suef",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 5,
+    "nameAr": "بورسعيد",
+    "nameEn": "Port Said",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 9,
+    "nameAr": "جنوب سيناء",
+    "nameEn": "South Sinai",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 7,
+    "nameAr": "دمياط",
+    "nameEn": "Damietta",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 22,
+    "nameAr": "سوهاج",
+    "nameEn": "Sohag",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 17,
+    "nameAr": "شمال سيناء",
+    "nameEn": "North Sinai",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 23,
+    "nameAr": "قنا",
+    "nameEn": "Qena",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 15,
+    "nameAr": "كفر الشيخ",
+    "nameEn": "Kafr El Sheikh",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  },
+  {
+    "id": 27,
+    "nameAr": "مطروح",
+    "nameEn": "Matrouh",
+    "shippingPrice": 50.0,
+    "freeShippingThreshold": null,
+    "estimatedDays": 3
+  }
+]

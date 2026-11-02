@@ -1,0 +1,185 @@
+[
+  {
+    "id": 30,
+    "slug": "demo-book-030-morning-star",
+    "title": "نجمة الصباح",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-030-morning-star/600/900",
+    "authors": [
+      "سلمى الراشد"
+    ],
+    "price": 125.0,
+    "finalPrice": 125.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 29,
+    "slug": "demo-book-029-house-on-hill",
+    "title": "بيت على التل",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-029-house-on-hill/600/900",
+    "authors": [
+      "منى الخطيب"
+    ],
+    "price": 145.0,
+    "finalPrice": 145.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 28,
+    "slug": "demo-book-028-wooden-box",
+    "title": "سر الصندوق الخشبي",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-028-wooden-box/600/900",
+    "authors": [
+      "نور الجبالي",
+      "هالة البدر"
+    ],
+    "price": 99.0,
+    "finalPrice": 99.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 27,
+    "slug": "demo-book-027-far-letters",
+    "title": "رسائل من بعيد",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-027-far-letters/600/900",
+    "authors": [
+      "سلمى الراشد"
+    ],
+    "price": 80.0,
+    "finalPrice": 80.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 26,
+    "slug": "demo-book-026-light-orbit",
+    "title": "مدار الضوء",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-026-light-orbit/600/900",
+    "authors": [
+      "طارق السالمي"
+    ],
+    "price": 280.0,
+    "finalPrice": 224.0,
+    "discountPercent": 20.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 25,
+    "slug": "demo-book-025-small-gardens",
+    "title": "كتاب الحدائق الصغيرة",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-025-small-gardens/600/900",
+    "authors": [
+      "نور الجبالي"
+    ],
+    "price": 58.0,
+    "finalPrice": 58.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 24,
+    "slug": "demo-book-024-castle-road",
+    "title": "الطريق إلى القلعة",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-024-castle-road/600/900",
+    "authors": [
+      "كريم الفهد",
+      "ليلى المنصور"
+    ],
+    "price": 175.0,
+    "finalPrice": 175.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 23,
+    "slug": "demo-book-023-river-song",
+    "title": "أغنية النهر",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-023-river-song/600/900",
+    "authors": [
+      "حسام العطار"
+    ],
+    "price": 90.0,
+    "finalPrice": 90.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "id": 1,
+    "slug": "demo-book-001-cloud-city",
+    "title": "رحلة إلى مدينة الغيم",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-001-cloud-city/600/900",
+    "authors": [
+      "ليلى المنصور"
+    ],
+    "price": 120.0,
+    "finalPrice": 120.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": false,
+    "isFeatured": true
+  },
+  {
+    "id": 2,
+    "slug": "demo-book-002-blue-island",
+    "title": "أسرار الجزيرة الزرقاء",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-002-blue-island/600/900",
+    "authors": [
+      "كريم الفهد"
+    ],
+    "price": 150.0,
+    "finalPrice": 100.01,
+    "discountPercent": 33.33,
+    "stockStatus": "InStock",
+    "isNew": false,
+    "isFeatured": true
+  },
+  {
+    "id": 3,
+    "slug": "demo-book-003-long-evenings",
+    "title": "حكايات المساء الطويلة",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-003-long-evenings/600/900",
+    "authors": [
+      "حسام العطار",
+      "هالة البدر"
+    ],
+    "price": 95.0,
+    "finalPrice": 95.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": false,
+    "isFeatured": true
+  },
+  {
+    "id": 4,
+    "slug": "demo-book-004-old-tree",
+    "title": "ظل الشجرة العتيقة",
+    "coverImageUrl": "https://picsum.photos/seed/demo-book-004-old-tree/600/900",
+    "authors": [
+      "منى الخطيب"
+    ],
+    "price": 210.0,
+    "finalPrice": 210.0,
+    "discountPercent": 0.0,
+    "stockStatus": "InStock",
+    "isNew": false,
+    "isFeatured": true
+  }
+]

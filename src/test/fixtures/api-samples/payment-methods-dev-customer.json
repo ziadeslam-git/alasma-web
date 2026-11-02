@@ -1,0 +1,22 @@
+[
+  {
+    "method": "CashOnDelivery"
+  },
+  {
+    "method": "ManualTransfer",
+    "details": {
+      "transferNumbers": [
+        {
+          "channel": "VodafoneCash",
+          "number": "0100 000 0000"
+        },
+        {
+          "channel": "InstaPay",
+          "number": "0111 111 1111"
+        }
+      ],
+      "instructions": null,
+      "expiresInHours": 48
+    }
+  }
+]

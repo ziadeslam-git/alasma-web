@@ -1,0 +1,58 @@
+{
+  "books": [
+    {
+      "slug": "demo-book-030-morning-star",
+      "updatedAt": "2026-11-01T20:23:51.4153983Z"
+    },
+    {
+      "slug": "demo-book-029-house-on-hill",
+      "updatedAt": "2026-10-31T20:23:51.4153983Z"
+    },
+    {
+      "slug": "demo-book-028-wooden-box",
+      "updatedAt": "2026-10-30T20:23:51.4153983Z"
+    }
+  ],
+  "authors": [
+    {
+      "slug": "demo-karim-fahd",
+      "updatedAt": "2026-11-02T20:23:51.4060932Z"
+    },
+    {
+      "slug": "demo-mona-khatib",
+      "updatedAt": "2026-11-02T20:23:51.4025903Z"
+    },
+    {
+      "slug": "demo-tarek-salemi",
+      "updatedAt": "2026-11-02T20:23:51.3997974Z"
+    }
+  ],
+  "categories": [
+    {
+      "slug": "demo-fantasy-novels",
+      "updatedAt": "2026-11-02T20:23:51.2658405Z"
+    },
+    {
+      "slug": "demo-historical-novels",
+      "updatedAt": "2026-11-02T20:23:51.2597689Z"
+    },
+    {
+      "slug": "demo-kids",
+      "updatedAt": "2026-11-02T20:23:51.2521008Z"
+    }
+  ],
+  "pages": [
+    {
+      "key": "about",
+      "updatedAt": "2026-11-02T20:23:45.9320757Z"
+    },
+    {
+      "key": "contact",
+      "updatedAt": "2026-11-02T20:23:45.9320757Z"
+    },
+    {
+      "key": "faq",
+      "updatedAt": "2026-11-02T20:23:45.9320757Z"
+    }
+  ]
+}

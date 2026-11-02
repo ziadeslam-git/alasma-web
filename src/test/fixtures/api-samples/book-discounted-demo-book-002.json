@@ -1,0 +1,37 @@
+{
+  "id": 2,
+  "title": "أسرار الجزيرة الزرقاء",
+  "slug": "demo-book-002-blue-island",
+  "description": "أسرار الجزيرة الزرقاء — وصف تجريبي قصير لعرض صفحة الكتاب في الواجهة الأمامية.",
+  "price": 150.0,
+  "finalPrice": 100.01,
+  "discountPercent": 33.33,
+  "pageCount": 160,
+  "publishYear": 2022,
+  "coverType": "Hardcover",
+  "language": "Arabic",
+  "isbn": "9789000000002",
+  "coverImageUrl": "https://picsum.photos/seed/demo-book-002-blue-island/600/900",
+  "images": [],
+  "authors": [
+    {
+      "name": "كريم الفهد",
+      "role": "Author",
+      "displayOrder": 0,
+      "shortBio": "كاتب تجريبي لروايات الخيال والمغامرة.",
+      "pageSlug": "demo-karim-fahd"
+    }
+  ],
+  "publisher": null,
+  "categories": [
+    {
+      "id": 7,
+      "name": "روايات الخيال",
+      "slug": "demo-fantasy-novels",
+      "isPrimary": true
+    }
+  ],
+  "stockStatus": "InStock",
+  "isNew": false,
+  "isFeatured": true
+}

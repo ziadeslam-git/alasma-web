@@ -1,0 +1,37 @@
+{
+  "id": 14,
+  "title": "رحلات في تاريخ الموانئ",
+  "slug": "demo-book-014-port-journeys",
+  "description": "رحلات في تاريخ الموانئ — وصف تجريبي قصير لعرض صفحة الكتاب في الواجهة الأمامية.",
+  "price": 130.0,
+  "finalPrice": 130.0,
+  "discountPercent": 0.0,
+  "pageCount": 200,
+  "publishYear": 2022,
+  "coverType": "Hardcover",
+  "language": "Arabic",
+  "isbn": "9789000000014",
+  "coverImageUrl": "https://picsum.photos/seed/demo-book-014-port-journeys/600/900",
+  "images": [],
+  "authors": [
+    {
+      "name": "يوسف القاسمي",
+      "role": "Author",
+      "displayOrder": 0,
+      "shortBio": "باحث تجريبي في تاريخ الموانئ والقوافل.",
+      "pageSlug": "demo-youssef-qasemi"
+    }
+  ],
+  "publisher": null,
+  "categories": [
+    {
+      "id": 4,
+      "name": "التاريخ",
+      "slug": "demo-history",
+      "isPrimary": true
+    }
+  ],
+  "stockStatus": "LowStock",
+  "isNew": false,
+  "isFeatured": false
+}

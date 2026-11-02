@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "الروايات",
+    "slug": "demo-novels",
+    "imageUrl": null,
+    "children": [
+      {
+        "id": 6,
+        "name": "الروايات التاريخية",
+        "slug": "demo-historical-novels",
+        "imageUrl": null,
+        "children": []
+      },
+      {
+        "id": 7,
+        "name": "روايات الخيال",
+        "slug": "demo-fantasy-novels",
+        "imageUrl": null,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "الشعر",
+    "slug": "demo-poetry",
+    "imageUrl": null,
+    "children": []
+  },
+  {
+    "id": 3,
+    "name": "العلوم",
+    "slug": "demo-science",
+    "imageUrl": null,
+    "children": []
+  },
+  {
+    "id": 4,
+    "name": "التاريخ",
+    "slug": "demo-history",
+    "imageUrl": null,
+    "children": []
+  },
+  {
+    "id": 5,
+    "name": "كتب الأطفال",
+    "slug": "demo-kids",
+    "imageUrl": null,
+    "children": []
+  }
+]

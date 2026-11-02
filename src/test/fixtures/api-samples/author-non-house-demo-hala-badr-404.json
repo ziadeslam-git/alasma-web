@@ -1,0 +1,9 @@
+{
+  "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "The author does not exist.",
+  "code": "catalog_author_not_found",
+  "traceId": "00-40358836c00612f7e40352fa5d74d7cd-c9f76ffeba866134-00",
+  "correlationId": "5f39b9ac03274c22a94a6090412d8b26"
+}

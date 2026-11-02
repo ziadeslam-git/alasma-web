@@ -1,13 +1,26 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { server } from '@/mocks/server';
 import { ApiError } from '@/shared/lib/api';
+
+const cacheModes = vi.hoisted(() => [] as string[]);
 
 vi.mock('@/modules/auth', async () => {
   const { createBrowserClient } = await import('@/shared/lib/api');
   return {
     getApiClient: () =>
-      createBrowserClient({ getAccessToken: () => 'token' }, { baseUrl: 'http://localhost' }),
+      createBrowserClient(
+        { getAccessToken: () => 'token' },
+        {
+          baseUrl: 'http://localhost',
+          // MSW rebuilds the Request, so its handlers always see cache "default". The mode the client really
+          // sends is observable only here, as in browser-client.test.ts.
+          fetch: (request) => {
+            cacheModes.push(`${request.method} ${new URL(request.url).pathname}: ${request.cache}`);
+            return globalThis.fetch(request);
+          },
+        },
+      ),
   };
 });
 import {
@@ -30,6 +43,9 @@ const body = {
   notes: null,
 };
 describe('orders API', () => {
+  beforeEach(() => {
+    cacheModes.length = 0;
+  });
   it('recognises GUIDs before a details request', () => {
     expect(isOrderId(id)).toBe(true);
     expect(isOrderId('not-a-guid')).toBe(false);
@@ -38,35 +54,31 @@ describe('orders API', () => {
     server.use(
       http.get(`${base}/orders`, ({ request }) => {
         expect(new URL(request.url).searchParams.get('pageSize')).toBe('48');
-        expect(request.cache).toBe('no-store');
         return HttpResponse.json({ items: [], page: 1, pageSize: 48, totalCount: 0 });
       }),
-      http.get(`${base}/shipping/zones`, ({ request }) => {
-        expect(request.cache).toBe('no-store');
-        return HttpResponse.json([]);
-      }),
+      http.get(`${base}/shipping/zones`, () => HttpResponse.json([])),
     );
     expect((await listOrders(1)).items).toEqual([]);
     expect(await listOrderZones()).toEqual([]);
+    expect(cacheModes).toEqual([
+      'GET /api/v1/orders: no-store',
+      'GET /api/v1/shipping/zones: no-store',
+    ]);
   });
   it('reads, updates and cancels using their documented routes', async () => {
     server.use(
-      http.get(`${base}/orders/:id`, ({ request }) => {
-        expect(request.cache).toBe('no-store');
-        return HttpResponse.json({ id });
-      }),
-      http.put(`${base}/orders/:id`, ({ request }) => {
-        expect(request.cache).toBe('no-store');
-        return HttpResponse.json({ id });
-      }),
-      http.post(`${base}/orders/:id/cancel`, ({ request }) => {
-        expect(request.cache).toBe('no-store');
-        return HttpResponse.json({ id });
-      }),
+      http.get(`${base}/orders/:id`, () => HttpResponse.json({ id })),
+      http.put(`${base}/orders/:id`, () => HttpResponse.json({ id })),
+      http.post(`${base}/orders/:id/cancel`, () => HttpResponse.json({ id })),
     );
     expect((await getOrder(id)).id).toBe(id);
     expect((await updateOrder(id, body)).id).toBe(id);
     expect((await cancelOrder(id)).id).toBe(id);
+    expect(cacheModes).toEqual([
+      `GET /api/v1/orders/${id}: no-store`,
+      `PUT /api/v1/orders/${id}: no-store`,
+      `POST /api/v1/orders/${id}/cancel: no-store`,
+    ]);
   });
   it('omits unchanged null fields and preserves an empty string when editing', async () => {
     let received: unknown;

@@ -1,0 +1,72 @@
+{
+  "id": 1,
+  "name": "ليلى المنصور",
+  "slug": "demo-layla-mansour",
+  "photoUrl": "https://picsum.photos/seed/demo-layla-mansour/400/400",
+  "shortBio": "كاتبة روايات تجريبية عن المدن والذاكرة.",
+  "fullBio": "كاتبة روايات تجريبية عن المدن والذاكرة. هذه السيرة الكاملة نص تجريبي يُستبدل بمحتوى حقيقي لاحقاً.",
+  "socialLinks": null,
+  "books": [
+    {
+      "id": 24,
+      "slug": "demo-book-024-castle-road",
+      "title": "الطريق إلى القلعة",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-024-castle-road/600/900",
+      "authors": [
+        "كريم الفهد",
+        "ليلى المنصور"
+      ],
+      "price": 175.0,
+      "finalPrice": 175.0,
+      "discountPercent": 0.0,
+      "stockStatus": "InStock",
+      "isNew": true,
+      "isFeatured": false
+    },
+    {
+      "id": 1,
+      "slug": "demo-book-001-cloud-city",
+      "title": "رحلة إلى مدينة الغيم",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-001-cloud-city/600/900",
+      "authors": [
+        "ليلى المنصور"
+      ],
+      "price": 120.0,
+      "finalPrice": 120.0,
+      "discountPercent": 0.0,
+      "stockStatus": "InStock",
+      "isNew": false,
+      "isFeatured": true
+    },
+    {
+      "id": 5,
+      "slug": "demo-book-005-two-banks",
+      "title": "بين ضفتين",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-005-two-banks/600/900",
+      "authors": [
+        "ليلى المنصور"
+      ],
+      "price": 180.0,
+      "finalPrice": 162.0,
+      "discountPercent": 10.0,
+      "stockStatus": "InStock",
+      "isNew": false,
+      "isFeatured": true
+    },
+    {
+      "id": 21,
+      "slug": "demo-book-021-sleepless-city",
+      "title": "ليالي المدينة الساهرة",
+      "coverImageUrl": "https://picsum.photos/seed/demo-book-021-sleepless-city/600/900",
+      "authors": [
+        "ليلى المنصور"
+      ],
+      "price": 110.0,
+      "finalPrice": 110.0,
+      "discountPercent": 0.0,
+      "stockStatus": "InStock",
+      "isNew": false,
+      "isFeatured": false
+    }
+  ]
+}
