@@ -5,7 +5,7 @@ import { Icon, type IconName } from '@/shared/ui/icon';
 import styles from './empty-state.module.css';
 
 export type EmptyStateVariant = 'empty' | 'search' | 'error';
-export type EmptyStateHeadingLevel = 2 | 3 | 4 | 5 | 6;
+export type EmptyStateHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type EmptyStateProps = {
   action?: ReactNode;

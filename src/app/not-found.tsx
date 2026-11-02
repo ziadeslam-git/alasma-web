@@ -24,6 +24,7 @@ export default function NotFound() {
           </>
         }
         description={text.notFoundDescription}
+        headingLevel={1}
         icon="help"
         title={text.notFoundTitle}
         variant="search"
