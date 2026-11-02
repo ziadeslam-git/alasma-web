@@ -69,3 +69,8 @@ export type {
   PagedBookCards,
   PublisherOption,
 } from './types';
+
+export { normalizeSlug } from './url/normalize-slug';
+export { getCategory, MAX_CATEGORY_SLUG_LENGTH } from './api/get-category';
+export { getCategoryTree } from './api/get-category-tree';
+export { CategoriesView } from './components/categories-view';

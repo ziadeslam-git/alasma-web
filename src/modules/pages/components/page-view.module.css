@@ -1,0 +1,15 @@
+.page {
+  max-inline-size: 760px;
+  margin-inline: auto;
+  padding-block: var(--space-10);
+  padding-inline: var(--space-4);
+}
+
+.title {
+  margin-block: var(--space-8);
+  color: var(--ink);
+}
+
+.paragraph {
+  white-space: pre-line;
+}

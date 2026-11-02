@@ -10,9 +10,21 @@ describe('SiteFooter', () => {
   it('renders the static-page and catalog links with server-computed copyright year', () => {
     render(<SiteFooter />);
 
-    expect(
-      screen.queryByRole('link', { name: messages.site.footer.about }),
-    ).not.toBeInTheDocument();
+    for (const [key, path] of [
+      ['about', 'about'],
+      ['contact', 'contact'],
+      ['privacy', 'privacy-policy'],
+      ['terms', 'terms'],
+      ['shipping', 'shipping-policy'],
+      ['returns', 'return-policy'],
+      ['payment', 'payment-methods'],
+      ['faq', 'faq'],
+    ] as const) {
+      expect(screen.getByRole('link', { name: messages.site.footer[key] })).toHaveAttribute(
+        'href',
+        `/pages/${path}`,
+      );
+    }
     expect(screen.getByRole('link', { name: messages.site.header.store })).toHaveAttribute(
       'href',
       '/books',
@@ -20,12 +32,11 @@ describe('SiteFooter', () => {
     expect(screen.getByText(String(new Date().getFullYear()))).toBeInTheDocument();
     expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
     expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
-    for (const feature of [
-      'catalog-authors',
-      'catalog-categories',
-      'static-pages',
-      'publish-packages',
-    ]) {
+    expect(screen.getByRole('link', { name: messages.site.header.categories })).toHaveAttribute(
+      'href',
+      '/categories',
+    );
+    for (const feature of ['publish-packages']) {
       const gates = document.querySelectorAll(`[data-feature="${feature}"]`);
       expect(gates.length).toBeGreaterThan(0);
       gates.forEach((gate) => {

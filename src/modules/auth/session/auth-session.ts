@@ -36,7 +36,7 @@ function getCoordinator(): RefreshCoordinator {
 
       return {
         accessToken: response.accessToken,
-        expiresAt: Date.parse(String(response.expiresAt)),
+        expiresAt: Date.parse(response.expiresAt),
       };
     },
     store: sessionStore,

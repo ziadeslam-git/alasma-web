@@ -103,4 +103,11 @@ describe('BooksPage (/books)', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('status', { name: messages.catalog.loadingLabel })).toBeInTheDocument();
   });
+
+  it('shows search tabs when the URL has a search query', async () => {
+    const ui = await BooksPage({ searchParams: Promise.resolve({ q: 'book' }) });
+    render(ui);
+    expect(screen.getByRole('navigation', { name: messages.search.title })).toBeInTheDocument();
+    expect(screen.getByText(messages.search.books)).toHaveAttribute('aria-current', 'page');
+  });
 });

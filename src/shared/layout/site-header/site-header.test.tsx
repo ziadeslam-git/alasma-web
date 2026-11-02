@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
@@ -40,7 +40,15 @@ describe('SiteHeader', () => {
     );
     expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
     expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
-    for (const feature of ['catalog-authors', 'catalog-categories', 'publish-packages']) {
+    expect(screen.getByRole('link', { name: messages.site.header.authors })).toHaveAttribute(
+      'href',
+      '/authors',
+    );
+    expect(screen.getByRole('link', { name: messages.site.header.categories })).toHaveAttribute(
+      'href',
+      '/categories',
+    );
+    for (const feature of ['publish-packages']) {
       const entries = container.querySelectorAll(`[data-feature="${feature}"]`);
       expect(entries.length).toBeGreaterThan(0);
       entries.forEach((entry) => {
@@ -57,12 +65,17 @@ describe('SiteHeader', () => {
     await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
 
     const dialog = screen.getByRole('dialog');
-    for (const feature of [
-      'catalog-authors',
-      'catalog-categories',
-      'static-pages',
-      'publish-packages',
-    ]) {
+    expect(
+      within(dialog).getByRole('link', { name: messages.site.header.authors }),
+    ).toHaveAttribute('href', '/authors');
+    expect(within(dialog).getByRole('link', { name: messages.site.footer.about })).toHaveAttribute(
+      'href',
+      '/pages/about',
+    );
+    expect(
+      within(dialog).getByRole('link', { name: messages.site.header.categories }),
+    ).toHaveAttribute('href', '/categories');
+    for (const feature of ['publish-packages']) {
       const entries = dialog.querySelectorAll(`[data-feature="${feature}"]`);
       expect(entries.length).toBeGreaterThan(0);
       entries.forEach((entry) => {

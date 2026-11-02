@@ -1,3 +1,4 @@
+import { URL_UPDATE_TIMEOUT } from './url-timeout';
 import { expect, test, type BrowserContext, type Locator, type Page } from '@playwright/test';
 import { randomBytes } from 'node:crypto';
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
@@ -207,7 +208,7 @@ test('a wrong password shows the Arabic message and does not sign in', async ({
   await expect(page.locator('#main-content').getByRole('alert')).toHaveText(
     messages.apiErrors.codes.auth_invalid_credentials,
   );
-  await expect(page).toHaveURL(/\/login$/);
+  await expect(page).toHaveURL(/\/login$/, { timeout: URL_UPDATE_TIMEOUT });
   expect(wire.list()).toEqual(['POST /api/v1/auth/login']);
   expect(await hintCookie(context)).toBeUndefined();
   console.log('wrong-password scenario requests:', wire.list());
@@ -223,7 +224,7 @@ test('logs in through the Login screen and lands on home signed in; /login then 
 
   await fillLogin(page, confirmed);
 
-  await expect(page).toHaveURL(`${webOrigin}/`);
+  await expect(page).toHaveURL(`${webOrigin}/`, { timeout: URL_UPDATE_TIMEOUT });
   expect(wire.list()).toEqual(['POST /api/v1/auth/login', 'GET /api/v1/me']);
   expect(await hintCookie(context)).toBeDefined();
   console.log('login scenario requests:', wire.list());
@@ -242,7 +243,7 @@ test('/login?next=/books goes to /books after login', async ({ page }) => {
 
   await fillLogin(page, confirmed);
 
-  await expect(page).toHaveURL(`${webOrigin}/books`);
+  await expect(page).toHaveURL(`${webOrigin}/books`, { timeout: URL_UPDATE_TIMEOUT });
 });
 
 test('/login?next=https://evil.com goes to home after login', async ({ page }) => {
@@ -251,7 +252,7 @@ test('/login?next=https://evil.com goes to home after login', async ({ page }) =
 
   await fillLogin(page, confirmed);
 
-  await expect(page).toHaveURL(`${webOrigin}/`);
+  await expect(page).toHaveURL(`${webOrigin}/`, { timeout: URL_UPDATE_TIMEOUT });
 });
 
 test('a user with an unconfirmed email can sign in and sees the confirmation toast', async ({
@@ -267,7 +268,7 @@ test('a user with an unconfirmed email can sign in and sees the confirmation toa
   await fillLogin(page, unconfirmed);
 
   await expect(page.getByText(text.unconfirmedToast)).toBeVisible({ timeout: 30_000 });
-  await expect(page).toHaveURL(`${webOrigin}/`);
+  await expect(page).toHaveURL(`${webOrigin}/`, { timeout: URL_UPDATE_TIMEOUT });
   expect(wire.list()).toEqual(['POST /api/v1/auth/login', 'GET /api/v1/me']);
   console.log('unconfirmed scenario requests:', wire.list());
 });

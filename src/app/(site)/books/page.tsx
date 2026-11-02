@@ -7,6 +7,7 @@ import {
   parseCatalogParams,
   type RawSearchParams,
 } from '@/modules/catalog';
+import { SearchTabs } from '@/modules/search';
 
 export const metadata: Metadata = {
   title: messages.catalog.page.meta.title,
@@ -22,5 +23,10 @@ export default async function BooksPage({ searchParams }: BooksPageProps = {}) {
   const params = parseCatalogParams(searchParams ? await searchParams : {});
   const data = await getCatalogData(params);
 
-  return <CatalogView data={data} params={params} />;
+  return (
+    <>
+      {params.q ? <SearchTabs /> : null}
+      <CatalogView data={data} params={params} />
+    </>
+  );
 }

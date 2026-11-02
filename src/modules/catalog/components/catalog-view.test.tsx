@@ -59,6 +59,18 @@ function makeCatalogData(patch: Partial<CatalogData['books']> = {}): CatalogData
 }
 
 describe('CatalogView', () => {
+  it('hides category filters on a category page while keeping the heading', () => {
+    render(
+      <CatalogView
+        data={makeCatalogData()}
+        heading={testText.fiction}
+        hideCategory
+        params={makeParams({ category: 'novels' })}
+      />,
+    );
+    expect(screen.getByRole('heading', { level: 1, name: testText.fiction })).toBeInTheDocument();
+    expect(screen.queryByRole('radio', { name: testText.fiction })).not.toBeInTheDocument();
+  });
   it('renders a single h1, result count, filter panel, sort select, book grid and pagination without a main landmark', async () => {
     const { container } = render(<CatalogView data={makeCatalogData()} params={makeParams()} />);
 

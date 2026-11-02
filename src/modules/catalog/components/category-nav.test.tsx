@@ -1,7 +1,8 @@
 import { render, screen, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
+import * as features from '@/shared/config/features';
 import { axe } from '@/test/axe';
 
 import { CategoryNav } from './category-nav';
@@ -11,6 +12,15 @@ const text = messages.catalog.filters.categoryNav;
 const categories = testFilterOptions.categories;
 
 describe('CategoryNav', () => {
+  it('uses category detail links only when requested and the feature is live', () => {
+    const live = vi.spyOn(features, 'isLive').mockReturnValue(true);
+    render(<CategoryNav categories={categories} detailRoutes />);
+    expect(screen.getByRole('link', { name: testText.poetry })).toHaveAttribute(
+      'href',
+      `/categories/${encodeURIComponent(testText.poetry)}`,
+    );
+    live.mockRestore();
+  });
   it('renders nothing for an empty list', () => {
     const { container } = render(<CategoryNav categories={[]} />);
 

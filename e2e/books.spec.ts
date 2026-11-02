@@ -1,3 +1,4 @@
+import { URL_UPDATE_TIMEOUT } from './url-timeout';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
@@ -56,7 +57,9 @@ test('/books syncs filters and sorting with the URL and resets page on sort chan
   await expect(sortSelect).toHaveValue('price_asc');
 
   await sortSelect.selectOption('price_desc');
-  await expect.poll(() => new URL(page.url()).searchParams.get('sort')).toBe('price_desc');
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('sort'), { timeout: URL_UPDATE_TIMEOUT })
+    .toBe('price_desc');
   expect(new URL(page.url()).searchParams.get('page')).toBeNull();
   expect(new URL(page.url()).searchParams.get('category')).toBe('novels');
 

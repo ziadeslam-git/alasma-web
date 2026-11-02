@@ -4,14 +4,19 @@ import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import AuthDevPage from './auth/page';
+import AuthorsDevPage from './authors/page';
 import BookDevPage from './book/page';
 import BooksDevPage from './books/page';
 import CatalogDevPage from './catalog/page';
 import CatalogFiltersDevPage from './catalog-filters/page';
+import CategoryDevPage from './category/page';
+import CategoriesDevPage from './categories/page';
 import ComponentsPage from './components/page';
 import ErrorTestPage from './error-test/page';
 import HomeDevPage from './home/page';
 import IconsPage from './icons/page';
+import PageCmsDevPage from './page-cms/page';
+import SearchDevPage from './search/page';
 import TokensPage from './tokens/page';
 
 const NOT_FOUND_SENTINEL = 'NEXT_NOT_FOUND';
@@ -29,14 +34,19 @@ describe('dev routes production guard', () => {
 
   it.each([
     ['/dev/auth', () => AuthDevPage()],
+    ['/dev/authors', () => AuthorsDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/book', () => BookDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/books', () => BooksDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/catalog', () => CatalogDevPage()],
     ['/dev/catalog-filters', () => CatalogFiltersDevPage({ searchParams: Promise.resolve({}) })],
+    ['/dev/category', () => CategoryDevPage()],
+    ['/dev/categories', () => CategoriesDevPage()],
     ['/dev/components', () => ComponentsPage()],
     ['/dev/error-test', () => ErrorTestPage()],
     ['/dev/home', () => HomeDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/icons', () => IconsPage()],
+    ['/dev/page-cms', () => PageCmsDevPage()],
+    ['/dev/search', () => SearchDevPage()],
     ['/dev/tokens', () => TokensPage()],
   ])('calls notFound() on %s when NODE_ENV is production', async (_route, renderPage) => {
     vi.stubEnv('NODE_ENV', 'production');
@@ -51,14 +61,19 @@ describe('dev routes production guard', () => {
 
     expect(routeDirs.sort()).toEqual([
       'auth',
+      'authors',
       'book',
       'books',
       'catalog',
       'catalog-filters',
+      'categories',
+      'category',
       'components',
       'error-test',
       'home',
       'icons',
+      'page-cms',
+      'search',
       'tokens',
     ]);
 

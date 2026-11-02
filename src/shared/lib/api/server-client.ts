@@ -4,7 +4,7 @@ import { defaultApiOrigin } from './api-origin';
 import type { paths } from './schema';
 
 export type ServerClientOptions = {
-  // The API origin, without a path. Defaults to API_ORIGIN, then http://localhost:5198.
+  // The API origin, without a path. Defaults to API_ORIGIN, then http://127.0.0.1:5198.
   origin?: string;
   fetch?: (input: Request) => Promise<Response>;
 };

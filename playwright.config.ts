@@ -11,6 +11,7 @@ const realApiOrigin = `http://localhost:${process.env.E2E_API_PORT ?? 5391}`;
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
+  workers: process.env.CI ? undefined : 3,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',

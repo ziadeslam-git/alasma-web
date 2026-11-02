@@ -1,7 +1,8 @@
 import Link from 'next/link';
 
 import messages from '@/i18n/messages/ar.json';
-import { routes } from '@/shared/config/routes';
+import { categoryRoute, routes } from '@/shared/config/routes';
+import { isLive } from '@/shared/config/features';
 
 import type { CategoryNode } from '../types';
 import { buildCatalogHref, withFilter } from '../url/catalog-href';
@@ -14,6 +15,7 @@ export type CategoryNavProps = {
   activeSlug?: string | undefined;
   basePath?: string;
   params?: CatalogParams;
+  detailRoutes?: boolean;
 };
 
 const matches = (node: CategoryNode, slug: string | undefined) =>
@@ -44,12 +46,17 @@ export function CategoryNav({
   basePath = routes.books,
   categories,
   params = emptyCatalogParams,
+  detailRoutes = false,
 }: CategoryNavProps) {
   if (categories.length === 0) {
     return null;
   }
 
   const text = messages.catalog.filters.categoryNav;
+  const hrefFor = (slug: string) =>
+    detailRoutes && isLive('catalog-categories')
+      ? categoryRoute(slug)
+      : buildCatalogHref(basePath, withFilter(params, { category: slug }));
   const activeRoot = categories.find((node) => containsActive(node, activeSlug));
   const isAll = activeSlug === undefined;
 
@@ -64,7 +71,7 @@ export function CategoryNav({
         {categories.map((node) => (
           <ChipLink
             current={matches(node, activeSlug) ? 'page' : activeRoot === node ? 'true' : undefined}
-            href={buildCatalogHref(basePath, withFilter(params, { category: node.slug }))}
+            href={hrefFor(node.slug)}
             key={node.id}
             label={node.name}
           />
@@ -75,7 +82,7 @@ export function CategoryNav({
           {activeRoot.children.map((node) => (
             <ChipLink
               current={matches(node, activeSlug) ? 'page' : undefined}
-              href={buildCatalogHref(basePath, withFilter(params, { category: node.slug }))}
+              href={hrefFor(node.slug)}
               key={node.id}
               label={node.name}
             />

@@ -92,11 +92,7 @@ test('/dev/home renders populated state, has no horizontal overflow, passes axe,
   expect(response?.status()).toBe(200);
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expect(page.locator('h1')).toHaveCount(1);
-  const categoryGates = page.locator('[data-feature="catalog-categories"]');
-  expect(await categoryGates.count()).toBeGreaterThan(0);
-  await expect(categoryGates.first()).toHaveAttribute('inert', '');
-  await expect(categoryGates.locator('a, button, input, [tabindex]')).toHaveCount(0);
-  await expect(page.locator('a[href^="/categories/"]')).toHaveCount(0);
+  expect(await page.locator('a[href^="/categories/"]').count()).toBeGreaterThan(0);
 
   const hasOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > globalThis.innerWidth,

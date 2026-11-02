@@ -90,11 +90,10 @@ describe('HomeView', () => {
       screen.getByRole('heading', { level: 2, name: messages.home.featured.heading }),
     ).toBeInTheDocument();
 
-    const categoryGate = screen
-      .getByText(messages.devHome.categories.novels)
-      .closest('[data-feature]');
-    expect(categoryGate).toHaveAttribute('inert');
-    expect(categoryGate?.querySelector('a')).toBeNull();
+    expect(screen.getByRole('link', { name: messages.devHome.categories.novels })).toHaveAttribute(
+      'href',
+      '/categories/novels',
+    );
 
     const storeLinks = screen.getAllByRole('link', { name: messages.home.newArrivals.viewAll });
     expect(storeLinks.length).toBeGreaterThanOrEqual(2);

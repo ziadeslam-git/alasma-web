@@ -19,6 +19,8 @@ export type CatalogViewProps = {
   data: CatalogData;
   isLoading?: boolean;
   params: CatalogParams;
+  hideCategory?: boolean;
+  heading?: string;
 };
 
 function findCategoryName(
@@ -62,9 +64,11 @@ export function CatalogView({
   data,
   isLoading = false,
   params,
+  hideCategory = false,
+  heading,
 }: CatalogViewProps) {
   const text = messages.catalog.page;
-  const headingText = resolveHeadingText(data.options.categories, params);
+  const headingText = heading ?? resolveHeadingText(data.options.categories, params);
   const { books, options } = data;
   const hasActiveCriteria = countActiveFilters(params) > 0 || params.q !== undefined;
   const resetHref = buildCatalogHref(basePath, { ...clearFilters(params), q: undefined });
@@ -75,7 +79,12 @@ export function CatalogView({
     <div className={styles.container}>
       <div className={styles.layout}>
         <div className={styles.filterColumn}>
-          <FilterPanel basePath={basePath} options={options} params={params} />
+          <FilterPanel
+            hideCategory={hideCategory}
+            basePath={basePath}
+            options={options}
+            params={params}
+          />
         </div>
 
         <section aria-labelledby="catalog-heading" className={styles.results}>
@@ -96,7 +105,12 @@ export function CatalogView({
             </div>
           </header>
 
-          <ActiveFilterChips basePath={basePath} options={options} params={params} />
+          <ActiveFilterChips
+            hideCategory={hideCategory}
+            basePath={basePath}
+            options={options}
+            params={params}
+          />
 
           <h2 className={styles.srOnly} id="catalog-results-heading">
             {text.resultsAriaLabel}

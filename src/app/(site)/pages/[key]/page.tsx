@@ -1,0 +1,26 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+import { getPage, isPageKey, PageView } from '@/modules/pages';
+
+export const revalidate = 3600;
+export async function generateStaticParams() {
+  return [];
+}
+type PageProps = { params: Promise<{ key: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { key } = await params;
+  if (!isPageKey(key)) notFound();
+  const result = await getPage(key);
+  if (result.kind === 'notFound') notFound();
+  return { title: result.page.title };
+}
+
+export default async function CmsPage({ params }: PageProps) {
+  const { key } = await params;
+  if (!isPageKey(key)) notFound();
+  const result = await getPage(key);
+  if (result.kind === 'notFound') notFound();
+  return <PageView page={result.page} />;
+}

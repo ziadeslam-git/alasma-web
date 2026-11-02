@@ -19,25 +19,34 @@ export type FilterFieldsProps = {
   options: FilterOptions;
   params: CatalogParams;
   priceDebounceMs?: number;
+  hideCategory?: boolean;
 };
 
 // Every filter group of the design, controlled by `params`. The sidebar feeds it the URL; the mobile sheet feeds it a
 // draft. It never reads or writes the URL itself.
-export function FilterFields({ onChange, options, params, priceDebounceMs }: FilterFieldsProps) {
+export function FilterFields({
+  onChange,
+  options,
+  params,
+  priceDebounceMs,
+  hideCategory = false,
+}: FilterFieldsProps) {
   const text = messages.catalog.filters;
   const groups = text.groups;
   const selectOptions = useMemo(() => buildSelectOptions(options), [options]);
 
   return (
     <div>
-      <FilterGroup title={groups.category}>
-        <FilterRadioList
-          allLabel={groups.categoryAll}
-          onChange={(category) => onChange(withFilter(params, { category }))}
-          options={selectOptions.categories}
-          value={params.category}
-        />
-      </FilterGroup>
+      {!hideCategory ? (
+        <FilterGroup title={groups.category}>
+          <FilterRadioList
+            allLabel={groups.categoryAll}
+            onChange={(category) => onChange(withFilter(params, { category }))}
+            options={selectOptions.categories}
+            value={params.category}
+          />
+        </FilterGroup>
+      ) : null}
       <FilterGroup title={groups.author}>
         <FilterRadioList
           allLabel={groups.authorAll}

@@ -1,3 +1,4 @@
+import { URL_UPDATE_TIMEOUT } from './url-timeout';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
@@ -72,7 +73,9 @@ test('many filters: selected state comes from the URL, a change rewrites it and 
     await dialog.getByRole('button', { name: text.apply }).click();
 
     await expect(dialog).toBeHidden();
-    await expect.poll(() => search(page).get('hasDiscount')).toBe('true');
+    await expect
+      .poll(() => search(page).get('hasDiscount'), { timeout: URL_UPDATE_TIMEOUT })
+      .toBe('true');
     expect(search(page).get('page')).toBeNull();
     expect(search(page).get('category')).toBe('mystery');
     const updatedTrigger = page.getByRole('button', {
@@ -92,7 +95,9 @@ test('many filters: selected state comes from the URL, a change rewrites it and 
 
     await panel.getByRole('checkbox', { name: text.groups.hasDiscount }).click();
 
-    await expect.poll(() => search(page).get('hasDiscount')).toBe('true');
+    await expect
+      .poll(() => search(page).get('hasDiscount'), { timeout: URL_UPDATE_TIMEOUT })
+      .toBe('true');
     expect(search(page).get('page')).toBeNull();
     expect(search(page).get('category')).toBe('mystery');
     await expect(panel.getByRole('checkbox', { name: text.groups.hasDiscount })).toBeChecked();
@@ -154,7 +159,9 @@ test('an Arabic slug round-trips through the URL and selects its option', async 
 test('category navigation filters the catalog and retains other filters', async ({ page }) => {
   await page.goto(`${PAGE}?author=sami-alhakim&page=3`);
   await page.getByRole('link', { name: fixtures.poetry, exact: true }).click();
-  await expect.poll(() => search(page).get('category')).toBe(fixtures.poetry);
+  await expect
+    .poll(() => search(page).get('category'), { timeout: URL_UPDATE_TIMEOUT })
+    .toBe(fixtures.poetry);
   expect(search(page).get('author')).toBe('sami-alhakim');
   expect(search(page).get('page')).toBeNull();
   await expect(page.getByRole('link', { name: fixtures.poetry, exact: true })).toHaveAttribute(
@@ -168,7 +175,9 @@ test('the sort select, the price range and the chips rewrite the URL', async ({ 
   await page.goto(`${PAGE}?category=novels&page=3`);
 
   await page.getByRole('combobox', { name: text.sort.label }).selectOption('price_desc');
-  await expect.poll(() => search(page).get('sort')).toBe('price_desc');
+  await expect
+    .poll(() => search(page).get('sort'), { timeout: URL_UPDATE_TIMEOUT })
+    .toBe('price_desc');
   expect(search(page).get('page')).toBeNull();
   expect(search(page).get('category')).toBe('novels');
 
@@ -184,7 +193,9 @@ test('the sort select, the price range and the chips rewrite the URL', async ({ 
 
     // A valid one is applied after the debounce.
     await min.fill('60');
-    await expect.poll(() => search(page).get('minPrice')).toBe('60');
+    await expect
+      .poll(() => search(page).get('minPrice'), { timeout: URL_UPDATE_TIMEOUT })
+      .toBe('60');
     await expect(panel.getByText(text.errors.priceInvalid)).toHaveCount(0);
   }
 
@@ -193,7 +204,7 @@ test('the sort select, the price range and the chips rewrite the URL', async ({ 
   await chips
     .getByRole('link', { name: text.chips.remove.replace('{label}', fixtures.fiction) })
     .click();
-  await expect.poll(() => search(page).get('category')).toBeNull();
+  await expect.poll(() => search(page).get('category'), { timeout: URL_UPDATE_TIMEOUT }).toBeNull();
   expect(search(page).get('sort')).toBe('price_desc');
 
   await expectNoOverflow(page);

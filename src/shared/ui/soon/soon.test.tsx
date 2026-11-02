@@ -80,11 +80,11 @@ describe('FeatureLink', () => {
     );
     expect(screen.getByRole('link', { name: 'Store' })).toHaveAttribute('href', '/books');
     rerender(
-      <FeatureLink feature="catalog-authors" href="/authors" label="Soon">
-        Authors
+      <FeatureLink feature="publish-packages" href="/publish" label="Soon">
+        Categories
       </FeatureLink>,
     );
-    const gate = container.querySelector('[data-feature="catalog-authors"]');
+    const gate = container.querySelector('[data-feature="publish-packages"]');
     expect(gate).toHaveAttribute('inert');
     expect(gate?.querySelector('a, button, [tabindex]')).toBeNull();
     expect(gate).toHaveTextContent('Soon');

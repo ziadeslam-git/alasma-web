@@ -64,19 +64,12 @@ const sampleRelated: BookCardItem = {
 };
 
 describe('BookDetailsView', () => {
-  it('keeps author and category destinations inert and the catalog breadcrumb live', () => {
+  it('links author and category destinations and keeps the catalog breadcrumb live', () => {
     const { container } = render(
       <BookDetailsView book={sampleBook} relatedBooks={[sampleRelated]} />,
     );
-    for (const feature of ['catalog-authors', 'catalog-categories']) {
-      const gates = container.querySelectorAll(`[data-feature="${feature}"]`);
-      expect(gates.length).toBeGreaterThan(0);
-      gates.forEach((gate) => {
-        expect(gate).toHaveAttribute('inert');
-        expect(gate.querySelector('a')).toBeNull();
-        expect(gate).toHaveTextContent(messages.site.soon);
-      });
-    }
+    expect(container.querySelectorAll('a[href^="/authors/"]').length).toBeGreaterThan(0);
+    expect(container.querySelectorAll('a[href^="/categories/"]').length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: messages.site.header.store })).toHaveAttribute(
       'href',
       '/books',

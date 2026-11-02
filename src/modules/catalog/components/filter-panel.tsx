@@ -19,11 +19,12 @@ export type FilterPanelProps = {
   basePath: string;
   options: FilterOptions;
   params: CatalogParams;
+  hideCategory?: boolean;
 };
 
 // Above 1000px the filters are a sidebar and every change goes straight into the URL. At or below 1000px a button opens
 // them in a Drawer; as in the design, the sheet works on a draft and "apply" writes it into the URL once.
-export function FilterPanel({ basePath, options, params }: FilterPanelProps) {
+export function FilterPanel({ basePath, options, params, hideCategory = false }: FilterPanelProps) {
   const text = messages.catalog.filters;
   const { isPending, navigate } = useCatalogNavigation(basePath);
   const [isOpen, setOpen] = useState(false);
@@ -81,7 +82,12 @@ export function FilterPanel({ basePath, options, params }: FilterPanelProps) {
             </button>
           ) : null}
         </div>
-        <FilterFields onChange={navigate} options={options} params={params} />
+        <FilterFields
+          hideCategory={hideCategory}
+          onChange={navigate}
+          options={options}
+          params={params}
+        />
       </aside>
 
       <Drawer
@@ -100,7 +106,13 @@ export function FilterPanel({ basePath, options, params }: FilterPanelProps) {
         open={isOpen}
         title={text.title}
       >
-        <FilterFields onChange={setDraft} options={options} params={draft} priceDebounceMs={0} />
+        <FilterFields
+          hideCategory={hideCategory}
+          onChange={setDraft}
+          options={options}
+          params={draft}
+          priceDebounceMs={0}
+        />
       </Drawer>
     </>
   );

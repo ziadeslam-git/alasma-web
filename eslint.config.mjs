@@ -9,6 +9,8 @@ import checkFile from 'eslint-plugin-check-file';
 const moduleNames = [
   'auth',
   'catalog',
+  'authors',
+  'pages',
   'home',
   'search',
   'cart',

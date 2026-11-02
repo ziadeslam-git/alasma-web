@@ -16,7 +16,7 @@ export type SiteFooterProps = {
 const catalogLinks = [
   ['store', routes.books, undefined],
   ['authors', routes.authors, 'catalog-authors'],
-  ['categories', routes.categories, 'catalog-categories'],
+  ['categories', routes.categories, 'catalog-categories-index'],
   ['publishPackages', routes.publish, 'publish-packages'],
 ] as const;
 

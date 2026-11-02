@@ -14,6 +14,7 @@ import styles from './site-header.module.css';
 
 export type SiteHeaderProps = {
   accountArea?: ReactNode;
+  search?: ReactNode;
 };
 
 function DeferredLink({
@@ -33,7 +34,7 @@ function DeferredLink({
   );
 }
 
-export function SiteHeader({ accountArea }: SiteHeaderProps) {
+export function SiteHeader({ accountArea, search }: SiteHeaderProps) {
   const text = messages.site;
   const guestLinks = (
     <div className={styles.guestLinks}>
@@ -62,15 +63,19 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
             width={168}
           />
         </Link>
-        <form action={routes.books} className={styles.search} method="get" role="search">
-          <Icon name="search" />
-          <input
-            aria-label={text.search.label}
-            name="q"
-            placeholder={text.search.placeholder}
-            type="search"
-          />
-        </form>
+        {search ? (
+          <div className={styles.search}>{search}</div>
+        ) : (
+          <form action={routes.books} className={styles.search} method="get" role="search">
+            <Icon name="search" />
+            <input
+              aria-label={text.search.label}
+              name="q"
+              placeholder={text.search.placeholder}
+              type="search"
+            />
+          </form>
+        )}
         <nav aria-label={text.header.home} className={styles.links}>
           <Link href={routes.home}>{text.header.home}</Link>
           <Link href={routes.books}>{text.header.store}</Link>
@@ -96,7 +101,7 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
             label={text.header.publishPackages}
           />
           <DeferredLink
-            feature="catalog-categories"
+            feature="catalog-categories-index"
             href={routes.categories}
             inline
             label={text.header.categories}
@@ -138,7 +143,7 @@ export function SiteHeader({ accountArea }: SiteHeaderProps) {
               label={text.header.authors}
             />
             <DeferredLink
-              feature="catalog-categories"
+              feature="catalog-categories-index"
               href={routes.categories}
               inline
               label={text.header.categories}

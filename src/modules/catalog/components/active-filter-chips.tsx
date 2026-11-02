@@ -20,6 +20,7 @@ export type ActiveFilterChipsProps = {
   basePath: string;
   options: FilterOptions;
   params: CatalogParams;
+  hideCategory?: boolean;
 };
 
 type Chip = { key: CatalogFilterKey; label: string };
@@ -61,9 +62,16 @@ function buildChips(params: CatalogParams, options: FilterOptions): Chip[] {
 
 // One real link per active filter that removes it, plus "clear all". Links (not buttons) so it works before hydration,
 // can be opened in a new tab, and needs no client code. Labels come from the option lists, never from raw slugs.
-export function ActiveFilterChips({ basePath, options, params }: ActiveFilterChipsProps) {
+export function ActiveFilterChips({
+  basePath,
+  options,
+  params,
+  hideCategory = false,
+}: ActiveFilterChipsProps) {
   const text = messages.catalog.filters;
-  const chips = buildChips(params, options);
+  const chips = buildChips(params, options).filter(
+    (chip) => !hideCategory || chip.key !== 'category',
+  );
 
   if (chips.length === 0) {
     return null;
