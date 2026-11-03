@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { Suspense } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import messages from '@/i18n/messages/ar.json';
 import { server } from '@/mocks/server';
 import type { BookDetails } from '@/modules/catalog';
 import { defaultApiOrigin } from '@/shared/lib/api';
@@ -74,6 +74,7 @@ const sampleBookDetails: BookDetails = {
 describe('BookPage (/books/[slug])', () => {
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it('exports revalidate = 600', () => {
@@ -170,7 +171,9 @@ describe('BookPage (/books/[slug])', () => {
     await expect(BookPage({ params: Promise.resolve({ slug: 'failing-book' }) })).rejects.toThrow();
   });
 
-  it('renders book details and related books when API calls succeed', async () => {
+  it('renders book details, related books and Book + BreadcrumbList JSON-LD when API calls succeed', async () => {
+    vi.stubEnv('SITE_URL', 'https://alasma.com');
+
     server.use(
       http.get(`${ORIGIN}/api/v1/books/:slug`, ({ params }) => {
         if (params.slug === 'shadows-of-the-tale') {
@@ -184,12 +187,28 @@ describe('BookPage (/books/[slug])', () => {
       params: Promise.resolve({ slug: 'shadows-of-the-tale' }),
     });
 
-    render(pageElement);
+    const { container } = render(pageElement);
 
-    expect(pageElement.props.children.type).toBe(Suspense);
     expect(screen.getByRole('heading', { level: 1, name: 'ظلال الحكاية' })).toBeInTheDocument();
     expect(screen.getAllByText('سامي الحكيم').length).toBeGreaterThanOrEqual(1);
     expect(screen.getByTestId('related-books')).toHaveTextContent('shadows-of-the-tale');
+
+    const scripts = container.querySelectorAll('script[type="application/ld+json"]');
+    expect(scripts).toHaveLength(2);
+
+    const parsedBook = JSON.parse(scripts[0]?.innerHTML ?? '{}') as Record<string, unknown>;
+    const parsedBreadcrumb = JSON.parse(scripts[1]?.innerHTML ?? '{}') as Record<string, unknown>;
+    expect(parsedBook['@type']).toBe('Book');
+    expect(parsedBook.offers).toMatchObject({
+      '@type': 'Offer',
+      price: 120,
+      priceCurrency: 'EGP',
+      availability: 'https://schema.org/InStock',
+      url: 'https://alasma.com/books/shadows-of-the-tale',
+    });
+    expect(parsedBook).not.toHaveProperty('aggregateRating');
+    expect(parsedBook).not.toHaveProperty('review');
+    expect(parsedBreadcrumb['@type']).toBe('BreadcrumbList');
   });
 
   describe('generateMetadata', () => {
@@ -209,7 +228,8 @@ describe('BookPage (/books/[slug])', () => {
       ).rejects.toThrow(NOT_FOUND_SENTINEL);
     });
 
-    it('returns title and trimmed description for valid slugs', async () => {
+    it('returns title, trimmed description, canonical, Open Graph and robots for valid slugs', async () => {
+      vi.stubEnv('SITE_URL', 'https://alasma.com');
       server.use(
         http.get(`${ORIGIN}/api/v1/books/:slug`, () => HttpResponse.json(sampleBookDetails)),
       );
@@ -220,6 +240,15 @@ describe('BookPage (/books/[slug])', () => {
 
       expect(meta.title).toBe('ظلال الحكاية');
       expect(meta.description).toBe('وصف الكتاب الكامل بالتفصيل.');
+      expect(meta.alternates?.canonical).toBe('https://alasma.com/books/shadows-of-the-tale');
+      expect(meta.openGraph).toMatchObject({
+        title: 'ظلال الحكاية',
+        description: 'وصف الكتاب الكامل بالتفصيل.',
+        url: 'https://alasma.com/books/shadows-of-the-tale',
+        siteName: messages.seo.siteName,
+        locale: 'ar_EG',
+      });
+      expect(meta.robots).toEqual({ index: true, follow: true });
     });
   });
 

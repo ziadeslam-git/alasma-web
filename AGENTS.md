@@ -36,6 +36,7 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
 - No hex colours outside `src/styles/tokens.css`: use `var(--...)` tokens (Stylelint and ESLint enforce it).
 - No `localStorage` / `sessionStorage` (the access token lives in memory only). No `dangerouslySetInnerHTML` except
   sanitized static pages from the API, with a comment giving the reason.
+- Exception: `src/shared/seo/json-ld.tsx` is the second and only other file allowed to use `dangerouslySetInnerHTML` (besides `src/modules/pages/components/cms-html.tsx`), strictly for rendering `<script type="application/ld+json">` after escaping `<`, `>`, `&`, `U+2028` and `U+2029` as Unicode escapes.
 - Exception: `sessionStorage` is allowed only in `src/modules/checkout/provider/attempt-storage.ts` for the checkout attempt record; tokens and personal data remain forbidden in any storage.
 - The UI never computes prices, discounts, shipping or totals: it shows what the API returns.
 - Hiding a button is not security. Use API types generated from `openapi.json`; never hand-write them.

@@ -1,7 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-import { isLive, type FeatureKey } from '@/shared/config/features';
+import { useIsFeatureLive } from '@/shared/config/feature-flags';
+import type { FeatureKey } from '@/shared/config/features';
 
 import { FeatureGate } from './soon';
 
@@ -22,9 +25,11 @@ export function FeatureLink({
   label,
   current,
 }: FeatureLinkProps) {
+  const isFeatureLive = useIsFeatureLive(feature);
+
   return (
     <FeatureGate badge="inline" feature={feature} label={label}>
-      {isLive(feature) ? (
+      {isFeatureLive ? (
         <Link aria-current={current} className={className} href={href}>
           {children}
         </Link>

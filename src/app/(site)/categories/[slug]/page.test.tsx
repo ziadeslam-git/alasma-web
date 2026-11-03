@@ -14,11 +14,35 @@ vi.mock('@/modules/catalog', async (importOriginal) => ({
   getCatalogData: mocks.catalog,
 }));
 
-import CategoryPage from './page';
+import CategoryPage, { generateMetadata } from './page';
 import { getCategory } from '@/modules/catalog/api/get-category';
 
 describe('category route', () => {
   beforeEach(() => vi.clearAllMocks());
+  it('computes category metadata with canonical and Decision 20 robots rules', async () => {
+    mocks.category.mockResolvedValue({
+      kind: 'ok',
+      category: {
+        id: 1,
+        name: 'الروايات',
+        slug: 'novels',
+        imageUrl: null,
+        children: [],
+        breadcrumb: [],
+      },
+    });
+    const baseMeta = await generateMetadata({ params: Promise.resolve({ slug: 'novels' }) });
+    expect(baseMeta.title).toBe('الروايات');
+    expect(baseMeta.alternates?.canonical).toContain('/categories/novels');
+    expect(baseMeta.robots).toEqual({ index: true, follow: true });
+
+    const filteredMeta = await generateMetadata({
+      params: Promise.resolve({ slug: 'novels' }),
+      searchParams: Promise.resolve({ inStock: 'true' }),
+    });
+    expect(filteredMeta.alternates?.canonical).toContain('/categories/novels');
+    expect(filteredMeta.robots).toEqual({ index: false, follow: true });
+  });
   it('rejects an overlong slug before calling the API', async () => {
     await expect(
       CategoryPage({ params: Promise.resolve({ slug: 'a'.repeat(201) }) }),

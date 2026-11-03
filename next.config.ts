@@ -9,6 +9,7 @@ import { defaultApiOrigin } from './src/shared/lib/api/api-origin';
 // caching model, so cacheComponents and the other opt-in features are not enabled.
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   // Set only by the e2e dev server (playwright.config.ts) so it can run next to the owner's own `next dev`: Next allows
   // one dev server per output folder. Unset (the normal case) keeps the default .next.
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),

@@ -5,13 +5,14 @@ import messages from '@/i18n/messages/ar.json';
 import {
   CatalogView,
   CategoryNav,
-  getCategory,
   getCatalogData,
+  getCategory,
   MAX_CATEGORY_SLUG_LENGTH,
   normalizeSlug,
   parseCatalogParams,
   type RawSearchParams,
 } from '@/modules/catalog';
+import { buildCategoryCatalogMetadata } from '@/modules/seo-site';
 import { categoryRoute, routes } from '@/shared/config/routes';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 
@@ -26,9 +27,13 @@ async function resolveCategory(params: Props['params']) {
   return { slug, category: result.category };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { category } = await resolveCategory(params);
-  return { title: category.name };
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const { slug, category } = await resolveCategory(params);
+  const rawParams = searchParams ? await searchParams : {};
+  return buildCategoryCatalogMetadata(
+    { name: category.name, slug, imageUrl: category.imageUrl },
+    rawParams,
+  );
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {

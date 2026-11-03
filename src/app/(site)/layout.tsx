@@ -1,14 +1,17 @@
 import type { ReactNode } from 'react';
 
-import { SearchOverlay } from '@/modules/search';
-import { MiniCart } from '@/modules/cart';
 import { AccountMenu } from '@/modules/account';
+import { MiniCart } from '@/modules/cart';
+import { SearchOverlay } from '@/modules/search';
+import { ServerFeatureFlagsProvider } from '@/shared/config/feature-flags';
 import { SiteShell } from '@/shared/layout/site-shell';
 
 export default function SiteLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <SiteShell search={<SearchOverlay />} cart={<MiniCart />} accountArea={<AccountMenu />}>
-      {children}
-    </SiteShell>
+    <ServerFeatureFlagsProvider>
+      <SiteShell search={<SearchOverlay />} cart={<MiniCart />} accountArea={<AccountMenu />}>
+        {children}
+      </SiteShell>
+    </ServerFeatureFlagsProvider>
   );
 }

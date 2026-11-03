@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+
+import messages from '@/i18n/messages/ar.json';
 import { AuthorView, getAuthor, getAuthorBooks } from '@/modules/authors';
+import { trimBookDescription } from '@/modules/books-seo';
 import { BookGrid, normalizeSlug } from '@/modules/catalog';
+import { authorRoute } from '@/shared/config/routes';
+import { buildPageMetadata } from '@/shared/seo';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 // The database column is 200 characters even though the backend validator allows 350.
@@ -24,9 +30,17 @@ async function resolveAuthor(params: Props['params']) {
   if (!author) notFound();
   return author;
 }
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const author = await resolveAuthor(params);
-  return { title: author.name };
+  const bio = author.shortBio ?? author.fullBio;
+  const description = trimBookDescription(bio, messages.seo.authorFallbackDescription);
+
+  return buildPageMetadata({
+    title: author.name,
+    description,
+    path: authorRoute(author.slug),
+    image: author.photoUrl,
+  });
 }
 async function Books({ slug }: { slug: string }) {
   return <BookGrid items={await getAuthorBooks(slug)} />;

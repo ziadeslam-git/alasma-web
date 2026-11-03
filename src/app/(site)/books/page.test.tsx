@@ -7,7 +7,7 @@ import { server } from '@/mocks/server';
 import { defaultApiOrigin } from '@/shared/lib/api';
 
 import BooksLoading from './loading';
-import BooksPage, { metadata } from './page';
+import BooksPage, { generateMetadata } from './page';
 
 vi.mock('@/modules/cart', () => ({
   AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
@@ -18,9 +18,16 @@ vi.mock('next/navigation', () => ({
 }));
 
 describe('BooksPage (/books)', () => {
-  it('exports the Arabic catalog metadata', () => {
-    expect(metadata.title).toBe(messages.catalog.page.meta.title);
-    expect(metadata.description).toBe(messages.catalog.page.meta.description);
+  it('computes the Arabic catalog metadata with canonical and robots rules', async () => {
+    const meta = await generateMetadata();
+    expect(meta.title).toBe(messages.catalog.page.meta.title);
+    expect(meta.description).toBe(messages.catalog.page.meta.description);
+    expect(meta.robots).toEqual({ index: true, follow: true });
+
+    const filteredMeta = await generateMetadata({
+      searchParams: Promise.resolve({ category: 'novels' }),
+    });
+    expect(filteredMeta.robots).toEqual({ index: false, follow: true });
   });
 
   it('parses searchParams, fetches catalog data and renders CatalogView', async () => {

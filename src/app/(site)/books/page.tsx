@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 
-import messages from '@/i18n/messages/ar.json';
 import {
   CatalogView,
   getCatalogData,
@@ -8,15 +7,16 @@ import {
   type RawSearchParams,
 } from '@/modules/catalog';
 import { SearchTabs } from '@/modules/search';
-
-export const metadata: Metadata = {
-  title: messages.catalog.page.meta.title,
-  description: messages.catalog.page.meta.description,
-};
+import { buildBooksCatalogMetadata } from '@/modules/seo-site';
 
 type BooksPageProps = {
   searchParams?: Promise<RawSearchParams>;
 };
+
+export async function generateMetadata({ searchParams }: BooksPageProps = {}): Promise<Metadata> {
+  const rawParams = searchParams ? await searchParams : {};
+  return buildBooksCatalogMetadata(rawParams);
+}
 
 // Public Book Catalog (/books). SiteShell owns the only <main>, so CatalogView renders directly inside it.
 export default async function BooksPage({ searchParams }: BooksPageProps = {}) {

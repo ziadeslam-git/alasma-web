@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation';
 
 import messages from '@/i18n/messages/ar.json';
 import { HomeView } from '@/modules/home';
+import { buildOrganizationJsonLd, buildWebSiteJsonLd } from '@/modules/seo-site';
 import { SiteHeader } from '@/shared/layout/site-header';
+import { JsonLd } from '@/shared/seo';
 
 import { buildDevHomeData, parseDevHomeState, type DevHomeState } from './home-fixtures';
 import styles from './home.module.css';
@@ -61,6 +63,8 @@ export default async function DevHomePage({ searchParams }: DevHomePageProps = {
           </div>
         </nav>
 
+        <JsonLd data={buildOrganizationJsonLd()} />
+        <JsonLd data={buildWebSiteJsonLd()} />
         <HomeView data={data} />
       </main>
     </>

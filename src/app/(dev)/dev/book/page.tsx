@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import messages from '@/i18n/messages/ar.json';
+import { buildBookBreadcrumbJsonLd, buildBookJsonLd } from '@/modules/books-seo';
 import { BookDetailsView } from '@/modules/catalog';
+import { JsonLd } from '@/shared/seo';
 
 import { buildDevBookData, parseDevBookState, type DevBookState } from './book-fixtures';
 import styles from './book.module.css';
@@ -74,6 +76,8 @@ export default async function DevBookPage({ searchParams }: DevBookPageProps = {
       </nav>
 
       <div className={styles.content}>
+        <JsonLd data={buildBookJsonLd(book)} />
+        <JsonLd data={buildBookBreadcrumbJsonLd(book)} />
         <BookDetailsView book={book} relatedBooks={relatedBooks} />
       </div>
     </main>

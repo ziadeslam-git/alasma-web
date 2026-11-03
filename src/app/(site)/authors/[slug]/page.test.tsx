@@ -11,11 +11,27 @@ vi.mock('@/modules/authors', () => ({
   getAuthorBooks: vi.fn(),
   AuthorView: () => null,
 }));
-import AuthorPage from './page';
+import AuthorPage, { generateMetadata } from './page';
 describe('author route', () => {
   beforeEach(() => {
     mocks.getAuthor.mockReset();
     mocks.notFound.mockClear();
+  });
+  it('builds author metadata with name, trimmed bio and canonical URL', async () => {
+    mocks.getAuthor.mockResolvedValue({
+      id: 1,
+      name: 'سامي الحكيم',
+      slug: 'sami-al-hakim',
+      shortBio: 'روائي وناقد أدبي مصري.',
+      fullBio: null,
+      photoUrl: null,
+      socialLinks: null,
+      books: [],
+    });
+    const meta = await generateMetadata({ params: Promise.resolve({ slug: 'sami-al-hakim' }) });
+    expect(meta.title).toBe('سامي الحكيم');
+    expect(meta.description).toBe('روائي وناقد أدبي مصري.');
+    expect(meta.alternates?.canonical).toContain('/authors/sami-al-hakim');
   });
   it('rejects an overlong slug before fetching', async () => {
     await expect(

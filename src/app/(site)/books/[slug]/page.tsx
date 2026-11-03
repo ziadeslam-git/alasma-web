@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
+import { buildBookBreadcrumbJsonLd, buildBookJsonLd, buildBookMetadata } from '@/modules/books-seo';
 import { getBook, normalizeBookSlug } from '@/modules/catalog';
 import { BookDetailsView } from '@/modules/catalog/components/book-details-view';
+import { JsonLd } from '@/shared/seo';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 import { RelatedBooks } from './related-books';
@@ -19,46 +21,7 @@ type BookPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params }: BookPageProps): Promise<Metadata> {
-  let rawSlug: string | undefined;
-  try {
-    const resolved = await params;
-    rawSlug = resolved.slug;
-  } catch {
-    notFound();
-  }
-
-  const slug = normalizeBookSlug(rawSlug);
-  if (!slug) {
-    notFound();
-  }
-
-  try {
-    const result = await getBook(slug);
-    if (result.kind === 'notFound') {
-      notFound();
-    }
-
-    const { book } = result;
-    return {
-      title: book.title,
-      description: book.description ? book.description.trim().slice(0, 160) : undefined,
-    };
-  } catch (error) {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'digest' in error &&
-      typeof error.digest === 'string' &&
-      error.digest.startsWith('NEXT_NOT_FOUND')
-    ) {
-      throw error;
-    }
-    return {};
-  }
-}
-
-export default async function BookPage({ params }: BookPageProps) {
+async function resolveBook(params: BookPageProps['params']) {
   let rawSlug: string | undefined;
   try {
     const resolved = await params;
@@ -77,11 +40,26 @@ export default async function BookPage({ params }: BookPageProps) {
     notFound();
   }
 
+  return { slug, book: result.book };
+}
+
+export async function generateMetadata({ params }: BookPageProps): Promise<Metadata> {
+  const { book } = await resolveBook(params);
+  return buildBookMetadata(book);
+}
+
+export default async function BookPage({ params }: BookPageProps) {
+  const { slug, book } = await resolveBook(params);
+
   return (
-    <BookDetailsView book={result.book}>
-      <Suspense fallback={<Skeleton shape="card" />}>
-        <RelatedBooks slug={slug} />
-      </Suspense>
-    </BookDetailsView>
+    <>
+      <JsonLd data={buildBookJsonLd(book)} />
+      <JsonLd data={buildBookBreadcrumbJsonLd(book)} />
+      <BookDetailsView book={book}>
+        <Suspense fallback={<Skeleton shape="card" />}>
+          <RelatedBooks slug={slug} />
+        </Suspense>
+      </BookDetailsView>
+    </>
   );
 }

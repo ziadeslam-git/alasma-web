@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import CmsPage from './page';
+import CmsPage, { generateMetadata } from './page';
 
 const mocks = vi.hoisted(() => ({
   getPage: vi.fn(),
@@ -32,5 +32,14 @@ describe('CMS route', () => {
     await expect(CmsPage({ params: Promise.resolve({ key: 'about' }) })).rejects.toThrow(
       'Server error',
     );
+  });
+  it('builds metadata with API title and canonical URL', async () => {
+    mocks.getPage.mockResolvedValue({
+      kind: 'ok',
+      page: { key: 'about', title: 'عن الدار', body: 'نص', updatedAt: '2026-11-03T00:00:00Z' },
+    });
+    const meta = await generateMetadata({ params: Promise.resolve({ key: 'about' }) });
+    expect(meta.title).toBe('عن الدار');
+    expect(meta.alternates?.canonical).toContain('/pages/about');
   });
 });

@@ -1,6 +1,9 @@
+'use client';
+
 import type { ReactNode } from 'react';
 
-import { getFeatureState, type FeatureKey } from '@/shared/config/features';
+import { useResolvedFeatureState } from '@/shared/config/feature-flags';
+import type { FeatureKey } from '@/shared/config/features';
 
 import styles from './soon.module.css';
 
@@ -42,7 +45,7 @@ export function FeatureGate({
   feature,
   label,
 }: FeatureGateProps) {
-  const state = getFeatureState(feature);
+  const state = useResolvedFeatureState(feature);
   if (state === 'hidden') {
     return fallback;
   }
