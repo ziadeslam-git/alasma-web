@@ -22,6 +22,8 @@ const moduleNames = [
   'publishing',
   'content',
   'admin',
+  'books-seo',
+  'seo-site',
 ];
 
 const moduleZones = moduleNames.map((name) => ({
@@ -134,8 +136,8 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    // The one place that renders sanitized CMS HTML. Every other file stays under react/no-danger above.
-    files: ['src/modules/pages/components/cms-html.tsx'],
+    // The only two places allowed to use dangerouslySetInnerHTML: sanitized CMS HTML and Unicode-escaped JSON-LD.
+    files: ['src/modules/pages/components/cms-html.tsx', 'src/shared/seo/json-ld.tsx'],
     rules: { 'react/no-danger': 'off' },
   },
   {
