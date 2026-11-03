@@ -15,3 +15,5 @@ playwright-report/
 test-results/
 src/shared/lib/api/openapi.json
 src/shared/lib/api/schema.d.ts
+# real backend samples, copied unchanged and read-only
+src/test/fixtures/api-samples/

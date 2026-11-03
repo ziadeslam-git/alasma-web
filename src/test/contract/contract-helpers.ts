@@ -65,14 +65,14 @@ export function schemaErrors(value: unknown, schema: Schema, at = '$'): string[]
   const actual = typeOf(value);
   if (node.type) {
     const allowed = Array.isArray(node.type) ? node.type : [node.type];
-    const matches = allowed.some((type) =>
+    const isMatch = allowed.some((type) =>
       type === 'integer'
         ? typeof value === 'number' && Number.isInteger(value)
         : type === 'number'
           ? typeof value === 'number' && Number.isFinite(value)
           : type === actual,
     );
-    if (!matches) return [`${at}: expected ${allowed.join('|')}, got ${actual}`];
+    if (!isMatch) return [`${at}: expected ${allowed.join('|')}, got ${actual}`];
   }
 
   if (node.enum && !node.enum.includes(value)) {
@@ -84,7 +84,9 @@ export function schemaErrors(value: unknown, schema: Schema, at = '$'): string[]
 
   const errors: string[] = [];
   if (Array.isArray(value) && node.items) {
-    value.forEach((item, index) => errors.push(...schemaErrors(item, node.items!, `${at}[${index}]`)));
+    value.forEach((item, index) =>
+      errors.push(...schemaErrors(item, node.items!, `${at}[${index}]`)),
+    );
   }
   if (actual === 'object' && node.properties) {
     const record = value as Record<string, unknown>;
@@ -115,7 +117,7 @@ export function contractErrors(
 }
 
 // Text that must never reach a screen: leaked JS values and Arabic-Indic digits (the store shows Latin digits).
-export function expectCleanText(container: HTMLElement): string[] {
+export function textProblems(container: HTMLElement): string[] {
   const text = container.textContent ?? '';
   const problems: string[] = [];
   if (/undefined/.test(text)) problems.push('contains "undefined"');

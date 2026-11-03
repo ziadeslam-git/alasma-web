@@ -1,0 +1,1 @@
+These files are real response samples from the backend repository (`AlAsmaPro/docs/samples/`), copied unchanged and read-only. Contract tests in `src/test/contract/` feed them through the frontend code paths. Never edit a sample to make a test pass: copy the file again when the backend publishes new ones.
