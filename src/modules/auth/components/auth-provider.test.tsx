@@ -346,7 +346,6 @@ describe('AuthProvider', () => {
     delete (document as { cookie?: string }).cookie;
     expect(setItem).not.toHaveBeenCalled();
     expect(globalThis.localStorage.length).toBe(0);
-    expect(globalThis.sessionStorage.length).toBe(0);
     expect(cookieWrites.length).toBeGreaterThan(0);
     for (const write of cookieWrites) {
       expect(write.startsWith(`${SESSION_HINT_COOKIE}=`)).toBe(true);

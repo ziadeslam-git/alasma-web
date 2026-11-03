@@ -14,11 +14,13 @@ import CatalogDevPage from './catalog/page';
 import CatalogFiltersDevPage from './catalog-filters/page';
 import CategoryDevPage from './category/page';
 import CategoriesDevPage from './categories/page';
+import CheckoutDevPage from './checkout/page';
 import ComponentsPage from './components/page';
 import ErrorTestPage from './error-test/page';
 import HomeDevPage from './home/page';
 import IconsPage from './icons/page';
 import OrdersDevPage from './orders/page';
+import OrderSuccessDevPage from './order-success/page';
 import PageCmsDevPage from './page-cms/page';
 import SearchDevPage from './search/page';
 import TokensPage from './tokens/page';
@@ -48,11 +50,13 @@ describe('dev routes production guard', () => {
     ['/dev/catalog-filters', () => CatalogFiltersDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/category', () => CategoryDevPage()],
     ['/dev/categories', () => CategoriesDevPage()],
+    ['/dev/checkout', () => CheckoutDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/components', () => ComponentsPage()],
     ['/dev/error-test', () => ErrorTestPage()],
     ['/dev/home', () => HomeDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/icons', () => IconsPage()],
     ['/dev/orders', () => OrdersDevPage()],
+    ['/dev/order-success', () => OrderSuccessDevPage()],
     ['/dev/page-cms', () => PageCmsDevPage()],
     ['/dev/search', () => SearchDevPage()],
     ['/dev/tokens', () => TokensPage()],
@@ -79,10 +83,12 @@ describe('dev routes production guard', () => {
       'catalog-filters',
       'categories',
       'category',
+      'checkout',
       'components',
       'error-test',
       'home',
       'icons',
+      'order-success',
       'orders',
       'page-cms',
       'search',

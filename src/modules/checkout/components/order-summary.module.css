@@ -1,0 +1,26 @@
+.summary {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.items {
+  display: grid;
+  gap: var(--space-3);
+  list-style: none;
+  padding: 0;
+}
+
+.totals {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.totals > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.totals dd {
+  margin: 0;
+}

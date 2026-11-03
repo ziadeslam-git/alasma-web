@@ -23,3 +23,5 @@ export const authorRoute = (slug: string) => `${routes.authors}/${encodeSegment(
 export const categoryRoute = (slug: string) => `${routes.categories}/${encodeSegment(slug)}`;
 export const staticPageRoute = (key: string) => `/pages/${encodeSegment(key)}`;
 export const orderRoute = (id: string) => `${routes.accountOrders}/${encodeSegment(id)}`;
+export const checkoutSuccessRoute = (id: string) =>
+  `${routes.checkout}/success/${encodeSegment(id)}`;

@@ -47,8 +47,8 @@ export const features = {
   'profile-edit': 'soon', // Profile editing is not delivered.
   'order-invoice': 'soon', // Customer invoice endpoint is not delivered.
   'payment-proof': 'soon', // Customer payment proof endpoint is not delivered.
-  'checkout-flow': 'soon', // Checkout flow after the cart.
-  'account-area': 'soon', // Customer account entry points.
+  'checkout-flow': 'live', // Checkout flow after the cart.
+  'account-area': 'live', // Customer account entry points.
   'publish-packages': 'soon', // Publishing packages navigation entry.
   'resend-confirmation': 'soon', // Resend confirmation email: backend endpoint (S4) not delivered yet.
 

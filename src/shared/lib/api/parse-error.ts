@@ -1,4 +1,28 @@
 import { ApiError, type FieldErrors } from './api-error';
+import type { components } from './schema';
+
+function readBooks(value: unknown): components['schemas']['OrderStockShortageDto'][] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is components['schemas']['OrderStockShortageDto'] =>
+      typeof item === 'object' &&
+      item !== null &&
+      typeof item.bookId === 'number' &&
+      typeof item.availableQuantity === 'number' &&
+      typeof item.title === 'string',
+  );
+}
+
+function readItems(value: unknown): components['schemas']['UnavailableCartItemDto'][] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is components['schemas']['UnavailableCartItemDto'] =>
+      typeof item === 'object' &&
+      item !== null &&
+      typeof item.itemId === 'number' &&
+      typeof item.title === 'string',
+  );
+}
 
 const textOf = (value: unknown): string | undefined =>
   typeof value === 'string' && value.length > 0 ? value : undefined;
@@ -65,7 +89,10 @@ export function buildProblemError(status: number, body: unknown, headers: Header
     code: textOf(fields.code),
     traceId: textOf(fields.traceId),
     errors: readFieldErrors(fields.errors),
-    retryAfterSeconds: status === 429 ? readRetryAfter(headers.get('Retry-After')) : undefined,
+    retryAfterSeconds:
+      status === 429 || status === 409 ? readRetryAfter(headers.get('Retry-After')) : undefined,
+    books: readBooks(fields.books),
+    items: readItems(fields.items),
     availableQuantity:
       typeof fields.availableQuantity === 'number' && Number.isFinite(fields.availableQuantity)
         ? fields.availableQuantity

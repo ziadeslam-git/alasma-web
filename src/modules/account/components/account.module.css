@@ -68,3 +68,32 @@
     flex-flow: row wrap;
   }
 }
+
+.guestLinks,
+.accountButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.accountButton {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  inline-size: 38px;
+  block-size: 38px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--surface);
+}
+
+.accountMenu {
+  display: grid;
+  gap: var(--space-3);
+}

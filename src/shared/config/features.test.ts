@@ -4,6 +4,8 @@ import { features, getFeatureState, isLive, type FeatureKey, type FeatureState }
 
 const expectedLiveKeys = [
   'cart-page',
+  'checkout-flow',
+  'account-area',
   'catalog-search',
   'catalog-filters-basic',
   'catalog-sort-basic',
@@ -34,8 +36,8 @@ describe('features registry', () => {
 
   it('keeps the deferred navigation areas marked as soon', () => {
     expect(getFeatureState('profile-edit')).toBe('soon');
-    expect(getFeatureState('checkout-flow')).toBe('soon');
-    expect(getFeatureState('account-area')).toBe('soon');
+    expect(getFeatureState('checkout-flow')).toBe('live');
+    expect(getFeatureState('account-area')).toBe('live');
     expect(getFeatureState('publish-packages')).toBe('soon');
   });
 

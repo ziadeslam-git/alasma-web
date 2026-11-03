@@ -19,7 +19,7 @@ const advance = (ms: number) =>
 
 beforeEach(() => {
   vi.useFakeTimers();
-  globalThis.sessionStorage.clear();
+  document.cookie = `${seenKey}=; Path=/; Max-Age=0`;
 });
 
 afterEach(() => {
@@ -57,7 +57,7 @@ describe('SplashOverlay', () => {
   it('does not show again in the same session', () => {
     const first = render(<SplashOverlay />);
     advance(0);
-    expect(globalThis.sessionStorage.getItem(seenKey)).toBe('true');
+    expect(document.cookie).toContain(`${seenKey}=1`);
     first.unmount();
 
     render(<SplashOverlay />);

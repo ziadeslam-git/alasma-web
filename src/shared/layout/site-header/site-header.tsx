@@ -137,6 +137,9 @@ export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
           title={text.header.menu}
         >
           <nav aria-label={text.header.menu} className={styles.menuLinks}>
+            <FeatureLink feature="account-area" href={routes.account} label={text.soon}>
+              {messages.account.title}
+            </FeatureLink>
             <Link href={routes.home}>{text.header.home}</Link>
             <Link href={routes.books}>{text.header.store}</Link>
             <DeferredLink

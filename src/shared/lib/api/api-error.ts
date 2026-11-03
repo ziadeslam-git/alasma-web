@@ -1,4 +1,5 @@
 export type ApiErrorKind = 'network' | 'timeout' | 'problem' | 'unknown';
+import type { components } from './schema';
 
 // field name -> messages, as sent by the API in the `errors` member of a validation problem
 export type FieldErrors = Record<string, string[]>;
@@ -14,6 +15,8 @@ export type ApiErrorInit = {
   errors?: FieldErrors;
   retryAfterSeconds?: number;
   availableQuantity?: number;
+  books?: components['schemas']['OrderStockShortageDto'][];
+  items?: components['schemas']['UnavailableCartItemDto'][];
   cause?: unknown;
 };
 
@@ -29,6 +32,8 @@ export class ApiError extends Error {
   readonly errors: FieldErrors;
   readonly retryAfterSeconds: number | undefined;
   readonly availableQuantity: number | undefined;
+  readonly books: components['schemas']['OrderStockShortageDto'][];
+  readonly items: components['schemas']['UnavailableCartItemDto'][];
 
   constructor(init: ApiErrorInit) {
     super(init.title ?? init.detail ?? `API error (${init.kind})`, { cause: init.cause });
@@ -43,6 +48,8 @@ export class ApiError extends Error {
     this.errors = init.errors ?? {};
     this.retryAfterSeconds = init.retryAfterSeconds;
     this.availableQuantity = init.availableQuantity;
+    this.books = init.books ?? [];
+    this.items = init.items ?? [];
   }
 
   get isValidation(): boolean {

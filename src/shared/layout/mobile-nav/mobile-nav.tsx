@@ -29,7 +29,7 @@ export function MobileNav() {
       </FeatureLink>
       <FeatureLink feature="account-area" href={routes.account} label={text.soon}>
         <Icon name="user" />
-        <span>{text.header.register}</span>
+        <span>{messages.account.title}</span>
       </FeatureLink>
     </nav>
   );

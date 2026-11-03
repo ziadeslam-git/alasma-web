@@ -80,6 +80,22 @@ describe('parseResponseError', () => {
     expect(error.retryAfterSeconds).toBe(17);
   });
 
+  it('retains validated order conflicts and Retry-After for a 409', async () => {
+    const error = await parseResponseError(
+      problem(
+        409,
+        {
+          books: [{ bookId: 1, title: 'Book', availableQuantity: 2 }, { bookId: 'invalid' }],
+          items: [{ itemId: 3, title: 'Unavailable' }, null],
+        },
+        { 'Retry-After': '1' },
+      ),
+    );
+    expect(error.retryAfterSeconds).toBe(1);
+    expect(error.books).toEqual([{ bookId: 1, title: 'Book', availableQuantity: 2 }]);
+    expect(error.items).toEqual([{ itemId: 3, title: 'Unavailable' }]);
+  });
+
   it('ignores Retry-After on other statuses', async () => {
     const error = await parseResponseError(problem(503, {}, { 'Retry-After': '17' }));
 

@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { authorRoute, bookRoute, categoryRoute, routes, staticPageRoute } from './routes';
+import {
+  authorRoute,
+  bookRoute,
+  categoryRoute,
+  checkoutSuccessRoute,
+  routes,
+  staticPageRoute,
+} from './routes';
 
 describe('routes', () => {
   it('exposes the V1 static routes', () => {
@@ -26,5 +33,6 @@ describe('routes', () => {
       `/categories/${encodeURIComponent(arabicCategorySlug)}`,
     );
     expect(staticPageRoute('privacy policy')).toBe('/pages/privacy%20policy');
+    expect(checkoutSuccessRoute('order/id')).toBe('/checkout/success/order%2Fid');
   });
 });

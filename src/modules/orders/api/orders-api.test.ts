@@ -112,9 +112,35 @@ describe('orders API', () => {
       );
     });
   }
-  it('propagates network errors', async () => {
-    server.use(http.get(`${base}/orders/:id`, () => HttpResponse.error()));
+  it('propagates network errors for every order API method', async () => {
+    server.use(
+      http.get(`${base}/orders`, () => HttpResponse.error()),
+      http.get(`${base}/orders/:id`, () => HttpResponse.error()),
+      http.put(`${base}/orders/:id`, () => HttpResponse.error()),
+      http.post(`${base}/orders/:id/cancel`, () => HttpResponse.error()),
+      http.get(`${base}/shipping/zones`, () => HttpResponse.error()),
+    );
+    expect(await listOrders(1).catch((error: unknown) => error)).toBeInstanceOf(ApiError);
     expect(await getOrder(id).catch((error: unknown) => error)).toBeInstanceOf(ApiError);
+    expect(await updateOrder(id, body).catch((error: unknown) => error)).toBeInstanceOf(ApiError);
+    expect(await cancelOrder(id).catch((error: unknown) => error)).toBeInstanceOf(ApiError);
+    expect(await listOrderZones().catch((error: unknown) => error)).toBeInstanceOf(ApiError);
+  });
+  it('propagates network failures for all other order API methods', async () => {
+    server.use(
+      http.get(`${base}/orders`, () => HttpResponse.error()),
+      http.get(`${base}/shipping/zones`, () => HttpResponse.error()),
+      http.put(`${base}/orders/:id`, () => HttpResponse.error()),
+      http.post(`${base}/orders/:id/cancel`, () => HttpResponse.error()),
+    );
+    for (const operation of [
+      () => listOrders(1),
+      () => listOrderZones(),
+      () => updateOrder(id, body),
+      () => cancelOrder(id),
+    ]) {
+      expect(await operation().catch((error: unknown) => error)).toBeInstanceOf(ApiError);
+    }
   });
   for (const status of [400, 401, 403, 429]) {
     it(`propagates list HTTP ${status}`, async () => {

@@ -7,6 +7,7 @@ import '@/styles/globals.css';
 
 import messages from '@/i18n/messages/ar.json';
 import { AuthProvider } from '@/modules/auth';
+import { AttemptSessionObserver } from '@/modules/checkout';
 import { ToastProvider } from '@/shared/ui/toast';
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="ar" dir="rtl">
       <body>
         <AuthProvider>
+          <AttemptSessionObserver />
           <ToastProvider label={messages.auth.toastLabel}>{children}</ToastProvider>
         </AuthProvider>
       </body>

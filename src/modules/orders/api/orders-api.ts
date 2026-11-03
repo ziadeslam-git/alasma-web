@@ -6,6 +6,10 @@ export type OrderList = components['schemas']['PagedResultOfOrderListItemDto'];
 export type OrderStatus = components['schemas']['OrderStatus'];
 export type PaymentStatus = components['schemas']['PaymentStatus'];
 export type UpdateOrder = components['schemas']['UpdateOrderRequest'];
+export type UpdateOrderChanges = Pick<UpdateOrder, 'rowVersion'> &
+  Partial<Omit<UpdateOrder, 'rowVersion' | 'addressFields'>> & {
+    addressFields?: Partial<NonNullable<UpdateOrder['addressFields']>> | null;
+  };
 export type ShippingZone = components['schemas']['ShippingZonePublicDto'];
 
 // The generated request marks nullable properties required, while the endpoint applies supplied fields only.
@@ -43,11 +47,12 @@ export async function getOrder(id: string): Promise<Order> {
   return result.data;
 }
 
-export async function updateOrder(id: string, body: UpdateOrder): Promise<Order> {
+export async function updateOrder(id: string, body: UpdateOrderChanges): Promise<Order> {
   const result = await getApiClient().PUT('/api/v1/orders/{id}', {
     cache: 'no-store',
     params: { path: { id } },
-    body,
+    // The generated schema requires nullable fields, but the API applies only supplied fields.
+    body: body as UpdateOrder,
     bodySerializer: serializeOrderChanges,
   });
   return result.data ?? getOrder(id);

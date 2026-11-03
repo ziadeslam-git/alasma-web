@@ -10,7 +10,7 @@ import {
   updateOrder,
   type Order,
   type ShippingZone,
-  type UpdateOrder,
+  type UpdateOrderChanges,
 } from '../api/orders-api';
 import styles from './orders.module.css';
 
@@ -56,26 +56,22 @@ export function OrderEditDialog({
   }, [text.error]);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const addressFields = {
-      city: city === order.address.city ? null : city,
-      addressLine: addressLine === order.address.addressLine ? null : addressLine,
-      landmark: landmark === (order.address.landmark ?? '') ? null : landmark,
+    const addressFields: NonNullable<UpdateOrderChanges['addressFields']> = {
+      ...(city !== order.address.city ? { city } : {}),
+      ...(addressLine !== order.address.addressLine ? { addressLine } : {}),
+      ...(landmark !== (order.address.landmark ?? '') ? { landmark } : {}),
     };
-    const body: UpdateOrder = {
+    const body: UpdateOrderChanges = {
       rowVersion: order.rowVersion,
-      recipientName: recipientName === order.address.recipientName ? null : recipientName,
-      phone: phone === order.address.phone ? null : phone,
-      zoneId:
-        order.status !== 'PendingPayment' || zoneId === order.address.shippingZoneId
-          ? null
-          : zoneId,
-      notes: notes === (order.customerNotes ?? '') ? null : notes,
-      addressFields: Object.values(addressFields).every((value) => value === null)
-        ? null
-        : addressFields,
+      ...(recipientName !== order.address.recipientName ? { recipientName } : {}),
+      ...(phone !== order.address.phone ? { phone } : {}),
+      ...(order.status === 'PendingPayment' && zoneId !== order.address.shippingZoneId
+        ? { zoneId }
+        : {}),
+      ...(notes !== (order.customerNotes ?? '') ? { notes } : {}),
+      ...(Object.keys(addressFields).length ? { addressFields } : {}),
     };
-    if (Object.entries(body).every(([key, value]) => key === 'rowVersion' || value === null))
-      return;
+    if (Object.keys(body).length === 1) return;
     setPending(true);
     setError('');
     setUnconfirmed(false);

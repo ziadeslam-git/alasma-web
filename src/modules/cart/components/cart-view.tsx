@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
-import { FeatureLink } from '@/shared/ui/soon';
 import { routes } from '@/shared/config/routes';
 import { Modal } from '@/shared/ui/modal';
 import type { Cart, Coupon } from '../api/cart-api';
@@ -136,9 +136,7 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
           >
             {text.clear}
           </button>
-          <FeatureLink feature="checkout-flow" href={routes.checkout} label={messages.site.soon}>
-            {text.checkout}
-          </FeatureLink>
+          <Link href={routes.checkout}>{text.checkout}</Link>
           <Modal
             closeLabel={text.close}
             onOpenChange={setConfirming}

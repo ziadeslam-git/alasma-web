@@ -19,16 +19,10 @@ export function SplashOverlay() {
       return undefined;
     }
 
-    try {
-      // A harmless per-session flag, not a token. ESLint bans window.sessionStorage along with localStorage, hence globalThis.
-      const session = globalThis['sessionStorage'];
-      if (session.getItem(splashSessionKey)) {
-        return undefined;
-      }
-      session.setItem(splashSessionKey, 'true');
-    } catch {
+    if (document.cookie.split('; ').some((cookie) => cookie === `${splashSessionKey}=1`)) {
       return undefined;
     }
+    document.cookie = `${splashSessionKey}=1; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
 
     const showTimer = window.setTimeout(() => {
       setIsVisible(true);
