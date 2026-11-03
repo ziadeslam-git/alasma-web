@@ -1,12 +1,24 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import messages from '@/i18n/messages/ar.json';
 import { PageView, type StaticPage } from '@/modules/pages';
+
+import fixtures from './fixtures.json';
 
 export const metadata: Metadata = {
   title: 'CMS page (dev)',
   robots: { index: false, follow: false },
+};
+
+// Realistic states for the CMS page view: ?state=normal (HTML), xss (attack attempt, must render safely),
+// plain (no tags, like the seed pages) and empty. The older long and title-only states stay as aliases.
+const states: Record<string, StaticPage> = {
+  normal: fixtures.normal,
+  xss: fixtures.xss,
+  plain: fixtures.plain,
+  empty: fixtures.empty,
+  long: { ...fixtures.plain, body: `${fixtures.plain.body}\n\n${fixtures.plain.body}` },
+  'title-only': { ...fixtures.empty },
 };
 
 export default async function DevPageCms({
@@ -14,19 +26,7 @@ export default async function DevPageCms({
 }: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
   if (process.env.NODE_ENV === 'production') notFound();
   const state = (await searchParams)?.state;
-  const text = messages.devPageCms;
-  const page: StaticPage = {
-    key: 'about',
-    title: state === 'long' ? text.long : state === 'empty' ? text.empty : text.normal,
-    body:
-      state === 'markup'
-        ? `<p>${text.body}</p>`
-        : state === 'empty' || state === 'title-only'
-          ? ''
-          : state === 'long'
-            ? `${text.body}\n\n${text.body}`
-            : text.body,
-  };
+  const page = (typeof state === 'string' ? states[state] : undefined) ?? fixtures.normal;
   return (
     <main id="main-content">
       <PageView page={page} />

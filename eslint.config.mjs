@@ -134,6 +134,11 @@ const eslintConfig = defineConfig([
     },
   },
   {
+    // The one place that renders sanitized CMS HTML. Every other file stays under react/no-danger above.
+    files: ['src/modules/pages/components/cms-html.tsx'],
+    rules: { 'react/no-danger': 'off' },
+  },
+  {
     // Arabic text lives in the message files and may appear in tests.
     files: ['src/i18n/**', 'src/**/*.test.{ts,tsx}', 'src/mocks/**'],
     rules: {

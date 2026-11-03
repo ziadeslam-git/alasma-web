@@ -1,0 +1,22 @@
+{
+  "normal": {
+    "key": "shipping-policy",
+    "title": "سياسة الشحن",
+    "body": "<h1>سياسة الشحن</h1><p>سيتم تحديث هذا المحتوى من لوحة التحكم. نشحن إلى جميع المحافظات خلال <strong>٣ أيام عمل</strong> تقريباً.</p><h2>الرسوم</h2><ul><li>القاهرة والجيزة</li><li>باقي المحافظات</li></ul><ol><li>أضف الكتب إلى السلة</li><li>أكمل الدفع</li></ol><blockquote><p>الشحن مجاني فوق حد معين.</p></blockquote><table><thead><tr><th>المنطقة</th><th>الرسوم</th></tr></thead><tbody><tr><td>القاهرة</td><td>35</td></tr><tr><td>أسوان</td><td>50</td></tr></tbody></table><p>للتفاصيل راجع <a href=\"/pages/terms\">الشروط والأحكام</a> أو <a href=\"https://example.com\" target=\"_blank\">موقعاً خارجياً</a>.</p>"
+  },
+  "xss": {
+    "key": "terms",
+    "title": "الشروط والأحكام",
+    "body": "<p>نص سليم قبل الهجوم.</p><script>document.title='pwned'</script><img src=x onerror=\"document.title='pwned'\"><a href=\"javascript:alert(1)\">رابط خطير</a><a href=\"//evil.example\">رابط خارجي بلا بروتوكول</a><iframe src=\"https://evil.example\"></iframe><svg onload=\"alert(1)\"></svg><p style=\"color:red\" onclick=\"alert(1)\" dir=\"javascript:x\" lang=\"en onload=x\">فقرة بسمات خطيرة.</p><style>body{display:none}</style><p>&lt;script&gt;alert(1)&lt;/script&gt; مكتوب كنص.</p><h1>عنوان داخلي</h1>"
+  },
+  "plain": {
+    "key": "about",
+    "title": "من نحن",
+    "body": "سيتم تحديث هذا المحتوى من لوحة التحكم.\n\nفقرة ثانية بنص عادي بلا وسوم."
+  },
+  "empty": {
+    "key": "faq",
+    "title": "الأسئلة الشائعة",
+    "body": ""
+  }
+}
