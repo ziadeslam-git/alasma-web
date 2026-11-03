@@ -2,23 +2,13 @@
 
 import messages from '@/i18n/messages/ar.json';
 import { Button } from '@/shared/ui/button';
-import { ToastProvider, useToast, type ToastKind } from '@/shared/ui/toast';
+import { useToast, type ToastKind } from '@/shared/ui/toast';
 
 import styles from '../components.module.css';
 
 const toastKinds: ToastKind[] = ['success', 'error', 'info', 'warning'];
 
 export function ToastSection() {
-  const text = messages.devComponents.toast;
-
-  return (
-    <ToastProvider label={text.label}>
-      <ToastTriggers />
-    </ToastProvider>
-  );
-}
-
-function ToastTriggers() {
   const { show } = useToast();
   const text = messages.devComponents.toast;
 

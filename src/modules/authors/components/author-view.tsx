@@ -18,7 +18,7 @@ export function AuthorView({ author, children }: { author: Author; children: Rea
         ]}
       />
       <div className={styles.profile}>
-        <SafeImage alt={author.name} width={240} height={240} src={author.photoUrl} />
+        <SafeImage alt={author.name} priority width={240} height={240} src={author.photoUrl} />
         <div>
           <h1>{author.name}</h1>
           {author.fullBio || author.shortBio ? (

@@ -53,25 +53,24 @@ export function CheckoutPage() {
     if (cart.items.length === 0) router.replace(routes.cart);
   }, [cart, isLoading, router]);
 
+  const isCartEmailUnconfirmed =
+    error instanceof ApiError && error.status === 403 && error.code === 'email_not_confirmed';
+  const isUnconfirmed =
+    confirmation === 'unconfirmed' || isEmailUnconfirmed || isCartEmailUnconfirmed;
+
   return (
     <div className={styles.page}>
       <h1>{messages.checkout.title}</h1>
-      {confirmation === 'unconfirmed' || isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : null}
+      {isUnconfirmed ? <UnconfirmedEmailBanner /> : null}
       {confirmation === 'error' ? <p role="alert">{messages.apiErrors.generic}</p> : null}
       {confirmation === 'loading' || isLoading ? <Skeleton shape="card" /> : null}
-      {confirmation === 'confirmed' && error ? (
-        error instanceof ApiError &&
-        error.status === 403 &&
-        error.code === 'email_not_confirmed' ? (
-          <UnconfirmedEmailBanner />
-        ) : (
-          <p role="alert">
-            {error instanceof ApiError ? getApiErrorMessage(error) : messages.apiErrors.generic}
-          </p>
-        )
+      {confirmation === 'confirmed' && !isUnconfirmed && error ? (
+        <p role="alert">
+          {error instanceof ApiError ? getApiErrorMessage(error) : messages.apiErrors.generic}
+        </p>
       ) : null}
       {confirmation === 'confirmed' &&
-      !isEmailUnconfirmed &&
+      !isUnconfirmed &&
       !isLoading &&
       !error &&
       Boolean(cart?.items.length) ? (

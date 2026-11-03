@@ -22,7 +22,14 @@ export function CategoriesView({ categories }: { categories: readonly CategoryNo
             <li key={category.id}>
               <Link className={styles.tile} href={categoryRoute(category.slug)}>
                 {category.imageUrl ? (
-                  <SafeImage alt="" decorative src={category.imageUrl} width={160} height={160} />
+                  <SafeImage
+                    alt=""
+                    decorative
+                    priority
+                    src={category.imageUrl}
+                    width={160}
+                    height={160}
+                  />
                 ) : null}
                 <span>{category.name}</span>
               </Link>

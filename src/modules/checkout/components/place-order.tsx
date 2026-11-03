@@ -21,6 +21,7 @@ export function PlaceOrderButton() {
     paymentMethod,
     notes,
     preview,
+    isEmailUnconfirmed,
     getPurchaseKey,
     clearPurchaseAttempt,
     setEmailUnconfirmed,
@@ -94,7 +95,7 @@ export function PlaceOrderButton() {
 
   return (
     <div>
-      {isUnconfirmed ? <UnconfirmedEmailBanner /> : null}
+      {isUnconfirmed && !isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : null}
       {hasMismatch ? <p role="alert">{messages.checkout.confirmAgain}</p> : null}
       {error ? (
         <div role="alert">
@@ -123,7 +124,13 @@ export function PlaceOrderButton() {
       ) : null}
       <button
         disabled={
-          isPending || !cart || addressId === null || !paymentMethod || preview.status !== 'ok'
+          isPending ||
+          isUnconfirmed ||
+          Boolean(isEmailUnconfirmed) ||
+          !cart ||
+          addressId === null ||
+          !paymentMethod ||
+          preview.status !== 'ok'
         }
         onClick={() => void submit()}
         type="button"

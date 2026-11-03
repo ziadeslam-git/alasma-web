@@ -74,6 +74,7 @@ export function SafeImage({
         onError={() => setHasError(true)}
         priority={priority}
         src={src ?? ''}
+        style={!fill && width && height ? { aspectRatio: `${width} / ${height}` } : undefined}
         width={width}
       />
     </span>

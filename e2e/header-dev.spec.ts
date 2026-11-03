@@ -4,11 +4,14 @@ import { expect, test } from '@playwright/test';
 
 test.use({ baseURL: 'http://localhost:3101' });
 
+const nextImageWarningPattern =
+  /Image with src|Largest Contentful Paint|LCP|either width or height modified/i;
+
 test('header preview keeps landmarks and fits the viewport', async ({ page }, testInfo) => {
   const imageWarnings: string[] = [];
   page.on('console', (msg) => {
     const text = msg.text();
-    if (/Image with src|Largest Contentful Paint|LCP|either width or height modified/i.test(text)) {
+    if (nextImageWarningPattern.test(text)) {
       imageWarnings.push(text);
     }
   });
@@ -23,3 +26,18 @@ test('header preview keeps landmarks and fits the viewport', async ({ page }, te
     path: path.join('test-results', 'header-visual', `${testInfo.project.name}.png`),
   });
 });
+
+for (const route of ['/dev/home', '/dev/categories', '/dev/category']) {
+  test(`renders ${route} with zero next/image console warnings`, async ({ page }) => {
+    const imageWarnings: string[] = [];
+    page.on('console', (msg) => {
+      const text = msg.text();
+      if (nextImageWarningPattern.test(text)) {
+        imageWarnings.push(text);
+      }
+    });
+    await page.goto(route);
+    await expect(page.locator('h1')).toHaveCount(1);
+    expect(imageWarnings).toEqual([]);
+  });
+}
