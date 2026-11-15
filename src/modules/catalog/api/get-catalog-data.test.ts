@@ -34,6 +34,7 @@ const sampleCategory: CategoryNode = {
   slug: 'novels',
   name: 'الروايات',
   imageUrl: null,
+  bookCount: 0,
   children: [],
 };
 
@@ -48,6 +49,7 @@ const samplePublisher: PublisherOption = {
   slug: 'dar-al-asma',
   name: 'دار الأسمى',
   logoUrl: null,
+  bookCount: 0,
 };
 
 describe('getCatalogData', () => {

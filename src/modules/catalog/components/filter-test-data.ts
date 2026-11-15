@@ -14,18 +14,19 @@ export const testFilterOptions: FilterOptions = {
       slug: 'novels',
       name: text.fiction,
       imageUrl: null,
+      bookCount: 0,
       children: [
-        { id: 11, slug: 'mystery', name: text.mystery, imageUrl: null, children: [] },
-        { id: 12, slug: 'fantasy', name: text.fantasy, imageUrl: null, children: [] },
+        { id: 11, slug: 'mystery', name: text.mystery, imageUrl: null, bookCount: 0, children: [] },
+        { id: 12, slug: 'fantasy', name: text.fantasy, imageUrl: null, bookCount: 0, children: [] },
       ],
     },
-    { id: 2, slug: text.poetry, name: text.poetry, imageUrl: null, children: [] },
+    { id: 2, slug: text.poetry, name: text.poetry, imageUrl: null, bookCount: 0, children: [] },
   ],
   authors: [
     { id: 1, slug: 'sami-alhakim', name: text.authorOne },
     { id: 2, slug: 'omar-alsharif', name: text.authorTwo },
   ],
-  publishers: [{ id: 1, slug: 'dar-al-asma', name: text.publisherOne, logoUrl: null }],
+  publishers: [{ id: 1, slug: 'dar-al-asma', name: text.publisherOne, logoUrl: null, bookCount: 0 }],
 };
 
 export const testText = text;

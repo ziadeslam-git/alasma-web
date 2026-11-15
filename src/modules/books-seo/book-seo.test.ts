@@ -51,6 +51,7 @@ const baseBook: BookDetails = {
   stockStatus: 'InStock',
   isNew: false,
   isFeatured: true,
+  ratingCount: 3,
 };
 
 describe('book-seo builders', () => {

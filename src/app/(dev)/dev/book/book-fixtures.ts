@@ -49,6 +49,7 @@ const baseBook: BookDetails = {
   stockStatus: 'InStock',
   coverImageUrl: null,
   isFeatured: false,
+  ratingCount: 0,
   isNew: false,
   images: [],
   authors: [

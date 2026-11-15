@@ -14,6 +14,7 @@ const category = (
   slug,
   name,
   imageUrl: null,
+  bookCount: 0,
   children,
 });
 
@@ -43,6 +44,7 @@ const publisher = (id: number, slug: string, name: string): PublisherOption => (
   slug,
   name,
   logoUrl: null,
+  bookCount: 0,
 });
 
 export const fixturePublishers: readonly PublisherOption[] = [

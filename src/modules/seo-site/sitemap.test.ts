@@ -27,6 +27,7 @@ describe('sitemap builders and fetcher', () => {
 
     const data: SitemapData = {
       ...sampleSitemap,
+      events: [],
       books: [...sampleSitemap.books, { slug: 'ظلال-الحكاية', updatedAt: '2026-11-03T10:00:00Z' }],
       pages: [
         ...sampleSitemap.pages,

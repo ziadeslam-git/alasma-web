@@ -13,8 +13,8 @@ vi.mock('@/modules/cart', () => ({
 }));
 
 const sampleCategories: readonly CategoryNode[] = [
-  { id: 1, slug: 'novels', name: messages.devHome.categories.novels, imageUrl: null, children: [] },
-  { id: 2, slug: 'poetry', name: messages.devHome.categories.poetry, imageUrl: null, children: [] },
+  { id: 1, slug: 'novels', name: messages.devHome.categories.novels, imageUrl: null, bookCount: 0, children: [] },
+  { id: 2, slug: 'poetry', name: messages.devHome.categories.poetry, imageUrl: null, bookCount: 0, children: [] },
 ];
 
 const sampleBooks: readonly BookCardItem[] = [

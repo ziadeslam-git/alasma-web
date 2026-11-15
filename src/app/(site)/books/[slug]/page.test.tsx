@@ -69,6 +69,7 @@ const sampleBookDetails: BookDetails = {
   stockStatus: 'InStock',
   isNew: false,
   isFeatured: true,
+  ratingCount: 3,
 };
 
 describe('BookPage (/books/[slug])', () => {

@@ -51,6 +51,7 @@ const sampleBook: BookDetails = {
   stockStatus: 'InStock',
   isNew: false,
   isFeatured: true,
+  ratingCount: 3,
 };
 
 const sampleRelated: BookCardItem = {

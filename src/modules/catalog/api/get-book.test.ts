@@ -53,6 +53,7 @@ const sampleBookDetails: BookDetails = {
   stockStatus: 'InStock',
   isNew: false,
   isFeatured: true,
+  ratingCount: 3,
 };
 
 const sampleRelatedBook: BookCardItem = {

@@ -9,19 +9,24 @@ import { buildCatalogHref, withFilter } from '../url/catalog-href';
 import { emptyCatalogParams, type CatalogParams } from '../url/catalog-params';
 import styles from './category-nav.module.css';
 
+// Only the fields the chips use, so callers without bookCount (category detail children) still fit.
+export type CategoryNavNode = Pick<CategoryNode, 'id' | 'slug' | 'name'> & {
+  children: readonly CategoryNavNode[];
+};
+
 export type CategoryNavProps = {
-  // The tree of GET /categories.
-  categories: readonly CategoryNode[];
+  // The tree of GET /categories, or the children of a category detail.
+  categories: readonly CategoryNavNode[];
   activeSlug?: string | undefined;
   basePath?: string;
   params?: CatalogParams;
   detailRoutes?: boolean;
 };
 
-const matches = (node: CategoryNode, slug: string | undefined) =>
+const matches = (node: CategoryNavNode, slug: string | undefined) =>
   slug !== undefined && (node.slug === slug || String(node.id) === slug);
 
-const containsActive = (node: CategoryNode, slug: string | undefined): boolean =>
+const containsActive = (node: CategoryNavNode, slug: string | undefined): boolean =>
   matches(node, slug) || node.children.some((child) => containsActive(child, slug));
 
 type ChipLinkProps = {

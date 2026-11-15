@@ -27,6 +27,7 @@ const sampleCategory: CategoryNode = {
   slug: 'novels',
   name: 'الروايات',
   imageUrl: null,
+  bookCount: 0,
   children: [],
 };
 
