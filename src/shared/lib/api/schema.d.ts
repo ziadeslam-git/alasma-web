@@ -1636,6 +1636,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/roles/{role}/permissions/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The changes of the permissions of a role (grants and revokes), read only, newest first. Each item says when, who, the role, the permission key and whether it was granted or revoked. page and pageSize (up to 100). */
+        get: operations["getAdminRolePermissionHistory"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/roles/{role}/permissions/reset": {
         parameters: {
             query?: never;
@@ -4769,6 +4786,19 @@ export interface components {
             /** Format: int32 */
             totalPages?: number;
         };
+        PagedResultOfRolePermissionChangeDto: {
+            hasNextPage?: boolean;
+            hasPreviousPage?: boolean;
+            items: components["schemas"]["RolePermissionChangeDto"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalCount: number;
+            /** Format: int32 */
+            totalPages?: number;
+        };
         PagedResultOfStockMovementDto: {
             hasNextPage?: boolean;
             hasPreviousPage?: boolean;
@@ -5072,6 +5102,20 @@ export interface components {
             features: components["schemas"]["FeatureSwitchItem"][];
             role: string;
         };
+        RolePermissionChangeDto: {
+            change: components["schemas"]["RolePermissionChangeKind"];
+            /** Format: date-time */
+            changedAt: string;
+            changedByName: null | string;
+            /** Format: int32 */
+            changedByUserId: null | number;
+            /** Format: int64 */
+            id: number;
+            permission: string;
+            role: string;
+        };
+        /** @enum {string} */
+        RolePermissionChangeKind: "Granted" | "Revoked";
         RolePermissionItem: {
             blockedByFeature: boolean;
             enabled: boolean;
@@ -15473,6 +15517,76 @@ export interface operations {
             };
             /** @description Payload Too Large */
             413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    getAdminRolePermissionHistory: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                role: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PagedResultOfRolePermissionChangeDto"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["HttpValidationProblemDetails"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
