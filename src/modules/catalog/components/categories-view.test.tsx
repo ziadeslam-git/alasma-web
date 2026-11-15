@@ -6,7 +6,9 @@ import { CategoriesView } from './categories-view';
 it('renders top-level category links with accessible structure', async () => {
   const { container } = render(
     <CategoriesView
-      categories={[{ id: 1, name: 'Category', slug: 'one', imageUrl: null, bookCount: 0, children: [] }]}
+      categories={[
+        { id: 1, name: 'Category', slug: 'one', imageUrl: null, bookCount: 0, children: [] },
+      ]}
     />,
   );
   expect(screen.getByRole('link', { name: 'Category' })).toHaveAttribute('href', '/categories/one');

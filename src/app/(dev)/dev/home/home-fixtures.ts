@@ -10,10 +10,38 @@ const categoryNames = messages.devHome.categories;
 export const homeCategoryFixtures: readonly CategoryNode[] = [
   { id: 1, slug: 'novels', name: categoryNames.novels, imageUrl: null, bookCount: 0, children: [] },
   { id: 2, slug: 'poetry', name: categoryNames.poetry, imageUrl: null, bookCount: 0, children: [] },
-  { id: 3, slug: 'self-help', name: categoryNames.selfHelp, imageUrl: null, bookCount: 0, children: [] },
-  { id: 4, slug: 'history', name: categoryNames.history, imageUrl: null, bookCount: 0, children: [] },
-  { id: 5, slug: 'philosophy', name: categoryNames.philosophy, imageUrl: null, bookCount: 0, children: [] },
-  { id: 6, slug: 'children', name: categoryNames.children, imageUrl: null, bookCount: 0, children: [] },
+  {
+    id: 3,
+    slug: 'self-help',
+    name: categoryNames.selfHelp,
+    imageUrl: null,
+    bookCount: 0,
+    children: [],
+  },
+  {
+    id: 4,
+    slug: 'history',
+    name: categoryNames.history,
+    imageUrl: null,
+    bookCount: 0,
+    children: [],
+  },
+  {
+    id: 5,
+    slug: 'philosophy',
+    name: categoryNames.philosophy,
+    imageUrl: null,
+    bookCount: 0,
+    children: [],
+  },
+  {
+    id: 6,
+    slug: 'children',
+    name: categoryNames.children,
+    imageUrl: null,
+    bookCount: 0,
+    children: [],
+  },
 ];
 
 export const homeFeaturedFixtures = catalogFixtures.slice(0, 5);
