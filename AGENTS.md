@@ -93,7 +93,9 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   routes gets ONE refresh and ONE retry; the auth routes (login, register, refresh, logout, forgot/reset password,
   confirm email) never refresh. Feature code gets its client from `getApiClient()` of `@/modules/auth`.
 - The schema paths already start with `/api/v1`, so the client base URL is the origin, not `/api/v1`.
-- In development `next.config.ts` rewrites `/api/v1/*` to `API_ORIGIN` so the refresh cookie stays same-origin (ADR-18).
+- `next.config.ts` rewrites `/api/v1/*` to `API_ORIGIN` so the refresh cookie stays same-origin (ADR-18). It is active in
+  development (default origin if unset) and in production only when `API_ORIGIN` is set at build time (no default);
+  otherwise the host or a reverse proxy must provide it, or `next start` answers 404 for `/api/v1/*`.
   Copy `.env.example` to `.env.local` to change the origin. Never put a secret in a `NEXT_PUBLIC_` variable.
 - Errors: `ApiError` carries status, type, title, detail, `code`, traceId, field `errors` and `retryAfterSeconds` (429).
   Show users `getApiErrorMessage(error)`: Arabic text from `src/i18n/messages/ar.json` (`apiErrors`: `codes` for the

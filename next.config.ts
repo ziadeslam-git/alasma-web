@@ -1,9 +1,9 @@
 import type { NextConfig } from 'next';
 
 import { CLOUDINARY_CLOUD_NAME } from './src/shared/config/cloudinary';
+import { getApiRewrites } from './src/shared/config/api-rewrites';
 import { getDevImageHosts } from './src/shared/config/dev-image-hosts';
 import { buildSecurityHeaders } from './src/shared/config/security-headers';
-import { defaultApiOrigin } from './src/shared/lib/api/api-origin';
 
 // Kept minimal on purpose: the ISR rules in the Architecture page (revalidate + tags) rely on the classic
 // caching model, so cacheComponents and the other opt-in features are not enabled.
@@ -31,16 +31,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Development only (ADR-18): the browser calls /api/v1/* on the Next origin and Next forwards it to the API, so the
-  // refresh cookie stays same-origin. In production the host (same-site domains or a reverse proxy) does this.
+  // ADR-18: same-origin /api/v1 so the refresh cookie stays same-origin. Active in development, and in production
+  // when API_ORIGIN is set (see src/shared/config/api-rewrites.ts).
   async rewrites() {
-    if (process.env.NODE_ENV === 'production') {
-      return [];
-    }
-
-    const origin = (process.env.API_ORIGIN ?? defaultApiOrigin).replace(/\/+$/, '');
-
-    return [{ source: '/api/v1/:path*', destination: `${origin}/api/v1/:path*` }];
+    return getApiRewrites(process.env);
   },
 };
 
