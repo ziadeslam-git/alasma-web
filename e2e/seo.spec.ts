@@ -26,7 +26,8 @@ test('home page renders canonical, index,follow robots and Organization + WebSit
   expect(response?.headers()['x-powered-by']).toBeUndefined();
 
   const canonical = page.locator('link[rel="canonical"]');
-  await expect(canonical).toHaveAttribute('href', /^https?:\/\/[^/]+\/$/);
+  // Next.js drops the slash for the root URL (resolve-url.js); `http://host` and `http://host/` are equivalent.
+  await expect(canonical).toHaveAttribute('href', /^https?:\/\/[^/]+\/?$/);
 
   const robotsMeta = page.locator('meta[name="robots"]');
   await expect(robotsMeta).toHaveAttribute('content', /index,\s*follow/i);
@@ -94,9 +95,23 @@ test('auth and private pages render noindex robots meta', async ({ page }) => {
   }
 });
 
+// Same default as the app (AGENTS.md: API_ORIGIN defaults to http://127.0.0.1:5198).
+const apiOrigin = process.env.API_ORIGIN ?? 'http://127.0.0.1:5198';
+
 test('/sitemap.xml returns 5xx and never an empty sitemap when the API is not running', async ({
   request,
 }) => {
+  // The 5xx contract is covered by unit tests (sitemap.test.ts, sitemap.xml/route.test.ts). This e2e check only
+  // makes sense when the API is really down, so it skips when the API answers.
+  const isApiUp = await request
+    .get(`${apiOrigin}/api/v1/sitemap`, { timeout: 15_000 })
+    .then((probe) => probe.ok())
+    .catch(() => false);
+  test.skip(
+    isApiUp,
+    `The API at ${apiOrigin} is reachable; the API-down case is covered by unit tests.`,
+  );
+
   const response = await request.get('/sitemap.xml');
   expect(response.status()).toBeGreaterThanOrEqual(500);
 });
