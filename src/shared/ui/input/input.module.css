@@ -52,6 +52,12 @@
   pointer-events: none;
 }
 
+/* Decorative adornments let clicks through to the input; an interactive one (e.g. the password toggle) must not. */
+.startAdornment button,
+.endAdornment button {
+  pointer-events: auto;
+}
+
 .startAdornment {
   inset-inline-start: var(--space-3);
 }

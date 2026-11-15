@@ -38,7 +38,8 @@ function mount() {
 }
 
 const email = () => screen.getByLabelText(new RegExp(text.email));
-const password = () => screen.getByLabelText(new RegExp(text.password));
+// selector: the show/hide button's aria-label also contains "كلمة المرور"
+const password = () => screen.getByLabelText(new RegExp(text.password), { selector: 'input' });
 const submit = () => screen.getByRole('button', { name: text.login });
 
 async function fillAndSubmit() {
@@ -59,6 +60,22 @@ beforeEach(() => {
 });
 
 describe('LoginForm', () => {
+  it('has a show/hide button on the password field that does not submit the form', async () => {
+    mount();
+
+    expect(password()).toHaveAttribute('type', 'password');
+
+    await userEvent.click(screen.getByRole('button', { name: text.showPassword }));
+
+    expect(password()).toHaveAttribute('type', 'text');
+    expect(screen.getByRole('button', { name: text.hidePassword })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(auth.value.login).not.toHaveBeenCalled();
+    expect(screen.queryByText(text.required)).not.toBeInTheDocument();
+  });
+
   it('shows validation messages after the first submit and focuses the first invalid field', async () => {
     mount();
     expect(screen.queryByText(text.required)).not.toBeInTheDocument();

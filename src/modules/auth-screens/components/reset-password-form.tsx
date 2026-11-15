@@ -8,7 +8,6 @@ import { routes } from '@/shared/config/routes';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { Button, ButtonLink } from '@/shared/ui/button';
 import { Field } from '@/shared/ui/field';
-import { Input } from '@/shared/ui/input';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
@@ -16,6 +15,8 @@ import { useLinkParams } from '../use-link-params';
 import { validateResetPassword } from '../validation';
 import { AuthMessage } from './auth-message';
 import styles from './form.module.css';
+import { NewPasswordField } from './new-password-field';
+import { PasswordInput } from './password-input';
 
 const fieldOrder = ['password', 'confirmPassword'] as const;
 const invalidTokenCode = 'auth_invalid_token';
@@ -116,23 +117,19 @@ export function ResetPasswordForm() {
           {text.requestNewLink}
         </ButtonLink>
       ) : null}
-      <Field error={errors.password} hint={text.passwordHint} label={text.newPassword} required>
-        <Input
-          autoComplete="new-password"
-          disabled={isSubmitting}
-          name="password"
-          onChange={(event) => setValues({ ...values, password: event.target.value })}
-          type="password"
-          value={values.password}
-        />
-      </Field>
+      <NewPasswordField
+        disabled={isSubmitting}
+        error={errors.password}
+        label={text.newPassword}
+        onChange={(password) => setValues({ ...values, password })}
+        value={values.password}
+      />
       <Field error={errors.confirmPassword} label={text.confirmPassword} required>
-        <Input
+        <PasswordInput
           autoComplete="new-password"
           disabled={isSubmitting}
           name="confirmPassword"
           onChange={(event) => setValues({ ...values, confirmPassword: event.target.value })}
-          type="password"
           value={values.confirmPassword}
         />
       </Field>

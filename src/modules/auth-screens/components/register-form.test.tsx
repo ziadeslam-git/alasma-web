@@ -86,10 +86,37 @@ describe('RegisterForm', () => {
     expect(sent.calls).toBe(0);
   });
 
-  it('shows the password rule hint', () => {
+  it('shows the live password checklist (it replaced the static hint) and updates it while typing', async () => {
     render(<RegisterForm />);
 
-    expect(screen.getByText(text.passwordHint)).toBeInTheDocument();
+    const met = (rule: string) =>
+      screen.getByText(rule).closest('li')?.getAttribute('data-met') === 'true';
+
+    expect(screen.getByText(text.passwordRulesTitle)).toBeInTheDocument();
+    expect(met(text.passwordRuleLength)).toBe(false);
+
+    await user.type(document.querySelector<HTMLElement>('[name="password"]')!, 'Abcdefgh1');
+
+    expect(met(text.passwordRuleUpper)).toBe(true);
+    expect(met(text.passwordRuleLower)).toBe(true);
+    expect(met(text.passwordRuleDigit)).toBe(true);
+    expect(met(text.passwordRuleLength)).toBe(false);
+    expect(screen.queryByText(/10 أحرف على الأقل، وتحتوي/)).not.toBeInTheDocument();
+  });
+
+  it('has a show/hide button on the password and the confirmation, and none that submits', async () => {
+    const sent = captureBody();
+    render(<RegisterForm />);
+
+    const toggles = screen.getAllByRole('button', { name: text.showPassword });
+
+    expect(toggles).toHaveLength(2);
+
+    await user.click(toggles[0]!);
+
+    expect(document.querySelector('[name="password"]')).toHaveAttribute('type', 'text');
+    expect(document.querySelector('[name="confirmPassword"]')).toHaveAttribute('type', 'password');
+    expect(sent.calls).toBe(0);
   });
 
   it('rejects a confirmation that does not match', async () => {

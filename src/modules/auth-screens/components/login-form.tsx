@@ -16,6 +16,7 @@ import { useToast } from '@/shared/ui/toast';
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
 import { isSafeRedirectPath, validateLogin } from '../validation';
 import styles from './form.module.css';
+import { PasswordInput } from './password-input';
 
 const fieldOrder = ['email', 'password'] as const;
 
@@ -117,12 +118,11 @@ export function LoginForm() {
         />
       </Field>
       <Field error={errors.password} label={text.password} required>
-        <Input
+        <PasswordInput
           autoComplete="current-password"
           disabled={isDisabled}
           name="password"
           onChange={(event) => setValues({ ...values, password: event.target.value })}
-          type="password"
           value={values.password}
         />
       </Field>

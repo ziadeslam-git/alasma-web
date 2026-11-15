@@ -12,6 +12,18 @@ export type ValidationErrors<T> = Partial<Record<keyof T, string>>;
 // No symbol is required. The login form never checks these: an older account may predate a rule change.
 export const PASSWORD_MIN_LENGTH = 10;
 export const PASSWORD_MAX_LENGTH = 128;
+
+// The four rules as checks, shared by validateNewPassword and the live checklist (PasswordRequirements), so the two
+// can never drift apart. The maximum length is enforced at submit only.
+export const passwordRuleChecks = {
+  length: (password: string) => password.length >= PASSWORD_MIN_LENGTH,
+  upper: (password: string) => /\p{Lu}/u.test(password),
+  lower: (password: string) => /\p{Ll}/u.test(password),
+  digit: (password: string) => /[0-9]/.test(password),
+} as const;
+export type PasswordRuleId = keyof typeof passwordRuleChecks;
+export const passwordRuleOrder: readonly PasswordRuleId[] = ['length', 'upper', 'lower', 'digit'];
+
 const FULL_NAME_MIN_LENGTH = 2;
 const FULL_NAME_MAX_LENGTH = 150;
 const EMAIL_MAX_LENGTH = 256;
@@ -46,7 +58,7 @@ function validateNewPassword(password: string, messages: RegisterMessages) {
     return messages.required;
   }
 
-  if (password.length < PASSWORD_MIN_LENGTH) {
+  if (!passwordRuleChecks.length(password)) {
     return messages.passwordTooShort;
   }
 
@@ -54,15 +66,15 @@ function validateNewPassword(password: string, messages: RegisterMessages) {
     return messages.passwordTooLong;
   }
 
-  if (!/\p{Ll}/u.test(password)) {
+  if (!passwordRuleChecks.lower(password)) {
     return messages.passwordNeedsLower;
   }
 
-  if (!/\p{Lu}/u.test(password)) {
+  if (!passwordRuleChecks.upper(password)) {
     return messages.passwordNeedsUpper;
   }
 
-  return /[0-9]/.test(password) ? undefined : messages.passwordNeedsDigit;
+  return passwordRuleChecks.digit(password) ? undefined : messages.passwordNeedsDigit;
 }
 
 export function validateLogin(

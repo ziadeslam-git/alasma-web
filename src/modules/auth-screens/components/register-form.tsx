@@ -15,6 +15,8 @@ import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
 import { validateRegister } from '../validation';
 import styles from './form.module.css';
+import { NewPasswordField } from './new-password-field';
+import { PasswordInput } from './password-input';
 
 const fieldOrder = ['fullName', 'email', 'phone', 'password', 'confirmPassword', 'terms'] as const;
 
@@ -131,23 +133,19 @@ export function RegisterForm() {
           value={values.phone}
         />
       </Field>
-      <Field error={errors.password} hint={text.passwordHint} label={text.password} required>
-        <Input
-          autoComplete="new-password"
-          disabled={isSubmitting}
-          name="password"
-          onChange={(event) => setValues({ ...values, password: event.target.value })}
-          type="password"
-          value={values.password}
-        />
-      </Field>
+      <NewPasswordField
+        disabled={isSubmitting}
+        error={errors.password}
+        label={text.password}
+        onChange={(password) => setValues({ ...values, password })}
+        value={values.password}
+      />
       <Field error={errors.confirmPassword} label={text.confirmPassword} required>
-        <Input
+        <PasswordInput
           autoComplete="new-password"
           disabled={isSubmitting}
           name="confirmPassword"
           onChange={(event) => setValues({ ...values, confirmPassword: event.target.value })}
-          type="password"
           value={values.confirmPassword}
         />
       </Field>

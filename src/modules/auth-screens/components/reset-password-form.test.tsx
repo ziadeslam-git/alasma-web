@@ -34,6 +34,24 @@ beforeEach(() => {
 });
 
 describe('ResetPasswordForm', () => {
+  it('has show/hide buttons on both fields and a live checklist instead of the old hint', async () => {
+    render(<ResetPasswordForm />);
+    await screen.findByRole('heading', { level: 1, name: text.resetTitle });
+
+    expect(screen.getAllByRole('button', { name: text.showPassword })).toHaveLength(2);
+    expect(screen.getByText(text.passwordRulesTitle)).toBeInTheDocument();
+    expect(screen.getByText('استوفيت 0 من 4 شروط')).toBeInTheDocument();
+
+    await user.type(field('password'), 'Abc');
+
+    expect(screen.getByText('استوفيت 2 من 4 شروط')).toBeInTheDocument();
+
+    await user.click(screen.getAllByRole('button', { name: text.showPassword })[0]!);
+
+    expect(field('password')).toHaveAttribute('type', 'text');
+    expect(field('confirmPassword')).toHaveAttribute('type', 'password');
+  });
+
   it('removes the token from the URL after mount', async () => {
     render(<ResetPasswordForm />);
     await screen.findByRole('heading', { level: 1, name: text.resetTitle });
