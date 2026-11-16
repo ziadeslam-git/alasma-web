@@ -10,11 +10,11 @@
   display: flex;
   container-type: inline-size;
   align-items: center;
-  gap: var(--space-2);
-  max-inline-size: 1200px;
+  gap: 28px;
+  max-inline-size: 1280px;
   min-block-size: 68px;
   margin-inline: auto;
-  padding-inline: var(--space-6);
+  padding-inline: var(--space-8);
 }
 
 .skipLink {
@@ -47,7 +47,8 @@
   block-size: 42px;
 }
 
-.search {
+.search,
+.searchSlot {
   position: relative;
   flex: 1;
   min-inline-size: 0;
@@ -81,21 +82,30 @@
 
 .links {
   margin-inline-start: auto;
-  gap: 0;
+  gap: 6px;
   flex: none;
 }
 
 .links a,
 .links [data-feature] {
-  padding: var(--space-2) var(--space-1);
+  padding: 9px 11px;
   border-radius: var(--radius-pill);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  line-height: 1;
   white-space: nowrap;
 }
 
-.links [data-feature] {
-  gap: var(--space-1);
+/* A deferred link keeps its "soon" label, but as a small tag on its corner instead of text in the row: eight
+   links with inline labels do not fit one header line. */
+.links [data-feature] [data-soon-badge],
+.actions [data-feature] [data-soon-badge] {
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-end: -2px;
+  min-block-size: 14px;
+  padding-inline: 5px;
+  font-size: 9px;
 }
 
 .actions {
@@ -151,12 +161,6 @@
   color: var(--primary);
 }
 
-@container (width <= 1000px) {
-  .actions [data-feature] {
-    display: none;
-  }
-}
-
 @media (width <= 1000px) {
   .wrap {
     min-block-size: 60px;
@@ -167,6 +171,19 @@
   .links,
   .actions {
     display: none;
+  }
+
+  /* the search slot renders its own round button here */
+  .searchSlot {
+    display: contents;
+  }
+
+  .searchSlot form {
+    display: none;
+  }
+
+  .searchSlot > button {
+    display: grid;
   }
 
   .logo {

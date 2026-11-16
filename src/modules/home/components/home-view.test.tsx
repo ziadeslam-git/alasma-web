@@ -133,10 +133,12 @@ describe('HomeView', () => {
       'home-editor-pick',
       'home-most-popular',
       'home-team-picks',
-      'home-banners',
-      'home-quotes',
-      'home-newsletter',
     ] as const;
+
+    // the campaign placeholders are not in the design (the newsletter lives in the footer), so the home does not render them
+    for (const feature of ['home-banners', 'home-quotes', 'home-newsletter']) {
+      expect(container.querySelector(`[data-feature="${feature}"]`)).toBeNull();
+    }
 
     for (const feature of expectedSoonFeatures) {
       const gate = container.querySelector<HTMLElement>(`[data-feature="${feature}"]`);

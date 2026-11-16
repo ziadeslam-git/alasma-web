@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { BookCard, type BookCardItem } from '@/modules/catalog';
+import { BookMiniCard, type BookCardItem } from '@/modules/catalog';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Icon } from '@/shared/ui/icon';
 
@@ -18,6 +18,9 @@ export type HomeBooksShelfProps = {
   viewAllHref: string;
   viewAllLabel: string;
 };
+
+// One row of the design's ".new5" grid: five cards.
+const SHELF_SIZE = 5;
 
 // REAL book shelf (used for both GET /books/new-arrivals and GET /books/featured).
 // Uses CSS grid on desktop/tablet and CSS scroll-snap horizontal swipe on mobile (<= 760px), with zero JS.
@@ -49,9 +52,9 @@ export function HomeBooksShelf({
 
       {result.status === 'ok' ? (
         <div className={styles.shelf}>
-          {result.items.map((book, index) => (
+          {result.items.slice(0, SHELF_SIZE).map((book, index) => (
             <div className={styles.item} key={book.id}>
-              <BookCard book={book} priority={prioritizeFirstCover && index === 0} />
+              <BookMiniCard book={book} priority={prioritizeFirstCover && index === 0} />
             </div>
           ))}
         </div>

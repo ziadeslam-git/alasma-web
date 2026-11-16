@@ -20,6 +20,7 @@
   "search": {
     "title": "البحث عن الكتب",
     "close": "إغلاق البحث",
+    "open": "بحث",
     "idle": "اكتب حرفين للبحث",
     "loading": "جارٍ البحث",
     "empty": "لا توجد نتائج",
@@ -722,7 +723,7 @@
     "currency": "ج.م",
     "discountBadge": "خصم {percent}%",
     "newBadge": "جديد",
-    "featuredBadge": "الأكثر مبيعاً",
+    "featuredBadge": "مميز",
     "stock": {
       "inStock": "متاح",
       "lowStock": "كمية محدودة",
@@ -1007,11 +1008,6 @@
       "placeholderQuote": "مراجعات قصيرة وترشيحات من فريق التحرير في دار الأسمى."
     },
     "campaigns": {
-      "heading": "مزايا قادمة في الرئيسية",
-      "bannersTitle": "لوحة العروض والحملات",
-      "bannersDescription": "مساحة العروض الموسمية والحملات الترويجية الخاصة بالدار.",
-      "quoteTitle": "اقتباس اليوم",
-      "quoteDescription": "سطر يومي منتقى من أمهات الكتب وإصدارات الدار.",
       "newsletterTitle": "النشرة البريدية الأسبوعية",
       "newsletterDescription": "اشترك لتصلك ترشيحات الكتب وأخبار الإصدارات الجديدة.",
       "newsletterPlaceholder": "بريدك الإلكتروني",

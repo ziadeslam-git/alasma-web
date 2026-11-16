@@ -9,14 +9,13 @@ const TRENDING_SLOTS = [1, 2, 3, 4, 5] as const;
 const TEAM_PICK_SLOTS = [1, 2, 3] as const;
 
 // All non-delivered Main.dc.html sections, rendered dimmed and inert through FeatureGate with zero fake book data and
-// zero live links: Editor's Pick (.spot), Trending/Most Popular (.band/.trend), Team Picks (.picks), plus the
-// remaining home campaign features (home-banners, home-quotes, home-newsletter).
+// zero live links: Editor's Pick (.spot), Trending/Most Popular (.band/.trend), Team Picks (.picks).
+// (The campaign placeholders that are not in the design were removed; their features stay registered as soon.)
 export function HomeSoonSections() {
   const soonLabel = messages.site.soon;
   const spotlight = messages.home.spotlight;
   const trending = messages.home.trending;
   const teamPicks = messages.home.teamPicks;
-  const campaigns = messages.home.campaigns;
 
   return (
     <>
@@ -126,38 +125,6 @@ export function HomeSoonSections() {
             ))}
           </div>
         </FeatureGate>
-      </section>
-
-      <section aria-labelledby="home-campaigns-heading" className={styles.wrapSection}>
-        <h2 className={styles.sectionHeading} id="home-campaigns-heading">
-          {campaigns.heading}
-        </h2>
-        <div className={styles.campaignsGrid}>
-          <FeatureGate feature="home-banners" label={soonLabel}>
-            <div className={styles.campaignCard}>
-              <h3 className={styles.campaignTitle}>{campaigns.bannersTitle}</h3>
-              <p className={styles.campaignDescription}>{campaigns.bannersDescription}</p>
-            </div>
-          </FeatureGate>
-
-          <FeatureGate feature="home-quotes" label={soonLabel}>
-            <div className={styles.campaignCard}>
-              <h3 className={styles.campaignTitle}>{campaigns.quoteTitle}</h3>
-              <p className={styles.campaignDescription}>{campaigns.quoteDescription}</p>
-            </div>
-          </FeatureGate>
-
-          <FeatureGate feature="home-newsletter" label={soonLabel}>
-            <div className={styles.campaignCard}>
-              <h3 className={styles.campaignTitle}>{campaigns.newsletterTitle}</h3>
-              <p className={styles.campaignDescription}>{campaigns.newsletterDescription}</p>
-              <div className={styles.newsletterRow}>
-                <span className={styles.newsletterField}>{campaigns.newsletterPlaceholder}</span>
-                <span className={styles.newsletterButton}>{campaigns.newsletterSubmit}</span>
-              </div>
-            </div>
-          </FeatureGate>
-        </div>
       </section>
     </>
   );

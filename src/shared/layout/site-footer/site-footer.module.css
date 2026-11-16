@@ -5,16 +5,20 @@
 }
 
 .wrap {
-  max-inline-size: 1200px;
+  max-inline-size: 1280px;
   margin-inline: auto;
-  padding-inline: var(--space-6);
+  padding-inline: var(--space-8);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1.4fr;
   gap: var(--space-10);
-  padding-block: var(--space-12) var(--space-8);
+  padding-block: 52px 36px;
+}
+
+.brand p {
+  max-inline-size: 34ch;
 }
 
 .brand {
@@ -31,6 +35,7 @@
 }
 
 .brand p,
+.newsletterText,
 .links a,
 .links [data-feature] > span:first-child,
 .bottom {
@@ -54,6 +59,36 @@
   color: var(--primary);
 }
 
+.newsletterText {
+  margin: 0 0 var(--space-3);
+}
+
+.newsletter {
+  display: grid;
+  gap: 10px;
+}
+
+.newsletterField {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--pg);
+  color: var(--ink-subtle);
+  font-size: 14px;
+}
+
+.newsletterButton {
+  display: grid;
+  place-items: center;
+  block-size: 46px;
+  border-radius: 12px;
+  background: var(--g);
+  color: var(--surface);
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .bottom {
   display: flex;
   flex-wrap: wrap;
@@ -70,6 +105,10 @@
 }
 
 @media (width <= 760px) {
+  .wrap {
+    padding-inline: var(--space-4);
+  }
+
   .grid {
     grid-template-columns: 1fr;
     gap: var(--space-6);

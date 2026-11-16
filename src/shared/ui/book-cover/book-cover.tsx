@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 import { SafeImage } from '@/shared/ui/safe-image';
 
 import styles from './book-cover.module.css';
@@ -38,14 +42,19 @@ export function BookCover({
   title,
   variantKey,
 }: BookCoverProps) {
+  // An image that fails to load (or a host next/image refuses) falls back to the designed cover, never a blank tile.
+  const [hasImageFailed, setHasImageFailed] = useState(false);
   const coverClassName = [styles.cover, className].filter(Boolean).join(' ');
 
-  if (imageUrl) {
+  if (imageUrl && !hasImageFailed) {
+    // A real cover image is the whole cover: it takes the book's radius and shadow but not the designed cover's
+    // padding, frame or background.
     return (
       <SafeImage
         alt={title}
         aspectRatio="2 / 3"
-        className={coverClassName}
+        className={[styles.image, className].filter(Boolean).join(' ')}
+        onError={() => setHasImageFailed(true)}
         priority={priority}
         src={imageUrl}
         width={400}

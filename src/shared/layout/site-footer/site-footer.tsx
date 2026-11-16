@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { routes, staticPageRoute } from '@/shared/config/routes';
-import { FeatureLink } from '@/shared/ui/soon';
+import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import styles from './site-footer.module.css';
 
@@ -34,6 +34,7 @@ const helpLinks = [
 export function SiteFooter(props: SiteFooterProps) {
   void props;
   const text = messages.site;
+  const newsletter = messages.home.campaigns;
   const year = new Date().getFullYear();
 
   return (
@@ -42,7 +43,7 @@ export function SiteFooter(props: SiteFooterProps) {
         <div className={styles.grid}>
           <section className={styles.brand}>
             <Link aria-label={text.brand} className={styles.logo} href={routes.home}>
-              <Image alt={text.brand} height={168} src="/logo-alasma.svg" unoptimized width={208} />
+              <Image alt={text.brand} height={52} src="/logo-alasma.svg" unoptimized width={64} />
             </Link>
             <p>{text.footer.description}</p>
           </section>
@@ -71,6 +72,17 @@ export function SiteFooter(props: SiteFooterProps) {
                 </FeatureLink>
               ))}
             </nav>
+          </section>
+          <section>
+            <h2>{newsletter.newsletterTitle}</h2>
+            <p className={styles.newsletterText}>{newsletter.newsletterDescription}</p>
+            {/* The newsletter has no backend yet: dimmed and inert through the "soon" rule, no request. */}
+            <FeatureGate feature="home-newsletter" label={text.soon}>
+              <div className={styles.newsletter}>
+                <span className={styles.newsletterField}>{newsletter.newsletterPlaceholder}</span>
+                <span className={styles.newsletterButton}>{newsletter.newsletterSubmit}</span>
+              </div>
+            </FeatureGate>
           </section>
         </div>
         <div className={styles.bottom}>

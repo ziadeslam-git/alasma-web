@@ -38,9 +38,9 @@ describe('SiteHeader', () => {
       'href',
       '/cart',
     );
-    expect(document.querySelector('[data-feature="notifications-center"]')).toHaveAttribute(
-      'inert',
-    );
+    // the bell and the language switch are not in the design's header, so they are not rendered at all
+    expect(document.querySelector('[data-feature="notifications-center"]')).toBeNull();
+    expect(document.querySelector('[data-feature="language-switch-en"]')).toBeNull();
     expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
     expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
     expect(screen.getByRole('link', { name: messages.site.header.authors })).toHaveAttribute(

@@ -103,15 +103,47 @@
   color: var(--danger-ink);
 }
 
+/* The floating action pill of the design (.sc__bar): hidden until the card is hovered or holds focus. Touch screens
+   have no hover, so there it stays visible, because add-to-cart must stay reachable. */
 .actions {
+  position: absolute;
+  z-index: 7;
+  inset-block-end: 14px;
+  inset-inline-start: 50%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  padding-block: var(--space-2);
-  padding-inline: var(--space-3);
-  border-block-start: 1px solid var(--hair);
-  background: var(--card);
+  gap: 6px;
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 90%);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 14px 26px -8px rgb(0 36 33 / 40%),
+    0 0 0 1px rgb(0 71 67 / 8%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(50%, 10px);
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    opacity 0.2s;
+}
+
+.card:hover .actions,
+.card:focus-within .actions {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(50%, 0);
+}
+
+@media (hover: none) {
+  /* smaller, so the always-visible pill does not cover a two-column cover */
+  .actions {
+    inset-block-end: 8px;
+    gap: 4px;
+    padding: 4px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(50%, 0);
+  }
 }
 
 .actionButton {
@@ -121,13 +153,24 @@
   block-size: var(--space-10);
   padding: 0;
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: 50%;
   background: var(--green-100);
   color: var(--green-700);
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 600;
   line-height: 1;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.15s;
+}
+
+.actionButton:hover:not(:disabled) {
+  background: var(--green-700);
+  color: var(--cream-200);
+  transform: translateY(-2px);
 }
 
 .notifyButton {
@@ -203,6 +246,13 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
+}
+
+@media (hover: none) {
+  .actionButton {
+    inline-size: 34px;
+    block-size: 34px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

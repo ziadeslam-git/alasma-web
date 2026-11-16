@@ -171,8 +171,12 @@ describe('getHomeData and HomeView', () => {
 
     const { container } = render(<HomeView data={data} />);
     const featured = sample<BookCardItem[]>('books-featured.json');
-    for (const book of featured) {
-      expect(screen.getAllByRole('link', { name: book.title }).length).toBeGreaterThan(0);
+    // the home shelves show one row of five (the design's .new5 grid)
+    for (const book of featured.slice(0, 5)) {
+      // the home shelves use the mini card, whose single link's name is the title followed by the author and the price
+      expect(
+        screen.getAllByRole('link', { name: (name) => name.includes(book.title) }).length,
+      ).toBeGreaterThan(0);
     }
     for (const category of sample<CategoryNode[]>('categories-tree.json')) {
       expect(screen.getAllByText(category.name).length).toBeGreaterThan(0);

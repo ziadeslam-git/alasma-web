@@ -40,7 +40,7 @@
   margin: 0;
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: clamp(28px, 3.6vw, 44px);
+  font-size: 46px;
   font-weight: 700;
   line-height: 1.3;
 }

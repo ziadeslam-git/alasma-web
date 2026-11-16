@@ -320,78 +320,6 @@
   line-height: 1.5;
 }
 
-/* Remaining home campaign slots (home-banners, home-quotes, home-newsletter). */
-.campaignsGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-6);
-  margin-block-start: var(--space-5);
-}
-
-.campaignCard {
-  display: grid;
-  align-content: start;
-  gap: var(--space-3);
-  min-block-size: 100%;
-  padding: var(--space-6);
-  border-radius: var(--radius-lg);
-  background: var(--card);
-  box-shadow: var(--shadow-card);
-}
-
-.campaignTitle {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.campaignDescription {
-  margin: 0;
-  color: var(--ink-muted);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.newsletterRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-block-start: var(--space-1);
-}
-
-.newsletterField {
-  display: inline-flex;
-  flex: 1;
-  align-items: center;
-  min-inline-size: 140px;
-  block-size: 42px;
-  padding-inline: var(--space-4);
-  border: 1px solid var(--hair);
-  border-radius: var(--radius-md);
-  background: var(--pg);
-  color: var(--ink-subtle);
-  font-family: var(--font-sans);
-  font-size: 13px;
-}
-
-.newsletterButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  block-size: 42px;
-  padding-inline: var(--space-5);
-  border-radius: var(--radius-md);
-  background: var(--g);
-  color: var(--surface);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-}
-
 @media (width <= 1000px) {
   .wrapSection,
   .bandWrap {
@@ -399,8 +327,7 @@
   }
 
   .spot,
-  .picksGrid,
-  .campaignsGrid {
+  .picksGrid {
     grid-template-columns: minmax(0, 1fr);
   }
 

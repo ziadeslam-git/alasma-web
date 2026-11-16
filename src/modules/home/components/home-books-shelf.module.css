@@ -70,6 +70,19 @@
   min-inline-size: 0;
 }
 
+/* Tile tints of the design's mini cards, cycled. */
+.item:nth-child(5n + 2) {
+  --tile: var(--cream-100);
+}
+
+.item:nth-child(5n + 3) {
+  --tile: var(--brass-100);
+}
+
+.item:nth-child(5n + 4) {
+  --tile: var(--green-200);
+}
+
 @media (width <= 1000px) {
   .section {
     padding-inline: var(--space-4);

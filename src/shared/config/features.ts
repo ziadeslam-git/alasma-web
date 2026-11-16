@@ -29,7 +29,7 @@ export const features = {
   'search-tab-authors': 'soon', // Authors tab in search results.
   'search-tab-events': 'soon', // Events tab in search results.
 
-  // Home and campaigns
+  // Home page sections (home-banners and home-quotes are not rendered by the home page any more: not in the design)
   'home-banners': 'soon', // Promotional banner area on the home design.
   'home-quotes': 'soon', // Quote section on the home design.
   'home-events': 'soon', // Events section on the home design.

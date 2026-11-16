@@ -35,10 +35,6 @@ export function BookGrid({
           <div key={index} aria-hidden="true" className={styles.skeletonCard}>
             <div className={styles.skeletonFigure}>
               <Skeleton className={styles.skeletonCover} shape="block" />
-              <div className={styles.skeletonActions}>
-                <Skeleton className={styles.skeletonActionCircle} shape="circle" size="sm" />
-                <Skeleton className={styles.skeletonActionCircle} shape="circle" size="sm" />
-              </div>
             </div>
             <div className={styles.skeletonBody}>
               <Skeleton shape="line" size="sm" />

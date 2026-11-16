@@ -58,4 +58,13 @@ describe('SiteFooter', () => {
 
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it('keeps the newsletter column dimmed and inert with the soon label and no form controls', () => {
+    const { container } = render(<SiteFooter />);
+
+    const gate = container.querySelector('[data-feature="home-newsletter"]');
+    expect(gate).toHaveAttribute('inert');
+    expect(gate).toHaveTextContent(messages.site.soon);
+    expect(gate!.querySelector('input, button, a')).toBeNull();
+  });
 });

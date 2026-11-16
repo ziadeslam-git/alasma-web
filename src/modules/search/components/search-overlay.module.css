@@ -1,21 +1,161 @@
+/* The inline search field of the header (".nav__search" in design/site.css). Its own descendants are styled here so the
+   header does not need to know the markup. */
+.trigger {
+  position: relative;
+  display: block;
+}
+
+.trigger svg {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--space-4);
+  color: var(--ink-muted);
+  translate: 0 -50%;
+}
+
+.trigger input {
+  inline-size: 100%;
+  block-size: 44px;
+  padding-inline: 46px 18px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--pg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.trigger input::placeholder {
+  color: var(--ink-subtle);
+}
+
+/* ".nav__sbtn": the round search button. Hidden by default; the header shows it (and hides the field) on small screens. */
+.openButton {
+  display: none;
+  flex: none;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--pg);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* The dialog, after ".sx__*": a green-outlined pill field, white result rows and a dark-green "all results" pill. */
+.bar {
+  display: block;
+}
+
+.field {
+  position: relative;
+  display: block;
+}
+
+.field svg {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--space-4);
+  color: var(--green-700);
+  translate: 0 -50%;
+}
+
+.field input {
+  inline-size: 100%;
+  block-size: 44px;
+  padding-inline: 46px var(--space-4);
+  border: 2px solid var(--green-700);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.field input:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--green-100);
+}
+
 .status {
   margin-block: var(--space-3);
   color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 .results {
   display: grid;
   gap: var(--space-2);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.results a {
-  display: block;
-  padding: var(--space-2);
+.item {
+  cursor: pointer;
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.item[aria-selected='true'] {
+  outline: 2px solid var(--green-700);
+}
+
+.itemLink {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px var(--space-3);
   color: var(--ink);
 }
 
-.results [aria-selected='true'] {
-  background: var(--surface-sunken);
+.thumb {
+  inline-size: 38px;
+  min-block-size: 54px;
+  border-radius: 3px 6px 6px 3px;
+  box-shadow: 0 6px 10px -4px rgb(0 36 33 / 40%);
+}
+
+.itemTitle {
+  overflow: hidden;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.all {
+  display: flex;
+  inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-block-start: var(--space-3);
+  padding: 14px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--green-800);
+  color: var(--surface);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.all:hover {
+  background: var(--green-700);
+}
+
+.all:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }

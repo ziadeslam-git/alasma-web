@@ -65,7 +65,7 @@ export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
           />
         </Link>
         {search ? (
-          <div className={styles.search}>{search}</div>
+          <div className={styles.searchSlot}>{search}</div>
         ) : (
           <form action={routes.books} className={styles.search} method="get" role="search">
             <Icon name="search" />
@@ -121,14 +121,6 @@ export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
               </span>
             </FeatureLink>
           )}
-          <FeatureGate feature="notifications-center" label={text.soon}>
-            <span aria-label={text.header.notifications} className={styles.iconLink}>
-              <Icon name="bell" />
-            </span>
-          </FeatureGate>
-          <FeatureGate feature="language-switch-en" label={text.soon}>
-            <span className={styles.language}>{text.header.english}</span>
-          </FeatureGate>
           {accountArea ?? guestLinks}
         </div>
         <MobileNavMenu
