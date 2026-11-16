@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 import { CLOUDINARY_CLOUD_NAME } from './src/shared/config/cloudinary';
+import { getDevAllowedOrigins } from './src/shared/config/dev-allowed-origins';
 import { getApiRewrites } from './src/shared/config/api-rewrites';
 import { getDevImageHosts } from './src/shared/config/dev-image-hosts';
 import { buildSecurityHeaders } from './src/shared/config/security-headers';
@@ -13,6 +14,8 @@ const nextConfig: NextConfig = {
   // Set only by the e2e dev server (playwright.config.ts) so it can run next to the owner's own `next dev`: Next allows
   // one dev server per output folder. Unset (the normal case) keeps the default .next.
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
+  // Development only (empty in production): lets a phone on the LAN hydrate pages served by `next dev`.
+  allowedDevOrigins: getDevAllowedOrigins(),
   images: {
     remotePatterns: [
       {

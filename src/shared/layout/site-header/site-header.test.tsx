@@ -41,7 +41,6 @@ describe('SiteHeader', () => {
     // the bell and the language switch are not in the design's header, so they are not rendered at all
     expect(document.querySelector('[data-feature="notifications-center"]')).toBeNull();
     expect(document.querySelector('[data-feature="language-switch-en"]')).toBeNull();
-    expect(document.querySelector('[data-feature="publish-packages"]')).toHaveAttribute('inert');
     expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
     expect(screen.getByRole('link', { name: messages.site.header.authors })).toHaveAttribute(
       'href',
@@ -51,18 +50,31 @@ describe('SiteHeader', () => {
       'href',
       '/categories',
     );
-    for (const feature of ['publish-packages']) {
-      const entries = container.querySelectorAll(`[data-feature="${feature}"]`);
-      expect(entries.length).toBeGreaterThan(0);
-      entries.forEach((entry) => {
-        expect(entry).toHaveAttribute('inert');
-        expect(entry.querySelector('a')).toBeNull();
-        expect(entry).toHaveTextContent(messages.site.soon);
-      });
+    // Task 62: soon destinations are left out of the header navigation, not shown dimmed with a badge
+    const nav = screen.getByRole('navigation', { name: messages.site.header.home });
+    expect(nav.querySelector('[data-feature]')).toBeNull();
+    expect(nav.querySelector('[data-soon-badge]')).toBeNull();
+    for (const label of [
+      messages.site.header.bestSellers,
+      messages.site.header.offers,
+      messages.site.header.events,
+      messages.site.header.publishPackages,
+    ]) {
+      expect(within(nav).queryByText(label)).toBeNull();
     }
+    expect(
+      within(nav)
+        .getAllByRole('link')
+        .map((link) => link.textContent),
+    ).toEqual([
+      messages.site.header.home,
+      messages.site.header.store,
+      messages.site.header.authors,
+      messages.site.header.categories,
+    ]);
   });
 
-  it('keeps unfinished destinations inert in the mobile menu', async () => {
+  it('leaves unfinished destinations out of the mobile menu', async () => {
     const user = userEvent.setup();
     render(<SiteHeader />);
     await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
@@ -78,15 +90,9 @@ describe('SiteHeader', () => {
     expect(
       within(dialog).getByRole('link', { name: messages.site.header.categories }),
     ).toHaveAttribute('href', '/categories');
-    for (const feature of ['publish-packages']) {
-      const entries = dialog.querySelectorAll(`[data-feature="${feature}"]`);
-      expect(entries.length).toBeGreaterThan(0);
-      entries.forEach((entry) => {
-        expect(entry).toHaveAttribute('inert');
-        expect(entry.querySelector('a')).toBeNull();
-        expect(entry).toHaveTextContent(messages.site.soon);
-      });
-    }
+    // Task 62: the menu leaves soon destinations out too
+    expect(dialog.querySelector('[data-feature="publish-packages"]')).toBeNull();
+    expect(within(dialog).queryByText(messages.site.header.publishPackages)).toBeNull();
   });
 
   it('uses an account slot instead of the guest links', () => {

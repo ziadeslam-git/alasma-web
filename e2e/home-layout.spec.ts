@@ -54,6 +54,46 @@ for (const width of widths) {
       .count();
     expect(cardCounts).toBeLessThanOrEqual(5);
 
+    // the cover is the mini card too: each image fills its 2:3 box
+    const shelfImages = page.locator('section[aria-labelledby^="home-"] a[href^="/books/"] img');
+    for (let index = 0; index < (await shelfImages.count()); index += 1) {
+      // below-the-fold images are lazy: bring each one into view before waiting for it
+      await shelfImages.nth(index).scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          shelfImages.nth(index).evaluate((element: HTMLImageElement) => element.naturalWidth),
+        )
+        .toBeGreaterThan(0);
+    }
+    const shelfFills = await shelfImages.evaluateAll((elements) =>
+      elements.map((element) => {
+        const box = element.closest('a')!.firstElementChild as HTMLElement;
+        const a = element.getBoundingClientRect();
+        const b = box.getBoundingClientRect();
+        return {
+          dx: Math.abs(a.width - b.width),
+          dy: Math.abs(a.height - b.height),
+          ratio: b.height / b.width,
+        };
+      }),
+    );
+    expect(shelfFills.length).toBeGreaterThan(0);
+    for (const fill of shelfFills) {
+      expect(fill.dx).toBeLessThan(1);
+      expect(fill.dy).toBeLessThan(1);
+      expect(Math.abs(fill.ratio - 1.5)).toBeLessThan(0.02);
+    }
+
+    // phone tab bar: it never covers the last line of the page (the footer keeps room for it)
+    if (width <= 760) {
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+      const bar = await page.locator('nav[class*="appBar"]').boundingBox();
+      const last = await page.locator('footer').locator('span').last().boundingBox();
+      expect(bar).not.toBeNull();
+      expect(last!.y + last!.height).toBeLessThanOrEqual(bar!.y);
+      await page.evaluate(() => window.scrollTo(0, 0));
+    }
+
     // footer: four columns on wide screens (brand, explore, help, newsletter)
     const footerSections = page.locator('footer section');
     await expect(footerSections).toHaveCount(4);

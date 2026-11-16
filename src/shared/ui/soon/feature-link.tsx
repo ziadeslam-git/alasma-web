@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { useIsFeatureLive } from '@/shared/config/feature-flags';
 import type { FeatureKey } from '@/shared/config/features';
 
-import { FeatureGate } from './soon';
+import { FeatureGate, type SoonDisplay } from './soon';
 
 type FeatureLinkProps = {
   children: ReactNode;
@@ -15,6 +15,7 @@ type FeatureLinkProps = {
   href: string;
   label: string;
   current?: 'page' | 'true' | undefined;
+  whenSoon?: SoonDisplay;
 };
 
 export function FeatureLink({
@@ -24,11 +25,12 @@ export function FeatureLink({
   href,
   label,
   current,
+  whenSoon,
 }: FeatureLinkProps) {
   const isFeatureLive = useIsFeatureLive(feature);
 
   return (
-    <FeatureGate badge="inline" feature={feature} label={label}>
+    <FeatureGate badge="inline" feature={feature} label={label} whenSoon={whenSoon}>
       {isFeatureLive ? (
         <Link aria-current={current} className={className} href={href}>
           {children}

@@ -2,6 +2,7 @@ import { Fragment, type CSSProperties, type ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { AddToCartButton } from '@/modules/cart';
+import { isLive, type FeatureKey } from '@/shared/config/features';
 import { authorRoute, categoryRoute, routes } from '@/shared/config/routes';
 import { formatDiscountBadge, formatMoney, formatNumber, formatYear } from '@/shared/lib/format';
 import { Breadcrumbs, type BreadcrumbItem } from '@/shared/ui/breadcrumbs';
@@ -13,6 +14,12 @@ import type { BookCardItem, BookDetails } from '../types';
 import { BookDetailsCover } from './book-details-cover';
 import { BookGrid } from './book-grid';
 import styles from './book-details-view.module.css';
+
+const extraOptionFeatures: readonly FeatureKey[] = [
+  'book-sample-pdf',
+  'book-short-link',
+  'book-report-error',
+];
 
 export type BookDetailsViewProps = {
   book: BookDetails;
@@ -51,6 +58,10 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
   // The rating row exists only for a book that really has ratings (the API sends null / 0 otherwise).
   const rating =
     book.ratingCount > 0 && typeof book.ratingAverage === 'number' ? book.ratingAverage : undefined;
+
+  // "خيارات إضافية" holds only soon actions today (none has a destination or handler), so the heading and its column
+  // are dropped while none of them is live, leaving no orphaned heading or empty grid track.
+  const hasExtraOptions = extraOptionFeatures.some(isLive);
 
   const hasDiscount = book.discountPercent > 0 && book.finalPrice < book.price;
   const isOutOfStock = book.stockStatus === 'OutOfStock';
@@ -119,25 +130,26 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
 
       <section aria-labelledby="book-title" className={styles.hero}>
         <div className={styles.figureColumn}>
-          <div className={styles.coverContainer}>
-            <div className={styles.coverInner}>
-              <BookDetailsCover
-                author={authorNames || undefined}
-                imageUrl={book.coverImageUrl}
-                title={book.title}
-                variantKey={book.slug}
-              />
-            </div>
+          {/* Task 70: the cover fills a 2:3 frame edge to edge, like the book card (Task 61). Sample and share are soon
+              and hidden here (whenSoon="hide") rather than shown dimmed. */}
+          <div className={styles.coverFrame}>
+            <BookDetailsCover
+              author={authorNames || undefined}
+              className={styles.cover}
+              imageUrl={book.coverImageUrl}
+              title={book.title}
+              variantKey={book.slug}
+            />
           </div>
 
           <div className={styles.coverActions}>
-            <FeatureGate feature="book-sample-pdf" label={soonLabel}>
+            <FeatureGate feature="book-sample-pdf" label={soonLabel} whenSoon="hide">
               <button className={styles.actionLink} disabled type="button">
                 <Icon name="eye" size="sm" />
                 <span>{text.actions.sample}</span>
               </button>
             </FeatureGate>
-            <FeatureGate feature="book-short-link" label={soonLabel}>
+            <FeatureGate feature="book-short-link" label={soonLabel} whenSoon="hide">
               <button className={styles.actionLink} disabled type="button">
                 <Icon name="share" size="sm" />
                 <span>{text.actions.share}</span>
@@ -285,7 +297,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               </>
             )}
 
-            <FeatureGate feature="wishlist-heart" label={soonLabel}>
+            <FeatureGate feature="wishlist-heart" label={soonLabel} whenSoon="hide">
               <button
                 aria-label={messages.catalog.addToWishlist.replace('{title}', book.title)}
                 className={`${styles.optionBtn} ${styles.iconAction}`}
@@ -312,7 +324,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
 
       {specRows.length > 0 ? (
         <section aria-labelledby="specs-heading" className={styles.specsSection}>
-          <div className={styles.specsLayout}>
+          <div className={hasExtraOptions ? styles.specsLayout : undefined}>
             <div>
               <h2 className={styles.sectionHeading} id="specs-heading">
                 {text.specs.heading}
@@ -337,27 +349,29 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               ) : null}
             </div>
 
-            <div className={styles.extraOptions}>
-              <h2 className={styles.sectionHeading}>{text.extraOptions.heading}</h2>
-              <FeatureGate feature="book-sample-pdf" label={soonLabel}>
-                <button className={styles.optionBtn} disabled type="button">
-                  <Icon name="eye" size="sm" />
-                  <span>{text.extraOptions.samplePdf}</span>
-                </button>
-              </FeatureGate>
-              <FeatureGate feature="book-short-link" label={soonLabel}>
-                <button className={styles.optionBtn} disabled type="button">
-                  <Icon name="share" size="sm" />
-                  <span>{text.extraOptions.shortLink}</span>
-                </button>
-              </FeatureGate>
-              <FeatureGate feature="book-report-error" label={soonLabel}>
-                <button className={styles.actionLink} disabled type="button">
-                  <Icon name="help" size="sm" />
-                  <span>{text.extraOptions.reportError}</span>
-                </button>
-              </FeatureGate>
-            </div>
+            {hasExtraOptions ? (
+              <div className={styles.extraOptions}>
+                <h2 className={styles.sectionHeading}>{text.extraOptions.heading}</h2>
+                <FeatureGate feature="book-sample-pdf" label={soonLabel} whenSoon="hide">
+                  <button className={styles.optionBtn} disabled type="button">
+                    <Icon name="eye" size="sm" />
+                    <span>{text.extraOptions.samplePdf}</span>
+                  </button>
+                </FeatureGate>
+                <FeatureGate feature="book-short-link" label={soonLabel} whenSoon="hide">
+                  <button className={styles.optionBtn} disabled type="button">
+                    <Icon name="share" size="sm" />
+                    <span>{text.extraOptions.shortLink}</span>
+                  </button>
+                </FeatureGate>
+                <FeatureGate feature="book-report-error" label={soonLabel} whenSoon="hide">
+                  <button className={styles.actionLink} disabled type="button">
+                    <Icon name="help" size="sm" />
+                    <span>{text.extraOptions.reportError}</span>
+                  </button>
+                </FeatureGate>
+              </div>
+            ) : null}
           </div>
         </section>
       ) : null}

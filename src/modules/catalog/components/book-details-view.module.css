@@ -35,20 +35,29 @@
   align-items: center;
 }
 
-.coverContainer {
-  inline-size: 100%;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, var(--green-900), var(--green-950));
-  display: grid;
-  place-items: center;
-  padding-block: 12%;
-  box-shadow: var(--shadow-book-lift);
+/* Task 70 (approved deviation from design/, as Task 61): the frame is a 2:3 box that the cover fills edge to edge, the
+   same rule as the book card. The frame owns the radius and the shadow; the cover inside is square-cornered and flat. */
+.coverFrame {
+  position: relative;
   overflow: hidden;
+  inline-size: 100%;
+  max-inline-size: 420px;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-book-lift);
 }
 
-.coverInner {
-  inline-size: 54%;
-  max-inline-size: 300px;
+.coverFrame .cover {
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.coverFrame .cover :global(img) {
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .coverActions {
@@ -57,6 +66,10 @@
   gap: var(--space-6);
   font-size: 13px;
   color: var(--ink-muted);
+}
+
+.coverActions:empty {
+  display: none;
 }
 
 .actionLink {

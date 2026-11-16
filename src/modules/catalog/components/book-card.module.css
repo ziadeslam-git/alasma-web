@@ -6,37 +6,41 @@
   background: transparent;
 }
 
+/* The cover IS the card (Task 61): the figure is a 2:3 box that the cover image fills edge to edge. The radius and the
+   shadow belong to the figure, so they follow the image; the cover inside is square-cornered and flat. */
 .figure {
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  background: var(--card);
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  background: var(--surface-sunken);
   box-shadow: var(--shadow-card);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s;
+}
+
+.card:hover .figure {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
 }
 
 .top {
-  position: relative;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  padding-block: 12% 10%;
-  padding-inline: 0;
-  background: var(--card);
+  display: block;
+  block-size: 100%;
 }
 
-.cover {
-  z-index: 1;
-  inline-size: 58%;
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+/* Beats the cover's own radius, shadow and inline size (same ratio, so the designed fallback fills the same box). */
+.figure .cover {
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .outOfStock .cover {
   filter: grayscale(0.9);
   opacity: 0.75;
-}
-
-.card:hover .cover {
-  transform: translateY(-4px) scale(1.02);
 }
 
 .badges {
@@ -256,11 +260,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cover {
+  .figure {
     transition: none;
   }
 
-  .card:hover .cover {
+  .card:hover .figure {
     transform: none;
   }
 }

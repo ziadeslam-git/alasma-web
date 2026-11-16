@@ -13,8 +13,8 @@ export type BookMiniCardProps = {
   priority?: boolean;
 };
 
-// The compact card of the home shelves (".mini" in design/site.css): a tinted tile with the cover, then title, author
-// and price. Everything shown comes from the API item; the tile tint is decoration only (it cycles in CSS).
+// The compact card of the home shelves (".mini" in design/site.css): the cover itself is the card (Task 61), then title,
+// author and price. Everything shown comes from the API item.
 export function BookMiniCard({ book, priority = false }: BookMiniCardProps) {
   const text = messages.catalog;
   const hasDiscount = book.discountPercent > 0 && book.finalPrice < book.price;

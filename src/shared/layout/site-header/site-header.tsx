@@ -28,8 +28,9 @@ function DeferredLink({
   label: string;
   inline?: boolean;
 }) {
+  // Header and menu: a soon destination is left out, not shown dimmed (Task 62). The footer keeps its soon entry.
   return (
-    <FeatureLink feature={feature} href={href} label={messages.site.soon}>
+    <FeatureLink feature={feature} href={href} label={messages.site.soon} whenSoon="hide">
       {label}
     </FeatureLink>
   );
@@ -80,10 +81,10 @@ export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
         <nav aria-label={text.header.home} className={styles.links}>
           <Link href={routes.home}>{text.header.home}</Link>
           <Link href={routes.books}>{text.header.store}</Link>
-          <FeatureGate badge="inline" feature="home-most-popular" label={text.soon}>
+          <FeatureGate badge="inline" feature="home-most-popular" label={text.soon} whenSoon="hide">
             <span>{text.header.bestSellers}</span>
           </FeatureGate>
-          <FeatureGate badge="inline" feature="offers-bundles" label={text.soon}>
+          <FeatureGate badge="inline" feature="offers-bundles" label={text.soon} whenSoon="hide">
             <span>{text.header.offers}</span>
           </FeatureGate>
           <DeferredLink
@@ -92,7 +93,7 @@ export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
             inline
             label={text.header.authors}
           />
-          <FeatureGate badge="inline" feature="home-events" label={text.soon}>
+          <FeatureGate badge="inline" feature="home-events" label={text.soon} whenSoon="hide">
             <span>{text.header.events}</span>
           </FeatureGate>
           <DeferredLink

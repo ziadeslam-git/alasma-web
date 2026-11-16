@@ -12,43 +12,78 @@
   }
 }
 
+/* The phone tab bar after design/site.css (its last cascade): a cream floating bar with green icons; the current page
+   gets a filled green circle behind its icon. */
 @media (width <= 760px) {
   .appBar {
     position: fixed;
     z-index: 80;
-    inset-inline: var(--space-3);
-    inset-block-end: var(--space-3);
+    inset-inline: 14px;
+    inset-block-end: calc(14px + env(safe-area-inset-bottom));
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     align-items: center;
-    min-block-size: 68px;
-    padding-inline: var(--space-2);
-    border-radius: var(--radius-xl);
-    background: var(--surface-brand);
-    box-shadow: var(--shadow-lg);
+    block-size: 72px;
+    padding-inline: 6px;
+    border: 1px solid rgb(0 71 67 / 8%);
+    border-radius: 26px;
+    background: var(--cream-50);
+    box-shadow:
+      0 18px 34px -14px rgb(0 50 46 / 35%),
+      0 2px 8px rgb(0 50 46 / 8%);
   }
 
   .appBar a,
   .appBar [data-feature] {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-1);
-    min-block-size: 60px;
-    color: var(--on-brand-muted);
-    font-size: 11px;
+    justify-content: flex-start;
+    gap: 9px;
+    min-block-size: 62px;
+    padding-block-start: 12px;
+    color: var(--g);
+    font-family: var(--font-sans);
+    font-size: 10.5px;
     font-weight: 600;
+    line-height: 1;
   }
 
-  .appBar [aria-current='page'] {
-    color: var(--on-brand);
+  .appBar a {
+    opacity: 0.68;
   }
 
-  .appBar [aria-current='page'] svg {
-    padding: var(--space-1);
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--surface-brand);
+  /* a deferred item is dimmed by the soon rule; its label sits inside the bar, not over the icon */
+  .appBar [data-feature] > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .appBar [data-soon-badge] {
+    position: absolute;
+    inset-block: 2px auto;
+    inset-inline-end: 2px;
+    min-block-size: 14px;
+    padding-inline: 5px;
+    font-size: 9px;
+  }
+
+  .appBar a[aria-current='page'] {
+    gap: 12px;
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  .appBar a[aria-current='page'] svg {
+    box-sizing: content-box;
+    margin-block: -9px;
+    padding: 9px;
+    border-radius: 50%;
+    background: var(--g);
+    box-shadow: 0 10px 18px -6px rgb(0 71 67 / 55%);
+    color: var(--cream-50);
   }
 }

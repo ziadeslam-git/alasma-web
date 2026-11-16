@@ -17,8 +17,13 @@ export type SoonProps = {
   label: string;
 };
 
+// 'badge' (default) shows a soon feature dimmed with the label; 'hide' renders nothing for it, for places where a
+// dimmed placeholder only adds clutter (Tasks 62 and 70). Going live restores the element either way.
+export type SoonDisplay = 'badge' | 'hide';
+
 export type FeatureGateProps = {
   badge?: SoonBadgePosition;
+  whenSoon?: SoonDisplay;
   children: ReactNode;
   fallback?: ReactNode;
   feature: FeatureKey;
@@ -44,6 +49,7 @@ export function FeatureGate({
   fallback = null,
   feature,
   label,
+  whenSoon = 'badge',
 }: FeatureGateProps) {
   const state = useResolvedFeatureState(feature);
   if (state === 'hidden') {
@@ -51,6 +57,10 @@ export function FeatureGate({
   }
 
   if (state === 'soon') {
+    if (whenSoon === 'hide') {
+      return fallback;
+    }
+
     return (
       <Soon badge={badge} feature={feature} label={label}>
         {children}

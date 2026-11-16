@@ -256,4 +256,31 @@ describe('BookDetailsView', () => {
     rerender(<BookDetailsView book={sampleBook} relatedBooks={[]} />);
     expect(screen.queryByText(messages.catalog.detail.related.heading)).toBeNull();
   });
+
+  it('leaves the soon actions out of the page and keeps add to cart (Task 70)', () => {
+    const detail = messages.catalog.detail;
+    const { container } = render(<BookDetailsView book={sampleBook} />);
+
+    for (const feature of [
+      'wishlist-heart',
+      'book-sample-pdf',
+      'book-short-link',
+      'book-report-error',
+    ]) {
+      expect(container.querySelector(`[data-feature="${feature}"]`)).toBeNull();
+    }
+    for (const label of [
+      detail.actions.sample,
+      detail.actions.share,
+      detail.extraOptions.heading,
+      detail.extraOptions.samplePdf,
+      detail.extraOptions.shortLink,
+      detail.extraOptions.reportError,
+    ]) {
+      expect(screen.queryByText(label)).toBeNull();
+    }
+    expect(container.querySelector('[data-soon-badge]')).toBeNull();
+    expect(screen.getByRole('button', { name: sampleBook.title })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: detail.specs.heading })).toBeInTheDocument();
+  });
 });

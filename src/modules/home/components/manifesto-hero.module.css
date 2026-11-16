@@ -210,14 +210,34 @@
   opacity: 0.28;
 }
 
+/* The design stretches the 2400-unit wave over TWICE the hero width (".mf__wave": width 200%) and drifts it by half
+   of that, which is exactly one wave period, so the loop is seamless. Squeezing it into 100% (the old rule) made the
+   crests four times narrower than the design on a phone.
+   Task 71: the reset caps every svg at max-inline-size 100%, so the "200%" wave was only one hero wide and the drift
+   uncovered a growing strip at the physical left. The cap is lifted here, and only the start (right, in RTL) inset is
+   set: with both insets the box was over-constrained. The wave spans [-100%, 100%] at rest and drifts to [0, 200%],
+   so the hero is covered at every point of the loop and with reduced motion. */
 .wave {
   position: absolute;
   z-index: 2;
   inset-block-end: -1px;
-  inset-inline: 0;
-  inline-size: 100%;
+  inset-inline-start: 0;
+  inline-size: 200%;
+  max-inline-size: none;
   block-size: 90px;
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wave {
+    animation: wave-drift 18s linear infinite;
+  }
+}
+
+@keyframes wave-drift {
+  to {
+    transform: translateX(50%);
+  }
 }
 
 .wavePath {

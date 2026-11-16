@@ -105,6 +105,11 @@
 }
 
 @media (width <= 760px) {
+  /* The fixed tab bar (72px + 14px gap) must never cover the last line of the page. */
+  .footer {
+    padding-block-end: calc(112px + env(safe-area-inset-bottom));
+  }
+
   .wrap {
     padding-inline: var(--space-4);
   }

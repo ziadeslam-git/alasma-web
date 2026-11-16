@@ -17,7 +17,7 @@ test.skip(!isRealApiEnabled, realApiSkipReason);
 test.describe.configure({ mode: 'serial' });
 test.use({ baseURL: webOrigin });
 
-const widths = [360, 768, 1280, 1920] as const;
+const widths = [360, 390, 768, 1280, 1920] as const;
 const MAX_CONTENT_WIDTH = 1280;
 
 type ApiBook = {
@@ -98,6 +98,46 @@ for (const width of widths) {
     } else {
       await expect(cover).toContainText(book.title);
     }
+
+    // Task 70: the frame is 2:3 and the cover (image or designed fallback) fills it edge to edge, with no inset
+    const fill = await page.evaluate(() => {
+      const frame = document.querySelector('[class*="coverFrame"]');
+      const inner = frame?.firstElementChild;
+      const media = inner?.querySelector('img') ?? inner;
+      if (!frame || !media) return null;
+      const f = frame.getBoundingClientRect();
+      const m = media.getBoundingClientRect();
+      return {
+        ratio: f.width / f.height,
+        dx: Math.abs(f.width - m.width),
+        dy: Math.abs(f.height - m.height),
+      };
+    });
+    expect(fill).not.toBeNull();
+    expect(fill!.ratio).toBeCloseTo(2 / 3, 2);
+    expect(fill!.dx).toBeLessThanOrEqual(1);
+    expect(fill!.dy).toBeLessThanOrEqual(1);
+
+    // Task 70: the soon actions are left out of the page, and add to cart still works
+    for (const feature of [
+      'wishlist-heart',
+      'book-sample-pdf',
+      'book-short-link',
+      'book-report-error',
+    ]) {
+      await expect(hero.locator(`[data-feature="${feature}"]`)).toHaveCount(0);
+    }
+    await expect(
+      page.locator(
+        'main [data-feature="book-report-error"], main [data-feature="book-short-link"]',
+      ),
+    ).toHaveCount(0);
+    await expect(page.getByText('خيارات إضافية')).toHaveCount(0);
+    const addToCart = hero.getByRole('button', { name: book.title });
+    await expect(addToCart).toBeEnabled();
+    // a visitor is sent to login with a return path (the cart needs a session); the button keeps that behaviour
+    await addToCart.click();
+    await expect(page).toHaveURL(/\/login\?next=/);
 
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   });

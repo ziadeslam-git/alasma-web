@@ -6,21 +6,21 @@
   text-decoration: none;
 }
 
+/* The cover is the card (Task 61): a 2:3 box the image fills, with the radius and shadow on the box. */
 .box {
   position: relative;
-  display: grid;
-  place-items: center;
   overflow: hidden;
-  padding-block: 9%;
+  aspect-ratio: 2 / 3;
   border-radius: 14px;
-  background: var(--tile, var(--green-100));
+  background: var(--surface-sunken);
   box-shadow: var(--shadow-card);
 }
 
-/* The tile tint is decoration only; the shelf sets --tile per item (the design varies it per book). */
-.cover {
-  z-index: 1;
-  inline-size: 56%;
+.box .cover {
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .tag {

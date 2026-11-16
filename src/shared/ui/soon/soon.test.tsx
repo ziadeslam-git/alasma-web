@@ -69,6 +69,26 @@ describe('FeatureGate', () => {
     expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
     stateSpy.mockRestore();
   });
+
+  it('renders nothing for a soon feature when asked to hide it, and the children once it is live', () => {
+    const stateSpy = vi.spyOn(featureConfig, 'getFeatureState').mockReturnValue('soon');
+    const { container, rerender } = render(
+      <FeatureGate feature="wishlist-heart" label="Soon" whenSoon="hide">
+        <span>Deferred</span>
+      </FeatureGate>,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+
+    stateSpy.mockReturnValue('live');
+    rerender(
+      <FeatureGate feature="home-events" label="Soon" whenSoon="hide">
+        <span>Deferred</span>
+      </FeatureGate>,
+    );
+    expect(screen.getByText('Deferred')).toBeInTheDocument();
+    stateSpy.mockRestore();
+  });
 });
 
 describe('FeatureLink', () => {

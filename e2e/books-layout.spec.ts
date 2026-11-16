@@ -67,24 +67,39 @@ for (const width of widths) {
     );
     expect(columns).toBe(width <= 1000 ? 2 : 4);
 
-    // a loaded cover image fills the cover: no frame of the designed cover around it
-    const image = page.locator('article img').first();
-    if ((await image.count()) > 0) {
+    // the cover IS the card: every loaded image fills its 2:3 figure edge to edge (no inset, no white tile), and the
+    // radius and shadow belong to the figure
+    const images = page.locator('article img');
+    const imageCount = await images.count();
+    expect(imageCount).toBeGreaterThan(0);
+    for (let index = 0; index < imageCount; index += 1) {
+      // below-the-fold images are lazy: bring each one into view before waiting for it
+      await images.nth(index).scrollIntoViewIfNeeded();
       await expect
-        .poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth))
+        .poll(() => images.nth(index).evaluate((element: HTMLImageElement) => element.naturalWidth))
         .toBeGreaterThan(0);
-      const sizes = await image.evaluate((element) => {
-        const wrapper = element.parentElement!;
+    }
+    const fills = await images.evaluateAll((elements) =>
+      elements.map((element) => {
+        const figure = element.closest('article')!.firstElementChild as HTMLElement;
         const a = element.getBoundingClientRect();
-        const b = wrapper.getBoundingClientRect();
+        const b = figure.getBoundingClientRect();
+        const style = getComputedStyle(figure);
         return {
-          image: a.width,
-          wrapper: b.width,
-          background: getComputedStyle(wrapper).paddingInlineStart,
+          dx: Math.abs(a.width - b.width),
+          dy: Math.abs(a.height - b.height),
+          ratio: b.height / b.width,
+          radius: parseFloat(style.borderTopLeftRadius),
+          shadow: style.boxShadow,
         };
-      });
-      expect(Math.abs(sizes.image - sizes.wrapper)).toBeLessThan(1);
-      expect(sizes.background).toBe('0px');
+      }),
+    );
+    for (const fill of fills) {
+      expect(fill.dx).toBeLessThan(1);
+      expect(fill.dy).toBeLessThan(1);
+      expect(Math.abs(fill.ratio - 1.5)).toBeLessThan(0.02);
+      expect(fill.radius).toBeGreaterThan(0);
+      expect(fill.shadow).not.toBe('none');
     }
 
     // the action pill is hidden until hover (pointer devices), then shows add-to-cart
