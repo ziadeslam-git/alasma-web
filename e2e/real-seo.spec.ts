@@ -3,13 +3,16 @@ import { resolve } from 'node:path';
 
 import { expect, test } from '@playwright/test';
 
-// Opt-in real-API proof for book page JSON-LD, canonical URL and sitemap index/chunks.
-// Skipped unless E2E_REAL_API=1. Credentials are not needed.
+// Opt-in real-API proof for book page JSON-LD, canonical URL, sitemap index/chunks, and the raw-HTML <h1> count of a
+// real book page. Skipped unless E2E_REAL_API=1 (the skip reason below is printed in the CI log). The spec spawns its own
+// API on E2E_API_PORT and needs no externally started one. Credentials are not needed.
 const isEnabled = process.env.E2E_REAL_API === '1';
 const apiPort = Number(process.env.E2E_API_PORT ?? 5391);
 const apiDir = resolve(process.env.E2E_API_DIR ?? '../AlAsmaPro');
 const apiOrigin = `http://localhost:${apiPort}`;
 const webOrigin = 'http://localhost:3101';
+
+const countH1 = (html: string) => (html.match(/<h1[\s>]/g) ?? []).length;
 
 test.skip(!isEnabled, 'Set E2E_REAL_API=1 to run against the real API.');
 test.describe.configure({ mode: 'serial' });
@@ -123,4 +126,18 @@ test('/sitemap.xml lists at least one chunk and /books/[slug] renders valid Book
   expect(offer?.['@type']).toBe('Offer');
   expect(typeof offer?.price).toBe('number');
   expect(offer?.priceCurrency).toBe('EGP');
+});
+
+// Moved here from raw-html.spec.ts, where it silently needed an API on 127.0.0.1:5198. It reads the RAW server HTML
+// (what crawlers get) of the first book of the spawned API. The malformed-slug, skeleton and 404 checks stay there.
+test('a real book page has exactly one <h1> in the raw HTML', async ({ request }) => {
+  const list = await request.get(`${apiOrigin}/api/v1/books`, { timeout: 15_000 });
+  expect(list.ok()).toBe(true);
+  const { items } = (await list.json()) as { items: { slug: string }[] };
+  const slug = items[0]?.slug;
+  expect(slug).toBeTruthy();
+
+  const response = await request.get(`/books/${encodeURIComponent(slug ?? '')}`);
+  expect(response.status()).toBe(200);
+  expect(countH1(await response.text())).toBe(1);
 });

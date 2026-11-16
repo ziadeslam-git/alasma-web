@@ -3,9 +3,6 @@ import { expect, test } from '@playwright/test';
 
 import messages from '../src/i18n/messages/ar.json';
 
-// Same default as the app (AGENTS.md: API_ORIGIN defaults to http://127.0.0.1:5198).
-const apiOrigin = process.env.API_ORIGIN ?? 'http://127.0.0.1:5198';
-
 const countH1 = (html: string) => (html.match(/<h1[\s>]/g) ?? []).length;
 
 // These assertions read the RAW server HTML (what crawlers get), not the hydrated DOM.
@@ -33,17 +30,8 @@ for (const path of rejectedPaths) {
   });
 }
 
-test('a real book page has exactly one <h1> in the raw HTML', async ({ request }) => {
-  const list = await request.get(`${apiOrigin}/api/v1/books`, { timeout: 15_000 });
-  expect(list.ok()).toBe(true);
-  const { items } = (await list.json()) as { items: { slug: string }[] };
-  const slug = items[0]?.slug;
-  expect(slug).toBeTruthy();
-
-  const response = await request.get(`/books/${slug}`);
-  expect(response.status()).toBe(200);
-  expect(countH1(await response.text())).toBe(1);
-});
+// "A real book page has exactly one <h1>" needs a real API, so it lives in real-seo.spec.ts (gated by E2E_REAL_API=1,
+// spawning its own API). Nothing in this file may need an API to be running.
 
 test('the 404 of an unknown book slug has exactly one <h1> in the raw HTML', async ({
   request,
