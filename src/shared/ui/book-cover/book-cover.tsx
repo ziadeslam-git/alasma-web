@@ -4,6 +4,8 @@ import styles from './book-cover.module.css';
 
 export type BookCoverProps = {
   as?: 'article' | 'div';
+  // Shown under the title on the designed (no image) cover. Cards do not pass it and keep the decorative line.
+  author?: string;
   className?: string;
   imageUrl?: string | null;
   priority?: boolean;
@@ -29,6 +31,7 @@ export function getBookCoverVariant(variantKey: string) {
 
 export function BookCover({
   as: Root = 'article',
+  author,
   className,
   imageUrl,
   priority = false,
@@ -59,7 +62,11 @@ export function BookCover({
     >
       <span aria-hidden="true" className={styles.line} />
       <b className={styles.title}>{title}</b>
-      <span aria-hidden="true" className={styles.authorLine} />
+      {author ? (
+        <span className={styles.authorName}>{author}</span>
+      ) : (
+        <span aria-hidden="true" className={styles.authorLine} />
+      )}
     </Root>
   );
 }

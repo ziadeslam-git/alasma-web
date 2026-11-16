@@ -54,6 +54,13 @@
   opacity: 0.9;
 }
 
+.authorName {
+  font-size: 8cqw;
+  font-weight: 500;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
 .title {
   font-family: var(--font-display);
   font-size: 14cqw;

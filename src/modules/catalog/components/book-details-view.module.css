@@ -2,7 +2,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  padding-block: var(--space-4) var(--space-12);
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding-block: var(--space-5) var(--space-12);
+  padding-inline: var(--space-8);
+}
+
+@media (width <= 1000px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
 }
 
 .hero {
@@ -69,7 +78,7 @@
 
 .title {
   font-family: var(--font-sans);
-  font-size: 36px;
+  font-size: 44px;
   font-weight: 700;
   line-height: 1.3;
   color: var(--ink);
@@ -108,6 +117,22 @@
   color: var(--ink-muted);
 }
 
+/* Gold stars filled to --rating of 5 (the API's ratingAverage); the track is the unfilled part. */
+.stars {
+  --rating: 0;
+
+  display: inline-block;
+  inline-size: 80px;
+  block-size: 16px;
+  background: linear-gradient(
+    to left,
+    var(--star) calc(var(--rating) / 5 * 100%),
+    var(--green-200) 0
+  );
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m8 1 2.1 4.4 4.9.7-3.5 3.4.8 4.8L8 11.900 3.700 14.300l.8-4.800L1 6.100l4.900-.7z'/%3E%3C/svg%3E")
+    0 0 / 16px 16px repeat-x;
+}
+
 .priceBlock {
   display: flex;
   align-items: baseline;
@@ -119,7 +144,7 @@
 
 .finalPrice {
   font-family: var(--font-sans);
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 700;
   color: var(--ink);
 }
@@ -155,11 +180,12 @@
 }
 
 .formatOption {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-3);
-  border: 1px solid var(--line);
+  padding: 14px var(--space-4);
+  border: 1.5px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface);
   text-align: center;
@@ -167,18 +193,28 @@
 
 .formatSelected {
   border-color: var(--primary);
-  background: var(--green-50);
+  background: var(--green-100);
+}
+
+.formatBadge {
+  position: absolute;
+  inset-block-start: -9px;
+  inset-inline-end: 10px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .formatTitle {
   font-weight: 600;
   font-size: 14px;
+  line-height: 1.3;
   color: var(--ink);
-}
-
-.formatPrice {
-  font-size: 13px;
-  color: var(--ink-muted);
 }
 
 .stockStatus {
@@ -223,34 +259,6 @@
   margin-block-start: var(--space-2);
 }
 
-.qtyPicker {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  block-size: 44px;
-}
-
-.qtyBtn {
-  border: 0;
-  background: none;
-  padding-inline: var(--space-3);
-  cursor: pointer;
-  color: var(--ink);
-}
-
-.qtyValue {
-  padding-inline: var(--space-2);
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.primaryAction {
-  flex: 1;
-  min-inline-size: 150px;
-}
-
 .trustRow {
   display: flex;
   gap: var(--space-5);
@@ -266,8 +274,7 @@
 }
 
 .specsSection {
-  padding-block: var(--space-8) var(--space-4);
-  border-block-start: 1px solid var(--line);
+  padding-block: var(--space-8) var(--space-2);
 }
 
 .specsLayout {
@@ -298,7 +305,7 @@
   padding: var(--space-2) var(--space-6);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
 }
 
@@ -328,32 +335,6 @@
   border-block-end: 0;
 }
 
-.tagChips {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  margin-block-start: var(--space-4);
-}
-
-.chip {
-  display: inline-flex;
-  block-size: 34px;
-  align-items: center;
-  padding-inline: var(--space-3);
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  text-decoration: none;
-}
-
-.chip:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
 .extraOptions {
   display: grid;
   gap: var(--space-3);
@@ -376,12 +357,39 @@
   cursor: pointer;
 }
 
-.reviewsSection {
-  padding-block: var(--space-8) var(--space-4);
-  border-block-start: 1px solid var(--line);
+.relatedSection {
+  padding-block: var(--space-8) var(--space-2);
 }
 
-.relatedSection {
-  padding-block: var(--space-8) var(--space-4);
-  border-block-start: 1px solid var(--line);
+/* Actions: the primary one is the filled brand button, "buy now" the outlined one, the heart a square icon button. */
+.primaryAction,
+.secondaryAction {
+  flex: 1;
+  min-block-size: 52px;
+  font-weight: 600;
+}
+
+.primaryAction {
+  min-inline-size: 150px;
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: 0 8px 16px -8px var(--overlay);
+}
+
+.primaryAction:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.secondaryAction {
+  min-inline-size: 130px;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.iconAction {
+  flex: none;
+  inline-size: 52px;
+  min-block-size: 52px;
+  padding: 0;
 }

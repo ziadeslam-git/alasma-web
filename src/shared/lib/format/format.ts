@@ -31,6 +31,18 @@ export function formatNumber(value: number): string {
 }
 
 /**
+ * Formats a calendar year with Latin digits and NO thousands separator (2020, never "2,020").
+ * - Only a finite whole number is a year; anything else (NaN, a fraction, Infinity) returns '—' (U+2014 em dash).
+ */
+export function formatYear(value: number): string {
+  if (typeof value !== 'number' || !Number.isInteger(value)) {
+    return FALLBACK_DASH;
+  }
+
+  return String(value);
+}
+
+/**
  * Formats a final API price with Latin digits followed by a space and the currency label (e.g. "120 ج.م").
  * - An integer amount displays no decimal places (e.g. "120 ج.م").
  * - An amount with a fractional part always displays exactly two decimal places (e.g. "127.50 ج.م").

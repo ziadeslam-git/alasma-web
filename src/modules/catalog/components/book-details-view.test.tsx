@@ -68,6 +68,93 @@ const sampleRelated: BookCardItem = {
   isFeatured: false,
 };
 
+describe('BookDetailsView: only what the API returns', () => {
+  const text = messages.catalog.detail;
+
+  it('shows no rating row and no invented numbers when ratingCount is 0', () => {
+    const { container } = render(
+      <BookDetailsView book={{ ...sampleBook, ratingAverage: null, ratingCount: 0 }} />,
+    );
+
+    expect(screen.queryByRole('img', { name: /التقييم/ })).toBeNull();
+    expect(container).not.toHaveTextContent('4.8');
+    expect(container).not.toHaveTextContent('2,400');
+    expect(container).not.toHaveTextContent('تقييم');
+  });
+
+  it('hides the rating when there is a count but no average (and the reverse)', () => {
+    const { container, rerender } = render(
+      <BookDetailsView book={{ ...sampleBook, ratingAverage: null, ratingCount: 5 }} />,
+    );
+
+    expect(container).not.toHaveTextContent('تقييم');
+
+    rerender(<BookDetailsView book={{ ...sampleBook, ratingAverage: 4.5, ratingCount: 0 }} />);
+
+    expect(container).not.toHaveTextContent('تقييم');
+  });
+
+  it('shows the real average and count (Latin digits) when the book has ratings', () => {
+    const { container } = render(
+      <BookDetailsView book={{ ...sampleBook, ratingAverage: 4.5, ratingCount: 1200 }} />,
+    );
+
+    expect(screen.getByRole('img', { name: 'التقييم 4.5 من 5' })).toBeInTheDocument();
+    expect(container).toHaveTextContent('4.5');
+    expect(container).toHaveTextContent('1,200 تقييم');
+  });
+
+  it.each([
+    ['Hardcover', text.specs.coverTypes.Hardcover, text.specs.coverTypes.Paperback],
+    ['Paperback', text.specs.coverTypes.Paperback, text.specs.coverTypes.Hardcover],
+  ] as const)(
+    'offers only the real cover type (%s): no other format, no per-format price',
+    (coverType, shown, other) => {
+      render(<BookDetailsView book={{ ...sampleBook, coverType }} />);
+
+      const group = screen.getByRole('group', { name: text.formats.legend });
+
+      expect(group).toHaveTextContent(shown);
+      expect(group).not.toHaveTextContent(other);
+      expect(group).not.toHaveTextContent('إلكترونية');
+      expect(group).not.toHaveTextContent(messages.catalog.currency);
+      expect(group.children).toHaveLength(1);
+    },
+  );
+
+  it('has no format group when the API sends no cover type', () => {
+    render(<BookDetailsView book={{ ...sampleBook, coverType: null }} />);
+
+    expect(screen.queryByRole('group', { name: text.formats.legend })).toBeNull();
+  });
+
+  it('writes the publish year without a thousands separator', () => {
+    render(<BookDetailsView book={{ ...sampleBook, publishYear: 2020 }} />);
+
+    const row = screen.getByRole('rowheader', { name: text.specs.publishYear }).closest('tr');
+
+    expect(row).toHaveTextContent('2020');
+    expect(row).not.toHaveTextContent('2,020');
+  });
+
+  it('renders none of the sections the API does not support (reviews, bundle, author bio, tags)', () => {
+    const { container } = render(<BookDetailsView book={sampleBook} />);
+
+    expect(screen.queryByText('آراء القراء')).toBeNull();
+    expect(screen.queryByText('يُشترى معها')).toBeNull();
+    expect(screen.queryByText('عن المؤلف')).toBeNull();
+    expect(screen.queryByText('اكتب تقييمك')).toBeNull();
+    expect(container).not.toHaveTextContent('#الروايات');
+  });
+
+  it('shows the designed cover (title and author) when the API sends no image', () => {
+    render(<BookDetailsView book={{ ...sampleBook, coverImageUrl: null }} />);
+
+    expect(screen.getAllByText(sampleBook.title).length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText('سامي الحكيم').length).toBeGreaterThanOrEqual(2);
+  });
+});
+
 describe('BookDetailsView', () => {
   it('links author and category destinations and keeps the catalog breadcrumb live', () => {
     const { container } = render(

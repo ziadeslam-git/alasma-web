@@ -838,10 +838,7 @@
       },
       "formats": {
         "legend": "نوع الغلاف",
-        "selected": "المحدد",
-        "hardcover": "غلاف مقوى",
-        "paperback": "غلاف ورقي",
-        "ebook": "نسخة إلكترونية"
+        "selected": "المحدد"
       },
       "trust": {
         "shipping": "شحن لكل المحافظات",
@@ -878,14 +875,12 @@
         "shortLink": "نسخ الرابط المختصر",
         "reportError": "الإبلاغ عن خطأ في بيانات الكتاب"
       },
-      "reviews": {
-        "heading": "آراء القراء",
-        "summary": "بناءً على 2,400 تقييم",
-        "writeReview": "اكتب تقييمك",
-        "rating": "4.8"
+      "rating": {
+        "count": "{count} تقييم",
+        "label": "التقييم {rating} من 5"
       },
       "related": {
-        "heading": "قرّاء هذا الكتاب أحبّوا أيضًا"
+        "heading": "كتب مشابهة"
       }
     }
   },

@@ -20,6 +20,18 @@ describe('BookCover', () => {
     expect(getBookCoverVariant('book-1')).toBe(getBookCoverVariant('book-1'));
   });
 
+  it('shows the author name on the designed cover only when it is given', () => {
+    const { rerender } = render(
+      <BookCover author="سامي الحكيم" imageUrl={null} title="ظلال الحكاية" variantKey="a" />,
+    );
+
+    expect(screen.getByText('سامي الحكيم')).toBeInTheDocument();
+
+    rerender(<BookCover imageUrl={null} title="ظلال الحكاية" variantKey="a" />);
+
+    expect(screen.queryByText('سامي الحكيم')).toBeNull();
+  });
+
   it('has no accessibility violations', async () => {
     const { container } = render(<BookCover title="Book title" variantKey="book-1" />);
 

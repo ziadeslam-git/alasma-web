@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { axe } from '@/test/axe';
 
@@ -25,6 +25,17 @@ describe('SafeImage', () => {
     expect(image).toBeInTheDocument();
     fireEvent.error(image as HTMLImageElement);
     expect(screen.getByRole('img', { name: 'Cover' })).toBeInTheDocument();
+  });
+
+  it('tells the parent once when the image fails to load', () => {
+    const onError = vi.fn();
+    const { container } = render(
+      <SafeImage alt="Cover" height={150} onError={onError} src="/cover.jpg" width={100} />,
+    );
+
+    fireEvent.error(container.querySelector('img') as HTMLImageElement);
+
+    expect(onError).toHaveBeenCalledTimes(1);
   });
 
   it('renders decorative images with empty alt text and hidden semantics', () => {

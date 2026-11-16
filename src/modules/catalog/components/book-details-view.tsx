@@ -1,16 +1,16 @@
-import { Fragment, type ReactNode } from 'react';
+import { Fragment, type CSSProperties, type ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { AddToCartButton } from '@/modules/cart';
 import { authorRoute, categoryRoute, routes } from '@/shared/config/routes';
-import { formatDiscountBadge, formatMoney, formatNumber } from '@/shared/lib/format';
-import { BookCover } from '@/shared/ui/book-cover';
+import { formatDiscountBadge, formatMoney, formatNumber, formatYear } from '@/shared/lib/format';
 import { Breadcrumbs, type BreadcrumbItem } from '@/shared/ui/breadcrumbs';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Icon } from '@/shared/ui/icon';
 import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import type { BookCardItem, BookDetails } from '../types';
+import { BookDetailsCover } from './book-details-cover';
 import { BookGrid } from './book-grid';
 import styles from './book-details-view.module.css';
 
@@ -43,6 +43,15 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
   const displayAuthors = authors.length > 0 ? authors : book.authors;
   const translators = book.authors.filter((a) => a.role === 'Translator');
 
+  const authorNames = displayAuthors.map((a) => a.name).join(messages.catalog.authorSeparator);
+  const coverTypeLabel = book.coverType
+    ? (text.specs.coverTypes[book.coverType as keyof typeof text.specs.coverTypes] ??
+      book.coverType)
+    : undefined;
+  // The rating row exists only for a book that really has ratings (the API sends null / 0 otherwise).
+  const rating =
+    book.ratingCount > 0 && typeof book.ratingAverage === 'number' ? book.ratingAverage : undefined;
+
   const hasDiscount = book.discountPercent > 0 && book.finalPrice < book.price;
   const isOutOfStock = book.stockStatus === 'OutOfStock';
   const isLowStock = book.stockStatus === 'LowStock';
@@ -58,7 +67,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
     specRows.push({
       key: 'author',
       label: text.specs.author,
-      value: displayAuthors.map((a) => a.name).join(messages.catalog.authorSeparator),
+      value: authorNames,
     });
   }
 
@@ -78,18 +87,12 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
     specRows.push({
       key: 'publishYear',
       label: text.specs.publishYear,
-      value: formatNumber(book.publishYear),
+      value: formatYear(book.publishYear),
     });
   }
 
-  if (book.coverType) {
-    const coverLabel =
-      book.coverType === 'Paperback'
-        ? text.specs.coverTypes.Paperback
-        : book.coverType === 'Hardcover'
-          ? text.specs.coverTypes.Hardcover
-          : book.coverType;
-    specRows.push({ key: 'coverType', label: text.specs.coverType, value: coverLabel });
+  if (coverTypeLabel) {
+    specRows.push({ key: 'coverType', label: text.specs.coverType, value: coverTypeLabel });
   }
 
   if (book.pageCount) {
@@ -118,10 +121,9 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
         <div className={styles.figureColumn}>
           <div className={styles.coverContainer}>
             <div className={styles.coverInner}>
-              <BookCover
-                as="div"
+              <BookDetailsCover
+                author={authorNames || undefined}
                 imageUrl={book.coverImageUrl}
-                priority
                 title={book.title}
                 variantKey={book.slug}
               />
@@ -185,14 +187,19 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               </div>
             ) : null}
 
-            <FeatureGate feature="reviews-section" label={soonLabel}>
+            {rating !== undefined ? (
               <div className={styles.ratingRow}>
-                <Icon name="sparkle" size="sm" />
-                <b>{text.reviews.rating}</b>
-                <span>·</span>
-                <span>{text.reviews.summary}</span>
+                <span
+                  aria-label={text.rating.label.replace('{rating}', formatNumber(rating))}
+                  className={styles.stars}
+                  role="img"
+                  style={{ '--rating': rating } as CSSProperties}
+                />
+                <b>{formatNumber(rating)}</b>
+                <span aria-hidden="true">·</span>
+                <span>{text.rating.count.replace('{count}', formatNumber(book.ratingCount))}</span>
               </div>
-            </FeatureGate>
+            ) : null}
           </div>
 
           <div className={styles.priceBlock}>
@@ -205,24 +212,14 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
             ) : null}
           </div>
 
-          <FeatureGate feature="ebook-format" label={soonLabel}>
+          {coverTypeLabel ? (
             <div aria-label={text.formats.legend} className={styles.formatsGroup} role="group">
               <div className={`${styles.formatOption} ${styles.formatSelected}`}>
-                <b className={styles.formatTitle}>
-                  {book.coverType === 'Paperback' ? text.formats.paperback : text.formats.hardcover}
-                </b>
-                <span className={styles.formatPrice}>{formatMoney(book.finalPrice)}</span>
-              </div>
-              <div className={styles.formatOption}>
-                <b className={styles.formatTitle}>{text.formats.paperback}</b>
-                <span className={styles.formatPrice}>{formatMoney(book.finalPrice)}</span>
-              </div>
-              <div className={styles.formatOption}>
-                <b className={styles.formatTitle}>{text.formats.ebook}</b>
-                <span className={styles.formatPrice}>{formatMoney(book.finalPrice)}</span>
+                <em className={styles.formatBadge}>{text.formats.selected}</em>
+                <b className={styles.formatTitle}>{coverTypeLabel}</b>
               </div>
             </div>
-          </FeatureGate>
+          ) : null}
 
           <div className={styles.stockStatus}>
             {isOutOfStock ? (
@@ -277,7 +274,11 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
                 />
 
                 <FeatureGate feature="checkout-flow" label={soonLabel}>
-                  <button className={styles.optionBtn} disabled type="button">
+                  <button
+                    className={`${styles.optionBtn} ${styles.secondaryAction}`}
+                    disabled
+                    type="button"
+                  >
                     <span>{text.actions.buyNow}</span>
                   </button>
                 </FeatureGate>
@@ -287,7 +288,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
             <FeatureGate feature="wishlist-heart" label={soonLabel}>
               <button
                 aria-label={messages.catalog.addToWishlist.replace('{title}', book.title)}
-                className={styles.optionBtn}
+                className={`${styles.optionBtn} ${styles.iconAction}`}
                 disabled
                 type="button"
               >
@@ -309,7 +310,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
         </div>
       </section>
 
-      {specRows.length > 0 || book.categories.length > 0 ? (
+      {specRows.length > 0 ? (
         <section aria-labelledby="specs-heading" className={styles.specsSection}>
           <div className={styles.specsLayout}>
             <div>
@@ -332,22 +333,6 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
                       ))}
                     </tbody>
                   </table>
-                </div>
-              ) : null}
-
-              {book.categories.length > 0 ? (
-                <div className={styles.tagChips}>
-                  {book.categories.map((category) => (
-                    <FeatureLink
-                      key={category.id}
-                      className={styles.chip}
-                      feature="catalog-categories"
-                      href={categoryRoute(category.slug)}
-                      label={soonLabel}
-                    >
-                      #{category.name}
-                    </FeatureLink>
-                  ))}
                 </div>
               ) : null}
             </div>
@@ -376,17 +361,6 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
           </div>
         </section>
       ) : null}
-
-      <FeatureGate feature="reviews-section" label={soonLabel}>
-        <section aria-labelledby="reviews-heading" className={styles.reviewsSection}>
-          <h2 className={styles.sectionHeading} id="reviews-heading">
-            {text.reviews.heading}
-          </h2>
-          <div className={styles.specsCard}>
-            <p className={styles.description}>{text.reviews.summary}</p>
-          </div>
-        </section>
-      </FeatureGate>
 
       {relatedBooks.length > 0 ? (
         <section aria-labelledby="related-heading" className={styles.relatedSection}>

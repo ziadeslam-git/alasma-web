@@ -1,2 +1,2 @@
-export { formatDiscountBadge, formatMoney, formatNumber } from './format';
+export { formatDiscountBadge, formatMoney, formatNumber, formatYear } from './format';
 export { formatDate, formatDateTime } from './date';

@@ -32,6 +32,8 @@ type FillImageDimensions = {
 export type SafeImageProps = (AccessibleImage | DecorativeImage) &
   (FixedImageDimensions | FillImageDimensions) & {
     className?: string;
+    // Called once when the image fails to load, so a parent can swap in a designed fallback.
+    onError?: () => void;
     priority?: boolean;
     src?: string | null;
   };
@@ -43,6 +45,7 @@ export function SafeImage({
   decorative = false,
   fill = false,
   height,
+  onError,
   priority = false,
   src,
   width,
@@ -71,7 +74,10 @@ export function SafeImage({
         aria-hidden={decorative || undefined}
         fill={fill}
         height={height}
-        onError={() => setHasError(true)}
+        onError={() => {
+          setHasError(true);
+          onError?.();
+        }}
         priority={priority}
         src={src ?? ''}
         style={!fill && width && height ? { aspectRatio: `${width} / ${height}` } : undefined}

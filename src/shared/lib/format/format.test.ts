@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 
-import { formatDiscountBadge, formatMoney, formatNumber } from './format';
+import { formatDiscountBadge, formatMoney, formatNumber, formatYear } from './format';
 
 const EASTERN_ARABIC_DIGIT_PATTERN = /[\u0660-\u0669\u06F0-\u06F9]/;
 
@@ -30,6 +30,20 @@ describe('format helpers', () => {
     it('strips trailing zeros in fractional parts and rounds to at most 2 decimal places', () => {
       expect(formatNumber(12.3)).toBe('12.3');
       expect(formatNumber(12.345)).toBe('12.35');
+    });
+  });
+
+  describe('formatYear', () => {
+    it('writes a year with Latin digits and no thousands separator', () => {
+      expect(formatYear(2020)).toBe('2020');
+      expect(formatYear(1999)).toBe('1999');
+      expect(formatYear(2020)).not.toBe(formatNumber(2020));
+    });
+
+    it('returns an em dash for anything that is not a whole number', () => {
+      expect(formatYear(Number.NaN)).toBe('—');
+      expect(formatYear(Number.POSITIVE_INFINITY)).toBe('—');
+      expect(formatYear(2020.5)).toBe('—');
     });
   });
 

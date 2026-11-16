@@ -1,0 +1,4 @@
+.image {
+  border-radius: var(--radius-xs) var(--radius-sm) var(--radius-sm) var(--radius-xs);
+  box-shadow: var(--shadow-book);
+}
