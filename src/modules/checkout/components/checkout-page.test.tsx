@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 import messages from '@/i18n/messages/ar.json';
@@ -152,13 +152,17 @@ describe('checkout confirmation guard', () => {
       </CheckoutProvider>,
     );
 
+    // The page loads in stages, each behind its own requests, so each stage is awaited on its own observable signal
+    // (a single wait for the last one would have to cover the whole chain of requests within one timeout).
+    // 1. the session check and the cart come back: the step columns, and with them the place-order button, render.
+    const placeButton = await screen.findByRole('button', { name: messages.checkout.placeOrder });
+    // 2. the payment methods come back: the radio replaces the loading status.
     const paymentRadio = await screen.findByRole('radio', {
       name: messages.checkout.cashOnDelivery,
     });
     fireEvent.click(paymentRadio);
-
-    const placeButton = await screen.findByRole('button', { name: messages.checkout.placeOrder });
-    expect(placeButton).toBeEnabled();
+    // 3. the address loads and the checkout preview comes back ok: only then is the button enabled.
+    await waitFor(() => expect(placeButton).toBeEnabled());
     fireEvent.click(placeButton);
 
     const banners = await screen.findAllByRole('region', { name: messages.account.unconfirmed });
