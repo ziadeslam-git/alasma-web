@@ -63,6 +63,9 @@ test('/books syncs filters and sorting with the URL and resets page on sort chan
   expect(new URL(page.url()).searchParams.get('page')).toBeNull();
   expect(new URL(page.url()).searchParams.get('category')).toBe('novels');
 
+  // The URL updates before the soft navigation commits, and the new page's metadata (its <title>) streams in after
+  // it: wait for the title so axe audits the settled page, not the moment in between (Task 72: document-title flake).
+  await expect(page).toHaveTitle(/\S/);
   await expectNoOverflow(page);
   const axeResults = await new AxeBuilder({ page }).analyze();
   expect(axeResults.violations).toEqual([]);

@@ -1,7 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, test, type APIRequestContext } from '@playwright/test';
 
 import {
+  apiOrigin,
   isRealApiEnabled,
   realApiSkipReason,
   startRealApi,
@@ -17,6 +18,16 @@ test.use({ baseURL: webOrigin });
 
 const widths = [360, 768, 1280, 1920] as const;
 
+// The search term comes from a book the API really has (its full title), never a fixed word: a fixed word ("كتاب")
+// found nothing once the dev database held no title with it, and the "all results" button never appeared (Task 72).
+async function searchTermFromApi(request: APIRequestContext) {
+  const response = await request.get(`${apiOrigin}/api/v1/books`, { timeout: 15_000 });
+  expect(response.ok()).toBe(true);
+  const title = ((await response.json()) as { items: { title: string }[] }).items[0]?.title;
+  expect(title, 'the API returns at least one book').toBeTruthy();
+  return title!;
+}
+
 test.beforeAll(async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-1280', 'the widths are set in the test itself');
   test.setTimeout(300_000);
@@ -30,6 +41,7 @@ test.afterAll(() => {
 for (const width of widths) {
   test(`home, header, footer and search at ${width}px: one-line header, five-card shelves, styled search dialog, axe clean`, async ({
     page,
+    request,
   }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop-1280', 'the widths are set in the test itself');
     await page.setViewportSize({ width, height: 900 });
@@ -65,18 +77,23 @@ for (const width of widths) {
         )
         .toBeGreaterThan(0);
     }
-    const shelfFills = await shelfImages.evaluateAll((elements) =>
-      elements.map((element) => {
-        const box = element.closest('a')!.firstElementChild as HTMLElement;
-        const a = element.getBoundingClientRect();
-        const b = box.getBoundingClientRect();
-        return {
-          dx: Math.abs(a.width - b.width),
-          dy: Math.abs(a.height - b.height),
-          ratio: b.height / b.width,
-        };
-      }),
-    );
+    // every shelf cover fills its 2:3 box, whether it is an image or the designed fallback: measuring images only found
+    // nothing to measure when the shelf books had no cover image (Task 72)
+    const shelfFills = await page
+      .locator('section[aria-labelledby^="home-"] a[href^="/books/"]')
+      .evaluateAll((links) =>
+        links.map((link) => {
+          const box = link.firstElementChild as HTMLElement;
+          const media = (box.querySelector('img') ?? box.lastElementChild) as HTMLElement;
+          const a = media.getBoundingClientRect();
+          const b = box.getBoundingClientRect();
+          return {
+            dx: Math.abs(a.width - b.width),
+            dy: Math.abs(a.height - b.height),
+            ratio: b.height / b.width,
+          };
+        }),
+      );
     expect(shelfFills.length).toBeGreaterThan(0);
     for (const fill of shelfFills) {
       expect(fill.dx).toBeLessThan(1);
@@ -117,7 +134,7 @@ for (const width of widths) {
     await trigger.click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
-    await dialog.getByRole('combobox').fill('كتاب');
+    await dialog.getByRole('combobox').fill(await searchTermFromApi(request));
     const all = dialog.getByRole('button', { name: 'عرض كل النتائج' });
     await expect(all).toBeVisible({ timeout: 15_000 });
     const style = await all.evaluate((element) => {
@@ -140,8 +157,10 @@ for (const width of widths) {
 for (const width of [360, 1280] as const) {
   test(`search dialog at ${width}px: a result row opens the book, "all results" opens the results page`, async ({
     page,
+    request,
   }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop-1280', 'the widths are set in the test itself');
+    const term = await searchTermFromApi(request);
     await page.setViewportSize({ width, height: 900 });
 
     const open = async () => {
@@ -151,7 +170,7 @@ for (const width of [360, 1280] as const) {
         width <= 1000 ? header.getByRole('button', { name: 'بحث' }) : header.getByRole('searchbox')
       ).click();
       const dialog = page.getByRole('dialog');
-      await dialog.getByRole('combobox').fill('كتاب');
+      await dialog.getByRole('combobox').fill(term);
       return dialog;
     };
 

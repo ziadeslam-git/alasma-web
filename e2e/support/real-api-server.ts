@@ -30,6 +30,10 @@ export async function startRealApi() {
     // Not running yet; spawn our own isolated API instance.
   }
 
+  // The module stays loaded across spec files in one worker: without clearing the log, the readiness poll below matched
+  // the "Now listening on" of the PREVIOUS file's (already stopped) API and returned before this one listened, so the
+  // next spec met ECONNREFUSED (seen as a 500 on /books/zz-no-such-book, Task 72).
+  apiLog = '';
   api = spawn(
     'dotnet',
     ['run', '--project', 'src/AlAsmaPro.Api', '--no-launch-profile', '--urls', apiOrigin],

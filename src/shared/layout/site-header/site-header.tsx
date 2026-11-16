@@ -110,7 +110,12 @@ export function SiteHeader({ accountArea, search, cart }: SiteHeaderProps) {
           />
         </nav>
         <div className={styles.actions}>
-          <FeatureLink feature="wishlist-heart" label={text.soon} href={routes.home}>
+          <FeatureLink
+            feature="wishlist-heart"
+            href={routes.home}
+            label={text.soon}
+            whenSoon="hide"
+          >
             <span aria-label={text.header.wishlist} className={styles.iconLink}>
               <Icon name="heart" />
             </span>

@@ -225,7 +225,14 @@ test('logs in through the Login screen and lands on home signed in; /login then 
   await fillLogin(page, confirmed);
 
   await expect(page).toHaveURL(`${webOrigin}/`, { timeout: URL_UPDATE_TIMEOUT });
-  expect(wire.list()).toEqual(['POST /api/v1/auth/login', 'GET /api/v1/me']);
+  // Signed in, the header's mini cart loads the cart count once: exactly one GET /cart after /me (Task 72). Before, the
+  // list was read the moment the URL changed, so whether the cart load(s) were in it depended on timing, and React
+  // StrictMode in next dev sent the load twice; useCart now shares one in-flight load.
+  await expect
+    .poll(() => wire.list(), { timeout: URL_UPDATE_TIMEOUT })
+    .toEqual(['POST /api/v1/auth/login', 'GET /api/v1/me', 'GET /api/v1/cart']);
+  await page.getByRole('button', { name: messages.site.header.cart }).waitFor();
+  expect(wire.count('/cart')).toBe(1);
   expect(await hintCookie(context)).toBeDefined();
   console.log('login scenario requests:', wire.list());
 
@@ -269,7 +276,14 @@ test('a user with an unconfirmed email can sign in and sees the confirmation toa
 
   await expect(page.getByText(text.unconfirmedToast)).toBeVisible({ timeout: 30_000 });
   await expect(page).toHaveURL(`${webOrigin}/`, { timeout: URL_UPDATE_TIMEOUT });
-  expect(wire.list()).toEqual(['POST /api/v1/auth/login', 'GET /api/v1/me']);
+  // Signed in, the header's mini cart loads the cart count once: exactly one GET /cart after /me (Task 72). Before, the
+  // list was read the moment the URL changed, so whether the cart load(s) were in it depended on timing, and React
+  // StrictMode in next dev sent the load twice; useCart now shares one in-flight load.
+  await expect
+    .poll(() => wire.list(), { timeout: URL_UPDATE_TIMEOUT })
+    .toEqual(['POST /api/v1/auth/login', 'GET /api/v1/me', 'GET /api/v1/cart']);
+  await page.getByRole('button', { name: messages.site.header.cart }).waitFor();
+  expect(wire.count('/cart')).toBe(1);
   console.log('unconfirmed scenario requests:', wire.list());
 });
 
