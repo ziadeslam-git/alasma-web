@@ -12,22 +12,30 @@ export function AccountProfile({ user, children }: { user: AuthUser; children?: 
     <section className={styles.profile}>
       <h1>{text.overview}</h1>
       {!user.emailConfirmed ? <UnconfirmedEmailBanner /> : null}
+      {/* Task 73: every row is one label/value pair with the same alignment. LTR values (email, phone) are isolated in a
+          <bdi> so their direction does not flip the row's alignment to the physical left. */}
       <dl className={styles.details}>
-        <div>
+        <div className={styles.row}>
           <dt>{text.name}</dt>
           <dd>{user.fullName}</dd>
         </div>
-        <div>
+        <div className={styles.row}>
           <dt>{text.email}</dt>
-          <dd dir="ltr">{user.email}</dd>
+          <dd>
+            <bdi dir="ltr">{user.email}</bdi>
+            {user.emailConfirmed ? (
+              <span className={styles.badge} title={text.confirmed}>
+                {text.confirmedBadge}
+              </span>
+            ) : null}
+          </dd>
         </div>
-        <div>
+        <div className={styles.row}>
           <dt>{text.phone}</dt>
-          <dd dir="ltr">{user.phone ?? text.noPhone}</dd>
+          <dd>{user.phone ? <bdi dir="ltr">{user.phone}</bdi> : text.noPhone}</dd>
         </div>
       </dl>
-      {user.emailConfirmed ? <p>{text.confirmed}</p> : null}
-      {children}
+      {children ? <div className={styles.profileActions}>{children}</div> : null}
     </section>
   );
 }

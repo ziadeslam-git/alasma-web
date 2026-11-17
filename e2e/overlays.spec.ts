@@ -266,8 +266,33 @@ test.describe('reduced motion', () => {
       'none',
     );
 
+    // Measured inside the page, from the Escape keydown to the moment no dialog is shown, so the bound covers the UI
+    // only. Polling from Playwright with a 150 ms timeout also counted the key-press round trip and the poll interval,
+    // and failed on a busy machine although the dialog closed at once (Task 73 gate run).
+    // The listeners are installed (awaited) before the key press, and the result is read afterwards.
+    await page.evaluate(() => {
+      let start = 0;
+      const isOpen = () => document.querySelector('dialog[open]') !== null;
+      document.addEventListener('keydown', () => (start = performance.now()), {
+        capture: true,
+        once: true,
+      });
+      (window as unknown as { closeDelay: Promise<number> }).closeDelay = new Promise((resolve) => {
+        const observer = new MutationObserver(() => {
+          if (start > 0 && !isOpen()) {
+            observer.disconnect();
+            resolve(performance.now() - start);
+          }
+        });
+        observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+      });
+    });
     await page.keyboard.press('Escape');
 
-    await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 150 });
+    const closeDelay = await page.evaluate(
+      () => (window as unknown as { closeDelay: Promise<number> }).closeDelay,
+    );
+    expect(closeDelay).toBeLessThan(150);
+    await expect(page.getByRole('dialog')).toHaveCount(0);
   });
 });

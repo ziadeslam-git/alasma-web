@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { BookMiniCard, type BookCardItem } from '@/modules/catalog';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Icon } from '@/shared/ui/icon';
+import { RetryButton } from '@/shared/ui/retry-button';
+import messages from '@/i18n/messages/ar.json';
 
 import type { HomeSectionResult } from '../types';
 import styles from './home-books-shelf.module.css';
@@ -58,6 +60,15 @@ export function HomeBooksShelf({
             </div>
           ))}
         </div>
+      ) : result.status === 'error' ? (
+        <EmptyState
+          action={<RetryButton label={messages.site.loadError.retry} />}
+          description={messages.site.loadError.description}
+          headingLevel={3}
+          icon="book"
+          title={messages.home.booksErrorTitle}
+          variant="error"
+        />
       ) : (
         <EmptyState
           description={emptyDescription}

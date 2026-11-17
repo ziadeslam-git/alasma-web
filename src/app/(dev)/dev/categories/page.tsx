@@ -23,7 +23,7 @@ export default async function DevCategoriesPage({
         }));
   return (
     <main id="main-content">
-      <CategoriesView categories={categories} />
+      <CategoriesView result={{ status: 'ok', categories }} />
     </main>
   );
 }

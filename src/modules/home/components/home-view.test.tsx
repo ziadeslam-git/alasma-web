@@ -8,6 +8,9 @@ import { axe } from '@/test/axe';
 import type { HomeData } from '../types';
 import { HomeView } from './home-view';
 
+const refresh = vi.fn();
+vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh }) }));
+
 vi.mock('@/modules/cart', () => ({
   AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
 }));
@@ -150,7 +153,7 @@ describe('HomeView', () => {
     }
   });
 
-  it('renders neutral EmptyState when sections are empty or error without exposing error details, and passes axe', async () => {
+  it('renders the empty state for empty sections and an error state with retry for failed ones, and passes axe', async () => {
     const emptyData = buildTestHomeData('empty');
     const { container, rerender } = render(<HomeView data={emptyData} />);
 
@@ -165,17 +168,23 @@ describe('HomeView', () => {
     ).toBeInTheDocument();
     expect(await axe(container)).toHaveNoViolations();
 
+    // Task 67: a failed section is an error state with a retry, never the "nothing here yet" empty state
     const errorData = buildTestHomeData('error');
     rerender(<HomeView data={errorData} />);
     expect(
-      screen.getByRole('heading', { level: 3, name: messages.home.categories.emptyTitle }),
+      screen.getByRole('heading', { level: 3, name: messages.home.categories.errorTitle }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: messages.home.newArrivals.emptyTitle }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('heading', { level: 3, name: messages.home.featured.emptyTitle }),
-    ).toBeInTheDocument();
+      screen.getAllByRole('heading', { level: 3, name: messages.home.booksErrorTitle }),
+    ).toHaveLength(2);
+    for (const emptyTitle of [
+      messages.home.categories.emptyTitle,
+      messages.home.newArrivals.emptyTitle,
+      messages.home.featured.emptyTitle,
+    ]) {
+      expect(screen.queryByRole('heading', { level: 3, name: emptyTitle })).toBeNull();
+    }
+    expect(screen.getAllByRole('button', { name: messages.site.loadError.retry })).toHaveLength(3);
     expect(await axe(container)).toHaveNoViolations();
   });
 
@@ -185,7 +194,7 @@ describe('HomeView', () => {
 
     expect(screen.getByText(messages.devHome.categories.novels)).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 3, name: messages.home.featured.emptyTitle }),
+      screen.getByRole('heading', { level: 3, name: messages.home.booksErrorTitle }),
     ).toBeInTheDocument();
     expect(await axe(container)).toHaveNoViolations();
   });

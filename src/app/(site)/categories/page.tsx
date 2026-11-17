@@ -14,5 +14,5 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function CategoriesPage() {
-  return <CategoriesView categories={await getCategoryTree()} />;
+  return <CategoriesView result={await getCategoryTree()} />;
 }

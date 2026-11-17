@@ -2,6 +2,7 @@ import messages from '@/i18n/messages/ar.json';
 import type { CategoryNode } from '@/modules/catalog';
 import { categoryRoute } from '@/shared/config/routes';
 import { EmptyState } from '@/shared/ui/empty-state';
+import { RetryButton } from '@/shared/ui/retry-button';
 import { Icon, type IconName } from '@/shared/ui/icon';
 import { FeatureLink } from '@/shared/ui/soon';
 
@@ -45,6 +46,15 @@ export function HomeCategoriesSection({ result }: HomeCategoriesSectionProps) {
             );
           })}
         </ul>
+      ) : result.status === 'error' ? (
+        <EmptyState
+          action={<RetryButton label={messages.site.loadError.retry} />}
+          description={messages.site.loadError.description}
+          headingLevel={3}
+          icon="grid"
+          title={text.errorTitle}
+          variant="error"
+        />
       ) : (
         <EmptyState
           description={text.emptyDescription}

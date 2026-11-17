@@ -24,5 +24,5 @@ export async function generateMetadata({ searchParams }: AuthorsPageProps = {}):
 
 export default async function AuthorsPage({ searchParams }: AuthorsPageProps = {}) {
   const { page } = parseCatalogParams(searchParams ? await searchParams : {});
-  return <AuthorsView page={page} data={await getAuthors(page)} />;
+  return <AuthorsView page={page} result={await getAuthors(page)} />;
 }

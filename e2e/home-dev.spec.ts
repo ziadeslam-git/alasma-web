@@ -121,12 +121,15 @@ test('/dev/home renders empty and error states without horizontal overflow', asy
   );
   expect(emptyOverflow).toBe(false);
 
+  // Task 67: failed sections show an error state with a retry, never the empty-state titles
   const errorResponse = await page.goto('/dev/home?state=error');
   expect(errorResponse?.status()).toBe(200);
   await expect(page.locator('h1')).toHaveCount(1);
-  await expect(page.getByText(messages.home.categories.emptyTitle)).toBeVisible();
-  await expect(page.getByText(messages.home.newArrivals.emptyTitle)).toBeVisible();
-  await expect(page.getByText(messages.home.featured.emptyTitle)).toBeVisible();
+  await expect(page.getByText(messages.home.categories.errorTitle)).toBeVisible();
+  await expect(page.getByText(messages.home.booksErrorTitle)).toHaveCount(2);
+  await expect(page.getByText(messages.home.categories.emptyTitle)).toHaveCount(0);
+  await expect(page.getByText(messages.home.featured.emptyTitle)).toHaveCount(0);
+  await expect(page.getByRole('button', { name: messages.site.loadError.retry })).toHaveCount(3);
 
   const errorOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > globalThis.innerWidth,

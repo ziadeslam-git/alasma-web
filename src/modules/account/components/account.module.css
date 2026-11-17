@@ -32,24 +32,69 @@
 }
 
 .profile {
+  display: grid;
+  gap: var(--space-5);
   padding: var(--space-6);
   border-radius: var(--radius-lg);
   background: var(--surface);
   overflow-wrap: anywhere;
 }
 
-.details {
-  display: grid;
-  gap: var(--space-4);
+.profile h1 {
+  margin: 0;
 }
 
-.details dt {
+/* Task 73: one definition-list layout for every row: label beside value on wider screens, label above value on
+   phones, both aligned to the inline start. */
+.details {
+  display: grid;
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: baseline;
+  padding-block: var(--space-3);
+  border-block-end: 1px solid var(--line);
+}
+
+.row:last-child {
+  border-block-end: 0;
+}
+
+.row dt {
   color: var(--ink-muted);
 }
 
-.details dd {
+.row dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
   margin: 0;
+  color: var(--ink);
   text-align: start;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--success-soft);
+  color: var(--success-ink);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.profileActions {
+  display: flex;
+  justify-content: flex-start;
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--line);
 }
 
 .notice {
@@ -66,6 +111,11 @@
 
   .navigation {
     flex-flow: row wrap;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
   }
 }
 

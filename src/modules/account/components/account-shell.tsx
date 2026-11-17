@@ -11,14 +11,25 @@ export function AccountShell({ children }: { children: ReactNode }) {
   const text = messages.account;
   return (
     <div className={styles.shell}>
+      {/* Task 73: soon entries are left out of the menu, not shown dimmed */}
       <nav aria-label={text.navigation} className={styles.navigation}>
         <Link href={routes.account}>{text.overview}</Link>
         <Link href={routes.accountAddresses}>{text.addresses}</Link>
         <Link href={routes.accountOrders}>{text.orders}</Link>
-        <FeatureGate badge="inline" feature="wishlist-heart" label={messages.site.soon}>
+        <FeatureGate
+          badge="inline"
+          feature="wishlist-heart"
+          label={messages.site.soon}
+          whenSoon="hide"
+        >
           <span>{text.wishlist}</span>
         </FeatureGate>
-        <FeatureGate badge="inline" feature="profile-edit" label={messages.site.soon}>
+        <FeatureGate
+          badge="inline"
+          feature="profile-edit"
+          label={messages.site.soon}
+          whenSoon="hide"
+        >
           <span>{text.editProfile}</span>
         </FeatureGate>
       </nav>

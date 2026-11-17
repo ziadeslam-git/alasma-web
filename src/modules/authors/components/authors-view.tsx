@@ -2,11 +2,13 @@ import messages from '@/i18n/messages/ar.json';
 import { routes } from '@/shared/config/routes';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Pagination } from '@/shared/ui/pagination';
-import type { AuthorList } from '../api/authors';
+import { RetryButton } from '@/shared/ui/retry-button';
+import type { AuthorsResult } from '../api/authors';
 import { AuthorCard } from './author-card';
 import styles from './authors.module.css';
-export function AuthorsView({ data, page }: { data: AuthorList | null; page: number }) {
+export function AuthorsView({ result, page }: { result: AuthorsResult; page: number }) {
   const text = messages.authors;
+  const data = result.status === 'ok' ? result.data : null;
   const totalPages = data?.totalPages ?? (data ? Math.ceil(data.totalCount / data.pageSize) : 0);
   return (
     <div className={styles.container}>
@@ -29,6 +31,14 @@ export function AuthorsView({ data, page }: { data: AuthorList | null; page: num
             />
           ) : null}
         </>
+      ) : result.status === 'error' ? (
+        <EmptyState
+          action={<RetryButton label={messages.site.loadError.retry} />}
+          description={messages.site.loadError.description}
+          icon="user"
+          title={text.errorTitle}
+          variant="error"
+        />
       ) : (
         <EmptyState icon="user" title={text.emptyTitle} description={text.emptyDescription} />
       )}

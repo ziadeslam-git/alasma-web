@@ -228,8 +228,8 @@ describe('getCategoryTree and CategoriesView', () => {
       ),
     );
     const tree = await getCategoryTree({ origin: ORIGIN });
-    expect(tree).toHaveLength(5);
-    const { container } = render(<CategoriesView categories={tree} />);
+    expect(tree.status === 'ok' ? tree.categories : []).toHaveLength(5);
+    const { container } = render(<CategoriesView result={tree} />);
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     for (const category of sample<CategoryNode[]>('categories-tree.json')) {
       expect(screen.getByRole('link', { name: category.name })).toHaveAttribute(

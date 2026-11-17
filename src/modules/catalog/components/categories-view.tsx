@@ -3,12 +3,14 @@ import messages from '@/i18n/messages/ar.json';
 import { categoryRoute, routes } from '@/shared/config/routes';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { EmptyState } from '@/shared/ui/empty-state';
+import { RetryButton } from '@/shared/ui/retry-button';
 import { SafeImage } from '@/shared/ui/safe-image';
-import type { CategoryNode } from '../types';
+import type { CategoryTreeResult } from '../api/get-category-tree';
 import styles from './categories-view.module.css';
 
-export function CategoriesView({ categories }: { categories: readonly CategoryNode[] | null }) {
+export function CategoriesView({ result }: { result: CategoryTreeResult }) {
   const name = messages.site.header.categories;
+  const categories = result.status === 'ok' ? result.categories : null;
   return (
     <div className={styles.container}>
       <Breadcrumbs
@@ -36,6 +38,14 @@ export function CategoriesView({ categories }: { categories: readonly CategoryNo
             </li>
           ))}
         </ul>
+      ) : result.status === 'error' ? (
+        <EmptyState
+          action={<RetryButton label={messages.site.loadError.retry} />}
+          description={messages.site.loadError.description}
+          icon="grid"
+          title={messages.home.categories.errorTitle}
+          variant="error"
+        />
       ) : (
         <EmptyState
           icon="grid"

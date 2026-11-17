@@ -21,7 +21,7 @@ const user: AuthUser = {
 };
 
 describe('account overview', () => {
-  it('shows the profile, live navigation, and inert deferred links', async () => {
+  it('shows the profile and live navigation, and leaves the soon entries out (Task 73)', async () => {
     const { container } = render(
       <AccountShell>
         <AccountProfile user={user} />
@@ -40,8 +40,11 @@ describe('account overview', () => {
       'href',
       '/account/orders',
     );
-    expect(container.querySelector('[data-feature="profile-edit"]')).toHaveAttribute('inert');
-    expect(container.querySelector('[data-feature="wishlist-heart"]')).toHaveAttribute('inert');
+    expect(container.querySelector('[data-feature="profile-edit"]')).toBeNull();
+    expect(container.querySelector('[data-feature="wishlist-heart"]')).toBeNull();
+    expect(screen.queryByText(messages.account.wishlist)).toBeNull();
+    expect(screen.queryByText(messages.account.editProfile)).toBeNull();
+    expect(screen.queryByText(messages.site.soon)).toBeNull();
     expect(await axe(container)).toHaveNoViolations();
   });
   it('shows the confirmation notice with inert resend for an unconfirmed address', () => {
@@ -50,5 +53,32 @@ describe('account overview', () => {
     expect(container.querySelector('[data-feature="resend-confirmation"]')).toHaveAttribute(
       'inert',
     );
+  });
+
+  it('renders every row as one label with its value, and no orphan label (Task 73)', () => {
+    const { container } = render(<AccountProfile user={{ ...user, phone: '01000000000' }} />);
+    const rows = Array.from(container.querySelectorAll('dl > div'));
+    expect(rows).toHaveLength(3);
+    for (const row of rows) {
+      expect(row.querySelectorAll('dt')).toHaveLength(1);
+      expect(row.querySelectorAll('dd')).toHaveLength(1);
+      expect(row.querySelector('dd')?.textContent?.trim()).not.toBe('');
+    }
+    // the email status is a badge inside the email value, never a row or paragraph of its own
+    const emailRow = rows.find(
+      (row) => row.querySelector('dt')?.textContent === messages.account.email,
+    );
+    expect(emailRow?.querySelector('dd')).toHaveTextContent(messages.account.confirmedBadge);
+    expect(screen.queryByText(messages.account.confirmed)).toBeNull();
+    expect(screen.getByText(user.email).closest('bdi')).toHaveAttribute('dir', 'ltr');
+    expect(screen.getByText('01000000000').closest('bdi')).toHaveAttribute('dir', 'ltr');
+    // no value element carries dir=ltr itself (that aligned it to the physical left)
+    for (const dd of container.querySelectorAll('dd')) expect(dd).not.toHaveAttribute('dir');
+  });
+
+  it('shows no confirmed badge when the email is not confirmed, and the no-phone text', () => {
+    render(<AccountProfile user={{ ...user, emailConfirmed: false }} />);
+    expect(screen.queryByText(messages.account.confirmedBadge)).toBeNull();
+    expect(screen.getByText(messages.account.noPhone)).toBeVisible();
   });
 });

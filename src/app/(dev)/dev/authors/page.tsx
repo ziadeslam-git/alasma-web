@@ -60,7 +60,7 @@ export default async function DevAuthorsPage({
   };
   return (
     <main id="main-content">
-      <AuthorsView data={data} page={1} />
+      <AuthorsView page={1} result={{ status: 'ok', data }} />
     </main>
   );
 }

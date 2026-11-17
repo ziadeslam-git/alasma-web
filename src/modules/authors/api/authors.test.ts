@@ -21,7 +21,8 @@ describe('authors API', () => {
         return HttpResponse.json({ items: [author], page: 1, pageSize: 48, totalCount: 1 });
       }),
     );
-    expect((await getAuthors(1, { origin }))?.items).toHaveLength(1);
+    const result = await getAuthors(1, { origin });
+    expect(result.status === 'ok' ? result.data.items : []).toHaveLength(1);
   });
   it('returns the author', async () => {
     server.use(http.get(`${origin}/api/v1/authors/:slug`, () => HttpResponse.json(author)));
@@ -44,9 +45,24 @@ describe('authors API', () => {
     server.use(http.get(`${origin}/api/v1/authors/:slug`, () => HttpResponse.error()));
     await expect(getAuthor('network', { origin })).rejects.toBeDefined();
   });
-  it('shows empty list on failure', async () => {
+  // Task 67: a failed load is 'error' (shown with a retry), never an empty list; an empty 200 stays 'ok'
+  it('reports a 5xx as an error, not as an empty list', async () => {
     server.use(http.get(`${origin}/api/v1/authors`, () => new HttpResponse(null, { status: 500 })));
-    expect(await getAuthors(1, { origin })).toBeNull();
+    expect(await getAuthors(1, { origin })).toEqual({ status: 'error' });
+  });
+  it('reports a network failure as an error', async () => {
+    server.use(http.get(`${origin}/api/v1/authors`, () => HttpResponse.error()));
+    expect(await getAuthors(1, { origin })).toEqual({ status: 'error' });
+  });
+  it('keeps an empty 200 as ok with no items', async () => {
+    server.use(
+      http.get(`${origin}/api/v1/authors`, () =>
+        HttpResponse.json({ items: [], page: 1, pageSize: 48, totalCount: 0 }),
+      ),
+    );
+    const result = await getAuthors(1, { origin });
+    expect(result.status).toBe('ok');
+    expect(result.status === 'ok' ? result.data.items : null).toEqual([]);
   });
   it('returns author books from the books search', async () => {
     server.use(
