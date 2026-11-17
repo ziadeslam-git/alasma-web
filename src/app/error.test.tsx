@@ -16,4 +16,11 @@ describe('ErrorPage', () => {
     expect(screen.queryByText('private')).not.toBeInTheDocument();
     expect(screen.getByText(/abc/)).toBeInTheDocument();
   });
+
+  // The root boundary cannot rebuild the shell, but the page keeps one <main> and one <h1> (Task 75).
+  it('renders one main and one h1', () => {
+    render(<ErrorPage error={new Error('x')} reset={() => {}} />);
+    expect(screen.getAllByRole('main')).toHaveLength(1);
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
+  });
 });

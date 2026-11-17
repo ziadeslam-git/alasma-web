@@ -1,0 +1,38 @@
+/* The 404 and error pages sit in the same container as the other pages, so a phone keeps its side gutters. */
+.container {
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding-block: var(--space-12);
+  padding-inline: var(--space-8);
+}
+
+@media (width <= 1000px) {
+  .container {
+    padding-block: var(--space-8);
+    padding-inline: var(--space-4);
+  }
+}
+
+.card {
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+/* Buttons wrap and keep a gap; the reference code is its own line under them, never beside a button. */
+.actions {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.reference {
+  color: var(--ink-muted);
+  font-size: 13px;
+}

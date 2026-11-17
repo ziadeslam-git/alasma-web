@@ -97,6 +97,19 @@ describe('SiteHeader', () => {
     expect(within(dialog).queryByText(messages.site.header.publishPackages)).toBeNull();
   });
 
+  it('puts the menuAccount slot at the top of the mobile menu, and adds nothing without it (Task 75)', async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(<SiteHeader menuAccount={<a href="/login">guest entry</a>} />);
+    await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
+    const links = within(screen.getByRole('dialog')).getAllByRole('link');
+    expect(links[0]).toHaveTextContent('guest entry');
+    unmount();
+
+    render(<SiteHeader />);
+    await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
+    expect(within(screen.getByRole('dialog')).queryByText('guest entry')).toBeNull();
+  });
+
   it('uses an account slot instead of the guest links', () => {
     render(<SiteHeader accountArea={<span>Account menu</span>} />);
 

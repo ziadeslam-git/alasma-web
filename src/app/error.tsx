@@ -1,31 +1,17 @@
 'use client';
 
-import messages from '@/i18n/messages/ar.json';
-import { routes } from '@/shared/config/routes';
-import { Button, ButtonLink } from '@/shared/ui/button';
-import { EmptyState } from '@/shared/ui/empty-state';
+import { ErrorContent } from '@/shared/layout/status-pages';
 
+// Last-resort boundary for errors above the (site) layout (its own providers failing). The shell may be what failed, so
+// it is not rebuilt here, but the page still has one <main> and one <h1>. Errors inside the site routes are caught by
+// (site)/error.tsx, which keeps the shell.
 export default function ErrorPage({
   error,
   reset,
 }: Readonly<{ error: Error & { digest?: string }; reset: () => void }>) {
-  const text = messages.site.footer;
-  const reference = error.digest ? `${text.reference}: ${error.digest}` : '';
   return (
-    <EmptyState
-      action={
-        <>
-          <Button onClick={reset}>{text.retry}</Button>
-          <ButtonLink href={routes.home} variant="outline">
-            {messages.site.header.home}
-          </ButtonLink>
-          {reference ? <small>{reference}</small> : null}
-        </>
-      }
-      description={text.errorDescription}
-      icon="help"
-      title={text.errorTitle}
-      variant="error"
-    />
+    <main id="main-content">
+      <ErrorContent error={error} reset={reset} />
+    </main>
   );
 }

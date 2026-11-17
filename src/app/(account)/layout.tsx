@@ -8,18 +8,21 @@ import { SearchOverlay } from '@/modules/search';
 import { SiteHeader } from '@/shared/layout/site-header';
 import { SiteFooter } from '@/shared/layout/site-footer';
 import { MobileNav } from '@/shared/layout/mobile-nav';
+import { PageFrame, PageFrameGrow } from '@/shared/layout/page-frame';
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
-    <>
+    <PageFrame>
       <SiteHeader accountArea={<AccountMenu />} cart={<MiniCart />} search={<SearchOverlay />} />
-      <RequireAuth>
-        <AccountShell>{children}</AccountShell>
-      </RequireAuth>
+      <PageFrameGrow>
+        <RequireAuth>
+          <AccountShell>{children}</AccountShell>
+        </RequireAuth>
+      </PageFrameGrow>
       <SiteFooter />
       <MobileNav />
-    </>
+    </PageFrame>
   );
 }

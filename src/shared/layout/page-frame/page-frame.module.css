@@ -1,0 +1,13 @@
+/* The page is a column at least as tall as the viewport, and the content takes the spare height, so on a short page the
+   footer rests at the bottom of the screen instead of floating under the content (Task 75). No scroll is added: the
+   column is exactly the viewport tall when the content is shorter, and grows with the content when it is longer. */
+.frame {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+}
+
+.frame > main,
+.grow {
+  flex: 1 0 auto;
+}

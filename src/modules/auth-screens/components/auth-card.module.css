@@ -1,5 +1,6 @@
 .card {
-  inline-size: min(100%, 520px);
+  /* 100% minus a 16px gutter on each side, so a phone never has the card touching the screen edge (Task 75) */
+  inline-size: min(100% - var(--space-8), 520px);
   margin: var(--space-12) auto;
   padding: var(--space-8);
   border: 1px solid var(--line);
