@@ -85,7 +85,7 @@ export function BookCard({ book, priority = false }: BookCardProps) {
           ) : (
             <AddToCartButton bookId={book.id} className={styles.actionButton} title={book.title} />
           )}
-          <FeatureGate feature="wishlist-heart" label={soonLabel}>
+          <FeatureGate feature="wishlist-heart" label={soonLabel} whenSoon="hide">
             <button
               aria-label={text.addToWishlist.replace('{title}', book.title)}
               className={styles.actionButton}

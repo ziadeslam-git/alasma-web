@@ -473,6 +473,8 @@ test('walk the public pages signed out', async ({ page }, testInfo) => {
     ['dev-account-unconfirmed', '/dev/account?state=unconfirmed'],
     ['dev-account-long', '/dev/account?state=long'],
     ['dev-search-states', '/dev/search'],
+    // Task 78: the 500 page (error.tsx inside the shell); /dev/error-test throws on render in development
+    ['500-dev-error-test', '/dev/error-test'],
   ] as const) {
     await visit(page, name, url);
   }

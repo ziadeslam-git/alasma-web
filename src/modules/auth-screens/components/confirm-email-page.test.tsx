@@ -4,6 +4,7 @@ import { http, HttpResponse } from 'msw';
 import { StrictMode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { FeatureFlagsProvider, resolveFeatureFlags } from '@/shared/config/feature-flags';
 import { axe } from '@/test/axe';
 
 import messages from '@/i18n/messages/ar.json';
@@ -79,18 +80,29 @@ describe('ConfirmEmailView', () => {
     expect(auth.ensureFreshSession).toHaveBeenCalledWith({ force: true });
   });
 
-  it('shows the invalid link state with an inert Soon resend control, and never retries', async () => {
+  it('shows the invalid link state without the soon resend control, and never retries', async () => {
     const calls = mockConfirm(problem);
     const { container } = render(<ConfirmEmailView />);
 
     expect(await screen.findByText(text.confirmInvalidTitle)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: text.retry })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: text.resendConfirmation })).toBeDisabled();
-    const gate = container.querySelector('[data-feature="resend-confirmation"]');
-    expect(gate).toHaveAttribute('inert');
-    expect(gate).toHaveTextContent(text.soonBadge);
+    // Task 78: the resend control is hidden (not dimmed) while resend-confirmation is soon
+    expect(screen.queryByRole('button', { name: text.resendConfirmation })).toBeNull();
+    expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
     expect(calls).toHaveLength(1);
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('shows the resend control on the invalid link state once its feature is live', async () => {
+    mockConfirm(problem);
+    render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'resend-confirmation': 'live' }}>
+        <ConfirmEmailView />
+      </FeatureFlagsProvider>,
+    );
+
+    expect(await screen.findByText(text.confirmInvalidTitle)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: text.resendConfirmation })).toBeInTheDocument();
   });
 
   it('shows the invalid state without calling the API when the token is missing', async () => {

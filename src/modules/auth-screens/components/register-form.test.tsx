@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
+import { FeatureFlagsProvider, resolveFeatureFlags } from '@/shared/config/feature-flags';
 import { axe } from '@/test/axe';
 
 import { server } from '@/mocks/server';
@@ -146,6 +147,33 @@ describe('RegisterForm', () => {
       password,
       phone: '01012345678',
     });
+  });
+
+  it('leaves the soon resend control out of the success state (Task 78)', async () => {
+    captureBody();
+    const { container } = render(<RegisterForm />);
+
+    await fillValid();
+    await user.click(submit());
+
+    expect(await screen.findByText(text.registerSuccessTitle)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: text.resendConfirmation })).toBeNull();
+    expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
+  });
+
+  it('shows the resend control on the success state once its feature is live', async () => {
+    captureBody();
+    render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'resend-confirmation': 'live' }}>
+        <RegisterForm />
+      </FeatureFlagsProvider>,
+    );
+
+    await fillValid();
+    await user.click(submit());
+
+    expect(await screen.findByText(text.registerSuccessTitle)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: text.resendConfirmation })).toBeInTheDocument();
   });
 
   it('shows the Arabic message when the email is taken', async () => {

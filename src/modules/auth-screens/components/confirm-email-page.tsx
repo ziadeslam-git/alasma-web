@@ -115,7 +115,7 @@ export function ConfirmEmailView() {
       }
       title={text.confirmInvalidTitle}
     >
-      <FeatureGate feature="resend-confirmation" label={text.soonBadge}>
+      <FeatureGate feature="resend-confirmation" label={text.soonBadge} whenSoon="hide">
         <Button disabled fullWidth variant="outline">
           {text.resendConfirmation}
         </Button>

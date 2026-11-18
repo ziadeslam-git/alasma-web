@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
+import { FeatureFlagsProvider, resolveFeatureFlags } from '@/shared/config/feature-flags';
 import { axe } from '@/test/axe';
 
 import type { BookCardItem } from '../types';
@@ -85,17 +86,28 @@ describe('BookCard', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('renders add-to-cart while keeping the wishlist inert with the Soon badge', () => {
+  it('renders add-to-cart and leaves the wishlist heart out while it is soon (Task 78)', () => {
     const book = makeBook();
     const { container } = render(<BookCard book={book} />);
 
-    const wishlistGate = container.querySelector('[data-feature="wishlist-heart"]');
-
     expect(screen.getByRole('button', { name: book.title })).toBeEnabled();
+    expect(container.querySelector('[data-feature="wishlist-heart"]')).toBeNull();
+    expect(
+      screen.queryByRole('button', { name: text.addToWishlist.replace('{title}', book.title) }),
+    ).toBeNull();
+  });
 
-    expect(wishlistGate).toHaveAttribute('inert');
-    expect(wishlistGate).toHaveTextContent(messages.site.soon);
-    expect(wishlistGate?.querySelector('button')).toBeDisabled();
+  it('renders the wishlist heart once its feature is live', () => {
+    const book = makeBook();
+    render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'wishlist-heart': 'live' }}>
+        <BookCard book={book} />
+      </FeatureFlagsProvider>,
+    );
+
+    expect(
+      screen.getByRole('button', { name: text.addToWishlist.replace('{title}', book.title) }),
+    ).toBeInTheDocument();
   });
 
   it('joins multiple authors with the Arabic comma separator', () => {

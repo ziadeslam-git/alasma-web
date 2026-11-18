@@ -1,5 +1,6 @@
 import path from 'node:path';
 
+import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 import messages from '../src/i18n/messages/ar.json';
@@ -28,6 +29,22 @@ test.beforeEach(async ({ page }) => {
       document.cookie = 'alasma-splash-seen=1; Path=/; SameSite=Lax';
     });
   }
+});
+
+// Task 78: every check that passed also leaves an axe-clean page (the state the check ended in). It runs before the
+// picture hook, which injects a style tag. The Next dev overlay portal (dev previews only) is not part of the page.
+test.afterEach(async ({ page }, testInfo) => {
+  if (
+    testInfo.status !== testInfo.expectedStatus ||
+    testInfo.status === 'skipped' ||
+    page.isClosed()
+  )
+    return;
+  if (page.url() === 'about:blank') return;
+  const results = await new AxeBuilder({ page }).exclude('nextjs-portal').analyze();
+  expect(
+    results.violations.map((violation) => `${violation.id}: ${violation.nodes.length}`),
+  ).toEqual([]);
 });
 
 // One picture per test, named after the test, also when the test failed (a failing "before" run is the "before" picture).
