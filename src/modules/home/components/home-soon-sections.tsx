@@ -8,8 +8,9 @@ import styles from './home-soon-sections.module.css';
 const TRENDING_SLOTS = [1, 2, 3, 4, 5] as const;
 const TEAM_PICK_SLOTS = [1, 2, 3] as const;
 
-// All non-delivered Main.dc.html sections, rendered dimmed and inert through FeatureGate with zero fake book data and
-// zero live links: Editor's Pick (.spot), Trending/Most Popular (.band/.trend), Team Picks (.picks).
+// All non-delivered Main.dc.html sections. Each is hidden (not dimmed) while its feature is soon, and the gate wraps the
+// whole <section>, so a hidden one leaves no empty wrapper behind (that was the blank band, Task 76). No fake book data and
+// no live links: Editor's Pick (.spot), Trending/Most Popular (.band/.trend), Team Picks (.picks).
 // (The campaign placeholders that are not in the design were removed; their features stay registered as soon.)
 export function HomeSoonSections() {
   const soonLabel = messages.site.soon;
@@ -19,8 +20,8 @@ export function HomeSoonSections() {
 
   return (
     <>
-      <section aria-labelledby="home-spotlight-heading" className={styles.wrapSection}>
-        <FeatureGate feature="home-editor-pick" label={soonLabel}>
+      <FeatureGate feature="home-editor-pick" label={soonLabel} whenSoon="hide">
+        <section aria-labelledby="home-spotlight-heading" className={styles.wrapSection}>
           <div className={styles.spot}>
             <div className={styles.spotText}>
               <span className={styles.spotEyebrow}>{spotlight.eyebrow}</span>
@@ -37,12 +38,12 @@ export function HomeSoonSections() {
               <p className={styles.spotQuote}>{spotlight.quote}</p>
             </div>
           </div>
-        </FeatureGate>
-      </section>
+        </section>
+      </FeatureGate>
 
-      <section aria-labelledby="home-trending-heading" className={styles.band}>
-        <div className={styles.bandWrap}>
-          <FeatureGate feature="home-most-popular" label={soonLabel}>
+      <FeatureGate feature="home-most-popular" label={soonLabel} whenSoon="hide">
+        <section aria-labelledby="home-trending-heading" className={styles.band}>
+          <div className={styles.bandWrap}>
             <div className={styles.trend}>
               <h2 className={styles.trendHeading} id="home-trending-heading">
                 {trending.heading}
@@ -94,20 +95,20 @@ export function HomeSoonSections() {
                 </span>
               </div>
             </div>
-          </FeatureGate>
-        </div>
-      </section>
-
-      <section aria-labelledby="home-team-picks-heading" className={styles.wrapSection}>
-        <div className={styles.sectionHeader}>
-          <div>
-            <h2 className={styles.sectionHeading} id="home-team-picks-heading">
-              {teamPicks.heading}
-            </h2>
-            <p className={styles.sectionSubtitle}>{teamPicks.subtitle}</p>
           </div>
-        </div>
-        <FeatureGate feature="home-team-picks" label={soonLabel}>
+        </section>
+      </FeatureGate>
+
+      <FeatureGate feature="home-team-picks" label={soonLabel} whenSoon="hide">
+        <section aria-labelledby="home-team-picks-heading" className={styles.wrapSection}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <h2 className={styles.sectionHeading} id="home-team-picks-heading">
+                {teamPicks.heading}
+              </h2>
+              <p className={styles.sectionSubtitle}>{teamPicks.subtitle}</p>
+            </div>
+          </div>
           <div className={styles.picksGrid}>
             {TEAM_PICK_SLOTS.map((slot) => (
               <div className={styles.pickCard} key={slot}>
@@ -124,8 +125,8 @@ export function HomeSoonSections() {
               </div>
             ))}
           </div>
-        </FeatureGate>
-      </section>
+        </section>
+      </FeatureGate>
     </>
   );
 }

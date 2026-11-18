@@ -115,10 +115,10 @@ describe('BooksPage (/books)', () => {
     expect(screen.getByRole('status', { name: messages.catalog.loadingLabel })).toBeInTheDocument();
   });
 
-  it('shows search tabs when the URL has a search query', async () => {
+  // Task 76: the authors and events tabs are hidden, so the tabs row (a lone "books" tab) is left out
+  it('shows no search tabs row while the extra tabs are not live', async () => {
     const ui = await BooksPage({ searchParams: Promise.resolve({ q: 'book' }) });
     render(ui);
-    expect(screen.getByRole('navigation', { name: messages.search.title })).toBeInTheDocument();
-    expect(screen.getByText(messages.search.books)).toHaveAttribute('aria-current', 'page');
+    expect(screen.queryByRole('navigation', { name: messages.search.title })).toBeNull();
   });
 });

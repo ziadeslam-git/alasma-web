@@ -1,7 +1,8 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
+import * as featureConfig from '@/shared/config/features';
 import type { BookCardItem, CategoryNode } from '@/modules/catalog';
 import { axe } from '@/test/axe';
 
@@ -125,32 +126,41 @@ describe('HomeView', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('renders every Soon section inert with aria-disabled, the Soon badge, no live links inside Soon gates, and makes zero network requests', () => {
-    const data = buildTestHomeData('ok');
-    const { container } = render(<HomeView data={data} />);
+  it('hides every unfinished section instead of showing it dimmed, and leaves no empty wrapper (Task 76)', () => {
+    const { container } = render(<HomeView data={buildTestHomeData('ok')} />);
 
-    const expectedSoonFeatures = [
-      'publish-packages',
-      'home-book-of-month',
-      'home-events',
-      'home-editor-pick',
-      'home-most-popular',
-      'home-team-picks',
-    ] as const;
-
-    // the campaign placeholders are not in the design (the newsletter lives in the footer), so the home does not render them
-    for (const feature of ['home-banners', 'home-quotes', 'home-newsletter']) {
-      expect(container.querySelector(`[data-feature="${feature}"]`)).toBeNull();
+    expect(container.querySelector('[data-feature]')).toBeNull();
+    expect(container.querySelector('[data-soon-badge]')).toBeNull();
+    for (const label of [
+      messages.home.spotlight.heading,
+      messages.home.trending.heading,
+      messages.home.teamPicks.heading,
+      messages.home.showcase.bookOfMonthTitle,
+      messages.home.showcase.eventTitle,
+      messages.home.manifesto.publishCta,
+    ]) {
+      expect(screen.queryByText(label)).toBeNull();
     }
-
-    for (const feature of expectedSoonFeatures) {
-      const gate = container.querySelector<HTMLElement>(`[data-feature="${feature}"]`);
-      expect(gate).not.toBeNull();
-      expect(gate).toHaveAttribute('inert');
-      expect(gate).toHaveAttribute('aria-disabled', 'true');
-      expect(within(gate!).getByText(messages.site.soon)).toBeInTheDocument();
-      expect(gate!.querySelector('a, button, input, select, textarea')).toBeNull();
+    // no section is left without content (an empty wrapper is the blank band)
+    for (const section of Array.from(container.querySelectorAll('section'))) {
+      expect(section.textContent?.trim().length ?? 0).toBeGreaterThan(0);
     }
+    // the live parts stay
+    expect(
+      screen.getByRole('link', { name: new RegExp(messages.home.showcase.newReleasesTitle) }),
+    ).toBeInTheDocument();
+  });
+
+  it('brings a hidden section back once its feature is live', () => {
+    const stateSpy = vi
+      .spyOn(featureConfig, 'getFeatureState')
+      .mockImplementation((key) => (key === 'home-editor-pick' ? 'live' : 'soon'));
+    render(<HomeView data={buildTestHomeData('ok')} />);
+    expect(
+      screen.getByRole('heading', { name: messages.home.spotlight.heading }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(messages.home.trending.heading)).toBeNull();
+    stateSpy.mockRestore();
   });
 
   it('renders the empty state for empty sections and an error state with retry for failed ones, and passes axe', async () => {

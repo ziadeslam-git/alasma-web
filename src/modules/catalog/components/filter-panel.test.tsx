@@ -27,7 +27,7 @@ const sidebar = () => within(screen.getByRole('complementary', { name: text.pane
 beforeEach(() => nav.replace.mockClear());
 
 describe('FilterPanel sidebar', () => {
-  it('is a landmark with an accessible name and one heading per group', () => {
+  it('is a landmark with an accessible name and one heading per real group (the unfinished ones are hidden)', () => {
     mount();
 
     expect(screen.getByRole('complementary', { name: text.panelLabel })).toBeInTheDocument();
@@ -40,9 +40,6 @@ describe('FilterPanel sidebar', () => {
       text.groups.price,
       text.groups.availability,
       text.groups.publisher,
-      text.groups.language,
-      text.groups.coverType,
-      text.groups.rating,
     ]);
     expect(sidebar().getAllByRole('group').length).toBeGreaterThanOrEqual(5);
   });
@@ -143,7 +140,7 @@ describe('FilterPanel sidebar', () => {
     expect(nav.replace).toHaveBeenCalledWith('/books?q=x&sort=title', scrollOff);
   });
 
-  it('renders the unsupported groups inert, labelled and without any control or handler', () => {
+  it('hides the unsupported filter groups and the facet note instead of showing them dimmed (Task 76)', () => {
     mount();
 
     for (const feature of [
@@ -152,13 +149,17 @@ describe('FilterPanel sidebar', () => {
       'filter-rating',
       'filter-facet-counts',
     ]) {
-      const gate = sidebar().getByText(
-        (_, element) => element?.getAttribute('data-feature') === feature,
-      );
-      expect(gate).toHaveAttribute('inert');
-      expect(gate).toHaveAttribute('aria-disabled', 'true');
-      expect(gate).toHaveTextContent(messages.site.soon);
-      expect(gate.querySelector('input, button, select, a, [onclick]')).toBeNull();
+      expect(
+        sidebar().queryByText((_, element) => element?.getAttribute('data-feature') === feature),
+      ).toBeNull();
+    }
+    for (const label of [
+      text.groups.language,
+      text.groups.coverType,
+      text.groups.rating,
+      text.facetCountsNote,
+    ]) {
+      expect(sidebar().queryByText(label)).toBeNull();
     }
   });
 

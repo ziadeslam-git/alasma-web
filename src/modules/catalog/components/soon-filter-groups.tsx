@@ -8,7 +8,7 @@ type SoonGroup = { feature: FeatureKey; title: string };
 
 const text = messages.catalog.filters;
 
-// Groups the design shows but the API cannot filter by yet. Each one is dimmed and inert through its own feature key
+// Groups the design shows but the API cannot filter by yet. Each one is hidden (Task 76) through its own feature key
 // and shows no options (no invented languages, formats or ratings).
 const soonGroups: readonly SoonGroup[] = [
   { feature: 'filter-language', title: text.groups.language },
@@ -22,13 +22,13 @@ export function SoonFilterGroups() {
   return (
     <>
       {soonGroups.map((group) => (
-        <FeatureGate feature={group.feature} key={group.feature} label={soonLabel}>
+        <FeatureGate feature={group.feature} key={group.feature} label={soonLabel} whenSoon="hide">
           <div className={styles.group}>
             <h3 className={styles.title}>{group.title}</h3>
           </div>
         </FeatureGate>
       ))}
-      <FeatureGate feature="filter-facet-counts" label={soonLabel}>
+      <FeatureGate feature="filter-facet-counts" label={soonLabel} whenSoon="hide">
         <p className={styles.note}>{text.facetCountsNote}</p>
       </FeatureGate>
     </>

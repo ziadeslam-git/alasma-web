@@ -43,7 +43,7 @@ export function ManifestoHero() {
               <span>{text.browseCta}</span>
               <Icon name="arrow" size="sm" />
             </Link>
-            <FeatureGate feature="publish-packages" label={soonLabel}>
+            <FeatureGate feature="publish-packages" label={soonLabel} whenSoon="hide">
               <span className={styles.secondaryCta}>{text.publishCta}</span>
             </FeatureGate>
           </div>

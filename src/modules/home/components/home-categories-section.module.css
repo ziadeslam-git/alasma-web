@@ -6,7 +6,7 @@
 }
 
 .heading {
-  margin-block: 0 18px;
+  margin-block: 0 var(--space-6);
   margin-inline: 0;
   color: var(--ink);
   font-family: var(--font-sans);
@@ -80,7 +80,6 @@
   }
 
   .heading {
-    margin-block-end: 14px;
     font-size: 21px;
     line-height: 1.3;
   }

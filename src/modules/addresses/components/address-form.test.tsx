@@ -68,5 +68,6 @@ it('shows the confirmation banner after an email-not-confirmed response', async 
   });
   fireEvent.click(screen.getByRole('button', { name: messages.addresses.save }));
   await waitFor(() => expect(screen.getByText(messages.account.unconfirmed)).toBeVisible());
-  expect(container.querySelector('[data-feature="resend-confirmation"]')).toHaveAttribute('inert');
+  expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
+  expect(screen.queryByText(messages.account.resend)).toBeNull();
 });

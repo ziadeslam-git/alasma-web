@@ -47,12 +47,12 @@ describe('account overview', () => {
     expect(screen.queryByText(messages.site.soon)).toBeNull();
     expect(await axe(container)).toHaveNoViolations();
   });
-  it('shows the confirmation notice with inert resend for an unconfirmed address', () => {
+  it('shows the confirmation notice without the resend link for an unconfirmed address', () => {
     const { container } = render(<AccountProfile user={{ ...user, emailConfirmed: false }} />);
     expect(screen.getByText(messages.account.unconfirmed)).toBeVisible();
-    expect(container.querySelector('[data-feature="resend-confirmation"]')).toHaveAttribute(
-      'inert',
-    );
+    // Task 76: the resend link is hidden (not dimmed) until its feature is live; the banner text stays
+    expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
+    expect(screen.queryByText(messages.account.resend)).toBeNull();
   });
 
   it('renders every row as one label with its value, and no orphan label (Task 73)', () => {

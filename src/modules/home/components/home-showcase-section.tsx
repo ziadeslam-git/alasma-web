@@ -17,7 +17,7 @@ export function HomeShowcaseSection() {
   return (
     <section aria-label={text.ariaLabel} className={styles.section}>
       <div className={styles.grid}>
-        <FeatureGate feature="home-book-of-month" label={soonLabel}>
+        <FeatureGate feature="home-book-of-month" label={soonLabel} whenSoon="hide">
           <div className={styles.mainCard}>
             <div className={styles.mainText}>
               <div className={styles.badgeRow}>
@@ -48,7 +48,7 @@ export function HomeShowcaseSection() {
         </FeatureGate>
 
         <div className={styles.side}>
-          <FeatureGate feature="home-events" label={soonLabel}>
+          <FeatureGate feature="home-events" label={soonLabel} whenSoon="hide">
             <div className={styles.eventCard}>
               <h2 className={styles.sideTitle}>{text.eventTitle}</h2>
               <p className={styles.eventDescription}>{text.eventDescription}</p>

@@ -87,6 +87,36 @@
   line-height: 1.8;
 }
 
+/* The empty and error states: an icon, one line, and for an error a retry button */
+.notice {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  text-align: center;
+}
+
+.notice p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+.noticeIcon {
+  display: grid;
+  place-items: center;
+  inline-size: var(--space-12);
+  block-size: var(--space-12);
+  border-radius: var(--radius-pill);
+  background: var(--chip-bg);
+  color: var(--primary);
+}
+
+.notice[data-search-state='error'] .noticeIcon {
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+}
+
 .results {
   display: grid;
   gap: var(--space-2);

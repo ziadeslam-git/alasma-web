@@ -1,6 +1,10 @@
+/* The footer starts with a 64px top margin, and under this page (which has its own background) that gap showed the
+   cream body as a blank band. The page now reaches the footer: its bottom margin cancels the footer's top margin, and
+   its bottom padding keeps the same distance from the last section to the footer (Task 76). */
 .page {
   overflow-x: clip;
-  padding-block-end: var(--space-12);
+  margin-block-end: calc(var(--space-16) * -1);
+  padding-block-end: calc(var(--space-12) + var(--space-16));
   background: var(--pg);
   color: var(--ink);
 }

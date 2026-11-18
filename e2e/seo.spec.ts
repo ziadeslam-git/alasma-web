@@ -70,9 +70,13 @@ test('/books enforces Decision 20 canonical and robots meta for default, paginat
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /index,\s*follow/i);
 
   await page.goto('/books?page=2');
+  // With real data that fits on one page, page 2 is beyond the last page and is redirected to /books (Task 76), so the
+  // canonical is checked against the URL the visitor ends on: it always points at itself.
+  const landed = new URL(page.url());
+  const landedPath = `${landed.pathname}${landed.search}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    /^https?:\/\/[^/]+\/books\?page=2$/,
+    new RegExp(`^https?://[^/]+${landedPath}$`),
   );
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /index,\s*follow/i);
 

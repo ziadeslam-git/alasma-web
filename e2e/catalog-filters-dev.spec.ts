@@ -103,10 +103,9 @@ test('many filters: selected state comes from the URL, a change rewrites it and 
     await expect(panel.getByRole('checkbox', { name: text.groups.hasDiscount })).toBeChecked();
     await expect(chips.getByText(text.chips.hasDiscount)).toBeVisible();
 
-    // Soon groups are dimmed and inert, with the badge.
-    const soonGroup = panel.locator('[data-feature="filter-rating"]');
-    await expect(soonGroup).toHaveAttribute('inert', '');
-    await expect(soonGroup).toContainText(messages.site.soon);
+    // The unfinished filter groups are hidden, not dimmed (Task 76).
+    await expect(panel.locator('[data-feature^="filter-"]')).toHaveCount(0);
+    await expect(panel.getByText(messages.site.soon)).toHaveCount(0);
   }
 
   await expectNoOverflow(page);

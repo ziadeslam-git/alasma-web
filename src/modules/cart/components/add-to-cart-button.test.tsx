@@ -74,8 +74,8 @@ describe('AddToCartButton', () => {
     const { container } = render(<AddToCartButton bookId={1} title="Book" />);
     await userEvent.click(screen.getByRole('button'));
     await waitFor(() => expect(screen.getByText(messages.account.unconfirmed)).toBeVisible());
-    expect(container.querySelector('[data-feature="resend-confirmation"]')).toHaveAttribute(
-      'inert',
-    );
+    // Task 76: the resend link is hidden (not dimmed) until its feature is live; the banner text stays
+    expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
+    expect(screen.queryByText(messages.account.resend)).toBeNull();
   });
 });

@@ -75,5 +75,7 @@ export type {
 export { normalizeSlug } from './url/normalize-slug';
 export { getCategory, MAX_CATEGORY_SLUG_LENGTH } from './api/get-category';
 export { getCategoryTree } from './api/get-category-tree';
+export { CatalogIntro } from './components/catalog-intro';
+export { getOutOfRangeHref } from './url/page-range';
 export type { CategoryTreeResult } from './api/get-category-tree';
 export { CategoriesView } from './components/categories-view';

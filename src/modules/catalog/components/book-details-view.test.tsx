@@ -283,4 +283,25 @@ describe('BookDetailsView', () => {
     expect(screen.getByRole('button', { name: sampleBook.title })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: detail.specs.heading })).toBeInTheDocument();
   });
+
+  it('keeps the ISBN in logical alignment: <bdi dir="ltr"> inside the cell, no dir on the cell itself (Task 76)', () => {
+    const { container } = render(
+      <BookDetailsView book={{ ...sampleBook, isbn: '978-3-16-148410-0' }} />,
+    );
+    const cell = screen.getByText('978-3-16-148410-0').closest('td')!;
+    expect(cell).not.toHaveAttribute('dir');
+    const wrapper = screen.getByText('978-3-16-148410-0');
+    expect(wrapper.tagName).toBe('BDI');
+    expect(wrapper).toHaveAttribute('dir', 'ltr');
+    expect(container.querySelectorAll('td[dir]')).toHaveLength(0);
+  });
+
+  it('keeps the out-of-stock label and hides the notify-me action (Task 76)', () => {
+    const { container } = render(
+      <BookDetailsView book={{ ...sampleBook, stockStatus: 'OutOfStock' }} />,
+    );
+    expect(screen.getByText(messages.catalog.detail.stock.outOfStock)).toBeInTheDocument();
+    expect(container.querySelector('[data-feature="reservations-notify-me"]')).toBeNull();
+    expect(screen.queryByText(messages.catalog.detail.actions.notifyMe)).toBeNull();
+  });
 });

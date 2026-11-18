@@ -1,0 +1,14 @@
+/* The same container as the catalog below it, so the breadcrumb sits in the page gutter instead of touching the screen edge
+   (it was flush to the viewport and its first word was clipped, Task 76). */
+.intro {
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding-block-start: var(--space-4);
+  padding-inline: var(--space-8);
+}
+
+@media (width <= 1000px) {
+  .intro {
+    padding-inline: var(--space-4);
+  }
+}

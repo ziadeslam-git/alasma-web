@@ -1,7 +1,35 @@
+/* One rhythm for the authors pages: the blocks (breadcrumb, title, content) are 24px apart (Task 76) */
 .container {
+  display: grid;
+  align-content: start;
+  gap: var(--space-6);
   max-inline-size: 1280px;
   margin-inline: auto;
   padding: var(--space-8);
+}
+
+/* A round placeholder with the author's initials, the size of a small avatar */
+.initials {
+  display: grid;
+  place-items: center;
+  inline-size: calc(var(--space-16) + var(--space-8));
+  aspect-ratio: 1;
+  border-radius: var(--radius-pill);
+  background: var(--chip-bg);
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.booksSection {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.viewAll {
+  justify-self: start;
 }
 
 .grid {

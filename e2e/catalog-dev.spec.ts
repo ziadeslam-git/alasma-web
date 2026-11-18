@@ -15,7 +15,8 @@ test('/dev/catalog renders the expected grid columns, has no horizontal overflow
   await expect(page.locator('h1')).toHaveCount(1);
 
   const viewportWidth = page.viewportSize()?.width ?? 1280;
-  const expectedColumns = viewportWidth <= 1000 ? 2 : 4;
+  // two columns up to 760px, three from 761px to 1000px, four above (Task 76)
+  const expectedColumns = viewportWidth <= 760 ? 2 : viewportWidth <= 1000 ? 3 : 4;
 
   const firstGrid = page.locator('#states-heading + div');
   const columnCount = await firstGrid.evaluate((element) => {

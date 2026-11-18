@@ -7,7 +7,12 @@ export function UnconfirmedEmailBanner() {
   return (
     <section className={styles.notice} aria-label={messages.account.unconfirmed}>
       <p>{messages.account.unconfirmed}</p>
-      <FeatureGate badge="inline" feature="resend-confirmation" label={messages.site.soon}>
+      <FeatureGate
+        badge="inline"
+        feature="resend-confirmation"
+        label={messages.site.soon}
+        whenSoon="hide"
+      >
         <span>{messages.account.resend}</span>
       </FeatureGate>
     </section>

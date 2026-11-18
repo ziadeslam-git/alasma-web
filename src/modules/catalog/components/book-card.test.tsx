@@ -71,7 +71,7 @@ describe('BookCard', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('renders the out-of-stock badge and notify-me Soon control when stockStatus is OutOfStock', async () => {
+  it('renders the out-of-stock badge and no notify-me control when stockStatus is OutOfStock', async () => {
     const book = makeBook({ stockStatus: 'OutOfStock' });
     const { container } = render(<BookCard book={book} />);
 
@@ -79,10 +79,9 @@ describe('BookCard', () => {
     expect(container.querySelector('article')?.className).toContain('outOfStock');
     expect(container.querySelector('[data-feature="cart-page"]')).toBeNull();
 
-    const notifyGate = container.querySelector('[data-feature="reservations-notify-me"]');
-    expect(notifyGate).toHaveAttribute('inert');
-    expect(notifyGate).toHaveTextContent(text.notifyMe);
-    expect(notifyGate).toHaveTextContent(messages.site.soon);
+    // Task 76: the notify-me action is hidden (not dimmed with a badge) until its feature is live
+    expect(container.querySelector('[data-feature="reservations-notify-me"]')).toBeNull();
+    expect(screen.queryByText(text.notifyMe)).toBeNull();
     expect(await axe(container)).toHaveNoViolations();
   });
 

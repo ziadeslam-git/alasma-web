@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import {
   CatalogView,
   getCatalogData,
+  getOutOfRangeHref,
   parseCatalogParams,
   type RawSearchParams,
 } from '@/modules/catalog';
@@ -22,6 +24,8 @@ export async function generateMetadata({ searchParams }: BooksPageProps = {}): P
 export default async function BooksPage({ searchParams }: BooksPageProps = {}) {
   const params = parseCatalogParams(searchParams ? await searchParams : {});
   const data = await getCatalogData(params);
+  const outOfRange = getOutOfRangeHref(data.books, params);
+  if (outOfRange) redirect(outOfRange);
 
   return (
     <>

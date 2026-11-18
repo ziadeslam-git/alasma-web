@@ -272,6 +272,11 @@
   margin-block-start: var(--space-2);
 }
 
+/* An out-of-stock book has no action while "notify me" is hidden: the empty row leaves no gap */
+.actionsRow:empty {
+  display: none;
+}
+
 .trustRow {
   display: flex;
   gap: var(--space-5);

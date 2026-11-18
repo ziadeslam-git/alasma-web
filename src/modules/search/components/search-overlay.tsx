@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useId, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import messages from '@/i18n/messages/ar.json';
 import { bookRoute, routes } from '@/shared/config/routes';
+import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Modal } from '@/shared/ui/modal';
 import { SafeImage } from '@/shared/ui/safe-image';
@@ -31,6 +32,9 @@ export function SearchOverlay({
   const [state, setState] = useState<SearchState>(initialState);
   const [suggestions, setSuggestions] = useState<BookSuggestion[]>(initialSuggestions);
   const [selected, setSelected] = useState(-1);
+  // Bumped by the retry button: the effect below then runs again for the SAME query (no router refresh, no new query)
+  const [retryCount, setRetryCount] = useState(0);
+  const isRetrying = useRef(false);
   const listId = useId();
   const formId = useId();
   const router = useRouter();
@@ -39,6 +43,9 @@ export function SearchOverlay({
     const q = query.trim();
     if (!isOpen || q.length < MIN_SEARCH_LENGTH) return undefined;
     const controller = new AbortController();
+    // a retry is the visitor's own click, so it does not wait for the typing debounce
+    const delay = isRetrying.current ? 0 : SEARCH_DEBOUNCE_MS;
+    isRetrying.current = false;
     const timer = setTimeout(() => {
       setState('loading');
       void getSuggestions(q, controller.signal)
@@ -50,12 +57,17 @@ export function SearchOverlay({
         .catch(() => {
           if (!controller.signal.aborted) setState('error');
         });
-    }, SEARCH_DEBOUNCE_MS);
+    }, delay);
     return () => {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, isOpen]);
+  }, [query, isOpen, retryCount]);
+
+  function retry() {
+    isRetrying.current = true;
+    setRetryCount((count) => count + 1);
+  }
 
   function onQueryChange(value: string) {
     setQuery(value);
@@ -137,15 +149,21 @@ export function SearchOverlay({
           </label>
         </form>
         <div aria-live="polite" className={styles.status}>
-          {state === 'idle'
-            ? text.idle
-            : state === 'loading'
-              ? text.loading
-              : state === 'empty'
-                ? text.empty
-                : state === 'error'
-                  ? text.error
-                  : null}
+          {state === 'idle' ? text.idle : null}
+          {state === 'loading' ? text.loading : null}
+          {state === 'empty' || state === 'error' ? (
+            <div className={styles.notice} data-search-state={state}>
+              <span aria-hidden="true" className={styles.noticeIcon}>
+                <Icon name={state === 'empty' ? 'search' : 'help'} />
+              </span>
+              <p>{state === 'empty' ? text.empty : text.error}</p>
+              {state === 'error' ? (
+                <Button onClick={retry} size="sm" variant="outline">
+                  {messages.site.loadError.retry}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
         </div>
         <ul className={styles.results} id={listId} role="listbox">
           {suggestions.map((item, index) => (

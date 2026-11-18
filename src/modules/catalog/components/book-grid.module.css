@@ -34,9 +34,10 @@
   padding-inline: 2px;
 }
 
+/* 761px to 1000px: three columns (it was two, so the covers were very large on a tablet); 760px and below: two */
 @media (width <= 1000px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-4);
   }
 }

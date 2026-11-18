@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import messages from '@/i18n/messages/ar.json';
 import {
+  CatalogIntro,
   CatalogView,
   CategoryNav,
   getCatalogData,
   getCategory,
+  getOutOfRangeHref,
   MAX_CATEGORY_SLUG_LENGTH,
   normalizeSlug,
   parseCatalogParams,
@@ -41,6 +43,8 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const parsed = parseCatalogParams(searchParams ? await searchParams : {});
   const data = await getCatalogData({ ...parsed, category: slug });
   const viewParams = { ...parsed, category: undefined };
+  const outOfRange = getOutOfRangeHref(data.books, viewParams, categoryRoute(slug));
+  if (outOfRange) redirect(outOfRange);
   const children = category.children.map((child) => ({ ...child, imageUrl: null, children: [] }));
   const breadcrumb = [
     { label: messages.site.header.home, href: routes.home },
@@ -50,8 +54,10 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     breadcrumb.push({ label: category.name, href: categoryRoute(slug) });
   return (
     <>
-      <Breadcrumbs label={messages.catalog.filters.categoryNav.label} items={breadcrumb} />
-      <CategoryNav categories={children} detailRoutes />
+      <CatalogIntro>
+        <Breadcrumbs label={messages.catalog.filters.categoryNav.label} items={breadcrumb} />
+        <CategoryNav categories={children} detailRoutes />
+      </CatalogIntro>
       <CatalogView
         basePath={categoryRoute(slug)}
         data={data}

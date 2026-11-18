@@ -58,14 +58,14 @@ for (const width of widths) {
     const first = (await page.locator('article').first().boundingBox())!;
     expect(first.x).toBeGreaterThanOrEqual(outerMargin + gutter - 1);
 
-    // two columns on small screens, four on wide ones
+    // two columns on a phone, three on a tablet (761px to 1000px), four on wide screens
     const columns = await page.evaluate(
       () =>
         new Set(
           [...document.querySelectorAll('main article')].map((a) => a.getBoundingClientRect().x),
         ).size,
     );
-    expect(columns).toBe(width <= 1000 ? 2 : 4);
+    expect(columns).toBe(width <= 760 ? 2 : width <= 1000 ? 3 : 4);
 
     // the cover IS the card: every loaded image fills its 2:3 figure edge to edge (no inset, no white tile), and the
     // radius and shadow belong to the figure

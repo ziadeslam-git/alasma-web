@@ -266,7 +266,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
 
           <div className={styles.actionsRow}>
             {isOutOfStock ? (
-              <FeatureGate feature="reservations-notify-me" label={soonLabel}>
+              <FeatureGate feature="reservations-notify-me" label={soonLabel} whenSoon="hide">
                 <button
                   className={`${styles.optionBtn} ${styles.primaryAction}`}
                   disabled
@@ -338,8 +338,8 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
                           <th className={styles.specsTh} scope="row">
                             {row.label}
                           </th>
-                          <td className={styles.specsTd} dir={row.dir}>
-                            {row.value}
+                          <td className={styles.specsTd}>
+                            {row.dir === 'ltr' ? <bdi dir="ltr">{row.value}</bdi> : row.value}
                           </td>
                         </tr>
                       ))}

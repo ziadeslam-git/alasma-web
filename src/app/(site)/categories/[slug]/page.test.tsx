@@ -72,7 +72,9 @@ describe('category route', () => {
       kind: 'ok',
       category: { id: 1, name: 'Category', slug: 'one', children: [], breadcrumb: [] },
     });
-    mocks.catalog.mockResolvedValue({});
+    mocks.catalog.mockResolvedValue({
+      books: { status: 'ok', items: [], page: 1, pageSize: 12, totalCount: 0, totalPages: 0 },
+    });
     await CategoryPage({
       params: Promise.resolve({ slug: 'one' }),
       searchParams: Promise.resolve({ category: 'other' }),

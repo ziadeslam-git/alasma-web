@@ -72,7 +72,7 @@ export function BookCard({ book, priority = false }: BookCardProps) {
             <span />
           </FeatureGate>
           {isOutOfStock ? (
-            <FeatureGate feature="reservations-notify-me" label={soonLabel}>
+            <FeatureGate feature="reservations-notify-me" label={soonLabel} whenSoon="hide">
               <button
                 className={`${styles.actionButton} ${styles.notifyButton}`}
                 disabled

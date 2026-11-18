@@ -1,10 +1,10 @@
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { routes } from '@/shared/config/routes';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
-import { SafeImage } from '@/shared/ui/safe-image';
+import { ButtonLink } from '@/shared/ui/button';
 import type { Author } from '../api/authors';
+import { AuthorAvatar } from './author-avatar';
 import styles from './authors.module.css';
 export function AuthorView({ author, children }: { author: Author; children: ReactNode }) {
   return (
@@ -18,7 +18,7 @@ export function AuthorView({ author, children }: { author: Author; children: Rea
         ]}
       />
       <div className={styles.profile}>
-        <SafeImage alt={author.name} priority width={240} height={240} src={author.photoUrl} />
+        <AuthorAvatar name={author.name} photoUrl={author.photoUrl} priority size={240} />
         <div>
           <h1>{author.name}</h1>
           {author.fullBio || author.shortBio ? (
@@ -26,12 +26,17 @@ export function AuthorView({ author, children }: { author: Author; children: Rea
           ) : null}
         </div>
       </div>
-      <section>
+      <section className={styles.booksSection}>
         <h2>{messages.authors.booksHeading}</h2>
         {children}
-        <Link href={`${routes.books}?author=${encodeURIComponent(author.slug)}`}>
+        <ButtonLink
+          className={styles.viewAll}
+          href={`${routes.books}?author=${encodeURIComponent(author.slug)}`}
+          size="sm"
+          variant="outline"
+        >
           {messages.authors.viewAll}
-        </Link>
+        </ButtonLink>
       </section>
     </div>
   );
