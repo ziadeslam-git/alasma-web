@@ -1,6 +1,8 @@
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { resolve } from 'node:path';
 
+import { assertIsolatedDatabase, blankExternalServices } from './support/real-api-server';
+
 import { expect, test } from '@playwright/test';
 
 // Opt-in real-API proof for book page JSON-LD, canonical URL, sitemap index/chunks, and the raw-HTML <h1> count of a
@@ -31,6 +33,7 @@ async function startApi() {
     // Not running yet; spawn our own isolated API instance.
   }
 
+  assertIsolatedDatabase();
   api = spawn(
     'dotnet',
     ['run', '--project', 'src/AlAsmaPro.Api', '--no-launch-profile', '--urls', apiOrigin],
@@ -38,6 +41,7 @@ async function startApi() {
       cwd: apiDir,
       env: {
         ...process.env,
+        ...blankExternalServices,
         ASPNETCORE_ENVIRONMENT: 'Development',
         Cors__AllowedOrigins__0: 'http://localhost:3000',
         Cors__AllowedOrigins__1: webOrigin,

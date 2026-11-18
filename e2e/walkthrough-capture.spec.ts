@@ -11,6 +11,7 @@ import {
   isRealApiEnabled,
   realApiSkipReason,
   webOrigin,
+  assertIsolatedDatabase,
 } from './support/real-api-server';
 
 // Task 45 + 54 audit capture (NOT a regression test): walks every customer-facing page against the real API at
@@ -50,6 +51,7 @@ let apiLog = '';
 
 async function startApi() {
   apiLog = '';
+  assertIsolatedDatabase();
   api = spawn(
     'dotnet',
     ['run', '--project', 'src/AlAsmaPro.Api', '--no-launch-profile', '--urls', apiOrigin],
@@ -63,6 +65,9 @@ async function startApi() {
         Smtp__FromAddress: '',
         Smtp__Password: '',
         Smtp__UserName: '',
+        Cloudinary__CloudName: '',
+        Cloudinary__ApiKey: '',
+        Cloudinary__ApiSecret: '',
       },
     },
   );

@@ -15,6 +15,11 @@ vi.mock('@/modules/catalog', async (importOriginal) => ({
 }));
 
 import CategoryPage, { generateMetadata } from './page';
+import { Children, type ReactElement, type ReactNode } from 'react';
+import messages from '@/i18n/messages/ar.json';
+import { CatalogIntro } from '@/modules/catalog';
+import { JsonLd } from '@/shared/seo';
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 import { getCategory } from '@/modules/catalog/api/get-category';
 
 describe('category route', () => {
@@ -86,5 +91,48 @@ describe('category route', () => {
     await expect(CategoryPage({ params: Promise.resolve({ slug: 'failure' }) })).rejects.toThrow(
       'server',
     );
+  });
+
+  // Task 79: the breadcrumb and the sub-category chips are both <nav> landmarks; sharing one label made axe report
+  // landmark-unique as soon as a category had children. The breadcrumb takes the breadcrumb label, and the page also
+  // carries a BreadcrumbList JSON-LD block.
+  it('labels the breadcrumb with its own landmark name and adds a BreadcrumbList JSON-LD', async () => {
+    mocks.category.mockResolvedValue({
+      kind: 'ok',
+      category: {
+        id: 1,
+        name: 'Child',
+        slug: 'child',
+        children: [{ id: 2, name: 'Grandchild', slug: 'grandchild', bookCount: 1, children: [] }],
+        breadcrumb: [{ id: 9, name: 'Parent', slug: 'parent' }],
+      },
+    });
+    mocks.catalog.mockResolvedValue({
+      books: { status: 'ok', items: [], page: 1, pageSize: 12, totalCount: 0, totalPages: 0 },
+    });
+
+    const ui = await CategoryPage({ params: Promise.resolve({ slug: 'child' }) });
+    const top = Children.toArray(
+      (ui as ReactElement<{ children: ReactNode }>).props.children,
+    ) as ReactElement<{
+      children?: ReactNode;
+      label?: string;
+      data?: { '@type'?: string; itemListElement?: { position: number; name: string }[] };
+    }>[];
+
+    const intro = top.find((node) => node.type === CatalogIntro)!;
+    const crumbs = Children.toArray(intro.props.children).find(
+      (node) => (node as ReactElement).type === Breadcrumbs,
+    ) as ReactElement<{ label: string }>;
+    expect(crumbs.props.label).toBe(messages.catalog.detail.breadcrumbsLabel);
+    expect(crumbs.props.label).not.toBe(messages.catalog.filters.categoryNav.label);
+
+    const jsonLd = top.find((node) => node.type === JsonLd)!;
+    expect(jsonLd.props.data?.['@type']).toBe('BreadcrumbList');
+    expect(jsonLd.props.data?.itemListElement?.map((entry) => entry.name)).toEqual([
+      messages.site.header.home,
+      'Parent',
+      'Child',
+    ]);
   });
 });

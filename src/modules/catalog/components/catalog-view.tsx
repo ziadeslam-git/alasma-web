@@ -73,6 +73,7 @@ export function CatalogView({
   const hasActiveCriteria = countActiveFilters(params) > 0 || params.q !== undefined;
   const resetHref = buildCatalogHref(basePath, { ...clearFilters(params), q: undefined });
   const retryHref = buildCatalogHref(basePath, params);
+  const headingId = isLoading ? 'catalog-heading-loading' : 'catalog-heading';
   const shouldShowResultCount = !isLoading && (books.status === 'ok' || books.status === 'empty');
 
   return (
@@ -87,12 +88,20 @@ export function CatalogView({
           />
         </div>
 
-        <section aria-labelledby="catalog-heading" className={styles.results}>
+        <section aria-labelledby={headingId} className={styles.results}>
           <header className={styles.topBar}>
             <div className={styles.headingGroup}>
-              <h1 className={styles.heading} id="catalog-heading">
-                {headingText}
-              </h1>
+              {/* The loading skeleton is streamed into the HTML next to the real page, so it shows the title as plain
+                  text: one <h1> and one #catalog-heading per document (Task 79). */}
+              {isLoading ? (
+                <p className={styles.heading} id={headingId}>
+                  {headingText}
+                </p>
+              ) : (
+                <h1 className={styles.heading} id={headingId}>
+                  {headingText}
+                </h1>
+              )}
               {shouldShowResultCount ? (
                 <p className={styles.resultCount} data-testid="catalog-result-count">
                   {text.resultsCount.replace('{count}', formatNumber(books.totalCount))}

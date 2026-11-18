@@ -16,6 +16,29 @@ export const webOrigin = 'http://localhost:3101';
 
 const apiDir = resolve(process.env.E2E_API_DIR ?? '../AlAsmaPro');
 
+// Without ConnectionStrings__Default the API falls back to the developer's user-secrets: their MAIN database, and real
+// Smtp and Cloudinary settings. A spec that spawns an API therefore refuses to start unless that variable names an
+// isolated "..._FrontendDev" database (the backend's docs/frontend-dev-setup.md). The message never contains the value.
+export function assertIsolatedDatabase() {
+  const connection = process.env.ConnectionStrings__Default ?? '';
+  if (!/(?:database|initial catalog)\s*=\s*[^;]*_FrontendDev\s*(?:;|$)/i.test(connection)) {
+    throw new Error(
+      'Refusing to start the API: ConnectionStrings__Default must be set (inline, per command) to an isolated ' +
+        'database whose name ends with _FrontendDev. Without it the API would use the main development database.',
+    );
+  }
+}
+
+// Mail and image uploads are always blank for a spawned API, whatever the caller's environment or user-secrets hold.
+export const blankExternalServices = {
+  Smtp__FromAddress: '',
+  Smtp__Password: '',
+  Smtp__UserName: '',
+  Cloudinary__CloudName: '',
+  Cloudinary__ApiKey: '',
+  Cloudinary__ApiSecret: '',
+} as const;
+
 let api: ChildProcess | undefined;
 let apiLog = '';
 
@@ -34,6 +57,7 @@ export async function startRealApi() {
   // the "Now listening on" of the PREVIOUS file's (already stopped) API and returned before this one listened, so the
   // next spec met ECONNREFUSED (seen as a 500 on /books/zz-no-such-book, Task 72).
   apiLog = '';
+  assertIsolatedDatabase();
   api = spawn(
     'dotnet',
     ['run', '--project', 'src/AlAsmaPro.Api', '--no-launch-profile', '--urls', apiOrigin],
@@ -41,6 +65,7 @@ export async function startRealApi() {
       cwd: apiDir,
       env: {
         ...process.env,
+        ...blankExternalServices,
         ASPNETCORE_ENVIRONMENT: 'Development',
         Cors__AllowedOrigins__0: 'http://localhost:3000',
         Cors__AllowedOrigins__1: webOrigin,

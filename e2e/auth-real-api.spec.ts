@@ -3,6 +3,8 @@ import { randomBytes } from 'node:crypto';
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { resolve } from 'node:path';
 
+import { assertIsolatedDatabase } from './support/real-api-server';
+
 import messages from '../src/i18n/messages/ar.json';
 
 // Opt-in proof of the F1.9 session logic against the REAL API in a real browser. Skipped unless E2E_REAL_API=1.
@@ -28,6 +30,7 @@ let api: ChildProcess | undefined;
 let apiLog = '';
 
 async function startApi() {
+  assertIsolatedDatabase();
   api = spawn(
     'dotnet',
     ['run', '--project', 'src/AlAsmaPro.Api', '--no-launch-profile', '--urls', apiOrigin],
@@ -41,6 +44,9 @@ async function startApi() {
         Smtp__FromAddress: '',
         Smtp__Password: '',
         Smtp__UserName: '',
+        Cloudinary__CloudName: '',
+        Cloudinary__ApiKey: '',
+        Cloudinary__ApiSecret: '',
       },
     },
   );

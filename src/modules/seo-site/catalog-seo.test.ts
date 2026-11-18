@@ -4,6 +4,7 @@ import messages from '@/i18n/messages/ar.json';
 import { parseCatalogParams } from '@/modules/catalog';
 
 import {
+  buildCategoryBreadcrumbJsonLd,
   buildBooksCatalogMetadata,
   buildCategoryCatalogMetadata,
   resolveCatalogSeoRule,
@@ -121,5 +122,25 @@ describe('catalog and category SEO rules (Decision 20)', () => {
       noindex: true,
       follow: true,
     });
+  });
+});
+
+describe('buildCategoryBreadcrumbJsonLd', () => {
+  it('lists the trail with positions from 1 and an absolute URL on every item (Task 79)', () => {
+    const list = buildCategoryBreadcrumbJsonLd([
+      { name: messages.site.header.home, path: '/' },
+      { name: 'Parent', path: '/categories/parent' },
+      { name: 'Child', path: '/categories/child' },
+    ]) as { '@type': string; itemListElement: { position: number; name: string; item: string }[] };
+
+    expect(list['@type']).toBe('BreadcrumbList');
+    expect(list.itemListElement.map((entry) => entry.position)).toEqual([1, 2, 3]);
+    expect(list.itemListElement.map((entry) => entry.name)).toEqual([
+      messages.site.header.home,
+      'Parent',
+      'Child',
+    ]);
+    for (const entry of list.itemListElement) expect(entry.item).toMatch(/^https?:\/\//);
+    expect(list.itemListElement[2]?.item.endsWith('/categories/child')).toBe(true);
   });
 });

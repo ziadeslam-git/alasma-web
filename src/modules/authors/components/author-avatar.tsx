@@ -34,17 +34,29 @@ export type AuthorAvatarProps = {
   photoUrl: string | null | undefined;
   size: number;
   priority?: boolean;
+  // Inside a link that already says the name (the author card): the photo adds nothing for a screen reader, and an alt
+  // equal to the adjacent link text is an axe violation (image-redundant-alt, Task 79).
+  decorative?: boolean;
 };
 
 // The author's photo, or decorative initials when there is none (a blank gradient block before). The initials are
 // aria-hidden: the author's name is already the accessible name of the link or heading next to it.
-export function AuthorAvatar({ name, photoUrl, size, priority = false }: AuthorAvatarProps) {
+export function AuthorAvatar({
+  name,
+  photoUrl,
+  size,
+  priority = false,
+  decorative = false,
+}: AuthorAvatarProps) {
   if (!photoUrl) {
     return (
       <span aria-hidden="true" className={styles.initials} data-author-initials>
         {getAuthorInitials(name)}
       </span>
     );
+  }
+  if (decorative) {
+    return <SafeImage decorative height={size} priority={priority} src={photoUrl} width={size} />;
   }
   return <SafeImage alt={name} height={size} priority={priority} src={photoUrl} width={size} />;
 }

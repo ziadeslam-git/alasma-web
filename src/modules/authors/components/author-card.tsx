@@ -7,7 +7,7 @@ export function AuthorCard({ author }: { author: components['schemas']['AuthorLi
   return (
     <article className={styles.card}>
       <Link href={authorRoute(author.slug)}>
-        <AuthorAvatar name={author.name} photoUrl={author.photoUrl} size={180} />
+        <AuthorAvatar decorative name={author.name} photoUrl={author.photoUrl} size={180} />
         <h2>{author.name}</h2>
       </Link>
       {author.shortBio ? <p>{author.shortBio}</p> : null}

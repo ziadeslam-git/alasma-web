@@ -14,8 +14,9 @@ import {
   parseCatalogParams,
   type RawSearchParams,
 } from '@/modules/catalog';
-import { buildCategoryCatalogMetadata } from '@/modules/seo-site';
+import { buildCategoryBreadcrumbJsonLd, buildCategoryCatalogMetadata } from '@/modules/seo-site';
 import { categoryRoute, routes } from '@/shared/config/routes';
+import { JsonLd } from '@/shared/seo';
 import { Breadcrumbs } from '@/shared/ui/breadcrumbs';
 
 type Props = { params: Promise<{ slug: string }>; searchParams?: Promise<RawSearchParams> };
@@ -54,8 +55,13 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     breadcrumb.push({ label: category.name, href: categoryRoute(slug) });
   return (
     <>
+      <JsonLd
+        data={buildCategoryBreadcrumbJsonLd(
+          breadcrumb.map((item) => ({ name: item.label, path: item.href })),
+        )}
+      />
       <CatalogIntro>
-        <Breadcrumbs label={messages.catalog.filters.categoryNav.label} items={breadcrumb} />
+        <Breadcrumbs label={messages.catalog.detail.breadcrumbsLabel} items={breadcrumb} />
         <CategoryNav categories={children} detailRoutes />
       </CatalogIntro>
       <CatalogView

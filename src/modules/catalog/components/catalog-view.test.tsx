@@ -219,4 +219,19 @@ describe('CatalogView', () => {
     expect(screen.queryByTestId('catalog-result-count')).not.toBeInTheDocument();
     expect(screen.getByRole('status', { name: messages.catalog.loadingLabel })).toBeInTheDocument();
   });
+
+  // Task 79 (B1): the loading skeleton is streamed into the HTML next to the real page, so it must not add a second h1
+  // (or a second #catalog-heading): the raw HTML of /books had two of each.
+  it('renders no h1 and no catalog-heading id in the loading skeleton, and one h1 when loaded', () => {
+    const { container, rerender } = render(
+      <CatalogView data={makeCatalogData()} isLoading params={makeParams()} />,
+    );
+    expect(container.querySelectorAll('h1')).toHaveLength(0);
+    expect(container.querySelector('#catalog-heading')).toBeNull();
+    expect(container.querySelector('section[aria-labelledby]')).not.toBeNull();
+
+    rerender(<CatalogView data={makeCatalogData()} params={makeParams()} />);
+    expect(container.querySelectorAll('h1')).toHaveLength(1);
+    expect(container.querySelectorAll('#catalog-heading')).toHaveLength(1);
+  });
 });

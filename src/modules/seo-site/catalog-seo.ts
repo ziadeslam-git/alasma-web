@@ -8,7 +8,8 @@ import {
   type RawSearchParams,
 } from '@/modules/catalog';
 import { categoryRoute, routes } from '@/shared/config/routes';
-import { buildPageMetadata } from '@/shared/seo';
+import { absoluteUrl } from '@/shared/config/site';
+import { buildPageMetadata, type JsonLdNode } from '@/shared/seo';
 
 export type CatalogSeoRuleResult = {
   canonicalPath: string;
@@ -141,4 +142,21 @@ export function buildCategoryCatalogMetadata(
     noindex: rule.noindex,
     follow: rule.follow,
   });
+}
+
+export type BreadcrumbEntry = { name: string; path: string };
+
+// The BreadcrumbList JSON-LD of a category page, from the same trail the page shows (home, the ancestors, the category).
+// Every item carries an absolute URL, like the book page's list (Task 79).
+export function buildCategoryBreadcrumbJsonLd(entries: readonly BreadcrumbEntry[]): JsonLdNode {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: entries.map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: entry.name,
+      item: absoluteUrl(entry.path),
+    })),
+  };
 }

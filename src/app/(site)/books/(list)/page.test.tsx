@@ -109,9 +109,9 @@ describe('BooksPage (/books)', () => {
     const { container } = render(<BooksLoading />);
 
     expect(container.querySelector('main')).toBeNull();
-    expect(
-      screen.getByRole('heading', { level: 1, name: messages.catalog.page.heading }),
-    ).toBeInTheDocument();
+    // Task 79 (B1): the skeleton is streamed into the HTML next to the real page, so its title is plain text, not a second h1
+    expect(container.querySelectorAll('h1')).toHaveLength(0);
+    expect(screen.getByText(messages.catalog.page.heading)).toBeInTheDocument();
     expect(screen.getByRole('status', { name: messages.catalog.loadingLabel })).toBeInTheDocument();
   });
 

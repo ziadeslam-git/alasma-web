@@ -1,7 +1,9 @@
 export {
   buildBooksCatalogMetadata,
+  buildCategoryBreadcrumbJsonLd,
   buildCategoryCatalogMetadata,
   resolveCatalogSeoRule,
+  type BreadcrumbEntry,
   type CatalogSeoRuleResult,
 } from './catalog-seo';
 export { buildOrganizationJsonLd, buildWebSiteJsonLd } from './site-json-ld';

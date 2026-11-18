@@ -36,4 +36,13 @@ describe('AuthorAvatar', () => {
     expect(container.querySelector('[data-author-initials]')).toBeNull();
     expect(container.querySelector('img')).toBeInTheDocument();
   });
+
+  it('hides the photo from assistive technology when it is decorative (inside a link that names the author)', () => {
+    const { container } = render(
+      <AuthorAvatar decorative name="أحمد سليمان" photoUrl="/a.jpg" size={180} />,
+    );
+    const image = container.querySelector('img')!;
+    expect(image).toHaveAttribute('alt', '');
+    expect(image).toHaveAttribute('aria-hidden', 'true');
+  });
 });

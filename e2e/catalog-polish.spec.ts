@@ -351,6 +351,19 @@ test.describe('with the real API', () => {
     stopRealApi();
   });
 
+  // The page parameter the app should end on: the last page the API has for this query (the app sends no pageSize, so the
+  // backend's default decides it; so does this request), and none when everything fits on the first page. The data of
+  // the isolated database decides, so it is asked, not assumed.
+  async function lastPageParam(query: string) {
+    const result = (await (await fetch(`${apiOrigin}${query}page=1`)).json()) as {
+      totalPages?: number;
+      totalCount: number;
+      pageSize: number;
+    };
+    const totalPages = result.totalPages ?? Math.ceil(result.totalCount / result.pageSize);
+    return totalPages > 1 ? String(totalPages) : null;
+  }
+
   test('A8 a page beyond the last one goes to the last valid page, with the books', async ({
     page,
   }, testInfo) => {
@@ -360,14 +373,16 @@ test.describe('with the real API', () => {
     await expect(page.locator('main a[href^="/books/"]').first()).toBeVisible();
     const url = new URL(page.url());
     expect(url.pathname).toBe('/books');
-    // the other parameters stay; the page is the last valid one (the first one when everything fits)
+    // the other parameters stay; the page is the last valid one (the first, with no page parameter, when everything fits)
     expect(url.searchParams.get('sort')).toBe('price_asc');
-    expect(['1', null]).toContain(url.searchParams.get('page'));
+    expect(url.searchParams.get('page')).toBe(await lastPageParam('/api/v1/books?'));
     await expect(page.getByText(messages.catalog.emptyTitle, { exact: true })).toHaveCount(0);
 
     await page.goto(`/categories/${encodeURIComponent(categorySlug)}?page=99`);
     await expect(page.locator('main a[href^="/books/"]').first()).toBeVisible();
-    expect(new URL(page.url()).searchParams.get('page') ?? '1').toBe('1');
+    expect(new URL(page.url()).searchParams.get('page')).toBe(
+      await lastPageParam(`/api/v1/books?category=${encodeURIComponent(categorySlug)}&`),
+    );
   });
 
   for (const width of WIDTHS) {
@@ -396,13 +411,23 @@ test.describe('with the real API', () => {
       expect(info.clipped).toBe(0);
     });
 
-    test(`A10 real authors show initials (${width}px)`, async ({ page }, testInfo) => {
+    test(`A10 every real author card shows a photo or initials, never a blank block (${width}px)`, async ({
+      page,
+    }, testInfo) => {
       onlyDesktopProject(testInfo);
       await page.setViewportSize({ width, height: 900 });
       await page.goto('/authors');
-      const initials = page.locator('main article [data-author-initials]');
-      await expect(initials.first()).toBeVisible();
-      expect(await initials.count()).toBeGreaterThan(0);
+      const cards = page.locator('main article');
+      await expect(cards.first()).toBeVisible();
+      const cardCount = await cards.count();
+      expect(cardCount).toBeGreaterThan(0);
+      // each card has either a photo or the decorative initials (the data decides which), and no empty placeholder
+      for (let index = 0; index < cardCount; index += 1) {
+        const card = cards.nth(index);
+        const hasPhoto = (await card.locator('img').count()) > 0;
+        const hasInitials = (await card.locator('[data-author-initials]').count()) > 0;
+        expect(hasPhoto || hasInitials, `card ${index}`).toBe(true);
+      }
       await expect(page.locator('main article [role="img"]')).toHaveCount(0);
       expect(await gapBelow(page, 'main h1')).toBeGreaterThanOrEqual(20);
     });
