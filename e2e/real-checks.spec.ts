@@ -81,10 +81,29 @@ test('B1 every page has exactly one h1, with the API running', async ({ page }, 
     await page.setViewportSize({ width, height: 900 });
     for (const route of routes) {
       await page.goto(route);
-      report[`${route} @${width}`] = await page.locator('h1').allTextContents();
+      // Task 82: `load` fires while React is still finishing the streamed page. For a moment the finished page is in
+      // <main> AND its streaming copy is still in the hidden segment <div id="S:n" hidden> that React removes right after
+      // (seen in 3 of ~250 runs, always on /books). A locator('h1') counts that hidden copy, so the check read "two h1"
+      // although the page, its accessibility tree and its raw HTML have one. So: wait until the streaming segments are
+      // gone (the settled state, no sleep), then count the headings a user or a screen reader actually has.
+      await expect(page.locator('div[id^="S:"]')).toHaveCount(0);
+      const headings = page.getByRole('heading', { level: 1 });
+      report[`${route} @${width}`] = await headings.allTextContents();
       // the raw HTML (what a crawler without JavaScript reads) has one h1 as well: the streamed loading skeleton had its own
       const raw = await (await page.request.get(route)).text();
       report[`${route} raw`] = Array.from(raw.matchAll(/<h1[\s>]/g)).map(() => 'h1');
+      if (report[`${route} @${width}`]?.length !== 1 || report[`${route} raw`]?.length !== 1) {
+        // keep the evidence of a real failure: the DOM and the raw HTML, written to E2E_CAPTURE_DIR when it is set
+        const label = `${route} @${width}`.replace(/[^a-z0-9]+/gi, '_');
+        const evidence = {
+          [`${label}-dom.html`]: await page.content(),
+          [`${label}-raw.html`]: raw,
+        };
+        for (const [name, body] of Object.entries(evidence)) {
+          await testInfo.attach(name, { body, contentType: 'text/plain' });
+          if (captureDir) writeFileSync(path.join(captureDir, name), body);
+        }
+      }
     }
   }
   const wrong = Object.entries(report).filter(([, headings]) => headings.length !== 1);
