@@ -285,7 +285,7 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
                   showText
                 />
 
-                <FeatureGate feature="checkout-flow" label={soonLabel}>
+                <FeatureGate feature="buy-now" label={soonLabel} whenSoon="hide">
                   <button
                     className={`${styles.optionBtn} ${styles.secondaryAction}`}
                     disabled

@@ -41,6 +41,11 @@ describe('features registry', () => {
     expect(getFeatureState('publish-packages')).toBe('soon');
   });
 
+  it('keeps buy-now soon while checkout is not built, without changing checkout-flow', () => {
+    expect(getFeatureState('buy-now')).toBe('soon');
+    expect(getFeatureState('checkout-flow')).toBe('live');
+  });
+
   it('keeps resend-confirmation soon until the backend endpoint (S4) is delivered', () => {
     expect(getFeatureState('resend-confirmation')).toBe('soon');
   });

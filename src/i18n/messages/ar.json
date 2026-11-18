@@ -481,7 +481,12 @@
     "authorFallbackDescription": "تصفح مؤلفات وإصدارات الكاتب لدى دار الأسمى للنشر والتوزيع.",
     "categoriesTitle": "الأقسام",
     "categoriesDescription": "تصفح أقسام الكتب والإصدارات لدى دار الأسمى للنشر والتوزيع.",
-    "categoryDescription": "تصفح كتب قسم {name} لدى دار الأسمى للنشر والتوزيع."
+    "categoryDescription": "تصفح كتب قسم {name} لدى دار الأسمى للنشر والتوزيع.",
+    "loginTitle": "تسجيل الدخول",
+    "registerTitle": "إنشاء حساب جديد",
+    "confirmEmailTitle": "تأكيد البريد الإلكتروني",
+    "forgotPasswordTitle": "استعادة كلمة المرور",
+    "resetPasswordTitle": "تعيين كلمة مرور جديدة"
   },
   "auth": {
     "loginTitle": "أهلاً بعودتك",

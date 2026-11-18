@@ -53,7 +53,17 @@ export default async function DevAuthorsPage({
       </main>
     );
   const data: AuthorList = {
-    items: state === 'empty' ? [] : [author],
+    items:
+      state === 'empty'
+        ? []
+        : state === 'photo'
+          ? Array.from({ length: 6 }, (_, index) => ({
+              ...author,
+              id: index + 1,
+              photoUrl: '/logo-alasma.svg',
+              slug: `sample-${index + 1}`,
+            }))
+          : [author],
     page: 1,
     pageSize: 48,
     totalCount: state === 'empty' ? 0 : 1,

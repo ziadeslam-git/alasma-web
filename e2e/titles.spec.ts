@@ -44,6 +44,27 @@ const staticRoutes = [
   '/zz-no-such-page',
 ] as const;
 
+// Task 81: each auth page has its own title, page name first. The site name is not repeated here: the root template adds it.
+const authTitles: Record<string, string> = {
+  '/login': messages.seo.loginTitle,
+  '/register': messages.seo.registerTitle,
+  '/confirm-email': messages.seo.confirmEmailTitle,
+  '/forgot-password': messages.seo.forgotPasswordTitle,
+  '/reset-password': messages.seo.resetPasswordTitle,
+};
+
+test('the five auth pages have distinct titles, page name first', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop-1280', 'the title does not depend on the viewport');
+  const titles: string[] = [];
+  for (const [route, name] of Object.entries(authTitles)) {
+    await page.goto(route);
+    const title = await page.title();
+    expect(title, route).toBe(`${name} | ${siteName}`);
+    titles.push(title);
+  }
+  expect(new Set(titles).size).toBe(titles.length);
+});
+
 test.describe('without the API', () => {
   for (const route of staticRoutes) {
     test(`the site name appears exactly once in the title of ${route}`, async ({

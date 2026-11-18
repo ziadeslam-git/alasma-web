@@ -44,6 +44,14 @@
   background: var(--surface);
 }
 
+/* The photo fills its frame edge to edge, like a book cover, instead of sitting in a fixed 180px box with a beige strip
+   beside it. The frame keeps the old 180px height, so the card's size does not change (Task 81). */
+.card :global(img) {
+  inline-size: 100%;
+  block-size: 180px;
+  object-fit: cover;
+}
+
 .profile {
   display: flex;
   flex-wrap: wrap;

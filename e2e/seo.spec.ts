@@ -119,3 +119,17 @@ test('/sitemap.xml returns 5xx and never an empty sitemap when the API is not ru
   const response = await request.get('/sitemap.xml');
   expect(response.status()).toBeGreaterThanOrEqual(500);
 });
+
+// Task 81: /favicon.ico was a 404 on every page; the icons now come from the Next.js metadata file conventions.
+test('serves /favicon.ico and links the app icon from the page head', async ({ page, request }) => {
+  const favicon = await request.get('/favicon.ico');
+  expect(favicon.status()).toBe(200);
+  expect(favicon.headers()['content-type']).toMatch(/image\/(x-icon|vnd\.microsoft\.icon)/);
+  expect((await favicon.body()).length).toBeGreaterThan(0);
+
+  await page.goto('/');
+  const icon = page.locator('link[rel="icon"][type="image/svg+xml"]');
+  await expect(icon).toHaveCount(1);
+  const svg = await request.get((await icon.getAttribute('href')) ?? '');
+  expect(svg.status()).toBe(200);
+});

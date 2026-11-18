@@ -30,6 +30,14 @@
   white-space: nowrap;
 }
 
+/* WCAG 2.2 target size (24px): the text is ~21px tall, so the link grows by 4px of padding on each side and the same
+   amount of negative margin cancels it, which keeps the row exactly as dense as before (Task 81). */
+.link {
+  min-inline-size: var(--space-6);
+  margin-block: calc(var(--space-1) * -1);
+  padding-block: var(--space-1);
+}
+
 .link:hover {
   color: var(--primary);
 }

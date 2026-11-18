@@ -48,6 +48,7 @@ export const features = {
   'order-invoice': 'soon', // Customer invoice endpoint is not delivered.
   'payment-proof': 'soon', // Customer payment proof endpoint is not delivered.
   'checkout-flow': 'live', // Checkout flow after the cart.
+  'buy-now': 'soon', // Buy-now shortcut on the product page: checkout is Week 2, so it stays hidden until it works.
   'account-area': 'live', // Customer account entry points.
   'publish-packages': 'soon', // Publishing packages navigation entry.
   'resend-confirmation': 'soon', // Resend confirmation email: backend endpoint (S4) not delivered yet.

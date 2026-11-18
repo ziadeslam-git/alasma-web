@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+import messages from '../src/i18n/messages/ar.json';
 import {
   apiOrigin,
   isRealApiEnabled,
@@ -120,6 +121,7 @@ for (const width of widths) {
 
     // Task 70: the soon actions are left out of the page, and add to cart still works
     for (const feature of [
+      'buy-now',
       'wishlist-heart',
       'book-sample-pdf',
       'book-short-link',
@@ -133,6 +135,9 @@ for (const width of widths) {
       ),
     ).toHaveCount(0);
     await expect(page.getByText('خيارات إضافية')).toHaveCount(0);
+    await expect(
+      hero.getByRole('button', { name: messages.catalog.detail.actions.buyNow }),
+    ).toHaveCount(0);
     const addToCart = hero.getByRole('button', { name: book.title });
     await expect(addToCart).toBeEnabled();
     // a visitor is sent to login with a return path (the cart needs a session); the button keeps that behaviour

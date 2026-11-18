@@ -262,6 +262,7 @@ describe('BookDetailsView', () => {
     const { container } = render(<BookDetailsView book={sampleBook} />);
 
     for (const feature of [
+      'buy-now',
       'wishlist-heart',
       'book-sample-pdf',
       'book-short-link',
@@ -270,6 +271,7 @@ describe('BookDetailsView', () => {
       expect(container.querySelector(`[data-feature="${feature}"]`)).toBeNull();
     }
     for (const label of [
+      detail.actions.buyNow,
       detail.actions.sample,
       detail.actions.share,
       detail.extraOptions.heading,
