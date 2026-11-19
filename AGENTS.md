@@ -55,7 +55,7 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
   `src/shared/config/fonts.ts`. Never use `next/font/google` or a Google Fonts URL. The family names match the ones
   in `tokens.css`, so only the variables are used in CSS, never a literal family name.
 - Font weight 700 is the maximum (weight 800 does not exist in these fonts). Allowed weights: Aref Ruqaa 400 and 700,
-  IBM Plex Sans Arabic 300-700, Amiri 400 and 700.
+  IBM Plex Sans Arabic 400, 500, 600 and 700, Amiri 400 and 700.
 - `src/styles/globals.css` is imported once, from the root layout, and pulls in `tokens.css` and `reset.css`. Logical
   properties only (`margin-inline-start`, `inline-size`), no hex, no left/right.
 - `/dev/tokens` is a development-only page that shows every token. It returns 404 in production and is `noindex`.

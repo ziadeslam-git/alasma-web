@@ -347,11 +347,23 @@ test('walk the public pages signed out', async ({ page }, testInfo) => {
   await visit(page, 'books', '/books');
   await visit(page, 'books-sort-price', '/books?sort=price_asc');
   await visit(page, 'books-page2', '/books?page=2');
+  // Task 83: the last page (the web page size is 12) and a filter + sort combination
+  await visit(
+    page,
+    'books-lastpage',
+    `/books?page=${Math.max(1, Math.ceil(list.totalCount / 12))}`,
+  );
   if (categoryWithBooks)
     await visit(
       page,
       'books-filter-category',
       `/books?category=${encodeURIComponent(categoryWithBooks.slug)}`,
+    );
+  if (categoryWithBooks)
+    await visit(
+      page,
+      'books-filters-combined',
+      `/books?category=${encodeURIComponent(categoryWithBooks.slug)}&sort=price_asc&inStock=true`,
     );
   await visit(
     page,
