@@ -1,0 +1,49 @@
+/* Task 80: metric-matched fallbacks for IBM Plex Sans Arabic, so the swap from the system font to the web font does not
+   move the layout (it caused CLS 0.41 on /authors).
+   How the numbers were measured (Chromium on Windows, the 853 Arabic UI strings of ar.json, canvas measureText at 100px):
+     size-adjust = width in IBM Plex Sans Arabic / width in the Segoe UI face the stack falls back to, per weight
+     ascent / descent overrides = Plex font ascent (1.09) and descent (0.42) divided by size-adjust (the overrides are scaled
+     by size-adjust). Plex has no line gap.
+   The faces reuse the family name "Segoe UI", the first fallback in --font-sans, so the stack in tokens.css stays byte for
+   byte what the design says. Where Segoe UI does not exist (macOS, Android, iOS) local() fails and the browser goes on to
+   the next family exactly as before, so nothing changes there (and nothing improves: those platforms keep their own
+   fallback metrics). */
+@font-face {
+  font-family: 'Segoe UI';
+  font-weight: 400;
+  src: local('Segoe UI');
+  size-adjust: 91.41%;
+  ascent-override: 119.24%;
+  descent-override: 45.94%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  font-weight: 500;
+  src: local('Segoe UI Semibold');
+  size-adjust: 93.97%;
+  ascent-override: 116%;
+  descent-override: 44.69%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  font-weight: 600;
+  src: local('Segoe UI Semibold');
+  size-adjust: 95.69%;
+  ascent-override: 113.91%;
+  descent-override: 43.89%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  font-weight: 700;
+  src: local('Segoe UI Bold');
+  size-adjust: 97.23%;
+  ascent-override: 112.1%;
+  descent-override: 43.2%;
+  line-gap-override: 0%;
+}

@@ -65,6 +65,8 @@ test.afterAll(() => {
 
 test('B1 every page has exactly one h1, with the API running', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-1280', 'these checks do not depend on the viewport');
+  // 18 page loads on the dev server take 22 to 28 s: the default 30 s timeout is too close (Task 80: one run timed out)
+  test.setTimeout(120_000);
   const routes = [
     '/',
     '/books',

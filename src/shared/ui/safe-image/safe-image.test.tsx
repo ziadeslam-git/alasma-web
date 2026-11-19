@@ -27,6 +27,19 @@ describe('SafeImage', () => {
     expect(screen.getByRole('img', { name: 'Cover' })).toBeInTheDocument();
   });
 
+  it('keeps the reserved size of a fixed-size image when it fails to load (no layout shift, Task 80)', () => {
+    const { container } = render(
+      <SafeImage alt="Cover" src="/cover.jpg" width={180} height={180} />,
+    );
+
+    fireEvent.error(container.querySelector('img') as HTMLImageElement);
+
+    expect(screen.getByRole('img', { name: 'Cover' })).toHaveStyle({
+      blockSize: '180px',
+      inlineSize: '180px',
+    });
+  });
+
   it('tells the parent once when the image fails to load', () => {
     const onError = vi.fn();
     const { container } = render(

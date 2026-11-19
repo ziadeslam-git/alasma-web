@@ -7,7 +7,7 @@ latin) served by Google Fonts, downloaded once on 2026-10-20 so the build needs 
 | Family               | Weights                | Files (v = Google Fonts file version) | Copyright and source                                                                                          |
 | -------------------- | ---------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | Aref Ruqaa           | 400, 700               | v26                                   | (c) 2015-2020 The Aref Ruqaa Project Authors. https://github.com/google/fonts/tree/main/ofl/arefruqaa        |
-| IBM Plex Sans Arabic | 300, 400, 500, 600, 700 | v15                                   | (c) 2017 IBM Corp., Reserved Font Name "Plex". https://github.com/google/fonts/tree/main/ofl/ibmplexsansarabic |
+| IBM Plex Sans Arabic | 400, 500, 600, 700      | v15                                   | (c) 2017 IBM Corp., Reserved Font Name "Plex". https://github.com/google/fonts/tree/main/ofl/ibmplexsansarabic |
 | Amiri                | 400, 700               | v30                                   | (c) 2010-2022 The Amiri Project Authors. https://github.com/google/fonts/tree/main/ofl/amiri                 |
 
 The licence text of each family is in its `OFL.txt` at the source URL above (licence confirmed from that file and

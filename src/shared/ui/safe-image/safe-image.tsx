@@ -53,6 +53,10 @@ export function SafeImage({
   const [hasError, setHasError] = useState(false);
   const isPlaceholder = !src || hasError;
   const wrapperClassName = [styles.wrapper, className].filter(Boolean).join(' ');
+  // A fixed-size image (without an aspect ratio, which already reserves its box) that fails to load (or has no source) keeps the box it reserved: a placeholder shorter than the
+  // image made the layout jump when the error came (CLS 0.41 on /authors, Task 80).
+  const placeholderSize =
+    !fill && !aspectRatio && width && height ? { blockSize: height, inlineSize: width } : null;
   const style = aspectRatio ? { aspectRatio } : undefined;
 
   if (isPlaceholder) {
@@ -62,7 +66,7 @@ export function SafeImage({
         aria-label={decorative ? undefined : alt}
         className={`${wrapperClassName} ${styles.placeholder}`}
         role={decorative ? undefined : 'img'}
-        style={style}
+        style={placeholderSize ? { ...style, ...placeholderSize } : style}
       />
     );
   }
