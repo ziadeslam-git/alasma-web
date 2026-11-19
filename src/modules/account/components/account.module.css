@@ -68,6 +68,13 @@
   color: var(--ink-muted);
 }
 
+.email {
+  /* the parent's overflow-wrap: anywhere also shrinks the value to one character wide (min-content), so the email
+     breaks only where <wbr> says; break-word is the last resort for a part wider than the line */
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 .row dd {
   display: flex;
   flex-wrap: wrap;

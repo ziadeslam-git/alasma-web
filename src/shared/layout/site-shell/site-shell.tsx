@@ -12,16 +12,24 @@ export function SiteShell({
   cart,
   accountArea,
   menuAccount,
+  menuFooter,
 }: {
   children: ReactNode;
   search?: ReactNode;
   cart?: ReactNode;
   accountArea?: ReactNode;
   menuAccount?: ReactNode;
+  menuFooter?: ReactNode;
 }) {
   return (
     <PageFrame>
-      <SiteHeader search={search} cart={cart} accountArea={accountArea} menuAccount={menuAccount} />
+      <SiteHeader
+        search={search}
+        cart={cart}
+        accountArea={accountArea}
+        menuAccount={menuAccount}
+        menuFooter={menuFooter}
+      />
       <main id="main-content">{children}</main>
       <SiteFooter />
       <MobileNav />

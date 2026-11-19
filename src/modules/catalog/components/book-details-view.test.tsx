@@ -213,6 +213,13 @@ describe('BookDetailsView', () => {
     expect(screen.getAllByText('هدى مصطفى').length).toBeGreaterThanOrEqual(1);
   });
 
+  it('shows the low-stock label without a bell icon, which belongs to the notify-me action (Task 84)', () => {
+    render(<BookDetailsView book={{ ...sampleBook, stockStatus: 'LowStock' }} />);
+
+    const label = screen.getByText(messages.catalog.detail.stock.lowStock);
+    expect(label.parentElement?.querySelector('svg')).toBeNull();
+  });
+
   it('renders low-stock and out-of-stock badges correctly', () => {
     const { rerender } = render(
       <BookDetailsView book={{ ...sampleBook, stockStatus: 'LowStock' }} />,

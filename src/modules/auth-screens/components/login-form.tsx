@@ -10,7 +10,6 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { Button, ButtonLink } from '@/shared/ui/button';
 import { Field } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
-import { Skeleton } from '@/shared/ui/skeleton';
 import { useToast } from '@/shared/ui/toast';
 
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
@@ -81,15 +80,9 @@ export function LoginForm() {
     }
   };
 
-  // Signed in already: redirecting, so the form is never shown for a moment.
-  if (status === 'authenticated') {
-    return (
-      <div aria-hidden="true" className={styles.form}>
-        <Skeleton shape="block" />
-        <Skeleton shape="block" />
-      </div>
-    );
-  }
+  // Signed in already: the redirect is running, so nothing is rendered. A skeleton here flashed bars inside the card
+  // before the page changed (Task 84); AuthCard hides itself while it is empty (:empty), so no blank card is left either.
+  if (status === 'authenticated') return null;
 
   const isDisabled = status === 'loading' || isSubmitting;
 

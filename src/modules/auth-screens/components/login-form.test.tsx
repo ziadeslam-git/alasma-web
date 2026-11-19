@@ -196,6 +196,16 @@ describe('LoginForm', () => {
     expect(screen.queryByLabelText(new RegExp(text.email))).not.toBeInTheDocument();
   });
 
+  it('renders nothing (no form, no skeleton) while a signed-in visitor is being redirected (Task 84)', () => {
+    auth.value.status = 'authenticated';
+
+    const { container } = mount();
+
+    expect(container.querySelector('form')).toBeNull();
+    expect(container.querySelector('[class*="skeleton" i]')).toBeNull();
+    expect(container.textContent).toBe('');
+  });
+
   it('renders a disabled form while the session is loading and does not redirect or submit', async () => {
     auth.value.status = 'loading';
     mount();

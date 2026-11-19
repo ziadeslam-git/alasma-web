@@ -240,7 +240,8 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
               </span>
             ) : isLowStock ? (
               <span className={`${styles.stockStatus} ${styles.stockLow}`}>
-                <Icon name="bell" size="sm" />
+                {/* no bell here: it is the notify-me icon (reservations-notify-me, hidden while soon), and a bell beside
+                    "order now" read as a notification control that does nothing (Task 84) */}
                 <span>{text.stock.lowStock}</span>
               </span>
             ) : (

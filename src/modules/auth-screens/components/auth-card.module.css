@@ -8,3 +8,8 @@
   background: var(--surface);
   box-shadow: var(--shadow-md);
 }
+
+/* A signed-in visitor on /login: the form renders nothing while the redirect runs, so the card is not shown either */
+.card:empty {
+  display: none;
+}

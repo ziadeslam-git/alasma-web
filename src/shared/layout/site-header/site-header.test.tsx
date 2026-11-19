@@ -110,6 +110,20 @@ describe('SiteHeader', () => {
     expect(within(screen.getByRole('dialog')).queryByText('guest entry')).toBeNull();
   });
 
+  it('has no account link in the mobile menu unless a slot adds it, and puts menuFooter at the bottom (Task 84)', async () => {
+    const user = userEvent.setup();
+    render(<SiteHeader menuFooter={<button type="button">footer action</button>} />);
+    await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
+    const dialog = screen.getByRole('dialog');
+
+    expect(within(dialog).queryByRole('link', { name: messages.account.title })).toBeNull();
+    const links = within(dialog).getAllByRole('link');
+    const footer = within(dialog).getByRole('button', { name: 'footer action' });
+    expect(
+      links[links.length - 1]!.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
   it('uses an account slot instead of the guest links', () => {
     render(<SiteHeader accountArea={<span>Account menu</span>} />);
 

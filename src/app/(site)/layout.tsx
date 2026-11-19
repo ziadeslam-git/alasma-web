@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { AccountMenu, GuestMenuLinks } from '@/modules/account';
+import { AccountMenu, GuestMenuLinks, MenuLogout, SignedInMenuLinks } from '@/modules/account';
 import { MiniCart } from '@/modules/cart';
 import { SearchOverlay } from '@/modules/search';
 import { ServerFeatureFlagsProvider } from '@/shared/config/feature-flags';
@@ -12,7 +12,13 @@ export default function SiteLayout({ children }: Readonly<{ children: ReactNode 
       <SiteShell
         accountArea={<AccountMenu />}
         cart={<MiniCart />}
-        menuAccount={<GuestMenuLinks />}
+        menuAccount={
+          <>
+            <GuestMenuLinks />
+            <SignedInMenuLinks />
+          </>
+        }
+        menuFooter={<MenuLogout />}
         search={<SearchOverlay />}
       >
         {children}

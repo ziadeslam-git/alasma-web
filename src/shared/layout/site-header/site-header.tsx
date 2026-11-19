@@ -16,8 +16,11 @@ export type SiteHeaderProps = {
   accountArea?: ReactNode;
   search?: ReactNode;
   cart?: ReactNode;
-  // Extra entries at the top of the mobile menu (the account module adds login and register for guests).
+  // Extra entries at the top of the mobile menu (the account module adds login and register for guests, and the
+  // account link for signed-in visitors: a guest has no account to open).
   menuAccount?: ReactNode;
+  // Bottom of the mobile menu, separated from the links (the account module adds logout for signed-in visitors).
+  menuFooter?: ReactNode;
 };
 
 function DeferredLink({
@@ -38,7 +41,13 @@ function DeferredLink({
   );
 }
 
-export function SiteHeader({ accountArea, search, cart, menuAccount }: SiteHeaderProps) {
+export function SiteHeader({
+  accountArea,
+  search,
+  cart,
+  menuAccount,
+  menuFooter,
+}: SiteHeaderProps) {
   const text = messages.site;
   const guestLinks = (
     <div className={styles.guestLinks}>
@@ -133,14 +142,12 @@ export function SiteHeader({ accountArea, search, cart, menuAccount }: SiteHeade
         </div>
         <MobileNavMenu
           closeLabel={text.header.closeMenu}
+          footer={menuFooter}
           label={text.header.menu}
           title={text.header.menu}
         >
           <nav aria-label={text.header.menu} className={styles.menuLinks}>
             {menuAccount}
-            <FeatureLink feature="account-area" href={routes.account} label={text.soon}>
-              {messages.account.title}
-            </FeatureLink>
             <Link href={routes.home}>{text.header.home}</Link>
             <Link href={routes.books}>{text.header.store}</Link>
             <DeferredLink
