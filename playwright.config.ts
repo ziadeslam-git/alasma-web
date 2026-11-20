@@ -1,17 +1,26 @@
 import { defineConfig, devices } from '@playwright/test';
 
+import { DEFAULT_API_PORT, isApiReuseAllowed, resolveApiPort } from './e2e/support/real-api-port';
+
 const port = 3100;
 const devPort = 3101;
-// Only for the opt-in real-API spec (e2e/auth-real-api.spec.ts): the dev server forwards /api/v1/* to the API that
-// spec starts. Without E2E_REAL_API the dev server keeps its normal API_ORIGIN.
-const realApiOrigin = `http://localhost:${process.env.E2E_API_PORT ?? 5391}`;
+// Real-API opt-in (owner only). The port guard runs HERE, at config load, before any server or API starts: an unsafe or
+// invalid E2E_API_PORT (5198 is the main backend, always rejected) stops everything. Both web servers forward /api/v1/*
+// and render Server Components against this one validated port. Without E2E_REAL_API nothing below changes.
+const isRealApi = process.env.E2E_REAL_API === '1';
+const realApiPort = isRealApi ? resolveApiPort() : DEFAULT_API_PORT;
+const realApiOrigin = `http://localhost:${realApiPort}`;
+// A running web server (and API) is reused only with E2E_REUSE_API=1; a stale server could point at another API.
+const canReuseServer = !process.env.CI && (!isRealApi || isApiReuseAllowed());
+// Spec files each spawn their own API on the one port, so they must not overlap unless a reused API is allowed.
+const realApiWorkers = isRealApi && !isApiReuseAllowed() ? 1 : undefined;
 
 // End-to-end and accessibility tests, Chromium only, at the three design viewports. They run against the
 // production build. Run by the owner or Claude Code, not by Codex (its sandbox cannot run a browser reliably).
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
-  workers: process.env.CI ? undefined : 3,
+  workers: realApiWorkers ?? (process.env.CI ? undefined : 3),
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
@@ -40,7 +49,8 @@ export default defineConfig({
       // the production build: every spec except the overlay ones
       command: `pnpm build && pnpm exec next start -p ${port}`,
       url: `http://localhost:${port}`,
-      reuseExistingServer: !process.env.CI,
+      env: isRealApi ? { API_ORIGIN: realApiOrigin } : {},
+      reuseExistingServer: canReuseServer,
       timeout: 300_000,
     },
     {
@@ -50,10 +60,10 @@ export default defineConfig({
       // its own output folder, so it can run while the owner's `pnpm dev` is running on port 3000
       env: {
         NEXT_DIST_DIR: '.next-e2e',
-        ...(process.env.E2E_REAL_API === '1' ? { API_ORIGIN: realApiOrigin } : {}),
+        ...(isRealApi ? { API_ORIGIN: realApiOrigin } : {}),
       },
       url: `http://localhost:${devPort}/dev/components`,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: canReuseServer,
       timeout: 300_000,
     },
   ],

@@ -3,7 +3,7 @@ import { randomBytes } from 'node:crypto';
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { resolve } from 'node:path';
 
-import { assertIsolatedDatabase } from './support/real-api-server';
+import { apiOrigin, assertIsolatedDatabase } from './support/real-api-server';
 
 import messages from '../src/i18n/messages/ar.json';
 
@@ -14,9 +14,7 @@ import messages from '../src/i18n/messages/ar.json';
 // its own PID. The Next dev server of playwright.config.ts forwards /api/v1/* to that API. It needs LocalDB and the
 // backend folder (E2E_API_DIR, default ../AlAsmaPro). The throw-away users it registers stay in the dev database.
 const isEnabled = process.env.E2E_REAL_API === '1';
-const apiPort = Number(process.env.E2E_API_PORT ?? 5391);
 const apiDir = resolve(process.env.E2E_API_DIR ?? '../AlAsmaPro');
-const apiOrigin = `http://localhost:${apiPort}`;
 const webOrigin = 'http://localhost:3101';
 const text = messages.devAuth;
 

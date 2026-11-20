@@ -2,17 +2,32 @@ import { expect, test, type Page, type Response } from '@playwright/test';
 
 import messages from '../../src/i18n/messages/ar.json';
 import type { components } from '../../src/shared/lib/api';
+import { resolveApiPort } from './real-api-port';
+import { startRealApi, stopRealApi } from './real-api-server';
 
 type Order = components['schemas']['OrderDetailsDto'];
 type Address = components['schemas']['AddressDto'];
 
-// The isolated API must already be running. Do not start, seed, or modify it here.
+// Opt-in gate for the specs that drive the production web server (3100) against a real API. The port guard runs first
+// (never 5198), and the spec gets its OWN isolated API through startRealApi() (reuse only with E2E_REUSE_API=1); the
+// web server's API_ORIGIN is set from the same validated port in playwright.config.ts.
 export function requireRealApi() {
   test.skip(process.env.E2E_REAL_API !== '1', 'Set E2E_REAL_API=1 to run real-API specs.');
   test.skip(
     !process.env.E2E_CUSTOMER_EMAIL || !process.env.E2E_CUSTOMER_PASSWORD,
     'Set E2E_CUSTOMER_EMAIL and E2E_CUSTOMER_PASSWORD to run real-API specs.',
   );
+  if (process.env.E2E_REAL_API !== '1') {
+    return;
+  }
+  resolveApiPort();
+  test.beforeAll(async () => {
+    test.setTimeout(300_000);
+    await startRealApi();
+  });
+  test.afterAll(() => {
+    stopRealApi();
+  });
 }
 
 export async function signIn(page: Page) {

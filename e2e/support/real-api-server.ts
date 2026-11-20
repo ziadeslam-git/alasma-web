@@ -3,6 +3,8 @@ import { resolve } from 'node:path';
 
 import { expect } from '@playwright/test';
 
+import { DEFAULT_API_PORT, isApiReuseAllowed, resolveApiPort } from './real-api-port';
+
 // The real-API e2e convention, in one place: opt in with E2E_REAL_API=1, and the spec starts its OWN API with
 // `dotnet run` on E2E_API_PORT (default 5391) from the sibling backend folder. The connection string and the blank
 // Smtp__* values come from the environment of the command that runs Playwright (never from a file), so the API uses the
@@ -10,7 +12,9 @@ import { expect } from '@playwright/test';
 // (playwright.config.ts), which is why real-API specs use webOrigin as their baseURL.
 export const isRealApiEnabled = process.env.E2E_REAL_API === '1';
 export const realApiSkipReason = 'Set E2E_REAL_API=1 to run against the real API.';
-export const apiPort = Number(process.env.E2E_API_PORT ?? 5391);
+// Validated by the shared guard (never 5198). Without the opt-in nothing here runs, so an unrelated bad E2E_API_PORT
+// cannot break a normal `playwright test --list`; playwright.config.ts already fails fast when E2E_REAL_API=1.
+export const apiPort = isRealApiEnabled ? resolveApiPort() : DEFAULT_API_PORT;
 export const apiOrigin = `http://localhost:${apiPort}`;
 export const webOrigin = 'http://localhost:3101';
 
@@ -42,15 +46,19 @@ export const blankExternalServices = {
 let api: ChildProcess | undefined;
 let apiLog = '';
 
-// Reuses an API that already answers on E2E_API_PORT, otherwise spawns an isolated one and waits until it listens.
+// Spawns an isolated API on E2E_API_PORT and waits until it listens. A running API is reused ONLY with E2E_REUSE_API=1
+// (Task 86): otherwise its database and mail settings would be unknown. The port guard runs before any probe or spawn.
 export async function startRealApi() {
-  try {
-    const probe = await fetch(`${apiOrigin}/api/v1/sitemap`);
-    if (probe.ok) {
-      return;
+  resolveApiPort();
+  if (isApiReuseAllowed()) {
+    try {
+      const probe = await fetch(`${apiOrigin}/api/v1/sitemap`);
+      if (probe.ok) {
+        return;
+      }
+    } catch {
+      // Not running yet; spawn our own isolated API instance.
     }
-  } catch {
-    // Not running yet; spawn our own isolated API instance.
   }
 
   // The module stays loaded across spec files in one worker: without clearing the log, the readiness poll below matched

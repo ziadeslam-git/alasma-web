@@ -74,6 +74,11 @@ The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it o
 - End-to-end and accessibility tests (Playwright, Chromium only, 360 / 768 / 1280 wide, port 3100, against the
   production build) live in `e2e/`. `pnpm test:e2e` is run by the OWNER or Claude Code, NOT by Codex (its sandbox cannot
   run a browser reliably). CI runs it in a separate job.
+- Real-API e2e (`E2E_REAL_API=1`, owner only): each spec spawns its OWN isolated API on `E2E_API_PORT` (default 5391, an
+  internal spawn port, not a service). Port 5198 is the main backend on the main database and is FORBIDDEN for e2e:
+  `playwright.config.ts` fails at load through `e2e/support/real-api-port.ts`, even with the reuse flag. A running API is
+  reused only when `E2E_REUSE_API=1` is set; otherwise the spec always spawns one (and needs `ConnectionStrings__Default`
+  to name a `_FrontendDev` database).
 - `src/test/examples` and `e2e/examples` are examples to copy, to be replaced by real tests.
 - A task is not finished until its tests pass. Definition of Done: see section 14 of the Architecture page (Notion).
 

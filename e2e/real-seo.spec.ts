@@ -1,7 +1,12 @@
 import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { resolve } from 'node:path';
 
-import { assertIsolatedDatabase, blankExternalServices } from './support/real-api-server';
+import {
+  apiOrigin,
+  assertIsolatedDatabase,
+  blankExternalServices,
+} from './support/real-api-server';
+import { isApiReuseAllowed } from './support/real-api-port';
 
 import { expect, test } from '@playwright/test';
 
@@ -9,9 +14,7 @@ import { expect, test } from '@playwright/test';
 // real book page. Skipped unless E2E_REAL_API=1 (the skip reason below is printed in the CI log). The spec spawns its own
 // API on E2E_API_PORT and needs no externally started one. Credentials are not needed.
 const isEnabled = process.env.E2E_REAL_API === '1';
-const apiPort = Number(process.env.E2E_API_PORT ?? 5391);
 const apiDir = resolve(process.env.E2E_API_DIR ?? '../AlAsmaPro');
-const apiOrigin = `http://localhost:${apiPort}`;
 const webOrigin = 'http://localhost:3101';
 
 const countH1 = (html: string) => (html.match(/<h1[\s>]/g) ?? []).length;
@@ -24,13 +27,16 @@ let api: ChildProcess | undefined;
 let apiLog = '';
 
 async function startApi() {
-  try {
-    const probe = await fetch(`${apiOrigin}/api/v1/sitemap`);
-    if (probe.ok) {
-      return;
+  // Reusing a running API needs the explicit opt-in E2E_REUSE_API=1 (Task 86); otherwise always spawn an isolated one.
+  if (isApiReuseAllowed()) {
+    try {
+      const probe = await fetch(`${apiOrigin}/api/v1/sitemap`);
+      if (probe.ok) {
+        return;
+      }
+    } catch {
+      // Not running yet; spawn our own isolated API instance.
     }
-  } catch {
-    // Not running yet; spawn our own isolated API instance.
   }
 
   assertIsolatedDatabase();
