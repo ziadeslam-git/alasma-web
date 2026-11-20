@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 import messages from '../src/i18n/messages/ar.json';
 import { requireRealApi } from './support/real-api';
 
-requireRealApi();
+requireRealApi({ needsCustomer: false });
 test.use({ trace: 'off', screenshot: 'off', video: 'off' });
 
 test('the seeded catalog can be browsed from the storefront', async ({ page }) => {

@@ -83,6 +83,8 @@ its own isolated API (not a service). The frontend serves on 3000 (`pnpm dev`), 
   `playwright.config.ts` fails at load through `e2e/support/real-api-port.ts`, even with the reuse flag. A running API is
   reused only when `E2E_REUSE_API=1` is set; otherwise the spec always spawns one (and needs `ConnectionStrings__Default`
   to name a `_FrontendDev` database).
+  Specs that sign in (`real-cart-checkout`, `real-orders-edit`) FAIL, not skip, when `E2E_REAL_API=1` and `E2E_CUSTOMER_EMAIL` or
+  `E2E_CUSTOMER_PASSWORD` is missing; `real-catalog` needs no credentials.
 - `src/test/examples` and `e2e/examples` are examples to copy, to be replaced by real tests.
 - A task is not finished until its tests pass. Definition of Done: see section 14 of the Architecture page (Notion).
 

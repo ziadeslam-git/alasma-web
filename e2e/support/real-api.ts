@@ -11,17 +11,21 @@ type Address = components['schemas']['AddressDto'];
 // Opt-in gate for the specs that drive the production web server (3100) against a real API. The port guard runs first
 // (never 5198), and the spec gets its OWN isolated API through startRealApi() (reuse only with E2E_REUSE_API=1); the
 // web server's API_ORIGIN is set from the same validated port in playwright.config.ts.
-export function requireRealApi() {
+export function requireRealApi({ needsCustomer = true }: { needsCustomer?: boolean } = {}) {
   test.skip(process.env.E2E_REAL_API !== '1', 'Set E2E_REAL_API=1 to run real-API specs.');
-  test.skip(
-    !process.env.E2E_CUSTOMER_EMAIL || !process.env.E2E_CUSTOMER_PASSWORD,
-    'Set E2E_CUSTOMER_EMAIL and E2E_CUSTOMER_PASSWORD to run real-API specs.',
-  );
   if (process.env.E2E_REAL_API !== '1') {
     return;
   }
   resolveApiPort();
   test.beforeAll(async () => {
+    // Missing credentials FAIL (they used to skip silently, Task 86b). Checked at test time so `--list` still loads, and
+    // before the API is spawned. Only the variable names are printed, never values.
+    const missing = needsCustomer
+      ? ['E2E_CUSTOMER_EMAIL', 'E2E_CUSTOMER_PASSWORD'].filter((name) => !process.env[name])
+      : [];
+    if (missing.length > 0) {
+      throw new Error(`Real-API specs need these environment variables: ${missing.join(', ')}.`);
+    }
     test.setTimeout(300_000);
     await startRealApi();
   });
