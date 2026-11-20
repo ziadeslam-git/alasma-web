@@ -252,6 +252,100 @@ describe('AuthProvider', () => {
     expect(hasHint()).toBe(false);
   });
 
+  it('changes the password: stores the new access token, keeps the user and the hint (Task 88)', async () => {
+    setHint();
+    let body: unknown;
+    server.use(
+      refreshOk(),
+      meOk,
+      http.post(`${origin}/api/v1/auth/change-password`, async ({ request }) => {
+        body = await request.json();
+
+        return HttpResponse.json(authBody('token-after-password-change'));
+      }),
+    );
+    mount();
+    await screen.findByText('authenticated:Test Reader');
+
+    await act(() =>
+      auth.changePassword({ currentPassword: 'Abcdefgh1x', newPassword: 'Zyxwvuts9q' }),
+    );
+
+    expect(body).toEqual({ currentPassword: 'Abcdefgh1x', newPassword: 'Zyxwvuts9q' });
+    expect(sessionStore.getAccessToken()).toBe('token-after-password-change');
+    expect(screen.getByText('authenticated:Test Reader')).toBeInTheDocument();
+    expect(hasHint()).toBe(true);
+  });
+
+  it('exposes the ApiError of a wrong current password and keeps the old token', async () => {
+    setHint();
+    server.use(
+      refreshOk(),
+      meOk,
+      http.post(`${origin}/api/v1/auth/change-password`, () =>
+        HttpResponse.json({ code: 'auth_current_password_invalid' }, { status: 400 }),
+      ),
+    );
+    mount();
+    await screen.findByText('authenticated:Test Reader');
+
+    const error = await act(() =>
+      auth
+        .changePassword({ currentPassword: 'wrong', newPassword: 'Zyxwvuts9q' })
+        .catch((e: unknown) => e),
+    );
+
+    expect(error).toMatchObject({ code: 'auth_current_password_invalid', status: 400 });
+    expect(sessionStore.getAccessToken()).toBe(secretToken);
+  });
+
+  it('logs out everywhere: calls the API, then clears the session and the hint', async () => {
+    setHint();
+    server.use(
+      refreshOk(),
+      meOk,
+      http.post(`${origin}/api/v1/auth/logout-all`, () => new HttpResponse(null, { status: 204 })),
+    );
+    mount();
+    await screen.findByText('authenticated:Test Reader');
+
+    await act(() => auth.logoutAll());
+
+    expect(screen.getByText('anonymous:-')).toBeInTheDocument();
+    expect(sessionStore.getAccessToken()).toBeNull();
+    expect(hasHint()).toBe(false);
+  });
+
+  it('does NOT end the session locally when logout-all fails (the user is told, not misled)', async () => {
+    setHint();
+    server.use(
+      refreshOk(),
+      meOk,
+      http.post(`${origin}/api/v1/auth/logout-all`, () =>
+        HttpResponse.json({ title: 'Too many' }, { status: 429 }),
+      ),
+    );
+    mount();
+    await screen.findByText('authenticated:Test Reader');
+
+    const error = await act(() => auth.logoutAll().catch((e: unknown) => e));
+
+    expect(error).toMatchObject({ status: 429 });
+    expect(screen.getByText('authenticated:Test Reader')).toBeInTheDocument();
+    expect(sessionStore.getAccessToken()).toBe(secretToken);
+  });
+
+  it('replaces the signed-in user with setUser', async () => {
+    setHint();
+    server.use(refreshOk(), meOk);
+    mount();
+    await screen.findByText('authenticated:Test Reader');
+
+    act(() => auth.setUser(me('Renamed Reader')));
+
+    expect(screen.getByText('authenticated:Renamed Reader')).toBeInTheDocument();
+  });
+
   it('becomes anonymous when another tab logs out', async () => {
     setHint();
     server.use(refreshOk(), meOk);

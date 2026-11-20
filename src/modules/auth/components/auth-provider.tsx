@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
+import { ApiError } from '@/shared/lib/api';
+
 import { getAuthApi } from '../api/auth-client';
 import { AuthContext, type AuthContextValue } from '../auth-context';
 import { useProactiveRefresh } from '../hooks/use-proactive-refresh';
@@ -13,7 +15,7 @@ import {
 } from '../session/auth-session';
 import { sessionHint } from '../session/session-hint';
 import { sessionStore } from '../session/session-store';
-import type { AuthStatus, AuthUser, LoginCredentials } from '../types';
+import type { AuthStatus, AuthUser, ChangePasswordRequest, LoginCredentials } from '../types';
 
 type State = { status: AuthStatus; user: AuthUser | null };
 
@@ -125,9 +127,49 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     setState(anonymousState);
   }, []);
 
+  const logoutAll = useCallback(async () => {
+    try {
+      await getAuthApi().logoutAll();
+    } catch (error) {
+      // 401: the session was already over, which is what the user asked for. Any other failure is reported.
+      if (!(error instanceof ApiError && error.status === 401)) {
+        throw error;
+      }
+    }
+
+    endSession();
+    setState(anonymousState);
+  }, []);
+
+  const changePassword = useCallback(async (request: ChangePasswordRequest) => {
+    const response = await getAuthApi().changePassword(request);
+    const session = {
+      accessToken: response.accessToken,
+      expiresAt: Date.parse(response.expiresAt),
+    };
+
+    // Same as a login: the answer carries the new access token (the API set the new refresh cookie).
+    sessionStore.set(session.accessToken, session.expiresAt);
+    publishSession(session);
+  }, []);
+
+  const setUser = useCallback((user: AuthUser) => {
+    setState((current) =>
+      current.status === 'authenticated' ? { status: 'authenticated', user } : current,
+    );
+  }, []);
+
   const value = useMemo<AuthContextValue>(
-    () => ({ login, logout, status: state.status, user: state.user }),
-    [login, logout, state],
+    () => ({
+      changePassword,
+      login,
+      logout,
+      logoutAll,
+      setUser,
+      status: state.status,
+      user: state.user,
+    }),
+    [changePassword, login, logout, logoutAll, setUser, state],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -11,6 +11,7 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
 }));
 vi.mock('@/modules/auth', () => ({
+  ResendConfirmation: () => null,
   useAuth: () => ({
     status: 'authenticated',
     user: {

@@ -6,3 +6,4 @@ export { MenuLogout } from './components/menu-logout';
 export { AccountOverview } from './components/account-overview';
 export { AccountProfile } from './components/account-profile';
 export { UnconfirmedEmailBanner } from './components/unconfirmed-email-banner';
+export { ProfileEditView } from './components/profile-edit-view';

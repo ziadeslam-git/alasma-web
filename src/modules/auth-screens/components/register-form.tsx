@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
-import { getAuthApi } from '@/modules/auth';
+import { getAuthApi, ResendConfirmation } from '@/modules/auth';
 import { routes, staticPageRoute } from '@/shared/config/routes';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { Button, ButtonLink } from '@/shared/ui/button';
@@ -83,9 +83,7 @@ export function RegisterForm() {
           title={text.registerSuccessTitle}
         />
         <FeatureGate feature="resend-confirmation" label={text.soonBadge} whenSoon="hide">
-          <Button disabled fullWidth variant="outline">
-            {text.resendConfirmation}
-          </Button>
+          <ResendConfirmation email={values.email.trim()} />
         </FeatureGate>
       </>
     );

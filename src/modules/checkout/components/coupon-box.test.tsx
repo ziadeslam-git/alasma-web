@@ -48,6 +48,20 @@ describe('coupon application', () => {
     state.appliedCouponCode = null;
   });
 
+  it('shows the confirm-email banner (not an inline error) when the coupon call answers 403 email_not_confirmed (Task 88)', async () => {
+    mocks.preview.mockRejectedValue(
+      new ApiError({ kind: 'problem', status: 403, code: 'email_not_confirmed' }),
+    );
+    render(<CouponBox />);
+    fireEvent.change(screen.getByLabelText(messages.checkout.couponLabel), {
+      target: { value: 'WELCOME10' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: messages.checkout.couponApply }));
+
+    await waitFor(() => expect(mocks.setUnconfirmed).toHaveBeenCalledWith(true));
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
   it('applies the returned preview and coupon and passes axe', async () => {
     const response = { total: 123 };
     mocks.preview.mockResolvedValue(response);

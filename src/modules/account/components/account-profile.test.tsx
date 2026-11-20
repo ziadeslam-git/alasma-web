@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import type { AuthUser } from '@/modules/auth';
+import { AuthTestProvider } from '@/test/auth-test-provider';
 import { axe } from '@/test/axe';
 
 import { AccountProfile } from './account-profile';
@@ -49,19 +50,23 @@ describe('account overview', () => {
       'href',
       '/account/orders',
     );
-    expect(container.querySelector('[data-feature="profile-edit"]')).toBeNull();
+    expect(screen.getByRole('link', { name: messages.account.editProfile })).toHaveAttribute(
+      'href',
+      '/account/profile',
+    );
     expect(container.querySelector('[data-feature="wishlist-heart"]')).toBeNull();
     expect(screen.queryByText(messages.account.wishlist)).toBeNull();
-    expect(screen.queryByText(messages.account.editProfile)).toBeNull();
     expect(screen.queryByText(messages.site.soon)).toBeNull();
     expect(await axe(container)).toHaveNoViolations();
   });
-  it('shows the confirmation notice without the resend link for an unconfirmed address', () => {
-    const { container } = render(<AccountProfile user={{ ...user, emailConfirmed: false }} />);
+  it('shows the confirmation notice with a working resend action for an unconfirmed address', () => {
+    render(
+      <AuthTestProvider>
+        <AccountProfile user={{ ...user, emailConfirmed: false }} />
+      </AuthTestProvider>,
+    );
     expect(screen.getByText(messages.account.unconfirmed)).toBeVisible();
-    // Task 76: the resend link is hidden (not dimmed) until its feature is live; the banner text stays
-    expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
-    expect(screen.queryByText(messages.account.resend)).toBeNull();
+    expect(screen.getByRole('button', { name: messages.account.resend })).toBeEnabled();
   });
 
   it('renders every row as one label with its value, and no orphan label (Task 73)', () => {
@@ -107,7 +112,11 @@ describe('account overview', () => {
   });
 
   it('shows no confirmed badge when the email is not confirmed, and the no-phone text', () => {
-    render(<AccountProfile user={{ ...user, emailConfirmed: false }} />);
+    render(
+      <AuthTestProvider>
+        <AccountProfile user={{ ...user, emailConfirmed: false }} />
+      </AuthTestProvider>,
+    );
     expect(screen.queryByText(messages.account.confirmedBadge)).toBeNull();
     expect(screen.getByText(messages.account.noPhone)).toBeVisible();
   });

@@ -12,6 +12,7 @@ import { FeatureGate } from '@/shared/ui/soon';
 
 import { useLinkParams } from '../use-link-params';
 import { AuthMessage } from './auth-message';
+import { ResendByEmail } from './resend-by-email';
 import styles from './form.module.css';
 
 type ConfirmState = 'loading' | 'success' | 'invalid' | 'network';
@@ -116,9 +117,7 @@ export function ConfirmEmailView() {
       title={text.confirmInvalidTitle}
     >
       <FeatureGate feature="resend-confirmation" label={text.soonBadge} whenSoon="hide">
-        <Button disabled fullWidth variant="outline">
-          {text.resendConfirmation}
-        </Button>
+        <ResendByEmail />
       </FeatureGate>
       <ButtonLink href={routes.login} variant="ghost">
         {text.backToLogin}

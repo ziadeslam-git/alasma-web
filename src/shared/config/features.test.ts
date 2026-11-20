@@ -4,8 +4,10 @@ import { features, getFeatureState, isLive, type FeatureKey, type FeatureState }
 
 const expectedLiveKeys = [
   'cart-page',
+  'profile-edit',
   'checkout-flow',
   'account-area',
+  'resend-confirmation',
   'catalog-search',
   'catalog-filters-basic',
   'catalog-sort-basic',
@@ -35,7 +37,7 @@ describe('features registry', () => {
   });
 
   it('keeps the deferred navigation areas marked as soon', () => {
-    expect(getFeatureState('profile-edit')).toBe('soon');
+    expect(getFeatureState('profile-edit')).toBe('live');
     expect(getFeatureState('checkout-flow')).toBe('live');
     expect(getFeatureState('account-area')).toBe('live');
     expect(getFeatureState('publish-packages')).toBe('soon');
@@ -46,8 +48,13 @@ describe('features registry', () => {
     expect(getFeatureState('checkout-flow')).toBe('live');
   });
 
-  it('keeps resend-confirmation soon until the backend endpoint (S4) is delivered', () => {
-    expect(getFeatureState('resend-confirmation')).toBe('soon');
+  it('keeps email-change soon until its confirmation page ships (Task 88b)', () => {
+    expect(getFeatureState('email-change')).toBe('soon');
+    expect(getFeatureState('profile-edit')).toBe('live');
+  });
+
+  it('has resend-confirmation live now that POST /auth/resend-confirmation is delivered (Task 88)', () => {
+    expect(getFeatureState('resend-confirmation')).toBe('live');
   });
 
   it('keeps quick-view hidden on book cards', () => {

@@ -82,7 +82,11 @@ describe('ConfirmEmailView', () => {
 
   it('shows the invalid link state without the soon resend control, and never retries', async () => {
     const calls = mockConfirm(problem);
-    const { container } = render(<ConfirmEmailView />);
+    const { container } = render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'resend-confirmation': 'soon' }}>
+        <ConfirmEmailView />
+      </FeatureFlagsProvider>,
+    );
 
     expect(await screen.findByText(text.confirmInvalidTitle)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: text.retry })).not.toBeInTheDocument();

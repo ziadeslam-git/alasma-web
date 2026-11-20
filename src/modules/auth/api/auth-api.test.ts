@@ -70,3 +70,91 @@ describe('auth api register', () => {
     });
   });
 });
+
+describe('auth api logout-all, change-password and resend-confirmation (Task 88)', () => {
+  const session = {
+    accessToken: 'new-token',
+    expiresAt: '2099-01-01T00:00:00Z',
+    user: { email: 'a@b.test', emailConfirmed: true, fullName: 'A', id: 1, roles: [] },
+  };
+  const change = { currentPassword: 'Abcdefgh1x', newPassword: 'Zyxwvuts9q' };
+
+  it('logoutAll posts to /auth/logout-all and accepts 204', async () => {
+    server.use(
+      http.post(`${origin}/api/v1/auth/logout-all`, () => new HttpResponse(null, { status: 204 })),
+    );
+
+    await expect(api.logoutAll()).resolves.toBeUndefined();
+  });
+
+  it.each([401, 429])('logoutAll throws the documented %i response', async (status) => {
+    server.use(
+      http.post(`${origin}/api/v1/auth/logout-all`, () => HttpResponse.json({}, { status })),
+    );
+
+    await expect(api.logoutAll()).rejects.toMatchObject({ status });
+  });
+
+  it('changePassword sends both passwords and returns the new session', async () => {
+    let body: unknown;
+    server.use(
+      http.post(`${origin}/api/v1/auth/change-password`, async ({ request }) => {
+        body = await request.json();
+        return HttpResponse.json(session);
+      }),
+    );
+
+    expect(await api.changePassword(change)).toEqual(session);
+    expect(body).toEqual(change);
+  });
+
+  it('changePassword throws 400 auth_current_password_invalid', async () => {
+    server.use(
+      http.post(`${origin}/api/v1/auth/change-password`, () =>
+        HttpResponse.json({ code: 'auth_current_password_invalid' }, { status: 400 }),
+      ),
+    );
+
+    await expect(api.changePassword(change)).rejects.toMatchObject({
+      code: 'auth_current_password_invalid',
+      status: 400,
+    });
+  });
+
+  it.each([401, 409, 413, 429])(
+    'changePassword throws the documented %i response',
+    async (status) => {
+      server.use(
+        http.post(`${origin}/api/v1/auth/change-password`, () => HttpResponse.json({}, { status })),
+      );
+
+      await expect(api.changePassword(change)).rejects.toMatchObject({ status });
+    },
+  );
+
+  it('resendConfirmation posts the email and accepts 202', async () => {
+    let body: unknown;
+    server.use(
+      http.post(`${origin}/api/v1/auth/resend-confirmation`, async ({ request }) => {
+        body = await request.json();
+        return new HttpResponse(null, { status: 202 });
+      }),
+    );
+
+    await expect(api.resendConfirmation('a@b.test')).resolves.toBeUndefined();
+    expect(body).toEqual({ email: 'a@b.test' });
+  });
+
+  it.each([400, 413, 429])(
+    'resendConfirmation throws the documented %i response',
+    async (status) => {
+      server.use(
+        http.post(`${origin}/api/v1/auth/resend-confirmation`, () =>
+          HttpResponse.json({}, { status }),
+        ),
+      );
+
+      await expect(api.resendConfirmation('a@b.test')).rejects.toMatchObject({ status });
+    },
+  );
+});

@@ -45,11 +45,16 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
     if (isPending || readOnly) return;
     setPending(true);
     setCouponError('');
+    setEmailUnconfirmed(false);
     setCouponResult(null);
     try {
       setCouponResult(await validateCoupon(coupon));
     } catch (cause) {
-      setCouponError(cause instanceof ApiError ? getApiErrorMessage(cause) : text.error);
+      // An unconfirmed email shows the same banner (with its resend action) as every other cart action; any other coupon
+      // error stays in the box beside the field.
+      if (cause instanceof ApiError && cause.status === 403 && cause.code === 'email_not_confirmed')
+        setEmailUnconfirmed(true);
+      else setCouponError(cause instanceof ApiError ? getApiErrorMessage(cause) : text.error);
     } finally {
       setPending(false);
     }

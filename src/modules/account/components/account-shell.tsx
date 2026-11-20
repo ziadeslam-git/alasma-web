@@ -30,7 +30,7 @@ export function AccountShell({ children }: { children: ReactNode }) {
           label={messages.site.soon}
           whenSoon="hide"
         >
-          <span>{text.editProfile}</span>
+          <Link href={routes.accountProfile}>{text.editProfile}</Link>
         </FeatureGate>
       </nav>
       <main className={styles.main} id="main-content">

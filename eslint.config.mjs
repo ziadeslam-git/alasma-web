@@ -8,6 +8,7 @@ import checkFile from 'eslint-plugin-check-file';
 // public API (that module's index.ts); app may import anything.
 const moduleNames = [
   'auth',
+  'auth-screens',
   'catalog',
   'authors',
   'addresses',

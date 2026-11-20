@@ -12,6 +12,7 @@ export const routes = {
   confirmEmail: '/confirm-email',
   cart: '/cart',
   account: '/account',
+  accountProfile: '/account/profile',
   accountAddresses: '/account/addresses',
   accountOrders: '/account/orders',
   checkout: '/checkout',

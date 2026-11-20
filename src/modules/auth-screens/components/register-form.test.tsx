@@ -151,7 +151,11 @@ describe('RegisterForm', () => {
 
   it('leaves the soon resend control out of the success state (Task 78)', async () => {
     captureBody();
-    const { container } = render(<RegisterForm />);
+    const { container } = render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'resend-confirmation': 'soon' }}>
+        <RegisterForm />
+      </FeatureFlagsProvider>,
+    );
 
     await fillValid();
     await user.click(submit());

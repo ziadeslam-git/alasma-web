@@ -3,6 +3,7 @@ import { expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import { ApiError } from '@/shared/lib/api';
+import { AuthTestProvider } from '@/test/auth-test-provider';
 import { AddressForm } from './address-form';
 
 const zone = {
@@ -53,8 +54,10 @@ it('shows the confirmation banner after an email-not-confirmed response', async 
   const save = vi
     .fn()
     .mockRejectedValue(new ApiError({ kind: 'problem', status: 403, code: 'email_not_confirmed' }));
-  const { container } = render(
-    <AddressForm zones={[zone]} onSave={save} onCancel={() => undefined} />,
+  render(
+    <AuthTestProvider>
+      <AddressForm zones={[zone]} onSave={save} onCancel={() => undefined} />
+    </AuthTestProvider>,
   );
   for (const [field, value] of [
     ['recipientName', 'Name'],
@@ -68,6 +71,5 @@ it('shows the confirmation banner after an email-not-confirmed response', async 
   });
   fireEvent.click(screen.getByRole('button', { name: messages.addresses.save }));
   await waitFor(() => expect(screen.getByText(messages.account.unconfirmed)).toBeVisible());
-  expect(container.querySelector('[data-feature="resend-confirmation"]')).toBeNull();
-  expect(screen.queryByText(messages.account.resend)).toBeNull();
+  expect(screen.getByRole('button', { name: messages.account.resend })).toBeEnabled();
 });

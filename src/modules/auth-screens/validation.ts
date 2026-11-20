@@ -137,6 +137,61 @@ export function validateResetPassword(
   };
 }
 
+export type ProfileValues = { fullName: string; phone: string };
+export type ChangeEmailValues = { currentPassword: string; newEmail: string };
+export type ChangePasswordValues = {
+  confirmPassword: string;
+  currentPassword: string;
+  password: string;
+};
+
+// The account profile: the same name and phone rules as the register form. A phone is optional here (the API keeps it
+// nullable), but a phone that is typed must be a valid Egyptian mobile.
+export function validateProfile(
+  values: ProfileValues,
+  messages: RegisterMessages,
+): ValidationErrors<ProfileValues> {
+  const fullName = values.fullName.trim();
+  const phone = values.phone.replace(/[\s-]/g, '');
+
+  return {
+    fullName: !fullName
+      ? messages.required
+      : fullName.length < FULL_NAME_MIN_LENGTH || fullName.length > FULL_NAME_MAX_LENGTH
+        ? messages.invalidFullName
+        : undefined,
+    phone: !phone || phonePattern.test(phone) ? undefined : messages.invalidPhone,
+  };
+}
+
+// Change email: the new address and the current password (the API checks the password).
+export function validateChangeEmail(
+  values: ChangeEmailValues,
+  messages: RegisterMessages,
+): ValidationErrors<ChangeEmailValues> {
+  const newEmail = values.newEmail.trim();
+  const emailError = validateEmail(newEmail, messages);
+
+  return {
+    currentPassword: values.currentPassword ? undefined : messages.required,
+    newEmail:
+      emailError ?? (newEmail.length > EMAIL_MAX_LENGTH ? messages.emailTooLong : undefined),
+  };
+}
+
+// Change password: the current password is required; the new one follows the register rules.
+export function validateChangePassword(
+  values: ChangePasswordValues,
+  messages: RegisterMessages,
+): ValidationErrors<ChangePasswordValues> {
+  return {
+    confirmPassword:
+      values.confirmPassword === values.password ? undefined : messages.passwordMismatch,
+    currentPassword: values.currentPassword ? undefined : messages.required,
+    password: validateNewPassword(values.password, messages),
+  };
+}
+
 // Only same-site paths are followed after login: "//host", "/\host", absolute URLs and javascript: values are not.
 export function isSafeRedirectPath(path: string | null | undefined): path is string {
   return Boolean(

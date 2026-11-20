@@ -164,7 +164,7 @@ features render normally, soon features are inert and labelled, and hidden featu
 Keep every user-facing path in `src/shared/config/routes.ts`; use its helpers for dynamic path segments so Arabic slugs
 are encoded safely.
 Deferred navigation entries, including publishing packages, must remain registered as `soon` until their backend work is delivered.
-`resend-confirmation` is `soon` (the resend endpoint, S4, is not delivered): the control is rendered dimmed and inert through `FeatureGate`, with no API call.
+`resend-confirmation` and `profile-edit` are `live` (Task 88): `UnconfirmedEmailBanner` has a working resend action (60 second cooldown, or the API's Retry-After), and `/account/profile` edits the profile, changes the password, requests an email change and signs out of every device. The email changes only after the link sent to the new address is opened (`POST /auth/confirm-email-change`); that link's page is not built yet, so the change-email section stays hidden behind the `email-change` flag (`soon`) until the confirm page ships.
 `quick-view` is `hidden` (the quick-view action on book cards is not planned): `BookCard` renders nothing for it.
 
 ## Sequencing rule

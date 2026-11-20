@@ -44,14 +44,15 @@ export const features = {
   'offers-countdown': 'soon', // Offers countdown design element.
   'offers-bundles': 'soon', // Offers bundles design section.
   'cart-page': 'live', // Cart entry points in the header and mobile app bar.
-  'profile-edit': 'soon', // Profile editing is not delivered.
+  'email-change': 'soon', // Change email: the confirmation link has no page yet (POST /auth/confirm-email-change), so it stays soon.
+  'profile-edit': 'live', // Profile page: PUT /me, change email, change password, sign out everywhere (Task 88).
   'order-invoice': 'soon', // Customer invoice endpoint is not delivered.
   'payment-proof': 'soon', // Customer payment proof endpoint is not delivered.
   'checkout-flow': 'live', // Checkout flow after the cart.
   'buy-now': 'soon', // Buy-now shortcut on the product page: checkout is Week 2, so it stays hidden until it works.
   'account-area': 'live', // Customer account entry points.
   'publish-packages': 'soon', // Publishing packages navigation entry.
-  'resend-confirmation': 'soon', // Resend confirmation email: backend endpoint (S4) not delivered yet.
+  'resend-confirmation': 'live', // Resend confirmation email: POST /auth/resend-confirmation (Task 88).
 
   // Delivered catalog and authentication
   'catalog-search': 'live', // Catalog search field and results.

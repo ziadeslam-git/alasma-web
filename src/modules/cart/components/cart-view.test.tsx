@@ -3,6 +3,7 @@ import { expect, it, vi } from 'vitest';
 import messages from '@/i18n/messages/ar.json';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { routes } from '@/shared/config/routes';
+import { AuthTestProvider } from '@/test/auth-test-provider';
 import { axe } from '@/test/axe';
 import * as cartApi from '../api/cart-api';
 import { CartView } from './cart-view';
@@ -64,6 +65,49 @@ it('keeps a coupon error beside the field without clearing a cart error, then cl
     expect(screen.getByRole('alert')).toHaveTextContent(messages.cart.error);
   } finally {
     remove.mockRestore();
+    validate.mockRestore();
+  }
+});
+
+it('shows the confirm-email banner with its resend action, not the inline box, when the coupon answers 403 email_not_confirmed (Task 88)', async () => {
+  const validate = vi
+    .spyOn(cartApi, 'validateCoupon')
+    .mockRejectedValueOnce(
+      new ApiError({ kind: 'problem', status: 403, code: 'email_not_confirmed' }),
+    );
+  try {
+    render(
+      <AuthTestProvider>
+        <CartView
+          cart={{
+            subtotal: 25,
+            items: [
+              {
+                itemId: 1,
+                kind: 'Book',
+                productId: 1,
+                slug: 'book',
+                title: 'Book',
+                coverImageUrl: null,
+                quantity: 1,
+                listUnitPrice: 25,
+                unitPrice: 25,
+                lineTotal: 25,
+                discountPercent: 0,
+                warnings: [],
+              },
+            ],
+          }}
+        />
+      </AuthTestProvider>,
+    );
+    fireEvent.change(screen.getByLabelText(messages.cart.coupon), { target: { value: 'ANY' } });
+    fireEvent.click(screen.getByRole('button', { name: messages.cart.apply }));
+
+    expect(await screen.findByRole('region', { name: messages.account.unconfirmed })).toBeVisible();
+    expect(screen.getByRole('button', { name: messages.account.resend })).toBeEnabled();
+    expect(screen.queryByRole('alert')).toBeNull();
+  } finally {
     validate.mockRestore();
   }
 });

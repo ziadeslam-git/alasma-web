@@ -6,4 +6,6 @@ export type RegisterResult = components['schemas']['RegisterResponse'];
 export type AuthUser = components['schemas']['MeResponse'];
 export type AuthSession = components['schemas']['AuthResponse'];
 
+export type ChangePasswordRequest = components['schemas']['ChangePasswordCommand'];
+
 export type AuthStatus = 'loading' | 'authenticated' | 'anonymous';
