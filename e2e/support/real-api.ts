@@ -3,12 +3,12 @@ import { expect, test, type Page, type Response } from '@playwright/test';
 import messages from '../../src/i18n/messages/ar.json';
 import type { components } from '../../src/shared/lib/api';
 import { resolveApiPort } from './real-api-port';
-import { startRealApi, stopRealApi } from './real-api-server';
+import { startRealApi, stopRealApi, webOrigin } from './real-api-server';
 
 type Order = components['schemas']['OrderDetailsDto'];
 type Address = components['schemas']['AddressDto'];
 
-// Opt-in gate for the specs that drive the production web server (3100) against a real API. The port guard runs first
+// Opt-in gate for the specs that drive the web server on 3101 (next dev) against a real API. The port guard runs first
 // (never 5198), and the spec gets its OWN isolated API through startRealApi() (reuse only with E2E_REUSE_API=1); the
 // web server's API_ORIGIN is set from the same validated port in playwright.config.ts.
 export function requireRealApi({ needsCustomer = true }: { needsCustomer?: boolean } = {}) {
@@ -17,6 +17,9 @@ export function requireRealApi({ needsCustomer = true }: { needsCustomer?: boole
     return;
   }
   resolveApiPort();
+  // 3101 (next dev) renders on demand. The 3100 production build would prerender "/" before this spec's API exists and
+  // serve that error page for 300 seconds (Task 86c).
+  test.use({ baseURL: webOrigin });
   test.beforeAll(async () => {
     // Missing credentials FAIL (they used to skip silently, Task 86b). Checked at test time so `--list` still loads, and
     // before the API is spawned. Only the variable names are printed, never values.
