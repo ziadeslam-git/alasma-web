@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { buildBookBreadcrumbJsonLd, buildBookJsonLd, buildBookMetadata } from '@/modules/books-seo';
-import { getBook, normalizeBookSlug } from '@/modules/catalog';
-import { BookDetailsView } from '@/modules/catalog/components/book-details-view';
+import { BookDetailsView, getBook, normalizeBookSlug } from '@/modules/catalog';
 import { JsonLd } from '@/shared/seo';
 import { Skeleton } from '@/shared/ui/skeleton';
 

@@ -20,6 +20,8 @@ export type { BookCardProps } from './components/book-card';
 export { BookDetailsSkeleton } from './components/book-details-skeleton';
 export { BookDetailsView } from './components/book-details-view';
 export type { BookDetailsViewProps } from './components/book-details-view';
+export { RelatedBooksSection } from './components/related-books-section';
+export type { RelatedBooksSectionProps } from './components/related-books-section';
 export { BookMiniCard } from './components/book-mini-card';
 export type { BookMiniCardProps } from './components/book-mini-card';
 export { BookGrid, DEFAULT_SKELETON_COUNT } from './components/book-grid';
