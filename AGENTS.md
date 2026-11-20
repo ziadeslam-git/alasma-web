@@ -8,9 +8,13 @@ current "Week F" page. If the repo and the pages disagree, STOP and ask.
 
 ## Project
 
-Storefront, customer area and dashboard for an Arabic publishing house, one Next.js app (App Router, React, TypeScript
-strict, CSS Modules + design tokens, pnpm). RTL first (`lang="ar" dir="rtl"`), logical CSS properties only.
+Storefront, customer area and dashboard for an Arabic publishing house, one Next.js app (Next.js 16.4.6, App Router, React,
+TypeScript strict, CSS Modules + design tokens, pnpm). RTL first (`lang="ar" dir="rtl"`), logical CSS properties only.
 The .NET API lives in a separate repo (../AlAsmaPro). The frontend talks to it over HTTP only and shares no code.
+
+Ports: 5198 is the main backend (main database; never used by e2e), 5080 is the backend `FrontendDev` launch profile
+(isolated `_FrontendDev` database), 5400 is the manual test kit, and 5391 is only the internal port where an e2e spec spawns
+its own isolated API (not a service). The frontend serves on 3000 (`pnpm dev`), 3100 (e2e production build) and 3101 (e2e `next dev`).
 
 ## Folder rules (non-negotiable)
 
@@ -168,8 +172,8 @@ backend that does not exist yet (that feature shows as Soon).
 ## Scripts
 
 `pnpm dev`, `pnpm build`, `pnpm start`, `pnpm typecheck`, `pnpm lint`, `pnpm lint:css`, `pnpm format:check`,
-`pnpm test`, `pnpm test:watch`, `pnpm test:e2e`, `pnpm api:sync`, `pnpm api:types`, `pnpm api:check`. Run typecheck, lint, lint:css, format:check, test and build before
-reporting a task done.
+`pnpm test`, `pnpm test:watch`, `pnpm test:e2e`, `pnpm api:sync`, `pnpm api:types`, `pnpm api:check`. Run api:check, typecheck, lint, lint:css, format:check, test and build before
+reporting a task done (CI runs them in this order).
 
 ## Process
 
@@ -198,7 +202,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 7. Cross-module imports only through a module's index.ts.
 8. Detail-route recipe (ISR): no route-level loading.tsx; await the main data in the page (so notFound() is decided before the response starts); export generateStaticParams() { return []; } and revalidate; API 404 or 400 means notFound(); API 5xx or network error means throw (error.tsx); validate the slug/key BEFORE any API call with a named constant per entity (book 350, author 200, category 200, page key 50 with only a-z 0-9 and "-"); secondary sections go in Suspense; use one fetch tag per entity family (never a tag per slug).
    Rendering rule: public store pages are static/ISR, except listing pages that read `searchParams` (/books, /authors, /categories/[slug]), which render per request while their data fetches stay cached through nextFetch.
-   404 note: a `notFound()` thrown by a routed page makes Next 16.4.2 return status 404 with an empty recovery shell in the raw HTML (the Arabic 404 appears after hydration); this is accepted for unknown valid slugs (Task 51). Malformed slugs are handled by `src/proxy.ts` and render server-side.
+   404 note: a `notFound()` thrown by a routed page makes Next 16.4 (observed on 16.4.2; not re-measured on the installed 16.4.6) return status 404 with an empty recovery shell in the raw HTML (the Arabic 404 appears after hydration); this is accepted for unknown valid slugs (Task 51). Malformed slugs are handled by `src/proxy.ts` and render server-side.
 9. Sandbox: you can run pnpm typecheck, pnpm lint, pnpm lint:css, pnpm format:check. You cannot run pnpm test, pnpm build or Playwright (spawn EPERM): do not work around it. Write tests anyway, and write "tests written, not run".
 10. Every number, status code or header in a report must come from a command you ran; anything you did not run is "not run" or "not measured".
 11. Stop and ask (in the report, after finishing the safe part) when: a contract or decision is missing and the answer changes behaviour; a security rule would be broken; or uncommitted files outside the task appear.
