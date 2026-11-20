@@ -100,7 +100,7 @@
 
 .summary {
   position: sticky;
-  inset-block-start: var(--space-4);
+  inset-block-start: calc(68px + var(--space-4)); /* below the 68px sticky site header */
   display: grid;
   gap: var(--space-5);
   padding: var(--space-6);
@@ -147,6 +147,26 @@
   color: var(--success-ink);
 }
 
+.couponError {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+}
+
+.modalPrimary {
+  margin-inline-end: var(--space-2);
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: var(--on-primary);
+  cursor: pointer;
+}
+
 .cta {
   display: flex;
   align-items: center;
@@ -166,6 +186,8 @@
 }
 
 .container :is(button, input, a):focus-visible,
+.modalPrimary:focus-visible,
+.secondary:focus-visible,
 .cta:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
@@ -183,6 +205,17 @@
   display: grid;
   gap: var(--space-4);
   margin-block-end: var(--space-4);
+}
+
+.empty .cta {
+  inline-size: fit-content;
+  margin-inline: auto;
+  padding-inline: var(--space-8);
+}
+
+.empty .cta,
+.empty + .cta {
+  margin-block-start: var(--space-4);
 }
 
 .compactItem {

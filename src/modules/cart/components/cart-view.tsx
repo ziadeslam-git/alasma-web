@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import Link from 'next/link';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
@@ -21,6 +21,8 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
   const [isConfirming, setConfirming] = useState(false);
   const [coupon, setCoupon] = useState('');
   const [couponResult, setCouponResult] = useState<Coupon | null>(null);
+  const [couponError, setCouponError] = useState('');
+  const couponErrorId = useId();
   const [error, setError] = useState('');
   const [isEmailUnconfirmed, setEmailUnconfirmed] = useState(false);
   async function run(action: () => Promise<void>) {
@@ -42,15 +44,12 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
   async function applyCoupon() {
     if (isPending || readOnly) return;
     setPending(true);
-    setError('');
-    setEmailUnconfirmed(false);
+    setCouponError('');
     setCouponResult(null);
     try {
       setCouponResult(await validateCoupon(coupon));
     } catch (cause) {
-      if (cause instanceof ApiError && cause.status === 403 && cause.code === 'email_not_confirmed')
-        setEmailUnconfirmed(true);
-      setError(cause instanceof ApiError ? getApiErrorMessage(cause) : text.error);
+      setCouponError(cause instanceof ApiError ? getApiErrorMessage(cause) : text.error);
     } finally {
       setPending(false);
     }
@@ -63,6 +62,9 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
         <section className={styles.empty}>
           <h2>{text.empty}</h2>
           <p>{text.emptyDescription}</p>
+          <Link className={styles.cta} href={routes.books}>
+            {text.browseStore}
+          </Link>
         </section>
       ) : (
         <div className={styles.layout}>
@@ -148,11 +150,21 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
               <label className={styles.couponLabel}>
                 {text.coupon}
                 <input
+                  aria-describedby={couponError ? couponErrorId : undefined}
+                  aria-invalid={couponError ? true : undefined}
                   className={styles.input}
                   value={coupon}
-                  onChange={(event) => setCoupon(event.target.value)}
+                  onChange={(event) => {
+                    setCoupon(event.target.value);
+                    setCouponError('');
+                  }}
                 />
               </label>
+              {couponError ? (
+                <p className={styles.couponError} id={couponErrorId} role="alert">
+                  {couponError}
+                </p>
+              ) : null}
               <button
                 className={styles.secondary}
                 disabled={readOnly || isPending || !coupon.trim()}
@@ -178,6 +190,7 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
             title={text.confirmClear}
           >
             <button
+              className={styles.modalPrimary}
               onClick={() => {
                 setConfirming(false);
                 void run(clearCart);
@@ -186,7 +199,7 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
             >
               {text.confirmClear}
             </button>
-            <button onClick={() => setConfirming(false)} type="button">
+            <button className={styles.secondary} onClick={() => setConfirming(false)} type="button">
               {text.cancel}
             </button>
           </Modal>
