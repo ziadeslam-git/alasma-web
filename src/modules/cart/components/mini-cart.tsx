@@ -8,7 +8,10 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
 import { Drawer } from '@/shared/ui/drawer';
 import { Icon } from '@/shared/ui/icon';
+import { BookCover } from '@/shared/ui/book-cover';
+import { Skeleton } from '@/shared/ui/skeleton';
 import { useCart } from './use-cart';
+import styles from './cart.module.css';
 
 export function MiniCart() {
   const [isOpen, setOpen] = useState(false);
@@ -26,7 +29,9 @@ export function MiniCart() {
         title={messages.cart.title}
       >
         {isLoading ? (
-          <p>{messages.cart.loading}</p>
+          <div aria-label={messages.cart.loading} role="status">
+            <Skeleton shape="card" />
+          </div>
         ) : error instanceof ApiError &&
           error.status === 403 &&
           error.code === 'email_not_confirmed' ? (
@@ -36,17 +41,37 @@ export function MiniCart() {
             {error instanceof ApiError ? getApiErrorMessage(error) : messages.cart.error}
           </p>
         ) : cart?.items.length ? (
-          <ul>
-            {cart.items.map((item) => (
-              <li key={item.itemId}>
-                {item.title} — {formatMoney(item.lineTotal)}
-              </li>
-            ))}
-          </ul>
+          <div className={styles.drawerBody}>
+            <ul className={styles.items}>
+              {cart.items.map((item) => (
+                <li className={`${styles.item} ${styles.compactItem}`} key={item.itemId}>
+                  <BookCover
+                    as="div"
+                    className={styles.cover}
+                    imageUrl={item.coverImageUrl}
+                    title={item.title}
+                    variantKey={item.slug}
+                  />
+                  <div className={styles.itemBody}>
+                    <h3 className="h4">{item.title}</h3>
+                    <p className={styles.unitPrice}>{formatMoney(item.unitPrice)}</p>
+                    <p>
+                      {messages.cart.quantity}: {formatNumber(item.quantity)}
+                    </p>
+                    <p className={styles.lineTotal}>{formatMoney(item.lineTotal)}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p className={styles.summaryRow} aria-live="polite">
+              <span>{messages.cart.subtotal}</span>
+              <span>{formatMoney(cart.subtotal)}</span>
+            </p>
+          </div>
         ) : (
-          <p>{messages.cart.empty}</p>
+          <p className={styles.empty}>{messages.cart.empty}</p>
         )}
-        <Link href={routes.cart} onClick={() => setOpen(false)}>
+        <Link className={styles.cta} href={routes.cart} onClick={() => setOpen(false)}>
           {messages.cart.cartLink}
         </Link>
       </Drawer>

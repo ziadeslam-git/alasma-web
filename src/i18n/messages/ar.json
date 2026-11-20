@@ -81,6 +81,8 @@
     "emptyDescription": "أضف كتباً للبدء.",
     "subtotal": "المجموع الفرعي",
     "quantity": "الكمية",
+    "decreaseQuantity": "تقليل الكمية",
+    "increaseQuantity": "زيادة الكمية",
     "remove": "إزالة",
     "clear": "إفراغ السلة",
     "confirmClear": "تأكيد إفراغ السلة",

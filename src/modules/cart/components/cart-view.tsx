@@ -8,6 +8,8 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
 import { routes } from '@/shared/config/routes';
 import { Modal } from '@/shared/ui/modal';
+import { BookCover } from '@/shared/ui/book-cover';
+import { Icon } from '@/shared/ui/icon';
 import type { Cart, Coupon } from '../api/cart-api';
 import { clearCart, removeItem, updateQuantity, validateCoupon } from '../api/cart-api';
 import { notifyCartChanged } from '../cart-events';
@@ -58,85 +60,117 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
       <h1>{text.title}</h1>
       {isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : error ? <p role="alert">{error}</p> : null}
       {cart.items.length === 0 ? (
-        <section>
+        <section className={styles.empty}>
           <h2>{text.empty}</h2>
           <p>{text.emptyDescription}</p>
         </section>
       ) : (
-        <>
-          <ul className={styles.items}>
-            {cart.items.map((item) => (
-              <li className={styles.item} key={item.itemId}>
-                <h2>{item.title}</h2>
-                <p>{formatMoney(item.lineTotal)}</p>
-                {item.warnings.map((warning) => (
-                  <p key={warning.code}>
-                    {warning.code === 'out_of_stock'
-                      ? text.outOfStock
-                      : warning.code === 'insufficient_stock'
-                        ? text.insufficient
-                        : text.unavailable}
-                    {warning.availableQuantity === null
-                      ? ''
-                      : ` ${text.available.replace('{count}', formatNumber(warning.availableQuantity))}`}
-                  </p>
-                ))}
-                <div className={styles.actions}>
-                  <button
-                    aria-label={`${text.quantity} -`}
-                    disabled={readOnly || isPending || item.quantity <= 1}
-                    onClick={() => void run(() => updateQuantity(item.itemId, item.quantity - 1))}
-                    type="button"
-                  >
-                    −
-                  </button>
-                  <span>{formatNumber(item.quantity)}</span>
-                  <button
-                    aria-label={`${text.quantity} +`}
-                    disabled={readOnly || isPending}
-                    onClick={() => void run(() => updateQuantity(item.itemId, item.quantity + 1))}
-                    type="button"
-                  >
-                    +
-                  </button>
-                  <button
-                    disabled={readOnly || isPending}
-                    onClick={() => void run(() => removeItem(item.itemId))}
-                    type="button"
-                  >
-                    {text.remove}
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p>
-            {text.subtotal}: {formatMoney(cart.subtotal)}
-          </p>
-          <label>
-            {text.coupon}
-            <input value={coupon} onChange={(event) => setCoupon(event.target.value)} />
-          </label>
-          <button
-            disabled={readOnly || isPending || !coupon.trim()}
-            onClick={() => void applyCoupon()}
-            type="button"
-          >
-            {text.apply}
-          </button>
-          {couponResult ? (
-            <p>
-              {text.couponResult}: {formatMoney(couponResult.discountAmount)}
-            </p>
-          ) : null}
-          <button
-            disabled={readOnly || isPending}
-            onClick={() => setConfirming(true)}
-            type="button"
-          >
-            {text.clear}
-          </button>
-          <Link href={routes.checkout}>{text.checkout}</Link>
+        <div className={styles.layout}>
+          <div>
+            <ul className={styles.items}>
+              {cart.items.map((item) => (
+                <li className={styles.item} key={item.itemId}>
+                  <BookCover
+                    as="div"
+                    className={styles.cover}
+                    imageUrl={item.coverImageUrl}
+                    title={item.title}
+                    variantKey={item.slug}
+                  />
+                  <div className={styles.itemBody}>
+                    <h2 className="h4">{item.title}</h2>
+                    <p className={styles.unitPrice}>{formatMoney(item.unitPrice)}</p>
+                    <p className={styles.lineTotal} aria-live="polite">
+                      {formatMoney(item.lineTotal)}
+                    </p>
+                    {item.warnings.map((warning) => (
+                      <p key={warning.code}>
+                        {warning.code === 'out_of_stock'
+                          ? text.outOfStock
+                          : warning.code === 'insufficient_stock'
+                            ? text.insufficient
+                            : text.unavailable}
+                        {warning.availableQuantity === null
+                          ? ''
+                          : ` ${text.available.replace('{count}', formatNumber(warning.availableQuantity))}`}
+                      </p>
+                    ))}
+                    <div className={styles.actions}>
+                      <button
+                        aria-label={messages.cart.decreaseQuantity}
+                        disabled={readOnly || isPending || item.quantity <= 1}
+                        onClick={() =>
+                          void run(() => updateQuantity(item.itemId, item.quantity - 1))
+                        }
+                        type="button"
+                      >
+                        <Icon name="minus" />
+                      </button>
+                      <span>{formatNumber(item.quantity)}</span>
+                      <button
+                        aria-label={messages.cart.increaseQuantity}
+                        disabled={readOnly || isPending}
+                        onClick={() =>
+                          void run(() => updateQuantity(item.itemId, item.quantity + 1))
+                        }
+                        type="button"
+                      >
+                        <Icon name="plus" />
+                      </button>
+                      <button
+                        disabled={readOnly || isPending}
+                        onClick={() => void run(() => removeItem(item.itemId))}
+                        type="button"
+                      >
+                        {text.remove}
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <button
+              className={styles.clear}
+              disabled={readOnly || isPending}
+              onClick={() => setConfirming(true)}
+              type="button"
+            >
+              {text.clear}
+            </button>
+          </div>
+          <aside className={styles.summary}>
+            <h2 className="h4">{messages.checkout.summaryTitle}</h2>
+            <div className={styles.summaryRow} aria-live="polite">
+              <span>{text.subtotal}</span>
+              <span>{formatMoney(cart.subtotal)}</span>
+            </div>
+            <div className={styles.coupon}>
+              <label className={styles.couponLabel}>
+                {text.coupon}
+                <input
+                  className={styles.input}
+                  value={coupon}
+                  onChange={(event) => setCoupon(event.target.value)}
+                />
+              </label>
+              <button
+                className={styles.secondary}
+                disabled={readOnly || isPending || !coupon.trim()}
+                onClick={() => void applyCoupon()}
+                type="button"
+              >
+                {text.apply}
+              </button>
+              {couponResult ? (
+                <p className={styles.success} role="status">
+                  {text.couponResult}: {formatMoney(couponResult.discountAmount)}
+                </p>
+              ) : null}
+            </div>
+            <Link className={styles.cta} href={routes.checkout}>
+              {text.checkout}
+            </Link>
+          </aside>
           <Modal
             closeLabel={text.close}
             onOpenChange={setConfirming}
@@ -156,7 +190,7 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
               {text.cancel}
             </button>
           </Modal>
-        </>
+        </div>
       )}
     </div>
   );

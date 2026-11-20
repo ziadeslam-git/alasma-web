@@ -5,15 +5,16 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { CartView } from './cart-view';
 import { useCart } from './use-cart';
+import styles from './cart.module.css';
 
 export function CartPageClient() {
   const { cart, isLoading, error } = useCart();
   if (isLoading)
     return (
-      <>
+      <div className={styles.container} aria-label={messages.cart.loading} role="status">
         <h1>{messages.cart.title}</h1>
         <Skeleton shape="card" />
-      </>
+      </div>
     );
   if (error || !cart)
     return (
