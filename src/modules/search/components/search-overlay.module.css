@@ -149,7 +149,7 @@
   inline-size: 38px;
   min-block-size: 54px;
   border-radius: 3px 6px 6px 3px;
-  box-shadow: 0 6px 10px -4px rgb(0 36 33 / 40%);
+  box-shadow: 0 6px 10px -4px color-mix(in srgb, var(--green-950) 40%, transparent);
 }
 
 .itemTitle {

@@ -25,12 +25,12 @@
     align-items: center;
     block-size: 72px;
     padding-inline: 6px;
-    border: 1px solid rgb(0 71 67 / 8%);
+    border: 1px solid color-mix(in srgb, var(--g) 8%, transparent);
     border-radius: 26px;
     background: var(--cream-50);
     box-shadow:
-      0 18px 34px -14px rgb(0 50 46 / 35%),
-      0 2px 8px rgb(0 50 46 / 8%);
+      0 18px 34px -14px color-mix(in srgb, var(--g-d) 35%, transparent),
+      0 2px 8px color-mix(in srgb, var(--g-d) 8%, transparent);
   }
 
   .appBar a,
@@ -83,7 +83,7 @@
     padding: 9px;
     border-radius: 50%;
     background: var(--g);
-    box-shadow: 0 10px 18px -6px rgb(0 71 67 / 55%);
+    box-shadow: 0 10px 18px -6px color-mix(in srgb, var(--g) 55%, transparent);
     color: var(--cream-50);
   }
 }
