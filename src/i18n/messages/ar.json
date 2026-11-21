@@ -210,7 +210,9 @@
     "notFound": "لم نعثر على الطلب",
     "notFoundDescription": "قد يكون الطلب غير متاح.",
     "error": "تعذر تحميل الطلبات حالياً",
-    "invoice": "الفاتورة",
+    "invoiceView": "عرض وطباعة الفاتورة",
+    "invoiceLoading": "جارٍ تجهيز الفاتورة",
+    "invoiceUnavailable": "الفاتورة غير متاحة الآن.",
     "proofTitle": "رفع إيصال التحويل",
     "proofFile": "صورة إيصال التحويل",
     "proofFileHint": "صورة بصيغة JPEG أو PNG أو WebP وبحجم لا يتجاوز 5 ميجابايت.",
@@ -662,7 +664,8 @@
       "payment_proof_already_submitted": "تم رفع إيصال لهذا الطلب من قبل، وهو قيد المراجعة.",
       "payment_reference_taken": "رقم العملية مستخدم في دفعة أخرى. راجع الرقم وحاول مرة أخرى.",
       "payment_receipt_not_available": "الإيصال يتوفر بعد اعتماد الدفع فقط.",
-      "payment_not_found": "لم نعثر على هذه الدفعة."
+      "payment_not_found": "لم نعثر على هذه الدفعة.",
+      "invoice_not_available": "الفاتورة تتوفر بعد تأكيد الطلب فقط، ولا تتوفر للطلب الملغي."
     },
     "couponFallback": "تعذر استخدام رمز الخصم. تحقق منه وحاول مرة أخرى.",
     "adminCodes": {

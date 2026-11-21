@@ -3,6 +3,7 @@ import { buildOrder, buildPayment } from '@/test/fixtures/orders';
 
 const origin = 'http://localhost/api/v1';
 const receiptPage = '<!doctype html><html lang="ar" dir="rtl"><body>receipt</body></html>';
+const invoicePage = '<!doctype html><html lang="ar" dir="rtl"><body>invoice</body></html>';
 
 // Test-only request handlers. MSW is never started in the browser, in dev or in production.
 // Add a handler here only for an endpoint that exists in the delivered backend (docs/openapi.json).
@@ -19,5 +20,11 @@ export const handlers = [
     `${origin}/orders/:id/payments/:paymentId/receipt`,
     () =>
       new HttpResponse(receiptPage, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }),
+  ),
+  // GET /orders/{id}/invoice: the printable HTML page of a confirmed order.
+  http.get(
+    `${origin}/orders/:id/invoice`,
+    () =>
+      new HttpResponse(invoicePage, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }),
   ),
 ];

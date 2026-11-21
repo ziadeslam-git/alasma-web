@@ -5,6 +5,7 @@ import { features, getFeatureState, isLive, type FeatureKey, type FeatureState }
 const expectedLiveKeys = [
   'cart-page',
   'profile-edit',
+  'order-invoice',
   'payment-proof',
   'payment-receipt',
   'checkout-flow',
@@ -59,10 +60,10 @@ describe('features registry', () => {
     expect(getFeatureState('resend-confirmation')).toBe('live');
   });
 
-  it('has payment-proof and payment-receipt live (Task 89) and keeps order-invoice soon (Task 90)', () => {
+  it('has payment-proof, payment-receipt (Task 89) and order-invoice (Task 90) live', () => {
     expect(getFeatureState('payment-proof')).toBe('live');
     expect(getFeatureState('payment-receipt')).toBe('live');
-    expect(getFeatureState('order-invoice')).toBe('soon');
+    expect(getFeatureState('order-invoice')).toBe('live');
   });
 
   it('keeps quick-view hidden on book cards', () => {

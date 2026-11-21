@@ -11,6 +11,7 @@ import { Skeleton } from '@/shared/ui/skeleton';
 import { FeatureGate } from '@/shared/ui/soon';
 import { cancelOrder, getOrder, isOrderId, type Order } from '../api/orders-api';
 import { OrderEditDialog } from './order-edit-dialog';
+import { OrderInvoiceButton } from './order-invoice-button';
 import { PaymentProofSection } from './payment-proof-section';
 import { PaymentReceiptButton } from './payment-receipt-button';
 import styles from './orders.module.css';
@@ -208,9 +209,7 @@ export function OrderDetails({ id, fixture }: { id: string; fixture?: Order }) {
           {text.cancel}
         </button>
       ) : null}
-      <FeatureGate feature="order-invoice" label={messages.site.soon}>
-        <span>{text.invoice}</span>
-      </FeatureGate>
+      <OrderInvoiceButton orderId={order.id} status={order.status} />
       <Modal
         closeLabel={text.close}
         onOpenChange={setConfirming}

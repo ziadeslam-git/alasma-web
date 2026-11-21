@@ -70,20 +70,30 @@ describe('PaymentReceiptButton', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it.each(['order_not_found', 'payment_not_found', undefined])(
-    'maps a 404 (%s) to "not available right now", never to order not found',
-    async (code) => {
-      openReceipt.mockRejectedValue(new ApiError({ kind: 'problem', status: 404, code }));
-      const user = userEvent.setup();
-      render(<PaymentReceiptButton orderId={orderFixtureId} paymentId={paymentFixtureId} />);
+  it('maps a 404 with no code (the closed Orders.InvoicePrint flag) to "not available right now"', async () => {
+    openReceipt.mockRejectedValue(new ApiError({ kind: 'problem', status: 404 }));
+    const user = userEvent.setup();
+    render(<PaymentReceiptButton orderId={orderFixtureId} paymentId={paymentFixtureId} />);
 
-      await user.click(screen.getByRole('button', { name: text.receiptView }));
+    await user.click(screen.getByRole('button', { name: text.receiptView }));
 
-      const alert = await screen.findByRole('alert');
-      expect(alert).toHaveTextContent(text.receiptUnavailable);
-      expect(alert).not.toHaveTextContent(messages.apiErrors.codes.order_not_found);
-    },
-  );
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent(text.receiptUnavailable);
+    expect(alert).not.toHaveTextContent(messages.apiErrors.codes.order_not_found);
+  });
+
+  it.each([
+    ['order_not_found', messages.apiErrors.codes.order_not_found],
+    ['payment_not_found', messages.apiErrors.codes.payment_not_found],
+  ])('keeps the own text of a 404 %s', async (code, expected) => {
+    openReceipt.mockRejectedValue(new ApiError({ kind: 'problem', status: 404, code }));
+    const user = userEvent.setup();
+    render(<PaymentReceiptButton orderId={orderFixtureId} paymentId={paymentFixtureId} />);
+
+    await user.click(screen.getByRole('button', { name: text.receiptView }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(expected);
+  });
 
   it('asks to allow pop-ups when the tab was blocked', async () => {
     openReceipt.mockRejectedValue(new ReceiptPopupBlockedError());

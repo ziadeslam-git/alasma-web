@@ -46,14 +46,17 @@ describe('visitor feature flags (T7)', () => {
     expect(resolved['catalog-search']).toBe('live');
   });
 
-  it('turns payment-receipt into soon when Orders.InvoicePrint is closed, and leaves payment-proof live', () => {
+  it('turns payment-receipt and order-invoice into soon when Orders.InvoicePrint is closed, and leaves payment-proof live', () => {
     const withoutInvoicePrint = enabledFlagsSample.filter((flag) => flag !== 'Orders.InvoicePrint');
     const resolved = resolveFeatureFlags(withoutInvoicePrint);
 
     expect(features['payment-receipt']).toBe('live');
+    expect(features['order-invoice']).toBe('live');
     expect(resolved['payment-receipt']).toBe('soon');
+    expect(resolved['order-invoice']).toBe('soon');
     expect(resolved['payment-proof']).toBe('live');
     expect(resolveFeatureFlags(enabledFlagsSample)['payment-receipt']).toBe('live');
+    expect(resolveFeatureFlags(enabledFlagsSample)['order-invoice']).toBe('live');
   });
 
   it('ignores unknown backend flags without throwing or opening unbuilt features', () => {
