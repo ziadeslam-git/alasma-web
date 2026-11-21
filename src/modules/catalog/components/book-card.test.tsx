@@ -8,6 +8,17 @@ import { axe } from '@/test/axe';
 import type { BookCardItem } from '../types';
 import { BookCard } from './book-card';
 
+vi.mock('@/modules/wishlist', () => ({
+  WishlistHeart: ({ title, className }: { title: string; className?: string }) => (
+    <button
+      aria-label={`wishlist ${title}`}
+      aria-pressed="false"
+      className={className}
+      type="button"
+    />
+  ),
+}));
+
 vi.mock('@/modules/cart', () => ({
   AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
 }));
@@ -105,9 +116,28 @@ describe('BookCard', () => {
       </FeatureFlagsProvider>,
     );
 
-    expect(
-      screen.getByRole('button', { name: text.addToWishlist.replace('{title}', book.title) }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: `wishlist ${book.title}` })).toBeInTheDocument();
+  });
+
+  it('leaves the wishlist heart out while the feature is soon', () => {
+    const book = makeBook();
+    render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'wishlist-heart': 'soon' }}>
+        <BookCard book={book} />
+      </FeatureFlagsProvider>,
+    );
+
+    expect(screen.queryByRole('button', { name: `wishlist ${book.title}` })).toBeNull();
+  });
+
+  it('shows the remove slot in place of the action-bar heart on the wishlist page', () => {
+    const book = makeBook();
+    render(
+      <BookCard book={book} removeSlot={<button type="button">remove {book.title}</button>} />,
+    );
+
+    expect(screen.getByRole('button', { name: `remove ${book.title}` })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: `wishlist ${book.title}` })).toBeNull();
   });
 
   it('joins multiple authors with the Arabic comma separator', () => {

@@ -26,8 +26,8 @@ describe('visitor feature flags (T7)', () => {
     expect(resolved['static-pages']).toBe('live');
     expect(resolved['catalog-search']).toBe('live');
     expect(resolved['checkout-flow']).toBe('live');
+    expect(resolved['wishlist-heart']).toBe('live');
     // Unbuilt features opened by the backend stay 'soon' regardless of the backend:
-    expect(resolved['wishlist-heart']).toBe('soon');
     expect(resolved['reviews-section']).toBe('soon');
     expect(resolved['reservations-notify-me']).toBe('soon');
     expect(resolved['home-banners']).toBe('soon');
@@ -59,6 +59,13 @@ describe('visitor feature flags (T7)', () => {
     expect(resolveFeatureFlags(enabledFlagsSample)['order-invoice']).toBe('live');
   });
 
+  it('turns the wishlist heart into soon when Catalog.Wishlist is closed (Task 91)', () => {
+    const withoutWishlist = enabledFlagsSample.filter((flag) => flag !== 'Catalog.Wishlist');
+
+    expect(features['wishlist-heart']).toBe('live');
+    expect(resolveFeatureFlags(withoutWishlist)['wishlist-heart']).toBe('soon');
+  });
+
   it('ignores unknown backend flags without throwing or opening unbuilt features', () => {
     const resolved = resolveFeatureFlags([
       ...enabledFlagsSample,
@@ -67,7 +74,7 @@ describe('visitor feature flags (T7)', () => {
     ]);
 
     expect(resolved['static-pages']).toBe('live');
-    expect(resolved['wishlist-heart']).toBe('soon');
+    expect(resolved['wishlist-heart']).toBe('live');
     expect(resolved['quick-view']).toBe('hidden');
   });
 

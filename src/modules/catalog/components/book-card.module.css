@@ -171,10 +171,35 @@
     transform 0.15s;
 }
 
-.actionButton:hover:not(:disabled) {
-  background: var(--green-700);
-  color: var(--cream-200);
-  transform: translateY(-2px);
+/* Hover only where a pointer exists: after a tap on a touch screen the button must not stay dark. */
+@media (hover: hover) {
+  .actionButton:hover:not(:disabled) {
+    background: var(--green-700);
+    color: var(--cream-200);
+    transform: translateY(-2px);
+  }
+}
+
+/* Saved: the heart is filled (heart-f icon) and takes the discount red of the design's wishlist heart. The button keeps
+   its 40px box, so toggling never moves anything. */
+.heartButton[aria-pressed='true'] {
+  color: var(--discount-ink);
+}
+
+@media (hover: hover) {
+  .heartButton[aria-pressed='true']:hover:not(:disabled) {
+    color: var(--cream-200);
+  }
+}
+
+.heartButton:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* On the wishlist page the remove heart takes the top corner, so the badges move below it (design: tag top 54px). */
+.hasRemove .badges {
+  inset-block-start: 54px;
 }
 
 .notifyButton {

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { features, getFeatureState, isLive, type FeatureKey, type FeatureState } from './features';
 
 const expectedLiveKeys = [
+  'wishlist-heart',
   'cart-page',
   'profile-edit',
   'order-invoice',

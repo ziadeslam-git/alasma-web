@@ -123,7 +123,7 @@ export function SiteHeader({
         <div className={styles.actions}>
           <FeatureLink
             feature="wishlist-heart"
-            href={routes.home}
+            href={routes.accountWishlist}
             label={text.soon}
             whenSoon="hide"
           >

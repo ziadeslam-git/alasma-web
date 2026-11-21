@@ -7,6 +7,17 @@ import { axe } from '@/test/axe';
 import type { BookCardItem, BookDetails } from '../types';
 import { BookDetailsView } from './book-details-view';
 
+vi.mock('@/modules/wishlist', () => ({
+  WishlistHeart: ({ title, className }: { title: string; className?: string }) => (
+    <button
+      aria-label={`wishlist ${title}`}
+      aria-pressed="false"
+      className={className}
+      type="button"
+    />
+  ),
+}));
+
 vi.mock('@/modules/cart', () => ({
   AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
 }));

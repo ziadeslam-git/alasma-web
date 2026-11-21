@@ -15,6 +15,7 @@ export const routes = {
   accountProfile: '/account/profile',
   accountAddresses: '/account/addresses',
   accountOrders: '/account/orders',
+  accountWishlist: '/account/wishlist',
   checkout: '/checkout',
   publish: '/publish',
 } as const;

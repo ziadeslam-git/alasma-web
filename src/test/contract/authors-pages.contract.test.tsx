@@ -15,6 +15,17 @@ import { getPage } from '@/modules/pages/api/get-page';
 import { PageView } from '@/modules/pages/components/page-view';
 import { formatMoney } from '@/shared/lib/format';
 
+vi.mock('@/modules/wishlist', () => ({
+  WishlistHeart: ({ title, className }: { title: string; className?: string }) => (
+    <button
+      aria-label={`wishlist ${title}`}
+      aria-pressed="false"
+      className={className}
+      type="button"
+    />
+  ),
+}));
+
 vi.mock('@/modules/cart', () => ({
   AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
 }));

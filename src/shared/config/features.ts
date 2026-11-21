@@ -11,9 +11,11 @@ export const features = {
   'book-short-link': 'soon', // Short-link action on the product detail design.
   'review-helpful': 'soon', // Helpful vote beneath a review.
   'reviews-section': 'soon', // Reviews panel on the product detail design.
-  'wishlist-heart': 'soon', // Wishlist heart on book cards and details.
+  'wishlist-heart': 'live', // Wishlist heart on cards and the book page, the header/app-bar link and /account/wishlist: GET/PUT/DELETE /wishlist (Task 91).
   'reservations-notify-me': 'soon', // Notify-me action for unavailable books.
   'compare-books': 'soon', // Compare action in catalog and product designs.
+  'wishlist-clear': 'soon', // Clear-all action on the wishlist page: the API has no bulk delete.
+  'wishlist-add-available': 'soon', // Add-available-to-cart action on the wishlist page: no bulk endpoint.
   'quick-view': 'hidden', // Quick-view modal action on book cards (not planned).
 
   // Account and discovery

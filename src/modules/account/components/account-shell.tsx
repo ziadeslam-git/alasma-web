@@ -22,7 +22,7 @@ export function AccountShell({ children }: { children: ReactNode }) {
           label={messages.site.soon}
           whenSoon="hide"
         >
-          <span>{text.wishlist}</span>
+          <Link href={routes.accountWishlist}>{text.wishlist}</Link>
         </FeatureGate>
         <FeatureGate
           badge="inline"

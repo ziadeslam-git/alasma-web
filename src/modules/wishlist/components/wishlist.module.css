@@ -1,0 +1,172 @@
+/* Wishlist page (design/Wishlist.dc.html): heading, a 3-column card grid (2 columns under 1000px), and a closing panel. */
+.page {
+  display: grid;
+  gap: var(--space-6);
+  min-inline-size: 0;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.headText {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.headActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Keeps the heading order h1 > h2 > h3 (the book titles) without a visible extra heading. */
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  min-inline-size: 0;
+}
+
+/* The filled heart of the design (.rm): a round white button over the cover corner that removes the book. The design
+   draws it 34px wide; it is 44px here so it meets the touch-target rule. */
+.remove {
+  position: absolute;
+  z-index: 8;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--discount-ink);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+/* The visible circle is the design's 34px; the button around it keeps the 44px hit area. */
+.remove::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 5px;
+  inset-inline-start: 5px;
+  inline-size: 34px;
+  block-size: 34px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  transition: background 0.15s;
+  z-index: -1;
+}
+
+.remove:hover {
+  color: var(--on-discount);
+}
+
+.remove:hover::before {
+  background: var(--discount);
+}
+
+.remove:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.browse {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-block-start: var(--space-8);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.browseTitle {
+  margin: 0 0 var(--space-1);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.browseText {
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.error {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+  font-family: var(--font-sans);
+}
+
+.error p {
+  margin: 0;
+}
+
+.errorDetail {
+  font-size: 14px;
+}
+
+@media (width <= 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}

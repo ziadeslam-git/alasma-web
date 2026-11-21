@@ -54,8 +54,10 @@ describe('account overview', () => {
       'href',
       '/account/profile',
     );
-    expect(container.querySelector('[data-feature="wishlist-heart"]')).toBeNull();
-    expect(screen.queryByText(messages.account.wishlist)).toBeNull();
+    expect(screen.getByRole('link', { name: messages.account.wishlist })).toHaveAttribute(
+      'href',
+      '/account/wishlist',
+    );
     expect(screen.queryByText(messages.site.soon)).toBeNull();
     expect(await axe(container)).toHaveNoViolations();
   });

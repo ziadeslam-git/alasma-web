@@ -411,3 +411,17 @@
   min-block-size: 52px;
   padding: 0;
 }
+
+/* Saved: the heart is filled (heart-f) and red; the 52px outlined box does not change, so nothing shifts. */
+.iconAction[aria-pressed='true'] {
+  color: var(--discount-ink);
+}
+
+.iconAction:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.iconAction:disabled {
+  cursor: default;
+}

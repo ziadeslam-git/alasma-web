@@ -23,7 +23,7 @@ export function MobileNav() {
         <Icon name="bag" />
         <span>{text.header.cart}</span>
       </FeatureLink>
-      <FeatureLink feature="wishlist-heart" href={routes.home} label={text.soon}>
+      <FeatureLink feature="wishlist-heart" href={routes.accountWishlist} label={text.soon}>
         <Icon name="heart" />
         <span>{text.header.wishlist}</span>
       </FeatureLink>

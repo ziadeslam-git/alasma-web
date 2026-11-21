@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { AddToCartButton } from '@/modules/cart';
+import { WishlistHeart } from '@/modules/wishlist';
 import { bookRoute } from '@/shared/config/routes';
 import { formatDiscountBadge, formatMoney, formatNumber } from '@/shared/lib/format';
 import { BookCover } from '@/shared/ui/book-cover';
@@ -14,9 +16,11 @@ import styles from './book-card.module.css';
 export type BookCardProps = {
   book: BookCardItem;
   priority?: boolean;
+  /** The wishlist page puts its remove button here (corner of the cover); the heart in the action bar is left out. */
+  removeSlot?: ReactNode;
 };
 
-export function BookCard({ book, priority = false }: BookCardProps) {
+export function BookCard({ book, priority = false, removeSlot }: BookCardProps) {
   const text = messages.catalog;
   const soonLabel = messages.site.soon;
   const href = bookRoute(book.slug);
@@ -28,7 +32,11 @@ export function BookCard({ book, priority = false }: BookCardProps) {
       ? `${text.authorPrefix}${book.authors.join(text.authorSeparator)}`
       : null;
 
-  const cardClassName = [styles.card, isOutOfStock ? styles.outOfStock : '']
+  const cardClassName = [
+    styles.card,
+    isOutOfStock ? styles.outOfStock : '',
+    removeSlot ? styles.hasRemove : '',
+  ]
     .filter(Boolean)
     .join(' ');
   const priceClassName = [styles.price, hasDiscount ? styles.priceSale : '']
@@ -37,6 +45,7 @@ export function BookCard({ book, priority = false }: BookCardProps) {
 
   return (
     <article className={cardClassName}>
+      {removeSlot}
       <div className={styles.figure}>
         {hasDiscount ? (
           <span className={`${styles.tag} ${styles.tagDiscount}`}>
@@ -85,16 +94,15 @@ export function BookCard({ book, priority = false }: BookCardProps) {
           ) : (
             <AddToCartButton bookId={book.id} className={styles.actionButton} title={book.title} />
           )}
-          <FeatureGate feature="wishlist-heart" label={soonLabel} whenSoon="hide">
-            <button
-              aria-label={text.addToWishlist.replace('{title}', book.title)}
-              className={styles.actionButton}
-              disabled
-              type="button"
-            >
-              <Icon name="heart" size="sm" />
-            </button>
-          </FeatureGate>
+          {removeSlot ? null : (
+            <FeatureGate feature="wishlist-heart" label={soonLabel} whenSoon="hide">
+              <WishlistHeart
+                bookId={book.id}
+                className={`${styles.actionButton} ${styles.heartButton}`}
+                title={book.title}
+              />
+            </FeatureGate>
+          )}
         </div>
       </div>
 

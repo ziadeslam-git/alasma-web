@@ -24,7 +24,10 @@ describe('MobileNav', () => {
       'href',
       '/cart',
     );
-    expect(document.querySelector('[data-feature="wishlist-heart"]')).toHaveAttribute('inert');
+    expect(screen.getByRole('link', { name: messages.site.header.wishlist })).toHaveAttribute(
+      'href',
+      '/account/wishlist',
+    );
     expect(screen.getByRole('link', { name: messages.account.title })).toHaveAttribute(
       'href',
       '/account',

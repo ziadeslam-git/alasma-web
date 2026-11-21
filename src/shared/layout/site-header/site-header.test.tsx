@@ -33,9 +33,12 @@ describe('SiteHeader', () => {
     const firstFocusable = container.querySelector('a, button, input');
 
     expect(firstFocusable).toHaveAttribute('href', '#main-content');
-    // Task 72: the wishlist heart is soon, so the header leaves it out instead of showing it dimmed
+    // Task 91: the wishlist heart is live, so the header links it to the wishlist page
     expect(container.querySelector('header [data-feature="wishlist-heart"]')).toBeNull();
-    expect(screen.queryByLabelText(messages.site.header.wishlist)).toBeNull();
+    expect(screen.getByLabelText(messages.site.header.wishlist).closest('a')).toHaveAttribute(
+      'href',
+      '/account/wishlist',
+    );
     expect(screen.getByRole('link', { name: messages.site.header.cart })).toHaveAttribute(
       'href',
       '/cart',

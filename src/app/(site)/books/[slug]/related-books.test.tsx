@@ -9,6 +9,17 @@ import { defaultApiOrigin } from '@/shared/lib/api';
 
 import { RelatedBooks } from './related-books';
 
+vi.mock('@/modules/wishlist', () => ({
+  WishlistHeart: ({ title, className }: { title: string; className?: string }) => (
+    <button
+      aria-label={`wishlist ${title}`}
+      aria-pressed="false"
+      className={className}
+      type="button"
+    />
+  ),
+}));
+
 vi.mock('@/modules/cart', () => ({
   AddToCartButton: ({ title }: { title: string }) => <button type="button" aria-label={title} />,
 }));

@@ -2,6 +2,7 @@ import { Fragment, type CSSProperties, type ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
 import { AddToCartButton } from '@/modules/cart';
+import { WishlistHeart } from '@/modules/wishlist';
 import { isLive, type FeatureKey } from '@/shared/config/features';
 import { authorRoute, categoryRoute, routes } from '@/shared/config/routes';
 import { formatDiscountBadge, formatMoney, formatNumber, formatYear } from '@/shared/lib/format';
@@ -299,14 +300,11 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
             )}
 
             <FeatureGate feature="wishlist-heart" label={soonLabel} whenSoon="hide">
-              <button
-                aria-label={messages.catalog.addToWishlist.replace('{title}', book.title)}
+              <WishlistHeart
+                bookId={book.id}
                 className={`${styles.optionBtn} ${styles.iconAction}`}
-                disabled
-                type="button"
-              >
-                <Icon name="heart" size="sm" />
-              </button>
+                title={book.title}
+              />
             </FeatureGate>
           </div>
 
