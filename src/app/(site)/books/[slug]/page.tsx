@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 
 import { buildBookBreadcrumbJsonLd, buildBookJsonLd, buildBookMetadata } from '@/modules/books-seo';
 import { BookDetailsView, getBook, normalizeBookSlug } from '@/modules/catalog';
+import { BookReviews } from '@/modules/reviews';
 import { JsonLd } from '@/shared/seo';
 import { Skeleton } from '@/shared/ui/skeleton';
 
@@ -55,6 +56,14 @@ export default async function BookPage({ params }: BookPageProps) {
       <JsonLd data={buildBookJsonLd(book)} />
       <JsonLd data={buildBookBreadcrumbJsonLd(book)} />
       <BookDetailsView book={book}>
+        <Suspense fallback={<Skeleton shape="card" />}>
+          <BookReviews
+            bookId={book.id}
+            ratingAverage={book.ratingAverage ?? null}
+            ratingCount={book.ratingCount}
+            slug={slug}
+          />
+        </Suspense>
         <Suspense fallback={<Skeleton shape="card" />}>
           <RelatedBooks slug={slug} />
         </Suspense>

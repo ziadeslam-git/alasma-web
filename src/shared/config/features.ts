@@ -10,7 +10,9 @@ export const features = {
   'book-report-error': 'soon', // Report-error action on the product detail design.
   'book-short-link': 'soon', // Short-link action on the product detail design.
   'review-helpful': 'soon', // Helpful vote beneath a review.
-  'reviews-section': 'soon', // Reviews panel on the product detail design.
+  'reviews-section': 'live', // Reviews on the book page: GET /books/{slug}/reviews and POST /books/{id}/reviews (Task 92).
+  'review-sort': 'soon', // Sort control above the reviews: the API only returns the newest first.
+  'review-title': 'soon', // Title field of the review form: the API has no title.
   'wishlist-heart': 'live', // Wishlist heart on cards and the book page, the header/app-bar link and /account/wishlist: GET/PUT/DELETE /wishlist (Task 91).
   'reservations-notify-me': 'soon', // Notify-me action for unavailable books.
   'compare-books': 'soon', // Compare action in catalog and product designs.

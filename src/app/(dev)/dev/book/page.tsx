@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import messages from '@/i18n/messages/ar.json';
 import { buildBookBreadcrumbJsonLd, buildBookJsonLd } from '@/modules/books-seo';
 import { BookDetailsView } from '@/modules/catalog';
+import { BookReviews, type BookReviewsResult, type PublicReview } from '@/modules/reviews';
 import { JsonLd } from '@/shared/seo';
 
 import { buildDevBookData, parseDevBookState, type DevBookState } from './book-fixtures';
@@ -16,6 +17,38 @@ export const metadata: Metadata = {
 };
 
 const BASE_PATH = '/dev/book';
+
+// Reviews preview (?reviews=list|empty|error): fixtures only, so the section can be seen without an API.
+const reviewText = messages.devBook.reviewFixtures;
+const devReviews: readonly PublicReview[] = [
+  {
+    displayName: reviewText.firstName,
+    rating: 5,
+    comment: reviewText.firstComment,
+    createdAt: '2026-09-20T10:00:00Z',
+  },
+  {
+    displayName: reviewText.secondName,
+    rating: 4,
+    comment: reviewText.secondComment,
+    createdAt: '2026-06-12T10:00:00Z',
+  },
+];
+
+function devReviewsFixture(raw: string | string[] | undefined): BookReviewsResult | undefined {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (value === 'error') return { status: 'error' };
+  if (value === 'empty') {
+    return { status: 'ok', page: { items: [], page: 1, pageSize: 48, totalCount: 0 } };
+  }
+  if (value === 'list') {
+    return {
+      status: 'ok',
+      page: { items: [...devReviews], page: 1, pageSize: 48, totalCount: 2, hasNextPage: false },
+    };
+  }
+  return undefined;
+}
 
 type PresetEntry = {
   key: DevBookState;
@@ -52,6 +85,7 @@ export default async function DevBookPage({ searchParams }: DevBookPageProps = {
   const resolvedParams = searchParams ? await searchParams : {};
   const state = parseDevBookState(resolvedParams.state);
   const { book, relatedBooks } = buildDevBookData(state);
+  const reviewsFixture = devReviewsFixture(resolvedParams.reviews);
   const text = messages.devBook;
 
   return (
@@ -79,6 +113,17 @@ export default async function DevBookPage({ searchParams }: DevBookPageProps = {
         <JsonLd data={buildBookJsonLd(book)} />
         <JsonLd data={buildBookBreadcrumbJsonLd(book)} />
         <BookDetailsView book={book} relatedBooks={relatedBooks} />
+        {reviewsFixture ? (
+          <BookReviews
+            bookId={book.id}
+            fixture={reviewsFixture}
+            ratingAverage={
+              reviewsFixture.status === 'ok' && reviewsFixture.page.items.length > 0 ? 4.8 : null
+            }
+            ratingCount={reviewsFixture.status === 'ok' ? reviewsFixture.page.items.length : 0}
+            slug="dev"
+          />
+        ) : null}
       </div>
     </main>
   );

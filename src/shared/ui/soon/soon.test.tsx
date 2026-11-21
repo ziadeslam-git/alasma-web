@@ -48,7 +48,7 @@ describe('FeatureGate', () => {
 
   it('wraps soon features', () => {
     render(
-      <FeatureGate feature="reviews-section" label="Soon">
+      <FeatureGate feature="review-sort" label="Soon">
         <span>Wishlist</span>
       </FeatureGate>,
     );

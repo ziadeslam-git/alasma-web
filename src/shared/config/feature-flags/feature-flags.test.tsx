@@ -28,7 +28,8 @@ describe('visitor feature flags (T7)', () => {
     expect(resolved['checkout-flow']).toBe('live');
     expect(resolved['wishlist-heart']).toBe('live');
     // Unbuilt features opened by the backend stay 'soon' regardless of the backend:
-    expect(resolved['reviews-section']).toBe('soon');
+    expect(resolved['reviews-section']).toBe('live');
+    expect(resolved['review-sort']).toBe('soon');
     expect(resolved['reservations-notify-me']).toBe('soon');
     expect(resolved['home-banners']).toBe('soon');
     expect(resolved['publish-packages']).toBe('soon');
@@ -64,6 +65,14 @@ describe('visitor feature flags (T7)', () => {
 
     expect(features['wishlist-heart']).toBe('live');
     expect(resolveFeatureFlags(withoutWishlist)['wishlist-heart']).toBe('soon');
+  });
+
+  it('turns the reviews section into soon when Catalog.Reviews is closed (Task 92)', () => {
+    const withoutReviews = enabledFlagsSample.filter((flag) => flag !== 'Catalog.Reviews');
+
+    expect(features['reviews-section']).toBe('live');
+    expect(resolveFeatureFlags(withoutReviews)['reviews-section']).toBe('soon');
+    expect(resolveFeatureFlags(withoutReviews)['review-helpful']).toBe('soon');
   });
 
   it('ignores unknown backend flags without throwing or opening unbuilt features', () => {
