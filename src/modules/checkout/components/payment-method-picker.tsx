@@ -5,7 +5,6 @@ import messages from '@/i18n/messages/ar.json';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatNumber } from '@/shared/lib/format';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { FeatureGate } from '@/shared/ui/soon';
 import { getPaymentMethods, type PaymentMethod } from '../api/payment-methods';
 import { useCheckout } from '../provider/checkout-provider';
 
@@ -109,9 +108,7 @@ export function PaymentMethodPicker() {
                 {text.transferExpiry.replace('{hours}', formatNumber(item.details.expiresInHours))}
               </p>
               {item.details.instructions ? <p>{item.details.instructions}</p> : null}
-              <FeatureGate feature="payment-proof" label={messages.site.soon} badge="inline">
-                <span>{text.proofSoon}</span>
-              </FeatureGate>
+              <p>{text.proofAfterOrder}</p>
             </>
           ) : null}
         </div>

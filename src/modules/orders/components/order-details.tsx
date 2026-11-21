@@ -11,6 +11,8 @@ import { Skeleton } from '@/shared/ui/skeleton';
 import { FeatureGate } from '@/shared/ui/soon';
 import { cancelOrder, getOrder, isOrderId, type Order } from '../api/orders-api';
 import { OrderEditDialog } from './order-edit-dialog';
+import { PaymentProofSection } from './payment-proof-section';
+import { PaymentReceiptButton } from './payment-receipt-button';
 import styles from './orders.module.css';
 
 export function OrderDetails({ id, fixture }: { id: string; fixture?: Order }) {
@@ -146,9 +148,18 @@ export function OrderDetails({ id, fixture }: { id: string; fixture?: Order }) {
             {payment.rejectionReason ? ` · ${payment.rejectionReason}` : null}
           </p>
         ))}
-        <FeatureGate feature="payment-proof" label={messages.site.soon}>
-          <span>{text.proof}</span>
-        </FeatureGate>
+        {order.payments
+          .filter((payment) => payment.status === 'Approved')
+          .map((payment) => (
+            <FeatureGate
+              feature="payment-receipt"
+              key={`receipt-${payment.id}`}
+              label={messages.site.soon}
+            >
+              <PaymentReceiptButton orderId={order.id} paymentId={payment.id} />
+            </FeatureGate>
+          ))}
+        <PaymentProofSection order={order} onOrderChange={setOrder} />
       </section>
       <section>
         <h2>{text.shipment}</h2>

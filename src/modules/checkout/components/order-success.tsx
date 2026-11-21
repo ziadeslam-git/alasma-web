@@ -4,12 +4,11 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
-import { getOrder, isOrderId, type Order } from '@/modules/orders';
+import { getOrder, isOrderId, PaymentProofSection, type Order } from '@/modules/orders';
 import { orderRoute, routes } from '@/shared/config/routes';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatDateTime, formatMoney, formatNumber } from '@/shared/lib/format';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { FeatureGate } from '@/shared/ui/soon';
 import { getPaymentMethods, type PaymentMethod } from '../api/payment-methods';
 
 export function OrderSuccess({
@@ -195,9 +194,7 @@ export function OrderSuccess({
           {order.expiresAt ? (
             <p>{ordersText.expires.replace('{date}', formatDateTime(order.expiresAt))}</p>
           ) : null}
-          <FeatureGate feature="payment-proof" label={messages.site.soon} badge="inline">
-            <span>{text.proofSoon}</span>
-          </FeatureGate>
+          <PaymentProofSection order={order} onOrderChange={setOrder} />
         </>
       )}
       <p>

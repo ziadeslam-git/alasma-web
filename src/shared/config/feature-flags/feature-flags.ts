@@ -58,7 +58,7 @@ export const BACKEND_TO_FRONTEND_FEATURE_KEYS: Readonly<
   'Marketing.Newsletter': ['home-newsletter'],
   'Marketing.Quotes': ['home-quotes'],
   'Orders.Alerts': ['notifications-center'],
-  'Orders.InvoicePrint': ['order-invoice'],
+  'Orders.InvoicePrint': ['order-invoice', 'payment-receipt'],
   'Payments.Cod': [],
   'Payments.ManualTransfer': [],
   'Publishing.ManuscriptRequests': [],

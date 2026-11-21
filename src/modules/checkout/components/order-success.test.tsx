@@ -5,7 +5,11 @@ import type { Order } from '@/modules/orders';
 import { axe } from '@/test/axe';
 import { OrderSuccess } from './order-success';
 
-vi.mock('@/modules/orders', () => ({ getOrder: vi.fn(), isOrderId: () => true }));
+vi.mock('@/modules/orders', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/modules/orders')>()),
+  getOrder: vi.fn(),
+  isOrderId: () => true,
+}));
 vi.mock('@/modules/account', () => ({ UnconfirmedEmailBanner: () => <p>Confirm email</p> }));
 
 const order: Order = {
