@@ -36,8 +36,10 @@ export const features = {
   // Home page sections (home-banners and home-quotes are not rendered by the home page any more: not in the design)
   'home-banners': 'soon', // Promotional banner area on the home design.
   'home-quotes': 'soon', // Quote section on the home design.
-  'home-events': 'soon', // Events section on the home design.
-  'home-newsletter': 'soon', // Newsletter callout on the home design.
+  'home-events': 'soon', // Events navigation link and events pages: no /events page yet.
+  'home-event-card': 'live', // Upcoming event card in the home hero: GET /events?when=upcoming (Task 93).
+  'event-register': 'soon', // Register action on the event card: the API has no registration endpoint.
+  'home-newsletter': 'live', // Footer newsletter form: POST /newsletter/subscribe (Task 93).
   'home-editor-pick': 'soon', // Editor pick on the home design.
   'home-team-picks': 'soon', // Team picks on the home design.
   'home-book-of-month': 'soon', // Book of the month on the home design.

@@ -254,3 +254,29 @@
     font-size: 28px;
   }
 }
+
+/* Feather watermark of the design (.ic-feather 150px, end/bottom corner, bleeding out). The design colour has no token:
+   a brass tint between the card and brass-300 is the closest. */
+.eventFeather {
+  position: absolute;
+  inset-block-end: -24px;
+  inset-inline-end: -18px;
+  inline-size: 150px;
+  block-size: 150px;
+  fill: color-mix(in srgb, var(--brass-300) 45%, var(--brass-100));
+  pointer-events: none;
+}
+
+.eventCard > :not(.eventFeather) {
+  position: relative;
+}
+
+/* The soon mark of the register action is kept as quiet as possible: plain small text, no pill. */
+.eventCard [data-soon-badge] {
+  min-block-size: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--ink-subtle);
+  font-weight: 400;
+}

@@ -1,4 +1,7 @@
 import type { BookCardItem, CategoryNode } from '@/modules/catalog';
+import type { components } from '@/shared/lib/api';
+
+export type HomeEvent = components['schemas']['EventListItemDto'];
 
 export type HomeSectionStatus = 'ok' | 'empty' | 'error';
 
@@ -9,6 +12,8 @@ export type HomeSectionResult<T> = {
 
 export type HomeData = {
   categories: HomeSectionResult<CategoryNode>;
+  /** The nearest upcoming event (at most one item). */
+  events: HomeSectionResult<HomeEvent>;
   featured: HomeSectionResult<BookCardItem>;
   newArrivals: HomeSectionResult<BookCardItem>;
 };

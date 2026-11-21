@@ -5,6 +5,8 @@ import { features, getFeatureState, isLive, type FeatureKey, type FeatureState }
 const expectedLiveKeys = [
   'reviews-section',
   'wishlist-heart',
+  'home-event-card',
+  'home-newsletter',
   'cart-page',
   'profile-edit',
   'order-invoice',

@@ -1,0 +1,51 @@
+/* Footer newsletter form (design/Main.dc.html: input.field + full-width primary button, 10px apart). */
+.form {
+  display: grid;
+  gap: 10px;
+}
+
+.field {
+  inline-size: 100%;
+  min-block-size: 46px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--pg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  text-align: start;
+}
+
+.field::placeholder {
+  color: var(--ink-subtle);
+  direction: rtl;
+}
+
+.field:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.fieldInvalid {
+  border-color: var(--danger-ink);
+}
+
+.error {
+  margin: 0;
+  color: var(--danger-ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.success {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  background: var(--success-soft);
+  color: var(--success-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.8;
+}

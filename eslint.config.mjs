@@ -27,6 +27,7 @@ const moduleNames = [
   'seo-site',
   'wishlist',
   'reviews',
+  'newsletter',
 ];
 
 const moduleZones = moduleNames.map((name) => ({

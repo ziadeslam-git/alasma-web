@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { AccountMenu, AccountShell, MenuLogout, SignedInMenuLinks } from '@/modules/account';
 import { RequireAuth } from '@/modules/auth';
 import { MiniCart } from '@/modules/cart';
+import { NewsletterForm } from '@/modules/newsletter';
 import { SearchOverlay } from '@/modules/search';
 import { SiteHeader } from '@/shared/layout/site-header';
 import { SiteFooter } from '@/shared/layout/site-footer';
@@ -27,7 +28,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
           <AccountShell>{children}</AccountShell>
         </RequireAuth>
       </PageFrameGrow>
-      <SiteFooter />
+      <SiteFooter newsletter={<NewsletterForm />} />
       <MobileNav />
     </PageFrame>
   );

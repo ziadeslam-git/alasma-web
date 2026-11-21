@@ -75,6 +75,18 @@ describe('visitor feature flags (T7)', () => {
     expect(resolveFeatureFlags(withoutReviews)['review-helpful']).toBe('soon');
   });
 
+  it('turns the event card and the newsletter into soon when their backend flags are closed (Task 93)', () => {
+    const closed = enabledFlagsSample.filter(
+      (flag) => flag !== 'Marketing.Events' && flag !== 'Marketing.Newsletter',
+    );
+    const resolved = resolveFeatureFlags(closed);
+
+    expect(resolved['home-event-card']).toBe('soon');
+    expect(resolved['home-newsletter']).toBe('soon');
+    expect(resolveFeatureFlags(enabledFlagsSample)['home-event-card']).toBe('live');
+    expect(resolveFeatureFlags(enabledFlagsSample)['home-newsletter']).toBe('live');
+  });
+
   it('ignores unknown backend flags without throwing or opening unbuilt features', () => {
     const resolved = resolveFeatureFlags([
       ...enabledFlagsSample,

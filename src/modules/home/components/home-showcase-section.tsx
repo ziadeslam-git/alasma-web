@@ -6,11 +6,14 @@ import { BookCover } from '@/shared/ui/book-cover';
 import { Icon } from '@/shared/ui/icon';
 import { FeatureGate } from '@/shared/ui/soon';
 
+import type { HomeEvent } from '../types';
+import { QUILL_PATH } from './quill-path';
+
 import styles from './home-showcase-section.module.css';
 
 // Matches the ".hero" grid on Main.dc.html: Book of the Month (home-book-of-month, Soon), Author Event card
-// (home-events, Soon), and New Releases store CTA card (live link to /books?sort=newest).
-export function HomeShowcaseSection() {
+// (home-event-card, live: the nearest upcoming event), and New Releases store CTA card (live link to /books?sort=newest).
+export function HomeShowcaseSection({ event }: { event?: HomeEvent }) {
   const text = messages.home.showcase;
   const soonLabel = messages.site.soon;
 
@@ -48,13 +51,20 @@ export function HomeShowcaseSection() {
         </FeatureGate>
 
         <div className={styles.side}>
-          <FeatureGate feature="home-events" label={soonLabel} whenSoon="hide">
-            <div className={styles.eventCard}>
-              <h2 className={styles.sideTitle}>{text.eventTitle}</h2>
-              <p className={styles.eventDescription}>{text.eventDescription}</p>
-              <span className={styles.eventAction}>{text.eventAction}</span>
-            </div>
-          </FeatureGate>
+          {event ? (
+            <FeatureGate feature="home-event-card" label={soonLabel} whenSoon="hide">
+              <div className={styles.eventCard}>
+                <svg aria-hidden="true" className={styles.eventFeather} viewBox="33 33 640 640">
+                  <path d={QUILL_PATH} fillRule="evenodd" />
+                </svg>
+                <h2 className={styles.sideTitle}>{event.title}</h2>
+                <p className={styles.eventDescription}>{event.summary}</p>
+                <FeatureGate badge="inline" feature="event-register" label={soonLabel}>
+                  <span className={styles.eventAction}>{text.eventAction}</span>
+                </FeatureGate>
+              </div>
+            </FeatureGate>
+          ) : null}
 
           <Link className={styles.releasesCard} href={routes.books}>
             <div className={styles.releasesCopy}>

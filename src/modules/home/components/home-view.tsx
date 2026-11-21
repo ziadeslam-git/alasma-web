@@ -22,7 +22,7 @@ export function HomeView({ data }: HomeViewProps) {
   return (
     <div className={styles.page}>
       <ManifestoHero />
-      <HomeShowcaseSection />
+      <HomeShowcaseSection event={data.events.items[0]} />
       <HomeCategoriesSection result={data.categories} />
       <HomeBooksShelf
         emptyDescription={newArrivalsText.emptyDescription}

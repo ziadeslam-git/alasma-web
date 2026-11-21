@@ -64,6 +64,16 @@ const sampleBooks: readonly BookCardItem[] = [
   },
 ];
 
+const sampleEvent = {
+  title: messages.devHome.eventFixture.title,
+  slug: 'event-1',
+  imageUrl: null,
+  location: messages.devHome.eventFixture.location,
+  startsAt: '2026-12-05T16:00:00Z',
+  endsAt: null,
+  summary: messages.devHome.eventFixture.summary,
+};
+
 function buildTestHomeData(state: 'ok' | 'partial' | 'empty' | 'error'): HomeData {
   switch (state) {
     case 'empty':
@@ -71,24 +81,28 @@ function buildTestHomeData(state: 'ok' | 'partial' | 'empty' | 'error'): HomeDat
         categories: { items: [], status: 'empty' },
         featured: { items: [], status: 'empty' },
         newArrivals: { items: [], status: 'empty' },
+        events: { items: [], status: 'empty' },
       };
     case 'error':
       return {
         categories: { items: [], status: 'error' },
         featured: { items: [], status: 'error' },
         newArrivals: { items: [], status: 'error' },
+        events: { items: [], status: 'error' },
       };
     case 'partial':
       return {
         categories: { items: sampleCategories, status: 'ok' },
         featured: { items: [], status: 'error' },
         newArrivals: { items: sampleBooks, status: 'ok' },
+        events: { items: [], status: 'empty' },
       };
     default:
       return {
         categories: { items: sampleCategories, status: 'ok' },
         featured: { items: sampleBooks, status: 'ok' },
         newArrivals: { items: sampleBooks, status: 'ok' },
+        events: { items: [sampleEvent], status: 'ok' },
       };
   }
 }
@@ -129,8 +143,9 @@ describe('HomeView', () => {
   it('hides every unfinished section instead of showing it dimmed, and leaves no empty wrapper (Task 76)', () => {
     const { container } = render(<HomeView data={buildTestHomeData('ok')} />);
 
-    expect(container.querySelector('[data-feature]')).toBeNull();
-    expect(container.querySelector('[data-soon-badge]')).toBeNull();
+    // the only dimmed piece is the event card's register action (no API for it yet)
+    const dimmed = Array.from(container.querySelectorAll('[data-feature]'));
+    expect(dimmed.map((node) => node.getAttribute('data-feature'))).toEqual(['event-register']);
     for (const label of [
       messages.home.spotlight.heading,
       messages.home.trending.heading,
@@ -149,6 +164,29 @@ describe('HomeView', () => {
     expect(
       screen.getByRole('link', { name: new RegExp(messages.home.showcase.newReleasesTitle) }),
     ).toBeInTheDocument();
+  });
+
+  it('shows the nearest upcoming event from the API, without a date line, and a dimmed register action (Task 93)', () => {
+    render(<HomeView data={buildTestHomeData('ok')} />);
+
+    expect(
+      screen.getByRole('heading', { name: messages.devHome.eventFixture.title }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(messages.devHome.eventFixture.summary)).toBeInTheDocument();
+    // the design has no date or location line on this card
+    expect(screen.queryByText(messages.devHome.eventFixture.location)).toBeNull();
+    expect(document.querySelector('[data-feature="event-register"]')).toHaveAttribute('inert');
+  });
+
+  it('leaves the event card out when there is no upcoming event or the call failed (Task 93)', () => {
+    for (const state of ['empty', 'error'] as const) {
+      const { unmount } = render(<HomeView data={buildTestHomeData(state)} />);
+      expect(
+        screen.queryByRole('heading', { name: messages.devHome.eventFixture.title }),
+      ).toBeNull();
+      expect(document.querySelector('[data-feature="event-register"]')).toBeNull();
+      unmount();
+    }
   });
 
   it('brings a hidden section back once its feature is live', () => {

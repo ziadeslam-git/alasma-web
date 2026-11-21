@@ -11,6 +11,8 @@ import styles from './site-footer.module.css';
 export type SiteFooterProps = {
   contactDetails?: ReactNode;
   socialLinks?: ReactNode;
+  /** The newsletter form (a module component the layout passes in: shared cannot import modules). */
+  newsletter?: ReactNode;
 };
 
 const catalogLinks = [
@@ -31,8 +33,7 @@ const helpLinks = [
   ['faq', staticPageRoute('faq')],
 ] as const;
 
-export function SiteFooter(props: SiteFooterProps) {
-  void props;
+export function SiteFooter({ newsletter: newsletterForm }: SiteFooterProps) {
   const text = messages.site;
   const newsletter = messages.home.campaigns;
   const year = new Date().getFullYear();
@@ -76,12 +77,14 @@ export function SiteFooter(props: SiteFooterProps) {
           <section>
             <h2>{newsletter.newsletterTitle}</h2>
             <p className={styles.newsletterText}>{newsletter.newsletterDescription}</p>
-            {/* The newsletter has no backend yet: dimmed and inert through the "soon" rule, no request. */}
+            {/* Live: the form comes from the layout. Soon: dimmed and inert, no request. */}
             <FeatureGate feature="home-newsletter" label={text.soon}>
-              <div className={styles.newsletter}>
-                <span className={styles.newsletterField}>{newsletter.newsletterPlaceholder}</span>
-                <span className={styles.newsletterButton}>{newsletter.newsletterSubmit}</span>
-              </div>
+              {newsletterForm ?? (
+                <div className={styles.newsletter}>
+                  <span className={styles.newsletterField}>{newsletter.newsletterPlaceholder}</span>
+                  <span className={styles.newsletterButton}>{newsletter.newsletterSubmit}</span>
+                </div>
+              )}
             </FeatureGate>
           </section>
         </div>

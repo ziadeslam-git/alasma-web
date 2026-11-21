@@ -13,6 +13,7 @@ export function SiteShell({
   accountArea,
   menuAccount,
   menuFooter,
+  newsletter,
 }: {
   children: ReactNode;
   search?: ReactNode;
@@ -20,6 +21,7 @@ export function SiteShell({
   accountArea?: ReactNode;
   menuAccount?: ReactNode;
   menuFooter?: ReactNode;
+  newsletter?: ReactNode;
 }) {
   return (
     <PageFrame>
@@ -31,7 +33,7 @@ export function SiteShell({
         menuFooter={menuFooter}
       />
       <main id="main-content">{children}</main>
-      <SiteFooter />
+      <SiteFooter newsletter={newsletter} />
       <MobileNav />
       <SplashOverlay />
     </PageFrame>

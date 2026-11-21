@@ -1,6 +1,6 @@
 import messages from '@/i18n/messages/ar.json';
 import type { CategoryNode } from '@/modules/catalog';
-import type { HomeData } from '@/modules/home';
+import type { HomeData, HomeEvent } from '@/modules/home';
 
 import { catalogFixtures } from '../catalog/catalog-fixtures';
 
@@ -47,6 +47,16 @@ export const homeCategoryFixtures: readonly CategoryNode[] = [
 export const homeFeaturedFixtures = catalogFixtures.slice(0, 5);
 export const homeNewArrivalsFixtures = catalogFixtures.slice(3, 8);
 
+export const homeEventFixture: HomeEvent = {
+  title: messages.devHome.eventFixture.title,
+  slug: 'dev-event',
+  imageUrl: null,
+  location: messages.devHome.eventFixture.location,
+  startsAt: '2026-12-05T16:00:00Z',
+  endsAt: null,
+  summary: messages.devHome.eventFixture.summary,
+};
+
 export type DevHomeState = 'ok' | 'partial' | 'empty' | 'error';
 
 export function buildDevHomeData(state: DevHomeState): HomeData {
@@ -56,24 +66,28 @@ export function buildDevHomeData(state: DevHomeState): HomeData {
         categories: { items: [], status: 'empty' },
         featured: { items: [], status: 'empty' },
         newArrivals: { items: [], status: 'empty' },
+        events: { items: [], status: 'empty' },
       };
     case 'error':
       return {
         categories: { items: [], status: 'error' },
         featured: { items: [], status: 'error' },
         newArrivals: { items: [], status: 'error' },
+        events: { items: [], status: 'error' },
       };
     case 'partial':
       return {
         categories: { items: homeCategoryFixtures, status: 'ok' },
         featured: { items: [], status: 'error' },
         newArrivals: { items: homeNewArrivalsFixtures, status: 'ok' },
+        events: { items: [], status: 'empty' },
       };
     default:
       return {
         categories: { items: homeCategoryFixtures, status: 'ok' },
         featured: { items: homeFeaturedFixtures, status: 'ok' },
         newArrivals: { items: homeNewArrivalsFixtures, status: 'ok' },
+        events: { items: [homeEventFixture], status: 'ok' },
       };
   }
 }

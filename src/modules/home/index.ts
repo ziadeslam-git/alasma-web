@@ -5,4 +5,4 @@ export {
   type GetHomeDataOptions,
 } from './api/get-home-data';
 export { HomeView, type HomeViewProps } from './components/home-view';
-export type { HomeData, HomeSectionResult, HomeSectionStatus } from './types';
+export type { HomeData, HomeEvent, HomeSectionResult, HomeSectionStatus } from './types';

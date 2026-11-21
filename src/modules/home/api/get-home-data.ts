@@ -13,6 +13,7 @@ export const HOME_CACHE_TAGS = {
   categories: 'categories',
   featured: 'books:featured',
   newArrivals: 'books:new-arrivals',
+  events: 'events',
 } as const;
 
 export type GetHomeDataOptions = ServerClientOptions;
@@ -48,27 +49,39 @@ function toSectionResult<T>(
 export async function getHomeData(options: GetHomeDataOptions = {}): Promise<HomeData> {
   const client = createServerClient(options);
 
-  const [featuredSettled, newArrivalsSettled, categoriesSettled] = await Promise.allSettled([
-    client
-      .GET('/api/v1/books/featured', {
-        ...nextFetch({ revalidate: HOME_REVALIDATE_SECONDS, tags: [HOME_CACHE_TAGS.featured] }),
-      })
-      .then(throwIfError),
-    client
-      .GET('/api/v1/books/new-arrivals', {
-        ...nextFetch({ revalidate: HOME_REVALIDATE_SECONDS, tags: [HOME_CACHE_TAGS.newArrivals] }),
-      })
-      .then(throwIfError),
-    client
-      .GET('/api/v1/categories', {
-        ...nextFetch({ revalidate: HOME_REVALIDATE_SECONDS, tags: [HOME_CACHE_TAGS.categories] }),
-      })
-      .then(throwIfError),
-  ]);
+  const [featuredSettled, newArrivalsSettled, categoriesSettled, eventsSettled] =
+    await Promise.allSettled([
+      client
+        .GET('/api/v1/books/featured', {
+          ...nextFetch({ revalidate: HOME_REVALIDATE_SECONDS, tags: [HOME_CACHE_TAGS.featured] }),
+        })
+        .then(throwIfError),
+      client
+        .GET('/api/v1/books/new-arrivals', {
+          ...nextFetch({
+            revalidate: HOME_REVALIDATE_SECONDS,
+            tags: [HOME_CACHE_TAGS.newArrivals],
+          }),
+        })
+        .then(throwIfError),
+      client
+        .GET('/api/v1/categories', {
+          ...nextFetch({ revalidate: HOME_REVALIDATE_SECONDS, tags: [HOME_CACHE_TAGS.categories] }),
+        })
+        .then(throwIfError),
+      client
+        .GET('/api/v1/events', {
+          params: { query: { when: 'upcoming', page: 1, pageSize: 1 } },
+          ...nextFetch({ revalidate: HOME_REVALIDATE_SECONDS, tags: [HOME_CACHE_TAGS.events] }),
+        })
+        .then(throwIfError)
+        .then((page) => page.items),
+    ]);
 
   return {
     featured: toSectionResult(featuredSettled, 'featured'),
     newArrivals: toSectionResult(newArrivalsSettled, 'newArrivals'),
     categories: toSectionResult(categoriesSettled, 'categories'),
+    events: toSectionResult(eventsSettled, 'events'),
   };
 }

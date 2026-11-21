@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest';
 import { axe } from '@/test/axe';
 import messages from '@/i18n/messages/ar.json';
 
+import { FeatureFlagsProvider, resolveFeatureFlags } from '@/shared/config/feature-flags';
+
 import { SiteFooter } from './site-footer';
 
 describe('SiteFooter', () => {
@@ -59,12 +61,22 @@ describe('SiteFooter', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('keeps the newsletter column dimmed and inert with the soon label and no form controls', () => {
-    const { container } = render(<SiteFooter />);
+  it('renders the newsletter form passed by the layout once the feature is live (Task 93)', () => {
+    render(<SiteFooter newsletter={<button type="button">form</button>} />);
+
+    expect(screen.getByRole('button', { name: 'form' })).toBeInTheDocument();
+    expect(document.querySelector('[data-feature="home-newsletter"]')).toBeNull();
+  });
+
+  it('keeps the newsletter column dimmed and inert while the feature is soon', () => {
+    const { container } = render(
+      <FeatureFlagsProvider value={{ ...resolveFeatureFlags(null), 'home-newsletter': 'soon' }}>
+        <SiteFooter newsletter={<button type="button">form</button>} />
+      </FeatureFlagsProvider>,
+    );
 
     const gate = container.querySelector('[data-feature="home-newsletter"]');
     expect(gate).toHaveAttribute('inert');
     expect(gate).toHaveTextContent(messages.site.soon);
-    expect(gate!.querySelector('input, button, a')).toBeNull();
   });
 });

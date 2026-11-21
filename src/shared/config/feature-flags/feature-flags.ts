@@ -54,7 +54,7 @@ export const BACKEND_TO_FRONTEND_FEATURE_KEYS: Readonly<
   'Cms.StaticPages': ['static-pages'],
   'Marketing.Banners': ['home-banners'],
   'Marketing.Coupons': ['public-coupons-list'],
-  'Marketing.Events': ['home-events', 'search-tab-events'],
+  'Marketing.Events': ['home-events', 'home-event-card', 'search-tab-events'],
   'Marketing.Newsletter': ['home-newsletter'],
   'Marketing.Quotes': ['home-quotes'],
   'Orders.Alerts': ['notifications-center'],
