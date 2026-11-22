@@ -1,36 +1,54 @@
+import type { ReactNode } from 'react';
+
 import messages from '@/i18n/messages/ar.json';
 import { routes } from '@/shared/config/routes';
-import { Icon } from '@/shared/ui/icon';
-import { FeatureLink } from '@/shared/ui/soon';
 
-import { MobileNavActiveLink } from './mobile-nav-active-link';
+import { MobileNavItem } from './mobile-nav-item';
 import styles from './mobile-nav.module.css';
 
-export function MobileNav() {
+// cartBadge is the cart module's count badge, passed in by the layout because shared cannot import a module.
+export function MobileNav({ cartBadge }: { cartBadge?: ReactNode }) {
   const text = messages.site;
 
   return (
     <nav aria-label={text.header.menu} className={styles.appBar}>
-      <MobileNavActiveLink href={routes.home} label={text.header.home}>
-        <Icon name="lib" />
-        <span>{text.header.home}</span>
-      </MobileNavActiveLink>
-      <MobileNavActiveLink href={routes.books} label={text.header.store}>
-        <Icon name="book" />
-        <span>{text.header.store}</span>
-      </MobileNavActiveLink>
-      <FeatureLink feature="cart-page" href={routes.cart} label={text.soon}>
-        <Icon name="bag" />
-        <span>{text.header.cart}</span>
-      </FeatureLink>
-      <FeatureLink feature="wishlist-heart" href={routes.accountWishlist} label={text.soon}>
-        <Icon name="heart" />
-        <span>{text.header.wishlist}</span>
-      </FeatureLink>
-      <FeatureLink feature="account-area" href={routes.account} label={text.soon}>
-        <Icon name="user" />
-        <span>{messages.account.title}</span>
-      </FeatureLink>
+      <MobileNavItem
+        href={routes.home}
+        icon="lib"
+        isExact
+        label={text.header.home}
+        soonLabel={text.soon}
+      />
+      <MobileNavItem
+        href={routes.books}
+        icon="book"
+        label={text.header.store}
+        soonLabel={text.soon}
+      />
+      <MobileNavItem
+        badge={cartBadge}
+        feature="cart-page"
+        href={routes.cart}
+        icon="bag"
+        label={text.header.cart}
+        soonLabel={text.soon}
+      />
+      <MobileNavItem
+        feature="wishlist-heart"
+        href={routes.accountWishlist}
+        icon="heart"
+        iconCurrent="heart-f"
+        label={text.header.wishlist}
+        soonLabel={text.soon}
+      />
+      <MobileNavItem
+        excludePrefixes={[routes.accountWishlist]}
+        feature="account-area"
+        href={routes.account}
+        icon="user"
+        label={messages.account.title}
+        soonLabel={text.soon}
+      />
     </nav>
   );
 }

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 import { AccountMenu, AccountShell, MenuLogout, SignedInMenuLinks } from '@/modules/account';
 import { RequireAuth } from '@/modules/auth';
-import { MiniCart } from '@/modules/cart';
+import { CartCountBadge, MiniCart } from '@/modules/cart';
 import { NewsletterForm } from '@/modules/newsletter';
 import { SearchOverlay } from '@/modules/search';
 import { SiteHeader } from '@/shared/layout/site-header';
@@ -29,7 +29,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
         </RequireAuth>
       </PageFrameGrow>
       <SiteFooter newsletter={<NewsletterForm />} />
-      <MobileNav />
+      <MobileNav cartBadge={<CartCountBadge />} />
     </PageFrame>
   );
 }

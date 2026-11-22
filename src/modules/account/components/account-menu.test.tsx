@@ -35,6 +35,15 @@ describe('AccountMenu', () => {
     );
   });
 
+  it('shows the avatar button named after the customer and an inert notifications bell', () => {
+    render(<AccountMenu />);
+
+    expect(screen.getByRole('button', { name: 'Test Customer' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('img', { name: new RegExp(messages.account.notifications) }),
+    ).toBeInTheDocument();
+  });
+
   it('opens account links and signs out', async () => {
     const user = userEvent.setup();
     const { container } = render(<AccountMenu />);

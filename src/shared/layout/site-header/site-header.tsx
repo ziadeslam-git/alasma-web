@@ -6,6 +6,7 @@ import messages from '@/i18n/messages/ar.json';
 import type { FeatureKey } from '@/shared/config/features';
 import { routes, staticPageRoute } from '@/shared/config/routes';
 import { MobileNavMenu } from '@/shared/layout/mobile-nav';
+import { HeaderLink } from './header-link';
 import { ButtonLink } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
@@ -90,39 +91,26 @@ export function SiteHeader({
           </form>
         )}
         <nav aria-label={text.header.home} className={styles.links}>
-          <Link href={routes.home}>{text.header.home}</Link>
-          <Link href={routes.books}>{text.header.store}</Link>
-          <DeferredLink
+          <HeaderLink href={routes.home} isExact label={text.header.home} />
+          <HeaderLink href={routes.books} label={text.header.store} />
+          <HeaderLink
             feature="home-most-popular"
             href={routes.bestsellers}
-            inline
             label={text.header.bestSellers}
           />
-          <DeferredLink
-            feature="offers-bundles"
-            href={routes.offers}
-            inline
-            label={text.header.offers}
-          />
-          <DeferredLink
-            feature="catalog-authors"
-            href={routes.authors}
-            inline
-            label={text.header.authors}
-          />
+          <HeaderLink feature="offers-bundles" href={routes.offers} label={text.header.offers} />
+          <HeaderLink feature="catalog-authors" href={routes.authors} label={text.header.authors} />
           <FeatureGate badge="inline" feature="home-events" label={text.soon} whenSoon="hide">
             <span>{text.header.events}</span>
           </FeatureGate>
-          <DeferredLink
+          <HeaderLink
             feature="publish-packages"
             href={routes.publish}
-            inline
             label={text.header.publishPackages}
           />
-          <DeferredLink
+          <HeaderLink
             feature="catalog-categories-index"
             href={routes.categories}
-            inline
             label={text.header.categories}
           />
         </nav>

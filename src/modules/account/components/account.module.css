@@ -1,25 +1,66 @@
+/* Account shell (design/account.css): a 290px sidebar and the page area. */
 .shell {
   display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  gap: var(--space-6);
-  max-inline-size: 1280px;
-  margin-inline: auto;
-  padding: var(--space-8);
+  grid-template-columns: 290px minmax(0, 1fr);
+  min-block-size: 900px;
+  background: var(--pg);
 }
 
 .navigation {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: var(--space-4);
+  gap: 6px;
+  padding: 26px 24px;
+  border-inline-end: 1px solid var(--hair);
+  background: var(--card);
 }
 
-.navigation a {
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  color: var(--ink);
+.navTitle {
+  margin: 16px 0 8px;
+  padding-inline: 14px;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.navTitle:first-child {
+  margin-block-start: 0;
+}
+
+.navDivider {
+  margin: 16px 6px;
+  border: 0;
+  border-block-start: 1px solid var(--hair);
+}
+
+.navigation a,
+.navSoon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-block-size: 44px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
   text-decoration: none;
+}
+
+.navigation a:hover {
+  background: var(--pg);
+  color: var(--ink);
+}
+
+.navigation a[aria-current='page'] {
+  background: var(--g);
+  box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--g) 60%, transparent);
+  color: var(--on-primary);
+  font-weight: 600;
 }
 
 .navigation a:focus-visible {
@@ -27,8 +68,41 @@
   outline-offset: 2px;
 }
 
+.goal {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--hair);
+  border-radius: 14px;
+  background: var(--pg);
+  color: var(--g);
+}
+
+.goalBody {
+  display: grid;
+  flex: 1;
+  gap: 7px;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+.goalBar {
+  display: block;
+  block-size: 6px;
+  border-radius: 4px;
+  background: var(--green-100);
+}
+
+/* the reading goal sits at the bottom of the column */
+.navigation > [data-feature]:last-child {
+  margin-block-start: auto;
+}
+
 .main {
   min-inline-size: 0;
+  padding: 40px 44px 56px;
 }
 
 .profile {
@@ -113,16 +187,52 @@
   background: var(--accent-soft);
 }
 
-@media (width <= 760px) {
+@media (width <= 1000px) {
   .shell {
     grid-template-columns: minmax(0, 1fr);
-    padding: var(--space-4);
+    min-block-size: 0;
   }
 
   .navigation {
-    flex-flow: row wrap;
+    position: sticky;
+    z-index: 5;
+    inset-block-start: 60px;
+    flex-direction: row;
+    gap: var(--space-2);
+    padding: 12px var(--space-4);
+    overflow-x: auto;
+    border: 0;
+    background: var(--pg);
+    scrollbar-width: none;
   }
 
+  .navTitle,
+  .navDivider,
+  .navigation > [data-feature]:last-child {
+    display: none;
+  }
+
+  .navigation a,
+  .navSoon {
+    flex: none;
+    padding: 11px 16px;
+    border: 1px solid var(--hair);
+    border-radius: var(--radius-pill);
+    background: var(--card);
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .navigation a[aria-current='page'] {
+    border-color: var(--g);
+  }
+
+  .main {
+    padding: var(--space-2) var(--space-4) var(--space-6);
+  }
+}
+
+@media (width <= 760px) {
   .row {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-1);
@@ -137,10 +247,29 @@
 }
 
 .accountButton {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  justify-content: center;
+  padding: 0;
   border: 0;
   background: transparent;
   color: inherit;
   cursor: pointer;
+}
+
+.accountButton:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The notifications bell of the design; it has no API yet, so it only shows through the soon rule. */
+.bell {
+  display: grid;
+  place-items: center;
+  inline-size: 42px;
+  block-size: 42px;
+  color: var(--ink);
+  opacity: 0.45;
 }
 
 .avatar {
@@ -149,8 +278,9 @@
   inline-size: 38px;
   block-size: 38px;
   border-radius: var(--radius-pill);
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--g), var(--g-d));
   color: var(--surface);
+  font-weight: 600;
 }
 
 .accountMenu {

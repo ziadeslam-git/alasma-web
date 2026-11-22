@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { AccountMenu, GuestMenuLinks, MenuLogout, SignedInMenuLinks } from '@/modules/account';
-import { MiniCart } from '@/modules/cart';
+import { CartCountBadge, MiniCart } from '@/modules/cart';
 import { NewsletterForm } from '@/modules/newsletter';
 import { SiteShell } from '@/shared/layout/site-shell';
 
@@ -11,6 +11,7 @@ export default function AuthLayout({ children }: Readonly<{ children: ReactNode 
     <SiteShell
       accountArea={<AccountMenu />}
       cart={<MiniCart />}
+      cartBadge={<CartCountBadge />}
       menuAccount={
         <>
           <GuestMenuLinks />

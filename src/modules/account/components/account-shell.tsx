@@ -1,38 +1,31 @@
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
-import { routes } from '@/shared/config/routes';
+import { Icon } from '@/shared/ui/icon';
 import { FeatureGate } from '@/shared/ui/soon';
 
+import { AccountNav } from './account-nav';
 import styles from './account.module.css';
 
+// The reading goal of the design has no API, so it is shown dimmed with the soon label: a title and an empty bar, no numbers.
+function ReadingGoal() {
+  return (
+    <FeatureGate badge="inline" feature="reading-goal" label={messages.site.soon}>
+      <div className={styles.goal}>
+        <Icon name="book-open" />
+        <div className={styles.goalBody}>
+          <span>{messages.account.readingGoal}</span>
+          <span aria-hidden="true" className={styles.goalBar} />
+        </div>
+      </div>
+    </FeatureGate>
+  );
+}
+
 export function AccountShell({ children }: { children: ReactNode }) {
-  const text = messages.account;
   return (
     <div className={styles.shell}>
-      {/* Task 73: soon entries are left out of the menu, not shown dimmed */}
-      <nav aria-label={text.navigation} className={styles.navigation}>
-        <Link href={routes.account}>{text.overview}</Link>
-        <Link href={routes.accountAddresses}>{text.addresses}</Link>
-        <Link href={routes.accountOrders}>{text.orders}</Link>
-        <FeatureGate
-          badge="inline"
-          feature="wishlist-heart"
-          label={messages.site.soon}
-          whenSoon="hide"
-        >
-          <Link href={routes.accountWishlist}>{text.wishlist}</Link>
-        </FeatureGate>
-        <FeatureGate
-          badge="inline"
-          feature="profile-edit"
-          label={messages.site.soon}
-          whenSoon="hide"
-        >
-          <Link href={routes.accountProfile}>{text.editProfile}</Link>
-        </FeatureGate>
-      </nav>
+      <AccountNav footer={<ReadingGoal />} />
       <main className={styles.main} id="main-content">
         {children}
       </main>

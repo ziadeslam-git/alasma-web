@@ -17,7 +17,10 @@ vi.mock('@/modules/account', () => ({
   SignedInMenuLinks: () => <i />,
   MenuLogout: () => <i />,
 }));
-vi.mock('@/modules/cart', () => ({ MiniCart: () => <i data-testid="mini-cart" /> }));
+vi.mock('@/modules/cart', () => ({
+  MiniCart: () => <i data-testid="mini-cart" />,
+  CartCountBadge: () => null,
+}));
 vi.mock('@/modules/newsletter', () => ({ NewsletterForm: () => <i /> }));
 
 describe('auth layout', () => {

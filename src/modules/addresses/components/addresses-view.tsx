@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
+import { Button } from '@/shared/ui/button';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Modal } from '@/shared/ui/modal';
 import { Skeleton } from '@/shared/ui/skeleton';
@@ -105,8 +106,13 @@ export function AddressesView({ fixtures }: { fixtures?: AddressFixtures }) {
   return (
     <section>
       <h1>{text.title}</h1>
+      <p className={styles.subtitle}>{messages.account.addressesSubtitle}</p>
       {isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : null}
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p className={styles.alert} role="alert">
+          {error}
+        </p>
+      ) : null}
       {isLoading ? (
         <>
           <span>{text.loading}</span>
@@ -114,9 +120,7 @@ export function AddressesView({ fixtures }: { fixtures?: AddressFixtures }) {
         </>
       ) : (
         <>
-          <button type="button" onClick={() => setEditing(null)}>
-            {text.add}
-          </button>
+          <Button onClick={() => setEditing(null)}>{text.add}</Button>
           {items.length ? (
             <div className={styles.list}>
               {items.map((address) => (

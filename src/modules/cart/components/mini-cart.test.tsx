@@ -54,11 +54,11 @@ describe('MiniCart counter', () => {
     expect(screen.getByRole('button', { name: /3/ })).toHaveTextContent('3');
   });
 
-  it('keeps the plain label and a zero badge for an empty cart, and no badge before the cart is read', () => {
+  it('keeps the plain label and shows no badge for an empty cart or before the cart is read', () => {
     mocks.state = { cart: cartOf(), isLoading: false, error: null };
     const { rerender } = render(<MiniCart />);
     const emptyButton = screen.getByRole('button', { name: messages.site.header.cart });
-    expect(emptyButton).toHaveTextContent('0');
+    expect(emptyButton).not.toHaveTextContent(/\d/);
 
     mocks.state = { cart: null, isLoading: true, error: null };
     rerender(<MiniCart />);

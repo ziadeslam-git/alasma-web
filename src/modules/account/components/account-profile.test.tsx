@@ -58,7 +58,8 @@ describe('account overview', () => {
       'href',
       '/account/wishlist',
     );
-    expect(screen.queryByText(messages.site.soon)).toBeNull();
+    // Only the two design entries without an API (notifications and the reading goal) are dimmed with the soon label.
+    expect(screen.getAllByText(messages.site.soon)).toHaveLength(2);
     expect(await axe(container)).toHaveNoViolations();
   });
   it('shows the confirmation notice with a working resend action for an unconfirmed address', () => {

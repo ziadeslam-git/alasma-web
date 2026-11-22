@@ -26,11 +26,12 @@ export function MiniCart() {
             ? messages.site.header.cartWithCount.replace('{count}', formatNumber(bookCount))
             : messages.site.header.cart
         }
+        className={styles.iconButton}
         onClick={() => setOpen(true)}
         type="button"
       >
         <Icon name="bag" />
-        {cart ? <span>{formatNumber(bookCount)}</span> : null}
+        {bookCount > 0 ? <span className={styles.count}>{formatNumber(bookCount)}</span> : null}
       </button>
       <Drawer
         closeLabel={messages.cart.close}

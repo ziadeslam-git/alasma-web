@@ -8,6 +8,8 @@ import { useAuth } from '@/modules/auth';
 import { routes } from '@/shared/config/routes';
 import { ButtonLink } from '@/shared/ui/button';
 import { Drawer } from '@/shared/ui/drawer';
+import { Icon } from '@/shared/ui/icon';
+import { useResolvedFeatureState } from '@/shared/config/feature-flags';
 
 import styles from './account.module.css';
 
@@ -15,6 +17,8 @@ export function AccountMenu() {
   const { status, user, logout } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const text = messages.account;
+  // The bell has no API yet: it is only dimmed, with the soon label in its tooltip and accessible name.
+  const bellState = useResolvedFeatureState('notifications-center');
 
   if (status !== 'authenticated' || !user) {
     return (
@@ -31,11 +35,25 @@ export function AccountMenu() {
 
   return (
     <>
-      <button className={styles.accountButton} onClick={() => setOpen(true)} type="button">
+      {bellState === 'hidden' ? null : (
+        <span
+          aria-label={`${text.notifications} (${messages.site.soon})`}
+          className={styles.bell}
+          role="img"
+          title={messages.site.soon}
+        >
+          <Icon name="bell" />
+        </span>
+      )}
+      <button
+        aria-label={user.fullName}
+        className={styles.accountButton}
+        onClick={() => setOpen(true)}
+        type="button"
+      >
         <span aria-hidden="true" className={styles.avatar}>
           {user.fullName.trim().charAt(0)}
         </span>
-        {user.fullName}
       </button>
       <Drawer
         closeLabel={messages.site.header.closeMenu}

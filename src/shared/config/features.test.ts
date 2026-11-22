@@ -52,6 +52,7 @@ describe('features registry', () => {
     expect(getFeatureState('checkout-flow')).toBe('live');
     expect(getFeatureState('account-area')).toBe('live');
     expect(getFeatureState('notifications-center')).toBe('soon');
+    expect(getFeatureState('reading-goal')).toBe('soon');
   });
 
   it('keeps buy-now soon while checkout is not built, without changing checkout-flow', () => {

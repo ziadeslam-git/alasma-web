@@ -119,8 +119,8 @@
 .language {
   display: grid;
   place-items: center;
-  min-inline-size: 38px;
-  min-block-size: 38px;
+  min-inline-size: 42px;
+  min-block-size: 42px;
   border-radius: var(--radius-pill);
 }
 
@@ -156,7 +156,8 @@
   background: var(--surface-sunken);
 }
 
-.links a:hover {
+.links a:hover,
+.links a[aria-current='page'] {
   background: var(--g-t);
   color: var(--primary);
 }
