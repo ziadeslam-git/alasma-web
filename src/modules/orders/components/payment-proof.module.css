@@ -71,3 +71,21 @@
   font-size: 13px;
   line-height: 1.7;
 }
+
+/* The rejection notice above the form: the reason is the API's text; same alert look as the order details (Task 97). */
+.rejection {
+  display: grid;
+  gap: var(--space-1);
+  margin-block-end: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.rejection p {
+  margin: 0;
+}

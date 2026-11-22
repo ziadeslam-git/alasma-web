@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import messages from '@/i18n/messages/ar.json';
 import { FeatureFlagsProvider, resolveFeatureFlags } from '@/shared/config/feature-flags';
 import { axe } from '@/test/axe';
@@ -28,7 +28,14 @@ const methods = [
 ];
 
 describe('order success: transfer receipt upload', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
+    // The fixture order expires after this date: the clock is set before it so the form is still offered.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-01-10T10:00:00Z'));
     submit.mockReset();
   });
 

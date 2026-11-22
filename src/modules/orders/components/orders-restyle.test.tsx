@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
 import { ApiError } from '@/shared/lib/api';
@@ -70,7 +70,14 @@ const build = (status: OrderStatus, overrides: Partial<Order> = {}): Order => ({
 });
 
 describe('order details design', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   beforeEach(() => {
+    // The fixture order expires after this date: the clock is set before it so the form is still offered.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-10-01T10:00:00Z'));
     vi.clearAllMocks();
     api.listOrderZones.mockResolvedValue([]);
   });

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import messages from '@/i18n/messages/ar.json';
 import { FeatureFlagsProvider, resolveFeatureFlags } from '@/shared/config/feature-flags';
 import type { FeatureState } from '@/shared/config/features';
@@ -18,7 +18,87 @@ function states(proof: FeatureState) {
   return { ...resolveFeatureFlags(null), 'payment-proof': proof };
 }
 
+// The fixture order expires at 2026-01-17T10:00:00Z: the clock is set before it unless a test moves it.
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date('2026-01-10T10:00:00Z'));
+});
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 describe('PaymentProofSection', () => {
+  it('shows the rejection reason above the form again after a rejection (a new Pending payment exists)', () => {
+    render(
+      <PaymentProofSection
+        order={buildOrder({
+          payments: [
+            buildPayment({ id: 'p1', status: 'Rejected', rejectionReason: 'الصورة غير واضحة' }),
+            buildPayment({ id: 'p2', status: 'Pending' }),
+          ],
+        })}
+        onOrderChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText(text.proofRejectedTitle)).toBeInTheDocument();
+    expect(
+      screen.getByText(text.proofRejectedReason.replace('{reason}', 'الصورة غير واضحة')),
+    ).toBeInTheDocument();
+    expect(form()).toBeInTheDocument();
+  });
+
+  it('shows no rejection notice when nothing was rejected', () => {
+    render(<PaymentProofSection order={buildOrder()} onOrderChange={vi.fn()} />);
+
+    expect(screen.queryByText(text.proofRejectedTitle)).toBeNull();
+  });
+
+  it('hides the form once expiresAt has passed, even after a rejection', () => {
+    vi.setSystemTime(new Date('2026-01-18T10:00:00Z'));
+    const { container } = render(
+      <PaymentProofSection
+        order={buildOrder({
+          payments: [
+            buildPayment({ id: 'p1', status: 'Rejected', rejectionReason: 'x' }),
+            buildPayment({ id: 'p2', status: 'Pending' }),
+          ],
+        })}
+        onOrderChange={vi.fn()}
+      />,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it('hides the form while the new proof is under review and for an approved order', () => {
+    const { container, rerender } = render(
+      <PaymentProofSection
+        order={buildOrder({
+          status: 'PaymentReview',
+          payments: [
+            buildPayment({ id: 'p1', status: 'Rejected', rejectionReason: 'x' }),
+            buildPayment({ id: 'p2', status: 'Submitted' }),
+          ],
+        })}
+        onOrderChange={vi.fn()}
+      />,
+    );
+    expect(form()).toBeNull();
+    expect(received()).toBeInTheDocument();
+
+    rerender(
+      <PaymentProofSection
+        order={buildOrder({
+          status: 'Confirmed',
+          payments: [buildPayment({ status: 'Approved' })],
+        })}
+        onOrderChange={vi.fn()}
+      />,
+    );
+    expect(container).toBeEmptyDOMElement();
+  });
+
   it('shows the upload form for a ManualTransfer order that waits for its receipt', async () => {
     const { container } = render(
       <PaymentProofSection order={buildOrder()} onOrderChange={vi.fn()} />,

@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 import messages from '@/i18n/messages/ar.json';
 import { formatDate, formatDateTime } from '@/shared/lib/format';
 import { Icon } from '@/shared/ui/icon';
@@ -10,6 +14,9 @@ import { OrderTracker } from './order-tracker';
 export function OrderStatusPanel({ order }: { order: Order }) {
   const text = messages.orders;
   const shipment = order.shipment;
+  // Same comparison as the proof section (no computed remaining time): a past expiresAt on a still unpaid order reads
+  // as expired; the API stays the judge.
+  const [now] = useState(() => Date.now());
   const hasExpiry = Boolean(order.expiresAt) && order.paymentMethod === 'ManualTransfer';
   return (
     <section aria-labelledby="order-status-heading" className={styles.panel}>
@@ -40,7 +47,12 @@ export function OrderStatusPanel({ order }: { order: Order }) {
       {hasExpiry && order.expiresAt ? (
         <p className={styles.note}>
           <Icon name="calendar" size="sm" />
-          <span>{text.expires.replace('{date}', formatDateTime(order.expiresAt))}</span>
+          <span>
+            {(order.status === 'PendingPayment' && new Date(order.expiresAt).getTime() <= now
+              ? text.expired
+              : text.expires
+            ).replace('{date}', formatDateTime(order.expiresAt))}
+          </span>
         </p>
       ) : null}
       {order.timeline.length > 0 ? (
