@@ -92,12 +92,18 @@ export function SiteHeader({
         <nav aria-label={text.header.home} className={styles.links}>
           <Link href={routes.home}>{text.header.home}</Link>
           <Link href={routes.books}>{text.header.store}</Link>
-          <FeatureGate badge="inline" feature="home-most-popular" label={text.soon} whenSoon="hide">
-            <span>{text.header.bestSellers}</span>
-          </FeatureGate>
-          <FeatureGate badge="inline" feature="offers-bundles" label={text.soon} whenSoon="hide">
-            <span>{text.header.offers}</span>
-          </FeatureGate>
+          <DeferredLink
+            feature="home-most-popular"
+            href={routes.bestsellers}
+            inline
+            label={text.header.bestSellers}
+          />
+          <DeferredLink
+            feature="offers-bundles"
+            href={routes.offers}
+            inline
+            label={text.header.offers}
+          />
           <DeferredLink
             feature="catalog-authors"
             href={routes.authors}
@@ -150,6 +156,18 @@ export function SiteHeader({
             {menuAccount}
             <Link href={routes.home}>{text.header.home}</Link>
             <Link href={routes.books}>{text.header.store}</Link>
+            <DeferredLink
+              feature="home-most-popular"
+              href={routes.bestsellers}
+              inline
+              label={text.header.bestSellers}
+            />
+            <DeferredLink
+              feature="offers-bundles"
+              href={routes.offers}
+              inline
+              label={text.header.offers}
+            />
             <DeferredLink
               feature="catalog-authors"
               href={routes.authors}

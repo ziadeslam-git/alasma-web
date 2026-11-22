@@ -175,7 +175,9 @@
   gap: var(--space-3);
   padding: var(--space-4) 14px;
   border-inline-end: 1px solid var(--hair);
+  color: var(--ink);
   text-align: center;
+  text-decoration: none;
 }
 
 .trendItem:last-child {
@@ -193,6 +195,13 @@
   box-shadow: var(--shadow-lg);
   color: var(--surface);
   text-align: center;
+  text-decoration: none;
+}
+
+.trendItem:focus-visible,
+.trendHighlight:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .trendItemHeader {
@@ -241,6 +250,12 @@
   inline-size: 56%;
 }
 
+.trendPrice {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .trendFooter {
   display: flex;
   justify-content: center;
@@ -256,6 +271,11 @@
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
+}
+
+.trendCta:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .trendCtaText {

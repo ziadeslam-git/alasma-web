@@ -18,9 +18,11 @@ export type BookCardProps = {
   priority?: boolean;
   /** The wishlist page puts its remove button here (corner of the cover); the heart in the action bar is left out. */
   removeSlot?: ReactNode;
+  /** Position in a ranked list (best sellers): shown as a round badge in the cover corner. */
+  rank?: number;
 };
 
-export function BookCard({ book, priority = false, removeSlot }: BookCardProps) {
+export function BookCard({ book, priority = false, removeSlot, rank }: BookCardProps) {
   const text = messages.catalog;
   const soonLabel = messages.site.soon;
   const href = bookRoute(book.slug);
@@ -65,6 +67,15 @@ export function BookCard({ book, priority = false, removeSlot }: BookCardProps) 
             <span className={`${styles.tag} ${styles.tagNew}`}>{text.newBadge}</span>
           ) : null}
         </div>
+        {rank !== undefined ? (
+          <span
+            aria-label={text.rankLabel.replace('{rank}', formatNumber(rank))}
+            className={styles.rank}
+            role="img"
+          >
+            {formatNumber(rank)}
+          </span>
+        ) : null}
         <Link aria-hidden="true" className={styles.top} href={href} tabIndex={-1}>
           <BookCover
             as="div"

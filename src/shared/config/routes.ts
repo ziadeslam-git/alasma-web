@@ -18,6 +18,8 @@ export const routes = {
   accountWishlist: '/account/wishlist',
   checkout: '/checkout',
   publish: '/publish',
+  bestsellers: '/bestsellers',
+  offers: '/offers',
 } as const;
 
 export const bookRoute = (slug: string) => `${routes.books}/${encodeSegment(slug)}`;

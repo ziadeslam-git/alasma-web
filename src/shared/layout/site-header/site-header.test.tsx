@@ -59,11 +59,7 @@ describe('SiteHeader', () => {
     const nav = screen.getByRole('navigation', { name: messages.site.header.home });
     expect(nav.querySelector('[data-feature]')).toBeNull();
     expect(nav.querySelector('[data-soon-badge]')).toBeNull();
-    for (const label of [
-      messages.site.header.bestSellers,
-      messages.site.header.offers,
-      messages.site.header.events,
-    ]) {
+    for (const label of [messages.site.header.events]) {
       expect(within(nav).queryByText(label)).toBeNull();
     }
     expect(
@@ -73,6 +69,8 @@ describe('SiteHeader', () => {
     ).toEqual([
       messages.site.header.home,
       messages.site.header.store,
+      messages.site.header.bestSellers,
+      messages.site.header.offers,
       messages.site.header.authors,
       messages.site.header.publishPackages,
       messages.site.header.categories,

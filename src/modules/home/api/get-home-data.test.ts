@@ -60,6 +60,7 @@ describe('getHomeData', () => {
       featured: 'books:featured',
       newArrivals: 'books:new-arrivals',
       events: 'events',
+      bestSellers: 'books:best-sellers',
     });
   });
 
@@ -69,12 +70,15 @@ describe('getHomeData', () => {
       http.get(`${ORIGIN}/api/v1/books/new-arrivals`, () => HttpResponse.json([sampleBook])),
       http.get(`${ORIGIN}/api/v1/categories`, () => HttpResponse.json([sampleCategory])),
       http.get(`${ORIGIN}/api/v1/events`, () => HttpResponse.json(eventsPage([sampleEvent]))),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.json([sampleBook])),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.json([sampleBook])),
     );
 
     const data = await getHomeData({ origin: ORIGIN });
 
     expect(data).toEqual({
       events: { items: [sampleEvent], status: 'ok' },
+      bestSellers: { items: [sampleBook], status: 'ok' },
       featured: { items: [sampleBook], status: 'ok' },
       newArrivals: { items: [sampleBook], status: 'ok' },
       categories: { items: [sampleCategory], status: 'ok' },
@@ -87,12 +91,15 @@ describe('getHomeData', () => {
       http.get(`${ORIGIN}/api/v1/books/new-arrivals`, () => HttpResponse.json([])),
       http.get(`${ORIGIN}/api/v1/categories`, () => HttpResponse.json([])),
       http.get(`${ORIGIN}/api/v1/events`, () => HttpResponse.json(eventsPage([]))),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.json([])),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.json([])),
     );
 
     const data = await getHomeData({ origin: ORIGIN });
 
     expect(data).toEqual({
       events: { items: [], status: 'empty' },
+      bestSellers: { items: [], status: 'empty' },
       featured: { items: [], status: 'empty' },
       newArrivals: { items: [], status: 'empty' },
       categories: { items: [], status: 'empty' },
@@ -108,6 +115,8 @@ describe('getHomeData', () => {
       http.get(`${ORIGIN}/api/v1/books/new-arrivals`, () => HttpResponse.json([sampleBook])),
       http.get(`${ORIGIN}/api/v1/categories`, () => HttpResponse.json([sampleCategory])),
       http.get(`${ORIGIN}/api/v1/events`, () => HttpResponse.json(eventsPage([sampleEvent]))),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.json([sampleBook])),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.json([sampleBook])),
     );
 
     const data = await getHomeData({ origin: ORIGIN });
@@ -133,6 +142,7 @@ describe('getHomeData', () => {
       http.get(`${ORIGIN}/api/v1/events`, () =>
         HttpResponse.json({ title: 'Down' }, { status: 500 }),
       ),
+      http.get(`${ORIGIN}/api/v1/books/best-sellers`, () => HttpResponse.error()),
     );
 
     const data = await getHomeData({ origin: ORIGIN });
@@ -142,7 +152,8 @@ describe('getHomeData', () => {
       newArrivals: { items: [], status: 'error' },
       categories: { items: [], status: 'error' },
       events: { items: [], status: 'error' },
+      bestSellers: { items: [], status: 'error' },
     });
-    expect(errorSpy).toHaveBeenCalledTimes(4);
+    expect(errorSpy).toHaveBeenCalledTimes(5);
   });
 });

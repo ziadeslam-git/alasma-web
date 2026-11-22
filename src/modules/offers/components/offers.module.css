@@ -1,0 +1,227 @@
+/* Offers page (design/Offers.dc.html): red banner, book bundles (2-up), discounted books (4-up). */
+.page {
+  display: grid;
+  gap: var(--space-10);
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-8) var(--space-16);
+}
+
+.banner {
+  display: grid;
+  gap: var(--space-2);
+  padding: 44px 48px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(120deg, var(--red-700), var(--discount));
+  color: var(--on-discount);
+}
+
+.banner h1 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.banner p {
+  margin: 0;
+  color: var(--red-100);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.block {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.head h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.head p {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+.headRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 44px;
+  color: var(--g);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.viewAll:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.bundles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bundle {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  block-size: 100%;
+  padding: 26px;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  overflow-wrap: anywhere;
+}
+
+.saving {
+  position: absolute;
+  inset-block-start: 18px;
+  inset-inline-end: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  block-size: 22px;
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--discount);
+  color: var(--on-discount);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.covers {
+  display: flex;
+  align-items: flex-end;
+}
+
+.cover {
+  inline-size: 84px;
+  box-shadow: -6px 10px 16px -6px color-mix(in srgb, var(--green-950) 45%, transparent);
+}
+
+.cover + .cover {
+  margin-inline-start: -22px;
+}
+
+.bundleTitle {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.bundleText {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.price {
+  color: var(--discount-ink);
+  font-family: var(--font-sans);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.oldPrice {
+  color: var(--ink-subtle);
+  font-family: var(--font-sans);
+}
+
+.action {
+  margin-inline-start: auto;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 46px;
+  padding-inline: 22px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--g);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.unavailable {
+  color: var(--danger-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.message {
+  padding: var(--space-6);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+}
+
+.message p {
+  margin: 0;
+}
+
+@media (width <= 1000px) {
+  .page {
+    padding-inline: var(--space-4);
+  }
+
+  .bundles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .banner {
+    padding: 28px;
+  }
+
+  .banner h1 {
+    font-size: 32px;
+  }
+}

@@ -28,6 +28,7 @@ const moduleNames = [
   'wishlist',
   'reviews',
   'newsletter',
+  'offers',
 ];
 
 const moduleZones = moduleNames.map((name) => ({

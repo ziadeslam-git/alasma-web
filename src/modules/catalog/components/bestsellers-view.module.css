@@ -1,0 +1,236 @@
+/* Best sellers page (design/Bestsellers.dc.html): banner, period tabs, podium of three, ranked 4-column grid. */
+.page {
+  display: grid;
+  gap: var(--space-6);
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-8) var(--space-16);
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 44px 48px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--g);
+  color: var(--on-primary);
+}
+
+.banner h1 {
+  margin: 6px 0 var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.banner p {
+  max-inline-size: 52ch;
+  margin: 0;
+  color: var(--on-brand-muted);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.stack {
+  position: relative;
+  display: flex;
+  flex: none;
+}
+
+.stackCover {
+  inline-size: 112px;
+  box-shadow: -10px 14px 24px -8px color-mix(in srgb, var(--green-950) 60%, transparent);
+}
+
+.stackCover:nth-child(1) {
+  transform: rotate(-8deg);
+}
+
+.stackCover:nth-child(2) {
+  margin-inline-start: -18px;
+  transform: translateY(-14px);
+}
+
+.stackCover:nth-child(3) {
+  margin-inline-start: -18px;
+  transform: rotate(8deg);
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+}
+
+.tabs span {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 38px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tabs span[aria-current='true'] {
+  border-color: var(--g);
+  background: var(--g);
+  color: var(--on-primary);
+}
+
+.podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.podiumItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: 22px;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.place {
+  position: absolute;
+  inset-block-start: -12px;
+  inset-inline-start: 18px;
+  display: flex;
+  align-items: center;
+  block-size: 26px;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.podiumCover {
+  display: block;
+  flex: none;
+  inline-size: 104px;
+}
+
+.podiumBody {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.podiumTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.podiumTitle a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.podiumAuthor {
+  margin-block-end: var(--space-2);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.podiumPrice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 44px;
+  padding-inline: var(--space-4);
+  border-radius: 12px;
+  background: var(--g);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.podiumPrice:hover {
+  background: var(--primary-hover);
+}
+
+.podiumPrice:focus-visible,
+.podiumTitle a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.message {
+  padding: var(--space-6);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+}
+
+.message p {
+  margin: 0;
+}
+
+@media (width <= 1000px) {
+  .page {
+    padding-inline: var(--space-4);
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .podium {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 28px;
+  }
+}

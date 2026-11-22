@@ -7,6 +7,8 @@ const expectedLiveKeys = [
   'wishlist-heart',
   'home-event-card',
   'home-newsletter',
+  'home-most-popular',
+  'offers-bundles',
   'cart-page',
   'profile-edit',
   'order-invoice',

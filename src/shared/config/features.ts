@@ -43,12 +43,14 @@ export const features = {
   'home-editor-pick': 'soon', // Editor pick on the home design.
   'home-team-picks': 'soon', // Team picks on the home design.
   'home-book-of-month': 'soon', // Book of the month on the home design.
-  'home-most-popular': 'soon', // Most popular shelf on the home design.
+  'home-most-popular': 'live', // Most popular band on the home page, the header link and /bestsellers: GET /books/best-sellers (Task 95).
+  'bestsellers-period': 'soon', // Week / month / all-time tabs on the best sellers page: the API has one 90-day ranking.
   'pay-online-gateway': 'soon', // Online payment option in checkout.
   'public-coupons-list': 'soon', // Public coupons listing in offers.
   'save-for-later': 'soon', // Save-for-later action in the cart design.
   'offers-countdown': 'soon', // Offers countdown design element.
-  'offers-bundles': 'soon', // Offers bundles design section.
+  'bundle-add-to-cart': 'soon', // Add-bundle button: the public bundle has no id, so POST /cart/items cannot name it.
+  'offers-bundles': 'live', // Offers page, header link and bundles: GET /bundles (Task 95).
   'cart-page': 'live', // Cart entry points in the header and mobile app bar.
   'email-change': 'soon', // Change email: the confirmation link has no page yet (POST /auth/confirm-email-change), so it stays soon.
   'profile-edit': 'live', // Profile page: PUT /me, change email, change password, sign out everywhere (Task 88).

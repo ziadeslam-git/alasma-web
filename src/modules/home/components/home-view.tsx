@@ -44,7 +44,7 @@ export function HomeView({ data }: HomeViewProps) {
         viewAllHref={routes.books}
         viewAllLabel={featuredText.viewAll}
       />
-      <HomeSoonSections />
+      <HomeSoonSections bestSellers={data.bestSellers.items} />
     </div>
   );
 }

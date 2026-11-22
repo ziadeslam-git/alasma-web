@@ -81,3 +81,11 @@ export { CatalogIntro } from './components/catalog-intro';
 export { getOutOfRangeHref } from './url/page-range';
 export type { CategoryTreeResult } from './api/get-category-tree';
 export { CategoriesView } from './components/categories-view';
+export {
+  BEST_SELLERS_CACHE_TAG,
+  BEST_SELLERS_MAX,
+  BEST_SELLERS_REVALIDATE_SECONDS,
+  getBestSellers,
+} from './api/get-best-sellers';
+export type { BestSellersResult } from './api/get-best-sellers';
+export { BestsellersView } from './components/bestsellers-view';

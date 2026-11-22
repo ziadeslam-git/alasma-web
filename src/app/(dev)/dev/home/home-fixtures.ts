@@ -67,6 +67,7 @@ export function buildDevHomeData(state: DevHomeState): HomeData {
         featured: { items: [], status: 'empty' },
         newArrivals: { items: [], status: 'empty' },
         events: { items: [], status: 'empty' },
+        bestSellers: { items: [], status: 'empty' },
       };
     case 'error':
       return {
@@ -74,6 +75,7 @@ export function buildDevHomeData(state: DevHomeState): HomeData {
         featured: { items: [], status: 'error' },
         newArrivals: { items: [], status: 'error' },
         events: { items: [], status: 'error' },
+        bestSellers: { items: [], status: 'error' },
       };
     case 'partial':
       return {
@@ -81,6 +83,7 @@ export function buildDevHomeData(state: DevHomeState): HomeData {
         featured: { items: [], status: 'error' },
         newArrivals: { items: homeNewArrivalsFixtures, status: 'ok' },
         events: { items: [], status: 'empty' },
+        bestSellers: { items: [], status: 'empty' },
       };
     default:
       return {
@@ -88,6 +91,7 @@ export function buildDevHomeData(state: DevHomeState): HomeData {
         featured: { items: homeFeaturedFixtures, status: 'ok' },
         newArrivals: { items: homeNewArrivalsFixtures, status: 'ok' },
         events: { items: [homeEventFixture], status: 'ok' },
+        bestSellers: { items: homeFeaturedFixtures, status: 'ok' },
       };
   }
 }

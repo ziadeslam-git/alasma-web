@@ -25,6 +25,27 @@
   transform: translateY(-4px);
 }
 
+/* Rank badge of the best sellers design (.rk): 36px green circle with a white ring, in the cover corner. */
+.rank {
+  position: absolute;
+  z-index: 6;
+  inset-block-end: 12px;
+  inset-inline-end: 12px;
+  display: grid;
+  place-items: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--g);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
 .top {
   display: block;
   block-size: 100%;

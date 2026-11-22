@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import messages from '@/i18n/messages/ar.json';
@@ -82,6 +82,7 @@ function buildTestHomeData(state: 'ok' | 'partial' | 'empty' | 'error'): HomeDat
         featured: { items: [], status: 'empty' },
         newArrivals: { items: [], status: 'empty' },
         events: { items: [], status: 'empty' },
+        bestSellers: { items: [], status: 'empty' },
       };
     case 'error':
       return {
@@ -89,6 +90,7 @@ function buildTestHomeData(state: 'ok' | 'partial' | 'empty' | 'error'): HomeDat
         featured: { items: [], status: 'error' },
         newArrivals: { items: [], status: 'error' },
         events: { items: [], status: 'error' },
+        bestSellers: { items: [], status: 'error' },
       };
     case 'partial':
       return {
@@ -96,6 +98,7 @@ function buildTestHomeData(state: 'ok' | 'partial' | 'empty' | 'error'): HomeDat
         featured: { items: [], status: 'error' },
         newArrivals: { items: sampleBooks, status: 'ok' },
         events: { items: [], status: 'empty' },
+        bestSellers: { items: [], status: 'empty' },
       };
     default:
       return {
@@ -103,6 +106,7 @@ function buildTestHomeData(state: 'ok' | 'partial' | 'empty' | 'error'): HomeDat
         featured: { items: sampleBooks, status: 'ok' },
         newArrivals: { items: sampleBooks, status: 'ok' },
         events: { items: [sampleEvent], status: 'ok' },
+        bestSellers: { items: sampleBooks, status: 'ok' },
       };
   }
 }
@@ -133,9 +137,12 @@ describe('HomeView', () => {
 
     const storeLinks = screen.getAllByRole('link', { name: messages.home.newArrivals.viewAll });
     expect(storeLinks.length).toBeGreaterThanOrEqual(2);
-    for (const link of storeLinks) {
-      expect(link).toHaveAttribute('href', '/books');
-    }
+    // the shelves link to the store; the trending band's own link goes to the best sellers page (Task 95)
+    expect(storeLinks.map((link) => link.getAttribute('href')).sort()).toEqual([
+      '/bestsellers',
+      '/books',
+      '/books',
+    ]);
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -148,7 +155,6 @@ describe('HomeView', () => {
     expect(dimmed.map((node) => node.getAttribute('data-feature'))).toEqual(['event-register']);
     for (const label of [
       messages.home.spotlight.heading,
-      messages.home.trending.heading,
       messages.home.teamPicks.heading,
       messages.home.showcase.bookOfMonthTitle,
       messages.home.showcase.eventTitle,
@@ -179,6 +185,28 @@ describe('HomeView', () => {
     // the design has no date or location line on this card
     expect(screen.queryByText(messages.devHome.eventFixture.location)).toBeNull();
     expect(document.querySelector('[data-feature="event-register"]')).toHaveAttribute('inert');
+  });
+
+  it('shows the best sellers band with links, the price of the highlighted one and a link to the full page (Task 95)', () => {
+    const base = buildTestHomeData('ok');
+    const first = sampleBooks[0] as BookCardItem;
+    const items = [1, 2, 3, 4, 5].map((id) => ({ ...first, id, slug: `best-${id}` }));
+    render(<HomeView data={{ ...base, bestSellers: { items, status: 'ok' } }} />);
+
+    const heading = screen.getByRole('heading', { name: messages.home.trending.heading });
+    const band = heading.closest('section') as HTMLElement;
+    const links = within(band).getAllByRole('link');
+    expect(links.at(-1)).toHaveAttribute('href', '/bestsellers');
+    expect(
+      links.slice(0, -1).every((link) => link.getAttribute('href')?.startsWith('/books/')),
+    ).toBe(true);
+    expect(within(band).getAllByText(/ج\.م/)).toHaveLength(1);
+  });
+
+  it('leaves the best sellers band out when there are none (Task 95)', () => {
+    render(<HomeView data={buildTestHomeData('empty')} />);
+
+    expect(screen.queryByRole('heading', { name: messages.home.trending.heading })).toBeNull();
   });
 
   it('leaves the event card out when there is no upcoming event or the call failed (Task 93)', () => {
