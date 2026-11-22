@@ -42,7 +42,9 @@ export function ManifestoHero() {
               <Icon name="arrow" size="sm" />
             </Link>
             <FeatureGate feature="publish-packages" label={soonLabel} whenSoon="hide">
-              <span className={styles.secondaryCta}>{text.publishCta}</span>
+              <Link className={styles.secondaryCta} href={routes.publish}>
+                {text.publishCta}
+              </Link>
             </FeatureGate>
           </div>
         </div>

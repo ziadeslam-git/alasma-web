@@ -63,7 +63,6 @@ describe('SiteHeader', () => {
       messages.site.header.bestSellers,
       messages.site.header.offers,
       messages.site.header.events,
-      messages.site.header.publishPackages,
     ]) {
       expect(within(nav).queryByText(label)).toBeNull();
     }
@@ -75,6 +74,7 @@ describe('SiteHeader', () => {
       messages.site.header.home,
       messages.site.header.store,
       messages.site.header.authors,
+      messages.site.header.publishPackages,
       messages.site.header.categories,
     ]);
   });
@@ -96,8 +96,9 @@ describe('SiteHeader', () => {
       within(dialog).getByRole('link', { name: messages.site.header.categories }),
     ).toHaveAttribute('href', '/categories');
     // Task 62: the menu leaves soon destinations out too
-    expect(dialog.querySelector('[data-feature="publish-packages"]')).toBeNull();
-    expect(within(dialog).queryByText(messages.site.header.publishPackages)).toBeNull();
+    expect(
+      within(dialog).getByRole('link', { name: messages.site.header.publishPackages }),
+    ).toHaveAttribute('href', '/publish');
   });
 
   it('puts the menuAccount slot at the top of the mobile menu, and adds nothing without it (Task 75)', async () => {

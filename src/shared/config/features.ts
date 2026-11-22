@@ -58,7 +58,8 @@ export const features = {
   'checkout-flow': 'live', // Checkout flow after the cart.
   'buy-now': 'soon', // Buy-now shortcut on the product page: checkout is Week 2, so it stays hidden until it works.
   'account-area': 'live', // Customer account entry points.
-  'publish-packages': 'soon', // Publishing packages navigation entry.
+  'publish-packages': 'live', // Publishing packages page, navigation entries and /publish: GET /packages (Task 94).
+  'manuscript-request': 'live', // Manuscript request form: POST /package-requests (Task 94).
   'resend-confirmation': 'live', // Resend confirmation email: POST /auth/resend-confirmation (Task 88).
 
   // Delivered catalog and authentication

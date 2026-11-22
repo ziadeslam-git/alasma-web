@@ -32,7 +32,8 @@ describe('visitor feature flags (T7)', () => {
     expect(resolved['review-sort']).toBe('soon');
     expect(resolved['reservations-notify-me']).toBe('soon');
     expect(resolved['home-banners']).toBe('soon');
-    expect(resolved['publish-packages']).toBe('soon');
+    expect(resolved['publish-packages']).toBe('live');
+    expect(resolved['manuscript-request']).toBe('live');
     // Hidden features remain 'hidden':
     expect(resolved['quick-view']).toBe('hidden');
   });
@@ -85,6 +86,16 @@ describe('visitor feature flags (T7)', () => {
     expect(resolved['home-newsletter']).toBe('soon');
     expect(resolveFeatureFlags(enabledFlagsSample)['home-event-card']).toBe('live');
     expect(resolveFeatureFlags(enabledFlagsSample)['home-newsletter']).toBe('live');
+  });
+
+  it('turns the publishing page and its form into soon when their backend flags are closed (Task 94)', () => {
+    const closed = enabledFlagsSample.filter(
+      (flag) => flag !== 'Publishing.Packages' && flag !== 'Publishing.ManuscriptRequests',
+    );
+    const resolved = resolveFeatureFlags(closed);
+
+    expect(resolved['publish-packages']).toBe('soon');
+    expect(resolved['manuscript-request']).toBe('soon');
   });
 
   it('ignores unknown backend flags without throwing or opening unbuilt features', () => {

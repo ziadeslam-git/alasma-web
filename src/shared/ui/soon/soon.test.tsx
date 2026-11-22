@@ -100,11 +100,11 @@ describe('FeatureLink', () => {
     );
     expect(screen.getByRole('link', { name: 'Store' })).toHaveAttribute('href', '/books');
     rerender(
-      <FeatureLink feature="publish-packages" href="/publish" label="Soon">
+      <FeatureLink feature="compare-books" href="/compare" label="Soon">
         Categories
       </FeatureLink>,
     );
-    const gate = container.querySelector('[data-feature="publish-packages"]');
+    const gate = container.querySelector('[data-feature="compare-books"]');
     expect(gate).toHaveAttribute('inert');
     expect(gate?.querySelector('a, button, [tabindex]')).toBeNull();
     expect(gate).toHaveTextContent('Soon');

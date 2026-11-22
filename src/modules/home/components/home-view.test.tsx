@@ -152,7 +152,6 @@ describe('HomeView', () => {
       messages.home.teamPicks.heading,
       messages.home.showcase.bookOfMonthTitle,
       messages.home.showcase.eventTitle,
-      messages.home.manifesto.publishCta,
     ]) {
       expect(screen.queryByText(label)).toBeNull();
     }
@@ -160,7 +159,11 @@ describe('HomeView', () => {
     for (const section of Array.from(container.querySelectorAll('section'))) {
       expect(section.textContent?.trim().length ?? 0).toBeGreaterThan(0);
     }
-    // the live parts stay
+    // the live parts stay: the publish call to action links to the packages page (Task 94)
+    expect(screen.getByRole('link', { name: messages.home.manifesto.publishCta })).toHaveAttribute(
+      'href',
+      '/publish',
+    );
     expect(
       screen.getByRole('link', { name: new RegExp(messages.home.showcase.newReleasesTitle) }),
     ).toBeInTheDocument();

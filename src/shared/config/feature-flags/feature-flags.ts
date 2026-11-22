@@ -61,7 +61,7 @@ export const BACKEND_TO_FRONTEND_FEATURE_KEYS: Readonly<
   'Orders.InvoicePrint': ['order-invoice', 'payment-receipt'],
   'Payments.Cod': [],
   'Payments.ManualTransfer': [],
-  'Publishing.ManuscriptRequests': [],
+  'Publishing.ManuscriptRequests': ['manuscript-request'],
   'Publishing.Packages': ['publish-packages'],
   'Reports.Dashboard': [],
 };

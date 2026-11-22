@@ -14,6 +14,8 @@ const expectedLiveKeys = [
   'payment-receipt',
   'checkout-flow',
   'account-area',
+  'publish-packages',
+  'manuscript-request',
   'resend-confirmation',
   'catalog-search',
   'catalog-filters-basic',
@@ -47,7 +49,7 @@ describe('features registry', () => {
     expect(getFeatureState('profile-edit')).toBe('live');
     expect(getFeatureState('checkout-flow')).toBe('live');
     expect(getFeatureState('account-area')).toBe('live');
-    expect(getFeatureState('publish-packages')).toBe('soon');
+    expect(getFeatureState('notifications-center')).toBe('soon');
   });
 
   it('keeps buy-now soon while checkout is not built, without changing checkout-flow', () => {
