@@ -23,6 +23,7 @@ its own isolated API (not a service). The frontend serves on 3000 (`pnpm dev`), 
 - `src/modules/<feature>` everything about one feature: `api/`, `components/`, `hooks/`, `schemas/`, `types.ts` and a
   public `index.ts`.
 - `src/shared` ui, layout, lib, hooks, config, icons. `src/i18n`, `src/styles`, `src/mocks` (MSW handlers).
+- Exception (Task 12, approved by Ziad): `src/modules/checkout/observer.ts` is a second, tiny public entry of the checkout module, imported ONLY by `src/app/layout.tsx` for `AttemptSessionObserver`, so the checkout UI stays out of every route's first-load JS. ESLint enforces that `src/app` imports modules only through `index.ts` plus this one entry.
 - Dependency rule `app -> modules -> shared`. shared imports nothing from modules or app. A module imports shared, or
   another module only through that module's `index.ts`. ESLint (`import/no-restricted-paths`) fails the build when
   broken. Create a feature folder only in the task that builds it, and add it to the module list in

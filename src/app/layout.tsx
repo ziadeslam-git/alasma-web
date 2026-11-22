@@ -7,7 +7,7 @@ import '@/styles/globals.css';
 
 import messages from '@/i18n/messages/ar.json';
 import { AuthProvider } from '@/modules/auth';
-import { AttemptSessionObserver } from '@/modules/checkout';
+import { AttemptSessionObserver } from '@/modules/checkout/observer';
 import { getSiteUrl } from '@/shared/config/site';
 import { ToastProvider } from '@/shared/ui/toast';
 

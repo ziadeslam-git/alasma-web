@@ -152,6 +152,26 @@ const eslintConfig = defineConfig([
       'no-restricted-syntax': ['error', sourceRules[3]],
     },
   },
+  {
+    // app imports a module only through its index.ts. The one exception (Task 12, approved): the root layout takes the
+    // session observer from the light entry @/modules/checkout/observer, so the checkout UI stays out of the first load.
+    files: ['src/app/**/*.{ts,tsx}'],
+    ignores: ['src/app/**/*.test.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/modules/*/*', '!@/modules/checkout/observer'],
+              message:
+                'app imports a module only through its index.ts (the checkout observer entry is the one exception).',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;
