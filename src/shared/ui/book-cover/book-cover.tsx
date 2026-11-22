@@ -13,6 +13,8 @@ export type BookCoverProps = {
   className?: string;
   imageUrl?: string | null;
   priority?: boolean;
+  // Displayed width per breakpoint; the default fits a book grid (2 columns on a phone, 3 on a tablet, about 240px).
+  sizes?: string;
   title: string;
   variantKey: string;
 };
@@ -23,6 +25,10 @@ const coverVariants = [
   styles.variantThree ?? '',
   styles.variantFour ?? '',
 ];
+
+// A thumbnail (cart, order items) is about 96px wide.
+export const BOOK_COVER_SIZES_GRID = '(max-width: 760px) 50vw, (max-width: 1000px) 33vw, 240px';
+export const BOOK_COVER_SIZES_THUMB = '96px';
 
 export function getBookCoverVariant(variantKey: string) {
   let hash = 0;
@@ -39,6 +45,7 @@ export function BookCover({
   className,
   imageUrl,
   priority = false,
+  sizes = BOOK_COVER_SIZES_GRID,
   title,
   variantKey,
 }: BookCoverProps) {
@@ -56,6 +63,7 @@ export function BookCover({
         className={[styles.image, className].filter(Boolean).join(' ')}
         onError={() => setHasImageFailed(true)}
         priority={priority}
+        sizes={sizes}
         src={imageUrl}
         width={400}
         height={600}

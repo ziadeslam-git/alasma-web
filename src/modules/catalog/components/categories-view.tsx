@@ -28,6 +28,7 @@ export function CategoriesView({ result }: { result: CategoryTreeResult }) {
                     alt=""
                     decorative
                     priority
+                    sizes="160px"
                     src={category.imageUrl}
                     width={160}
                     height={160}

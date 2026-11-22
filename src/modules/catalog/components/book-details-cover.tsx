@@ -35,6 +35,7 @@ export function BookDetailsCover({
         height={600}
         onError={() => setHasImageFailed(true)}
         priority
+        sizes="(max-width: 1000px) 90vw, 520px"
         src={imageUrl}
         width={400}
       />

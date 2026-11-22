@@ -8,7 +8,7 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
 import { Drawer } from '@/shared/ui/drawer';
 import { Icon } from '@/shared/ui/icon';
-import { BookCover } from '@/shared/ui/book-cover';
+import { BOOK_COVER_SIZES_THUMB, BookCover } from '@/shared/ui/book-cover';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { useCart } from './use-cart';
 import styles from './cart.module.css';
@@ -60,6 +60,7 @@ export function MiniCart() {
                     as="div"
                     className={styles.cover}
                     imageUrl={item.coverImageUrl}
+                    sizes={BOOK_COVER_SIZES_THUMB}
                     title={item.title}
                     variantKey={item.slug}
                   />

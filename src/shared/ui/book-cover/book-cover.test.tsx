@@ -16,6 +16,21 @@ describe('BookCover', () => {
     expect(screen.getByText('Book title')).toBeInTheDocument();
   });
 
+  it('passes the displayed width to the image so a right-sized file is requested', () => {
+    const { container, rerender } = render(
+      <BookCover imageUrl="/cover.jpg" title="Book title" variantKey="book-1" />,
+    );
+    expect(container.querySelector('img')).toHaveAttribute(
+      'sizes',
+      expect.stringContaining('240px'),
+    );
+
+    rerender(
+      <BookCover imageUrl="/cover.jpg" sizes="96px" title="Book title" variantKey="book-1" />,
+    );
+    expect(container.querySelector('img')).toHaveAttribute('sizes', '96px');
+  });
+
   it('swaps a cover image that fails to load for the designed cover with the title', () => {
     const { container } = render(
       <BookCover imageUrl="/cover.jpg" title="Book title" variantKey="book-1" />,

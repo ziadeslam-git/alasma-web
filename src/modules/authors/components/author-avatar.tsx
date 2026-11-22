@@ -56,7 +56,25 @@ export function AuthorAvatar({
     );
   }
   if (decorative) {
-    return <SafeImage decorative height={size} priority={priority} src={photoUrl} width={size} />;
+    return (
+      <SafeImage
+        decorative
+        height={size}
+        priority={priority}
+        sizes={`${size}px`}
+        src={photoUrl}
+        width={size}
+      />
+    );
   }
-  return <SafeImage alt={name} height={size} priority={priority} src={photoUrl} width={size} />;
+  return (
+    <SafeImage
+      alt={name}
+      height={size}
+      priority={priority}
+      sizes={`${size}px`}
+      src={photoUrl}
+      width={size}
+    />
+  );
 }

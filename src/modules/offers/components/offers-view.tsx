@@ -4,7 +4,7 @@ import messages from '@/i18n/messages/ar.json';
 import { BookGrid } from '@/modules/catalog';
 import { routes } from '@/shared/config/routes';
 import { formatMoney } from '@/shared/lib/format';
-import { BookCover } from '@/shared/ui/book-cover';
+import { BOOK_COVER_SIZES_THUMB, BookCover } from '@/shared/ui/book-cover';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Icon } from '@/shared/ui/icon';
 import { FeatureGate } from '@/shared/ui/soon';
@@ -32,6 +32,7 @@ function BundleCard({ bundle }: { bundle: Bundle }) {
             className={styles.cover}
             imageUrl={entry.book.coverImageUrl}
             key={entry.book.id}
+            sizes={BOOK_COVER_SIZES_THUMB}
             title={entry.book.title}
             variantKey={entry.book.slug}
           />

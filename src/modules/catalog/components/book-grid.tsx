@@ -7,6 +7,8 @@ import { BookCard } from './book-card';
 import styles from './book-grid.module.css';
 
 export const DEFAULT_SKELETON_COUNT = 8;
+// The first row is above the fold: those covers load eagerly (LCP); the rest load as the visitor scrolls.
+export const FIRST_ROW_PRIORITY_COUNT = 4;
 
 export type BookGridProps = {
   emptyDescription?: string;
@@ -53,8 +55,8 @@ export function BookGrid({
 
   return (
     <div className={styles.grid}>
-      {items.map((book) => (
-        <BookCard key={book.id} book={book} />
+      {items.map((book, index) => (
+        <BookCard key={book.id} book={book} priority={index < FIRST_ROW_PRIORITY_COUNT} />
       ))}
     </div>
   );

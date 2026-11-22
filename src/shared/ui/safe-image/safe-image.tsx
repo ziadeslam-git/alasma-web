@@ -35,6 +35,8 @@ export type SafeImageProps = (AccessibleImage | DecorativeImage) &
     // Called once when the image fails to load, so a parent can swap in a designed fallback.
     onError?: () => void;
     priority?: boolean;
+    // The width the image is shown at, per breakpoint (next/image then picks a right-sized file instead of 1x/2x of width).
+    sizes?: string;
     src?: string | null;
   };
 
@@ -47,6 +49,7 @@ export function SafeImage({
   height,
   onError,
   priority = false,
+  sizes,
   src,
   width,
 }: SafeImageProps) {
@@ -83,6 +86,7 @@ export function SafeImage({
           onError?.();
         }}
         priority={priority}
+        sizes={sizes}
         src={src ?? ''}
         style={!fill && width && height ? { aspectRatio: `${width} / ${height}` } : undefined}
         width={width}

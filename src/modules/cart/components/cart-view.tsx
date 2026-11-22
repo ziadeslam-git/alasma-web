@@ -8,7 +8,7 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
 import { routes } from '@/shared/config/routes';
 import { Modal } from '@/shared/ui/modal';
-import { BookCover } from '@/shared/ui/book-cover';
+import { BOOK_COVER_SIZES_THUMB, BookCover } from '@/shared/ui/book-cover';
 import { Icon } from '@/shared/ui/icon';
 import type { Cart, Coupon } from '../api/cart-api';
 import { clearCart, removeItem, updateQuantity, validateCoupon } from '../api/cart-api';
@@ -81,6 +81,7 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
                     as="div"
                     className={styles.cover}
                     imageUrl={item.coverImageUrl}
+                    sizes={BOOK_COVER_SIZES_THUMB}
                     title={item.title}
                     variantKey={item.slug}
                   />

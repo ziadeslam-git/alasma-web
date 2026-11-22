@@ -1,6 +1,6 @@
 import messages from '@/i18n/messages/ar.json';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
-import { BookCover } from '@/shared/ui/book-cover';
+import { BOOK_COVER_SIZES_THUMB, BookCover } from '@/shared/ui/book-cover';
 
 import type { Order } from '../api/orders-api';
 import styles from './order-details.module.css';
@@ -17,6 +17,7 @@ export function OrderItemsPanel({ order }: { order: Order }) {
             <div className={styles.thumb}>
               <BookCover
                 as="div"
+                sizes={BOOK_COVER_SIZES_THUMB}
                 title={item.title}
                 variantKey={`${item.bookId ?? item.bundleId ?? 'item'}-${item.title}`}
               />

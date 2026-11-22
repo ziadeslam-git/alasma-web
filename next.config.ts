@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   // Development only (empty in production): lets a phone on the LAN hydrate pages served by `next dev`.
   allowedDevOrigins: getDevAllowedOrigins(),
   images: {
+    // AVIF first, WebP as the fallback (the default is WebP only). Quality stays at the default 75.
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',

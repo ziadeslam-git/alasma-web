@@ -5,7 +5,7 @@ import messages from '@/i18n/messages/ar.json';
 import { axe } from '@/test/axe';
 
 import type { BookCardItem } from '../types';
-import { BookGrid, DEFAULT_SKELETON_COUNT } from './book-grid';
+import { BookGrid, DEFAULT_SKELETON_COUNT, FIRST_ROW_PRIORITY_COUNT } from './book-grid';
 
 vi.mock('@/modules/wishlist', () => ({
   WishlistHeart: ({ title, className }: { title: string; className?: string }) => (
@@ -50,6 +50,29 @@ const items: readonly BookCardItem[] = [
     isFeatured: true,
   },
 ];
+
+describe('BookGrid images', () => {
+  it('loads the first row eagerly and the rest lazily', () => {
+    const many = Array.from({ length: 6 }, (_, index) => ({
+      ...items[0]!,
+      id: 100 + index,
+      slug: `book-${index}`,
+      coverImageUrl: `/cover-${index}.jpg`,
+    }));
+    const { container } = render(<BookGrid items={many} />);
+    const images = Array.from(container.querySelectorAll('img'));
+
+    expect(images).toHaveLength(6);
+    expect(
+      images.slice(0, FIRST_ROW_PRIORITY_COUNT).map((img) => img.getAttribute('loading')),
+    ).not.toContain('lazy');
+    expect(
+      images.slice(FIRST_ROW_PRIORITY_COUNT).map((img) => img.getAttribute('loading')),
+    ).toEqual(['lazy', 'lazy']);
+    // Each cover tells the browser the width it is shown at, so a right-sized file is chosen.
+    expect(images[0]?.getAttribute('sizes')).toContain('240px');
+  });
+});
 
 describe('BookGrid', () => {
   it('renders a BookCard for every item and passes axe', async () => {

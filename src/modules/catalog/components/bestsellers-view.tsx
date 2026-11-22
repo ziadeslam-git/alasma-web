@@ -26,6 +26,8 @@ function PodiumItem({ book, rank }: { book: BookCardItem; rank: number }) {
         <BookCover
           as="div"
           imageUrl={book.coverImageUrl}
+          priority={rank === 1}
+          sizes="(max-width: 760px) 90vw, 360px"
           title={book.title}
           variantKey={book.slug}
         />
@@ -72,6 +74,7 @@ export function BestsellersView({ result }: { result: BestSellersResult }) {
                 className={styles.stackCover}
                 imageUrl={book.coverImageUrl}
                 key={book.id}
+                sizes="112px"
                 title={book.title}
                 variantKey={book.slug}
               />

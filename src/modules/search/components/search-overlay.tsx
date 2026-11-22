@@ -185,6 +185,7 @@ export function SearchOverlay({
                   className={styles.thumb}
                   decorative
                   height={54}
+                  sizes="38px"
                   src={item.coverImageUrl}
                   width={38}
                 />
