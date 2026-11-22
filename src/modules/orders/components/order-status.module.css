@@ -1,0 +1,89 @@
+/* Status pill (.st) and tracker (.trk) of design/OrderDetail.dc.html and design/Orders.dc.html. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  block-size: 28px;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pill::before {
+  content: '';
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+.large {
+  block-size: 44px;
+  padding-inline: var(--space-4);
+  font-size: 14px;
+}
+
+.wait {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.ship {
+  background: var(--g-t);
+  color: var(--g);
+}
+
+.done {
+  background: var(--success-soft);
+  color: var(--success-ink);
+}
+
+.cancelled {
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+}
+
+.tracker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.step::before {
+  content: '';
+  display: block;
+  block-size: 7px;
+  border-radius: 5px;
+  background: var(--green-100);
+}
+
+.stepOn {
+  color: var(--g);
+  font-weight: 700;
+}
+
+.stepOn::before {
+  background: var(--g);
+}
+
+.stepCancelled::before {
+  background: var(--danger-soft);
+}

@@ -54,6 +54,7 @@ export const features = {
   'cart-page': 'live', // Cart entry points in the header and mobile app bar.
   'email-change': 'soon', // Change email: the confirmation link has no page yet (POST /auth/confirm-email-change), so it stays soon.
   'profile-edit': 'live', // Profile page: PUT /me, change email, change password, sign out everywhere (Task 88).
+  'orders-stats': 'soon', // Awaiting / shipping / delivered stat cards on the orders list: the API sends no per-status counts.
   'order-invoice': 'live', // Printable invoice of a confirmed order: GET /orders/{id}/invoice (Task 90).
   'payment-proof': 'live', // Transfer receipt upload: POST /orders/{id}/payment-proof (Task 89).
   'payment-receipt': 'live', // Printable receipt of an approved payment: GET /orders/{id}/payments/{paymentId}/receipt (Task 89).

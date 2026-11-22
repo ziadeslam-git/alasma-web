@@ -37,7 +37,11 @@ export function OrderInvoiceButton({ orderId, status }: { orderId: string; statu
         <Button loading={isPending} onClick={() => void open()} variant="outline">
           {isPending ? text.invoiceLoading : text.invoiceView}
         </Button>
-        {error ? <p role="alert">{error}</p> : null}
+        {error ? (
+          <p className={styles.alert} role="alert">
+            {error}
+          </p>
+        ) : null}
       </div>
     </FeatureGate>
   );

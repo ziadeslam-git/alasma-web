@@ -34,7 +34,11 @@ export function PaymentReceiptButton({
       <Button loading={isPending} onClick={() => void open()} variant="outline">
         {isPending ? text.receiptLoading : text.receiptView}
       </Button>
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p className={styles.alert} role="alert">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

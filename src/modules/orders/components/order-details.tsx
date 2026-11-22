@@ -4,17 +4,19 @@ import { useEffect, useState } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
-import { formatDateTime, formatMoney, formatNumber } from '@/shared/lib/format';
+import { Button } from '@/shared/ui/button';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Modal } from '@/shared/ui/modal';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { FeatureGate } from '@/shared/ui/soon';
 import { cancelOrder, getOrder, isOrderId, type Order } from '../api/orders-api';
+import { OrderActionsPanel } from './order-actions-panel';
+import { OrderAddressPanel } from './order-address-panel';
+import { OrderDetailsHeader } from './order-details-header';
 import { OrderEditDialog } from './order-edit-dialog';
-import { OrderInvoiceButton } from './order-invoice-button';
-import { PaymentProofSection } from './payment-proof-section';
-import { PaymentReceiptButton } from './payment-receipt-button';
-import styles from './orders.module.css';
+import { OrderItemsPanel } from './order-items-panel';
+import { OrderPaymentPanel } from './order-payment-panel';
+import { OrderStatusPanel } from './order-status-panel';
+import styles from './order-details.module.css';
 
 export function OrderDetails({ id, fixture }: { id: string; fixture?: Order }) {
   const text = messages.orders;
@@ -59,140 +61,64 @@ export function OrderDetails({ id, fixture }: { id: string; fixture?: Order }) {
   }
   if (isLoading)
     return (
-      <section>
-        <h1>{text.details}</h1>
+      <section className={styles.page}>
+        <h1 className={styles.title}>{text.details}</h1>
         <Skeleton shape="card" />
       </section>
     );
   if (isMissing)
     return (
-      <section>
-        <h1>{text.details}</h1>
+      <section className={styles.page}>
+        <h1 className={styles.title}>{text.details}</h1>
         <EmptyState icon="book" title={text.notFound} description={text.notFoundDescription} />
       </section>
     );
   if (!order)
     return (
-      <section>
-        <h1>{text.details}</h1>
+      <section className={styles.page}>
+        <h1 className={styles.title}>{text.details}</h1>
         {error?.code === 'email_not_confirmed' ? (
           <UnconfirmedEmailBanner />
         ) : (
-          <p role="alert">{error ? getApiErrorMessage(error) : text.error}</p>
+          <p className={styles.alert} role="alert">
+            {error ? getApiErrorMessage(error) : text.error}
+          </p>
         )}
       </section>
     );
   return (
-    <section className={styles.section}>
-      <h1>{order.orderNumber}</h1>
-      {hasConflict ? <p role="status">{text.changed}</p> : null}
+    <section className={styles.page}>
+      <OrderDetailsHeader order={order} />
+      {hasConflict ? (
+        <p className={styles.notice} role="status">
+          {text.changed}
+        </p>
+      ) : null}
       {error?.code === 'email_not_confirmed' ? (
         <UnconfirmedEmailBanner />
       ) : error ? (
-        <p role="alert">{getApiErrorMessage(error)}</p>
+        <p className={styles.alert} role="alert">
+          {getApiErrorMessage(error)}
+        </p>
       ) : null}
-      <p>{text.status[order.status]}</p>
-      {order.expiresAt && order.paymentMethod === 'ManualTransfer' ? (
-        <p>{text.expires.replace('{date}', formatDateTime(order.expiresAt))}</p>
-      ) : null}
-      <section>
-        <h2>{text.items}</h2>
-        {order.items.map((item, index) => (
-          <article className={styles.card} key={`${item.title}-${index}`}>
-            <h3>{item.title}</h3>
-            <p>
-              {formatNumber(item.quantity)} · {formatMoney(item.lineTotal)}
-            </p>
-            {item.components.length ? (
-              <ul>
-                {item.components.map((part) => (
-                  <li key={part.bookId}>
-                    {part.title} · {formatNumber(part.quantity)}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </article>
-        ))}
-      </section>
-      <section>
-        <h2>{text.address}</h2>
-        <p>
-          {order.address.recipientName} · {order.address.phone}
-        </p>
-        <p>
-          {order.address.governorateName} · {order.address.city} · {order.address.addressLine}{' '}
-          {order.address.landmark}
-        </p>
-      </section>
-      <section>
-        <h2>{text.pricing}</h2>
-        <p>
-          {text.subtotal}: {formatMoney(order.pricing.subtotal)}
-        </p>
-        <p>
-          {text.discount}: {formatMoney(order.pricing.couponDiscount)}
-        </p>
-        <p>
-          {text.shipping}: {formatMoney(order.pricing.shippingFee)}
-        </p>
-        <p>
-          {text.total}: {formatMoney(order.pricing.total)}
-        </p>
-      </section>
-      <section>
-        <h2>{text.payments}</h2>
-        {order.payments.map((payment) => (
-          <p key={payment.id}>
-            {text.paymentStatus[payment.status]} · {formatMoney(payment.amount)}
-            {payment.submittedAt ? ` · ${formatDateTime(payment.submittedAt)}` : null}
-            {payment.rejectionReason ? ` · ${payment.rejectionReason}` : null}
-          </p>
-        ))}
-        {order.payments
-          .filter((payment) => payment.status === 'Approved')
-          .map((payment) => (
-            <FeatureGate
-              feature="payment-receipt"
-              key={`receipt-${payment.id}`}
-              label={messages.site.soon}
-            >
-              <PaymentReceiptButton orderId={order.id} paymentId={payment.id} />
-            </FeatureGate>
-          ))}
-        <PaymentProofSection order={order} onOrderChange={setOrder} />
-      </section>
-      <section>
-        <h2>{text.shipment}</h2>
-        {order.shipment ? (
-          <p>
-            {order.shipment.carrierName} {order.shipment.trackingNumber}
-            {order.shipment.shippedAt ? ` · ${formatDateTime(order.shipment.shippedAt)}` : null}
-            {order.shipment.deliveredAt ? ` · ${formatDateTime(order.shipment.deliveredAt)}` : null}
-          </p>
-        ) : (
-          <p>{text.notShipped}</p>
-        )}
-      </section>
-      <section>
-        <h2>{text.timeline}</h2>
-        {order.timeline.map((step, index) => (
-          <p key={`${step.status}-${index}`}>
-            {text.status[step.status]} {formatDateTime(step.at)}
-          </p>
-        ))}
-      </section>
-      {order.canEdit ? (
-        <button
-          onClick={() => {
-            setConflict(false);
-            setEditing(true);
-          }}
-          type="button"
-        >
-          {text.edit}
-        </button>
-      ) : null}
+      <OrderStatusPanel order={order} />
+      <div className={styles.columns}>
+        <div className={styles.column}>
+          <OrderItemsPanel order={order} />
+          <OrderAddressPanel order={order} />
+        </div>
+        <div className={styles.column}>
+          <OrderPaymentPanel onOrderChange={setOrder} order={order} />
+          <OrderActionsPanel
+            onCancel={() => setConfirming(true)}
+            onEdit={() => {
+              setConflict(false);
+              setEditing(true);
+            }}
+            order={order}
+          />
+        </div>
+      </div>
       {isEditing ? (
         <OrderEditDialog
           order={order}
@@ -204,24 +130,20 @@ export function OrderDetails({ id, fixture }: { id: string; fixture?: Order }) {
           }}
         />
       ) : null}
-      {order.canCancel ? (
-        <button onClick={() => setConfirming(true)} type="button">
-          {text.cancel}
-        </button>
-      ) : null}
-      <OrderInvoiceButton orderId={order.id} status={order.status} />
       <Modal
         closeLabel={text.close}
         onOpenChange={setConfirming}
         open={isConfirming}
         title={text.confirmCancel}
       >
-        <button disabled={isPending} onClick={() => void cancel()} type="button">
-          {text.cancel}
-        </button>
-        <button disabled={isPending} onClick={() => setConfirming(false)} type="button">
-          {text.close}
-        </button>
+        <div className={styles.modalActions}>
+          <Button disabled={isPending} onClick={() => void cancel()} variant="outline">
+            {text.cancel}
+          </Button>
+          <Button disabled={isPending} onClick={() => setConfirming(false)} variant="ghost">
+            {text.close}
+          </Button>
+        </div>
       </Modal>
     </section>
   );
