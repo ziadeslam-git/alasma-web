@@ -16,11 +16,21 @@ import styles from './cart.module.css';
 export function MiniCart() {
   const [isOpen, setOpen] = useState(false);
   const { cart, isLoading, error } = useCart();
+  // The badge counts books (the sum of the line quantities), as the design's label says; the API sends no count field.
+  const bookCount = cart ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
   return (
     <>
-      <button aria-label={messages.site.header.cart} onClick={() => setOpen(true)} type="button">
+      <button
+        aria-label={
+          bookCount > 0
+            ? messages.site.header.cartWithCount.replace('{count}', formatNumber(bookCount))
+            : messages.site.header.cart
+        }
+        onClick={() => setOpen(true)}
+        type="button"
+      >
         <Icon name="bag" />
-        {cart ? <span>{formatNumber(cart.items.length)}</span> : null}
+        {cart ? <span>{formatNumber(bookCount)}</span> : null}
       </button>
       <Drawer
         closeLabel={messages.cart.close}

@@ -98,6 +98,17 @@ describe('NewsletterForm', () => {
     expect(calls).toBe(1);
   });
 
+  it('shows the Arabic network message when the connection drops and lets the reader try again', async () => {
+    server.use(http.post(url, () => HttpResponse.error()));
+    render(<NewsletterForm />);
+    await type('reader@example.com');
+
+    await userEvent.click(screen.getByRole('button', { name: text.submit }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(messages.apiErrors.kind.network);
+    expect(screen.getByRole('button', { name: text.submit })).toBeEnabled();
+  });
+
   it('shows the Arabic message for 400 (malformed), 429 (rate limit) and 500', async () => {
     render(<NewsletterForm />);
     await type('reader@example.com');

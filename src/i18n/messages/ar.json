@@ -647,6 +647,7 @@
       "publishPackages": "باقات النشر",
       "wishlist": "المفضلة",
       "cart": "السلة",
+      "cartWithCount": "السلة، {count} كتب",
       "notifications": "الإشعارات",
       "english": "English",
       "login": "تسجيل الدخول",
