@@ -250,7 +250,6 @@ test.describe('without the API', () => {
         messages.home.teamPicks.heading,
         messages.home.showcase.bookOfMonthTitle,
         messages.home.showcase.eventTitle,
-        messages.home.manifesto.publishCta,
       ]) {
         await expect(page.getByText(label)).toHaveCount(0);
       }

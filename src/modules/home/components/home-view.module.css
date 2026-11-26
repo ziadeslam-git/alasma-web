@@ -8,3 +8,11 @@
   background: var(--pg);
   color: var(--ink);
 }
+
+/* On the phone the footer's top margin is 34px (rounded sheet), so the page cancels 34px instead of 64px. */
+@media (width <= 760px) {
+  .page {
+    margin-block-end: -34px;
+    padding-block-end: calc(var(--space-12) + 34px);
+  }
+}

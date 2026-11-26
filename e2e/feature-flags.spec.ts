@@ -14,10 +14,17 @@ test('visitor feature flags fall back cleanly when the API is unavailable and ke
     .getByRole('link', { name: messages.site.footer.about });
   await expect(aboutLink).toHaveAttribute('href', '/pages/about');
 
-  // Unbuilt features (such as publish-packages and wishlist-heart) remain inert with the soon badge
-  const publishGate = page.locator('[data-feature="publish-packages"]').first();
-  await expect(publishGate).toHaveAttribute('aria-disabled', 'true');
-  await expect(publishGate).toHaveAttribute('inert', '');
-  await expect(publishGate.locator('[data-soon-badge]')).toHaveText(messages.site.soon);
-  expect(await publishGate.locator('a').count()).toBe(0);
+  // Built features stay live links on fallback (publish-packages went live in Task 94)
+  const publishLink = page
+    .getByRole('contentinfo')
+    .getByRole('link', { name: messages.site.header.publishPackages });
+  await expect(publishLink).toHaveAttribute('href', '/publish');
+
+  // Unbuilt features (such as the best-sellers period tabs) remain inert with the soon badge
+  await page.goto('/bestsellers');
+  const periodGate = page.locator('[data-feature="bestsellers-period"]').first();
+  await expect(periodGate).toHaveAttribute('aria-disabled', 'true');
+  await expect(periodGate).toHaveAttribute('inert', '');
+  await expect(periodGate.locator('[data-soon-badge]')).toHaveText(messages.site.soon);
+  expect(await periodGate.locator('a').count()).toBe(0);
 });
