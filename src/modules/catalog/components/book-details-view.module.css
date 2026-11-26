@@ -425,3 +425,106 @@
 .iconAction:disabled {
   cursor: default;
 }
+
+/* "عن المؤلف" card of the design: avatar, name, short bio and a link to the author page. */
+.authorSection {
+  padding-block: var(--space-8) var(--space-2);
+}
+
+.authorCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: center;
+  padding: var(--space-10) var(--space-12);
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.authorCard::after {
+  content: '';
+  position: absolute;
+  inset-block-start: -120px;
+  inset-inline-start: -80px;
+  inline-size: 340px;
+  block-size: 340px;
+  border-radius: 50%;
+  background: var(--green-100);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.authorCard > * {
+  position: relative;
+  z-index: 1;
+}
+
+.authorAvatar {
+  display: grid;
+  place-items: center;
+  inline-size: 130px;
+  block-size: 130px;
+  border-radius: 50%;
+  outline: 4px solid var(--surface);
+  background: linear-gradient(135deg, var(--green-300), var(--green-600));
+  box-shadow: var(--shadow-card);
+  color: var(--on-primary);
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.authorBody {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+
+.authorHeading {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.authorBio {
+  max-inline-size: 76ch;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 15px;
+  line-height: 1.95;
+}
+
+.authorAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-block-size: 44px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.authorAllLink:hover {
+  text-decoration: underline;
+}
+
+.authorAllLink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (width <= 1000px) {
+  .authorCard {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding: 28px 22px;
+  }
+}

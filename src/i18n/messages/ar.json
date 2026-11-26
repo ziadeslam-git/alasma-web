@@ -1183,6 +1183,10 @@
       },
       "related": {
         "heading": "كتب مشابهة"
+      },
+      "aboutAuthor": {
+        "heading": "عن المؤلف",
+        "allBooks": "كل كتب {name}"
       }
     }
   },

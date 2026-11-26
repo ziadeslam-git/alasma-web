@@ -148,14 +148,28 @@ describe('BookDetailsView: only what the API returns', () => {
     expect(row).not.toHaveTextContent('2,020');
   });
 
-  it('renders none of the sections the API does not support (reviews, bundle, author bio, tags)', () => {
+  it('renders none of the sections the API does not support (reviews, bundle, tags)', () => {
     const { container } = render(<BookDetailsView book={sampleBook} />);
 
     expect(screen.queryByText('آراء القراء')).toBeNull();
     expect(screen.queryByText('يُشترى معها')).toBeNull();
-    expect(screen.queryByText('عن المؤلف')).toBeNull();
     expect(screen.queryByText('اكتب تقييمك')).toBeNull();
     expect(container).not.toHaveTextContent('#الروايات');
+  });
+
+  it('shows the author card only for an author whose short bio the API returns', () => {
+    const { rerender } = render(<BookDetailsView book={sampleBook} />);
+
+    expect(screen.getByRole('heading', { name: text.aboutAuthor.heading })).toBeInTheDocument();
+    expect(screen.getByText('مؤلف معاصر.')).toBeInTheDocument();
+
+    rerender(
+      <BookDetailsView
+        book={{ ...sampleBook, authors: sampleBook.authors.map((a) => ({ ...a, shortBio: null })) }}
+      />,
+    );
+
+    expect(screen.queryByRole('heading', { name: text.aboutAuthor.heading })).toBeNull();
   });
 
   it('shows the designed cover (title and author) when the API sends no image', () => {

@@ -64,6 +64,10 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
   // are dropped while none of them is live, leaving no orphaned heading or empty grid track.
   const hasExtraOptions = extraOptionFeatures.some(isLive);
 
+  // The author card of the design: shown only for an author whose short bio the API returns.
+  const aboutAuthor = displayAuthors.find((a) => a.shortBio);
+  const aboutAuthorInitial = aboutAuthor ? Array.from(aboutAuthor.name.trim())[0] : undefined;
+
   const hasDiscount = book.discountPercent > 0 && book.finalPrice < book.price;
   const isOutOfStock = book.stockStatus === 'OutOfStock';
   const isLowStock = book.stockStatus === 'LowStock';
@@ -371,6 +375,45 @@ export function BookDetailsView({ book, relatedBooks = [], children }: BookDetai
                 </FeatureGate>
               </div>
             ) : null}
+          </div>
+        </section>
+      ) : null}
+
+      {aboutAuthor ? (
+        <section aria-labelledby="about-author-heading" className={styles.authorSection}>
+          <div className={styles.authorCard}>
+            <div aria-hidden="true" className={styles.authorAvatar}>
+              {aboutAuthorInitial}
+            </div>
+            <div className={styles.authorBody}>
+              <h2 className={styles.authorHeading} id="about-author-heading">
+                {text.aboutAuthor.heading}
+              </h2>
+              {aboutAuthor.pageSlug ? (
+                <FeatureLink
+                  className={styles.authorLink}
+                  feature="catalog-authors"
+                  href={authorRoute(aboutAuthor.pageSlug)}
+                  label={soonLabel}
+                >
+                  {aboutAuthor.name}
+                </FeatureLink>
+              ) : (
+                <span className={styles.authorLink}>{aboutAuthor.name}</span>
+              )}
+              <p className={styles.authorBio}>{aboutAuthor.shortBio}</p>
+              {aboutAuthor.pageSlug ? (
+                <FeatureLink
+                  className={styles.authorAllLink}
+                  feature="catalog-authors"
+                  href={authorRoute(aboutAuthor.pageSlug)}
+                  label={soonLabel}
+                >
+                  <span>{text.aboutAuthor.allBooks.replace('{name}', aboutAuthor.name)}</span>
+                  <Icon name="arrow" size="sm" />
+                </FeatureLink>
+              ) : null}
+            </div>
           </div>
         </section>
       ) : null}
