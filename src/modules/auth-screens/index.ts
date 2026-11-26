@@ -1,4 +1,5 @@
 export { AuthCard } from './components/auth-card';
+export { AuthSplit } from './components/auth-split';
 export { ConfirmEmailView } from './components/confirm-email-page';
 export { ForgotPasswordForm } from './components/forgot-password-form';
 export { LoginForm } from './components/login-form';

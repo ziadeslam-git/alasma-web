@@ -1,5 +1,6 @@
-﻿'use client';
+'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
@@ -8,11 +9,13 @@ import { routes } from '@/shared/config/routes';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { Button, ButtonLink } from '@/shared/ui/button';
 import { Field } from '@/shared/ui/field';
+import { Icon } from '@/shared/ui/icon';
 import { Input } from '@/shared/ui/input';
 
 import { focusFirstInvalid } from '../field-errors';
 import { validateForgotPassword } from '../validation';
 import { AuthMessage } from './auth-message';
+import { placeholders } from '../placeholders';
 import styles from './form.module.css';
 
 const fieldOrder = ['email'] as const;
@@ -92,6 +95,10 @@ export function ForgotPasswordForm() {
       }}
       ref={formRef}
     >
+      <Link className={`${styles.link} ${styles.back}`} href={routes.login}>
+        <Icon name="arrow-r" size="sm" />
+        {text.backToLogin}
+      </Link>
       <h1>{text.forgotTitle}</h1>
       <p>{text.forgotDescription}</p>
       {alert ? <p role="alert">{alert}</p> : null}
@@ -99,9 +106,11 @@ export function ForgotPasswordForm() {
       <Field error={errors.email} label={text.email} required>
         <Input
           autoComplete="email"
+          dir="ltr"
           disabled={isSubmitting}
           name="email"
           onChange={(event) => setEmail(event.target.value)}
+          placeholder={placeholders.email}
           type="email"
           value={email}
         />
@@ -111,12 +120,14 @@ export function ForgotPasswordForm() {
         fullWidth
         loading={isSubmitting}
         onClick={() => void submit()}
+        size="lg"
       >
         {text.sendResetLink}
       </Button>
-      <ButtonLink href={routes.login} variant="ghost">
-        {text.backToLogin}
-      </ButtonLink>
+      <div className={styles.note}>
+        <Icon name="mail" size="sm" />
+        <span>{text.forgotNote}</span>
+      </div>
     </form>
   );
 }

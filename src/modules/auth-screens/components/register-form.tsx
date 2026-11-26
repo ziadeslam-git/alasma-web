@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 
 import messages from '@/i18n/messages/ar.json';
@@ -14,6 +15,7 @@ import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
 import { validateRegister } from '../validation';
+import { placeholders } from '../placeholders';
 import styles from './form.module.css';
 import { NewPasswordField } from './new-password-field';
 import { PasswordInput } from './password-input';
@@ -114,9 +116,11 @@ export function RegisterForm() {
       <Field error={errors.email} label={text.email} required>
         <Input
           autoComplete="email"
+          dir="ltr"
           disabled={isSubmitting}
           name="email"
           onChange={(event) => setValues({ ...values, email: event.target.value })}
+          placeholder={placeholders.email}
           type="email"
           value={values.email}
         />
@@ -124,9 +128,11 @@ export function RegisterForm() {
       <Field error={errors.phone} label={text.phone} required>
         <Input
           autoComplete="tel"
+          dir="ltr"
           disabled={isSubmitting}
           name="phone"
           onChange={(event) => setValues({ ...values, phone: event.target.value })}
+          placeholder={placeholders.phone}
           type="tel"
           value={values.phone}
         />
@@ -147,7 +153,7 @@ export function RegisterForm() {
           value={values.confirmPassword}
         />
       </Field>
-      <label>
+      <label className={styles.consent}>
         <input
           aria-invalid={errors.terms ? true : undefined}
           checked={values.terms}
@@ -155,7 +161,7 @@ export function RegisterForm() {
           name="terms"
           onChange={(event) => setValues({ ...values, terms: event.target.checked })}
           type="checkbox"
-        />{' '}
+        />
         {text.terms}
       </label>
       <FeatureLink
@@ -166,14 +172,14 @@ export function RegisterForm() {
         {text.termsLink}
       </FeatureLink>
       {errors.terms ? <p role="alert">{errors.terms}</p> : null}
-      <Button fullWidth loading={isSubmitting} onClick={() => void submit()}>
+      <Button fullWidth loading={isSubmitting} onClick={() => void submit()} size="lg">
         {text.register}
       </Button>
-      <p>
+      <p className={styles.switch}>
         {text.hasAccount}{' '}
-        <ButtonLink href={routes.login} variant="ghost">
-          {text.login}
-        </ButtonLink>
+        <Link className={styles.link} href={routes.login}>
+          {text.loginLink}
+        </Link>
       </p>
     </form>
   );

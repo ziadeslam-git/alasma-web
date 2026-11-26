@@ -1,0 +1,126 @@
+/* Split-screen auth shell, from design/Login.dc.html (.au). Brand panel on the inline start, form on the inline end. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-block-size: 100dvh;
+}
+
+.brand {
+  position: relative;
+  display: grid;
+  align-content: space-between;
+  padding: var(--space-12) calc(var(--space-12) + var(--space-2));
+  overflow: hidden;
+  background: var(--surface-brand);
+  color: var(--surface);
+}
+
+.logo {
+  position: relative;
+  justify-self: start;
+  inline-size: auto;
+  block-size: calc(var(--space-12) + var(--space-1) * 1.5);
+  filter: brightness(0) invert(1);
+}
+
+.feather {
+  position: absolute;
+  aspect-ratio: 1;
+  background: currentcolor;
+  mask: url('/brand/feather.svg') center / contain no-repeat;
+  pointer-events: none;
+}
+
+.featherBackdrop {
+  inset-block-end: -12%;
+  inset-inline-end: -30%;
+  inline-size: 110%;
+  color: var(--surface);
+  opacity: 0.08;
+  transform: scaleX(-1) rotate(-6deg);
+}
+
+.featherFly {
+  inset-block-start: 14%;
+  inset-inline-start: 8%;
+  inline-size: 46%;
+  color: var(--on-brand);
+  opacity: 0.9;
+  filter: drop-shadow(0 18px 24px color-mix(in srgb, var(--green-950) 40%, transparent));
+  animation: float 7s ease-in-out infinite;
+}
+
+.pitch {
+  position: relative;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.quote {
+  display: block;
+  max-inline-size: 14ch;
+  margin: 0;
+  color: var(--on-brand);
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1.9;
+  quotes: none;
+}
+
+.lead {
+  max-inline-size: 40ch;
+  margin: 0;
+  color: var(--on-brand-muted);
+  line-height: 1.9;
+}
+
+.copyright {
+  position: relative;
+  color: var(--green-300);
+  font-size: 13px;
+}
+
+.formPanel {
+  display: grid;
+  place-items: center;
+  padding: var(--space-12) var(--space-8);
+  background: var(--surface);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: -2deg;
+  }
+
+  50% {
+    translate: 6px -12px;
+    rotate: 2deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featherFly {
+    animation: none;
+  }
+}
+
+/* Below 1000px the frame drops the brand panel and keeps the form alone. */
+@media (width <= 1000px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .brand {
+    display: none;
+  }
+}
+
+@media (width <= 760px) {
+  .formPanel {
+    place-items: start center;
+    padding: var(--space-6) var(--space-4) calc(var(--space-8) + var(--space-1));
+  }
+}

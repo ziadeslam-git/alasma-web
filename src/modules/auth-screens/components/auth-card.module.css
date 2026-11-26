@@ -1,15 +1,10 @@
+/* The form column of the split screen: at most 420px wide, no card chrome (design .au__f). */
 .card {
-  /* 100% minus a 16px gutter on each side, so a phone never has the card touching the screen edge (Task 75) */
-  inline-size: min(100% - var(--space-8), 520px);
-  margin: var(--space-12) auto;
-  padding: var(--space-8);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow-md);
+  inline-size: 100%;
+  max-inline-size: calc(var(--space-20) * 5 + var(--space-5));
 }
 
-/* A signed-in visitor on /login: the form renders nothing while the redirect runs, so the card is not shown either */
+/* A signed-in visitor on /login: the form renders nothing while the redirect runs, so the column is not shown either */
 .card:empty {
   display: none;
 }

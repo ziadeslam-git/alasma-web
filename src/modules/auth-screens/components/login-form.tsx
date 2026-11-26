@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -7,13 +8,15 @@ import messages from '@/i18n/messages/ar.json';
 import { useAuth } from '@/modules/auth';
 import { routes } from '@/shared/config/routes';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
-import { Button, ButtonLink } from '@/shared/ui/button';
+import { Button } from '@/shared/ui/button';
 import { Field } from '@/shared/ui/field';
+import { Icon } from '@/shared/ui/icon';
 import { Input } from '@/shared/ui/input';
 import { useToast } from '@/shared/ui/toast';
 
 import { focusFirstInvalid, mapFieldErrors } from '../field-errors';
 import { isSafeRedirectPath, validateLogin } from '../validation';
+import { placeholders } from '../placeholders';
 import styles from './form.module.css';
 import { PasswordInput } from './password-input';
 
@@ -103,9 +106,11 @@ export function LoginForm() {
       <Field error={errors.email} label={text.email} required>
         <Input
           autoComplete="username"
+          dir="ltr"
           disabled={isDisabled}
           name="email"
           onChange={(event) => setValues({ ...values, email: event.target.value })}
+          placeholder={placeholders.email}
           type="email"
           value={values.email}
         />
@@ -119,22 +124,29 @@ export function LoginForm() {
           value={values.password}
         />
       </Field>
+      <div className={styles.row}>
+        <Link className={styles.link} href={routes.forgotPassword}>
+          {text.forgotPassword}
+        </Link>
+      </div>
       <Button
         disabled={status === 'loading'}
         fullWidth
         loading={isSubmitting}
         onClick={() => void submit()}
+        size="lg"
       >
         {text.login}
       </Button>
-      <ButtonLink href={routes.forgotPassword} variant="ghost">
-        {text.forgotPassword}
-      </ButtonLink>
-      <p>
+      <div className={styles.note}>
+        <Icon name="shield" size="sm" />
+        <span>{text.loginNote}</span>
+      </div>
+      <p className={styles.switch}>
         {text.noAccount}{' '}
-        <ButtonLink href={routes.register} variant="ghost">
-          {text.register}
-        </ButtonLink>
+        <Link className={styles.link} href={routes.register}>
+          {text.registerLink}
+        </Link>
       </p>
     </form>
   );

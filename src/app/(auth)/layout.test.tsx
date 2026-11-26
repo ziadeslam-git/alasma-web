@@ -3,37 +3,20 @@ import { describe, expect, it, vi } from 'vitest';
 
 import AuthLayout from './layout';
 
-const shell = vi.hoisted(() => ({ props: {} as Record<string, unknown> }));
-
-vi.mock('@/shared/layout/site-shell', () => ({
-  SiteShell: ({ children, ...props }: { children: React.ReactNode } & Record<string, unknown>) => {
-    shell.props = props;
-    return <div>{children}</div>;
-  },
+vi.mock('@/modules/auth-screens', () => ({
+  AuthSplit: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="auth-split">{children}</div>
+  ),
 }));
-vi.mock('@/modules/account', () => ({
-  AccountMenu: () => <i data-testid="account-menu" />,
-  GuestMenuLinks: () => <i />,
-  SignedInMenuLinks: () => <i />,
-  MenuLogout: () => <i />,
-}));
-vi.mock('@/modules/cart', () => ({
-  MiniCart: () => <i data-testid="mini-cart" />,
-  CartCountBadge: () => null,
-}));
-vi.mock('@/modules/newsletter', () => ({ NewsletterForm: () => <i /> }));
 
 describe('auth layout', () => {
-  it('gives the header the same account menu, cart and mobile account links as the site pages (Task 10)', () => {
+  it('puts every auth page inside the split-screen frame (Restyle: auth pages)', () => {
     render(
       <AuthLayout>
         <p>login form</p>
       </AuthLayout>,
     );
 
-    expect(screen.getByText('login form')).toBeInTheDocument();
-    for (const slot of ['accountArea', 'cart', 'menuAccount', 'menuFooter', 'newsletter']) {
-      expect(shell.props[slot]).toBeTruthy();
-    }
+    expect(screen.getByTestId('auth-split')).toContainElement(screen.getByText('login form'));
   });
 });

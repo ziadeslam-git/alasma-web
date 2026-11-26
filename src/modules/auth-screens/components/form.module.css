@@ -1,6 +1,7 @@
+/* Form column of the split screen (design .au__f): 18px rhythm, title, muted sub line. */
 .form {
   display: grid;
-  gap: var(--space-4);
+  gap: calc(var(--space-4) + var(--space-1) / 2);
 }
 
 .form h1,
@@ -8,6 +9,132 @@
   margin: 0;
 }
 
+.form h1 {
+  font-family: var(--font-sans);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 .form p {
   color: var(--ink-muted);
+}
+
+/* The description right under the title sits closer to it, as in the frame. */
+.form h1 + p {
+  margin-block-start: calc(var(--space-2) * -1.25);
+}
+
+/* Text link (design .link): bold, primary colour, 44px touch target. */
+.link {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-block-size: calc(var(--space-10) + var(--space-1));
+  color: var(--primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* "Back to sign in" above the title (forgot password). */
+.back {
+  justify-self: start;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+/* The forgot-password link next to the options row. */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 14px;
+}
+
+/* Info box under the form (design .note2). */
+.note {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) calc(var(--space-3) + 2px);
+  border-radius: calc(var(--radius-md) + 2px);
+  background: var(--chip-bg);
+  color: var(--primary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.note > svg {
+  flex: none;
+  margin-block-start: var(--space-1);
+}
+
+.note > span {
+  color: inherit;
+}
+
+/* "Have an account?" line at the bottom. */
+.switch {
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Terms checkbox (design .cb): a 20px custom box, the label is at least 44px tall. */
+.consent {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-block-size: calc(var(--space-10) + var(--space-1));
+  color: var(--ink-muted);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.consent input {
+  display: grid;
+  flex: none;
+  place-content: center;
+  inline-size: var(--space-5);
+  block-size: var(--space-5);
+  margin: 0;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  appearance: none;
+}
+
+.consent input:checked {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.consent input:checked::after {
+  content: '';
+  inline-size: var(--space-2);
+  block-size: var(--space-1);
+  border-block-end: 2px solid var(--on-primary);
+  border-inline-start: 2px solid var(--on-primary);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.consent input[aria-invalid='true'] {
+  border-color: var(--danger-ink);
+}
+
+@media (width <= 760px) {
+  .form h1 {
+    font-size: 26px;
+  }
 }
