@@ -3,6 +3,7 @@ import { routes } from '@/shared/config/routes';
 import { EmptyState } from '@/shared/ui/empty-state';
 import { Pagination } from '@/shared/ui/pagination';
 import { RetryButton } from '@/shared/ui/retry-button';
+import { FeatureGate } from '@/shared/ui/soon';
 import type { AuthorsResult } from '../api/authors';
 import { AuthorCard } from './author-card';
 import styles from './authors.module.css';
@@ -12,7 +13,22 @@ export function AuthorsView({ result, page }: { result: AuthorsResult; page: num
   const totalPages = data?.totalPages ?? (data ? Math.ceil(data.totalCount / data.pageSize) : 0);
   return (
     <div className={styles.container}>
-      <h1>{messages.site.header.authors}</h1>
+      <div className={styles.head}>
+        <div>
+          <h1>{text.title}</h1>
+          <p>{text.subtitle}</p>
+        </div>
+        <FeatureGate feature="authors-search" label={messages.site.soon}>
+          <div className={styles.search} role="search">
+            <input
+              aria-label={text.searchPlaceholder}
+              className={styles.searchField}
+              placeholder={text.searchPlaceholder}
+              type="search"
+            />
+          </div>
+        </FeatureGate>
+      </div>
       {data && data.items.length ? (
         <>
           <div className={styles.grid}>

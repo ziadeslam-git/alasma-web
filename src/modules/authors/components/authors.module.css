@@ -1,4 +1,4 @@
-/* One rhythm for the authors pages: the blocks (breadcrumb, title, content) are 24px apart (Task 76) */
+/* Authors pages (design/Authors.dc.html, Author.dc.html). One rhythm: the blocks are 24px apart (Task 76). */
 .container {
   display: grid;
   align-content: start;
@@ -8,63 +8,228 @@
   padding: var(--space-8);
 }
 
-/* A round placeholder with the author's initials, the size of a small avatar */
+/* .sec-h: title with its sub line, the search field at the other end */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.head h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.head p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+.search {
+  min-inline-size: 280px;
+}
+
+.searchField {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 46px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--pg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+/* A round placeholder with the author's initials (.ac .av): 96px on the list card, 160px on the author page */
 .initials {
   display: grid;
   place-items: center;
-  inline-size: calc(var(--space-16) + var(--space-8));
+  inline-size: 96px;
   aspect-ratio: 1;
   border-radius: var(--radius-pill);
-  background: var(--chip-bg);
-  color: var(--primary);
-  font-family: var(--font-sans);
-  font-size: 32px;
+  background: linear-gradient(135deg, var(--green-300), var(--green-600));
+  color: var(--on-primary);
+  font-family: var(--font-display);
+  font-size: 40px;
   font-weight: 700;
   line-height: 1;
 }
 
+.initialsHero {
+  inline-size: 160px;
+  outline: 5px solid var(--g-t);
+  font-size: 66px;
+}
+
 .booksSection {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
+  margin-block-start: var(--space-6);
+}
+
+.booksSection h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 .viewAll {
   justify-self: start;
 }
 
+/* .ag2: three columns on wide screens, one up to 1000px */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
 }
 
+/* .ac: a centred card, the photo or initials above the name */
 .card {
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--surface);
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  padding: 28px;
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  text-align: center;
 }
 
-/* The photo fills its frame edge to edge, like a book cover, instead of sitting in a fixed 180px box with a beige strip
-   beside it. The frame keeps the old 180px height, so the card's size does not change (Task 81). */
+.card a {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.card a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.card h2 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.card p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* A real photo keeps the Task 81 rule (fills its frame, 180px high, like a book cover); the round 96px avatar of the
+   frame is only the initials block. */
 .card :global(img) {
   inline-size: 100%;
   block-size: 180px;
   object-fit: cover;
 }
 
+/* .ph2: the author's card, avatar, name with bio, and the stat */
 .profile {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
+  gap: var(--space-8);
+  align-items: center;
+  padding: var(--space-10);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.profile :global(img) {
+  inline-size: 160px;
+  block-size: 160px;
+  border-radius: var(--radius-pill);
+  outline: 5px solid var(--g-t);
+  object-fit: cover;
+}
+
+.profile h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .bio {
+  max-inline-size: 70ch;
+  margin: 0;
+  color: var(--ink-muted);
+  line-height: 2;
   white-space: pre-line;
+}
+
+.stat {
+  display: grid;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.stat b {
+  display: block;
+  color: var(--g);
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat span {
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+
+@media (width <= 1000px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .profile {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
 }
 
 @media (width <= 760px) {
   .container {
     padding: var(--space-4);
+  }
+
+  .head h1 {
+    font-size: 32px;
+  }
+
+  .search {
+    min-inline-size: 0;
+    inline-size: 100%;
+  }
+
+  .profile {
+    padding: var(--space-6);
   }
 }

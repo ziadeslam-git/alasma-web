@@ -55,6 +55,8 @@ export const features = {
   'email-change': 'soon', // Change email: the confirmation link has no page yet (POST /auth/confirm-email-change), so it stays soon.
   'profile-edit': 'live', // Profile page: PUT /me, change email, change password, sign out everywhere (Task 88).
   'reading-goal': 'soon', // Reading-goal card in the account sidebar: no goal or progress API.
+  'authors-search': 'soon', // Author search field on the authors list: GET /authors has no search parameter.
+  'author-books-count': 'soon', // "N books in the store" on the author page: the author API sends no books total.
   'my-books': 'soon', // "كتبي" entry in the account sidebar: no purchased-books library API.
   'profile-extra-fields': 'soon', // First/last name, birth date and language on the profile: GET/PUT /me has only fullName.
   'reading-preferences': 'soon', // Reading-preferences switches on the profile: no preferences API.

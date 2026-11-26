@@ -37,6 +37,8 @@ export type AuthorAvatarProps = {
   // Inside a link that already says the name (the author card): the photo adds nothing for a screen reader, and an alt
   // equal to the adjacent link text is an axe violation (image-redundant-alt, Task 79).
   decorative?: boolean;
+  // The initials block is 96px on the list card and 160px with a ring on the author page.
+  variant?: 'card' | 'hero';
 };
 
 // The author's photo, or decorative initials when there is none (a blank gradient block before). The initials are
@@ -47,10 +49,13 @@ export function AuthorAvatar({
   size,
   priority = false,
   decorative = false,
+  variant = 'card',
 }: AuthorAvatarProps) {
   if (!photoUrl) {
+    const initialsClass =
+      variant === 'hero' ? `${styles.initials} ${styles.initialsHero}` : styles.initials;
     return (
-      <span aria-hidden="true" className={styles.initials} data-author-initials>
+      <span aria-hidden="true" className={initialsClass} data-author-initials>
         {getAuthorInitials(name)}
       </span>
     );

@@ -4,13 +4,31 @@
     "emptyDescription": "ستظهر قائمة المؤلفين هنا.",
     "errorTitle": "تعذّر تحميل المؤلفين",
     "booksHeading": "كتب المؤلف",
+    "title": "مؤلفو الدار",
+    "subtitle": "الكتّاب الذين ينشرون مع الأسمى.",
+    "searchPlaceholder": "ابحث عن مؤلف",
+    "booksHeadingNamed": "كتب {name}",
+    "booksInStore": "كتب في المتجر",
     "viewAll": "عرض جميع الكتب",
     "breadcrumb": "مسار التنقل"
   },
   "pages": {
     "breadcrumbLabel": "مسار التنقل",
     "emptyTitle": "المحتوى غير متاح حالياً",
-    "emptyDescription": "يرجى المحاولة لاحقاً"
+    "emptyDescription": "يرجى المحاولة لاحقاً",
+    "policies": {
+      "navLabel": "السياسات",
+      "shipping": "سياسة الشحن",
+      "returns": "سياسة الاسترجاع",
+      "privacy": "سياسة الخصوصية",
+      "terms": "الشروط والأحكام"
+    },
+    "about": {
+      "tag": "عن الدار",
+      "ctaTitle": "هل لديك كتاب ترغب في نشره؟",
+      "ctaText": "قدّم مخطوطتك وسيراجعها فريقنا ويردّ عليك.",
+      "ctaButton": "انشر معنا"
+    }
   },
   "devPageCms": {
     "normal": "صفحة تجريبية",

@@ -1,0 +1,50 @@
+﻿/* Policies frame (design/Policies.dc.html): side navigation 260px + article card. */
+.nav {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  inset-block-start: 92px;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: var(--pg);
+}
+
+.nav a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.nav a[aria-current='page'] {
+  background: var(--g);
+  color: var(--on-primary);
+}
+
+@media (width <= 1000px) {
+  .nav {
+    position: static;
+    grid-auto-flow: column;
+    overflow-x: auto;
+  }
+
+  .nav a {
+    white-space: nowrap;
+  }
+}

@@ -16,9 +16,7 @@ describe('authors list', () => {
         result={{ status: 'ok', data: { items: [], page: 1, pageSize: 48, totalCount: 0 } }}
       />,
     );
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      messages.site.header.authors,
-    );
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(messages.authors.title);
     expect(screen.getByText(messages.authors.emptyTitle)).toBeInTheDocument();
     expect(screen.queryByText(messages.authors.errorTitle)).toBeNull();
     expect(await axe(container)).toHaveNoViolations();
