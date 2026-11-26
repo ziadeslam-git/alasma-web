@@ -142,18 +142,46 @@
   white-space: nowrap;
 }
 
+/* The list inside the dark phone sheet (design .mn__list): icon, label, chevron per row. */
 .menuLinks {
   display: grid;
-  gap: var(--space-2);
+  gap: 2px;
 }
 
 .menuLinks a {
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  min-block-size: calc(var(--space-10) + var(--space-1));
+  padding: 14px var(--space-3);
+  border-radius: 14px;
+  color: var(--on-brand);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .menuLinks a:hover {
-  background: var(--surface-sunken);
+  background: color-mix(in srgb, var(--surface) 12%, transparent);
+}
+
+.menuLinks a:focus-visible {
+  outline: 2px solid var(--on-brand);
+  outline-offset: -2px;
+}
+
+.menuLinks a > svg:first-child {
+  inline-size: 22px;
+  block-size: 22px;
+  opacity: 0.85;
+}
+
+.menuLinks a > svg:last-child:not(:first-child) {
+  inline-size: var(--space-4);
+  block-size: var(--space-4);
+  margin-inline-start: auto;
+  opacity: 0.4;
 }
 
 .links a:hover,

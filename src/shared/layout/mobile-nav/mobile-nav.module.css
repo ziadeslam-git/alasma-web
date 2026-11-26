@@ -87,3 +87,40 @@
     color: var(--cream-50);
   }
 }
+
+/* The menu button of the phone header (design .nav__burger): a 44px round button with three bars, the middle one
+   shorter. */
+.burger {
+  display: grid;
+  flex: none;
+  gap: 0;
+  align-content: center;
+  justify-items: center;
+  inline-size: calc(var(--space-10) + var(--space-1));
+  block-size: calc(var(--space-10) + var(--space-1));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--pg);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.burger:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.burger span {
+  display: block;
+  inline-size: var(--space-5);
+  block-size: 2px;
+  margin-block: 2.5px;
+  border-radius: 2px;
+  background: var(--green-800);
+}
+
+.burger span:nth-child(2) {
+  inline-size: 14px;
+  margin-inline: auto 11px;
+}

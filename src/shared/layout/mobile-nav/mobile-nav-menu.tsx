@@ -1,8 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, type MouseEvent, type ReactNode } from 'react';
 
-import { Button } from '@/shared/ui/button';
+import messages from '@/i18n/messages/ar.json';
 import { Drawer } from '@/shared/ui/drawer';
 
 import styles from './mobile-nav.module.css';
@@ -30,20 +31,35 @@ export function MobileNavMenu({ children, closeLabel, footer, label, title }: Mo
 
   return (
     <div className={styles.menu}>
-      <Button
-        label={label}
-        leadingIcon="more"
+      <button
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
+        aria-label={label}
+        className={styles.burger}
         onClick={() => setIsOpen(true)}
-        size="sm"
-        variant="ghost"
-      />
+        type="button"
+      >
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
+      </button>
       <Drawer
         closeLabel={closeLabel}
+        headerLogo={
+          <Image
+            alt={messages.site.brand}
+            height={136}
+            src="/logo-alasma.svg"
+            unoptimized
+            width={168}
+          />
+        }
         onOpenChange={setIsOpen}
         footer={footer ? <div onClick={closeOnUse}>{footer}</div> : undefined}
         open={isOpen}
         side="start"
         title={title}
+        variant="brand"
       >
         <div onClick={closeOnUse}>{children}</div>
       </Drawer>

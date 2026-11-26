@@ -52,7 +52,13 @@
 
 .links {
   display: grid;
-  gap: var(--space-1);
+  gap: 0;
+}
+
+.links a,
+.links [data-feature] > span:first-child {
+  padding-block: 5px;
+  line-height: 1.7;
 }
 
 .links a:hover {
@@ -105,17 +111,38 @@
 }
 
 @media (width <= 760px) {
-  /* The fixed tab bar (72px + 14px gap) must never cover the last line of the page. */
+  /* The fixed tab bar (72px + 14px gap) must never cover the last line of the page. Rounded top edge as in the
+     design (.foot on the phone). */
   .footer {
+    margin-block-start: 34px;
     padding-block-end: calc(112px + env(safe-area-inset-bottom));
+    border-start-start-radius: 26px;
+    border-start-end-radius: 26px;
   }
 
   .wrap {
     padding-inline: var(--space-4);
   }
 
+  /* Phone: the two link lists side by side, the brand block hidden as in the design; the newsletter form stays
+     (full width) because it is a live feature. */
   .grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+    padding-block: 26px var(--space-3);
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .grid > section:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .bottom {
+    flex-direction: column;
+    gap: 6px;
+    padding-block: 14px;
   }
 }

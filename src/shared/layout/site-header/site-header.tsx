@@ -8,7 +8,7 @@ import { routes, staticPageRoute } from '@/shared/config/routes';
 import { MobileNavMenu } from '@/shared/layout/mobile-nav';
 import { HeaderLink } from './header-link';
 import { ButtonLink } from '@/shared/ui/button';
-import { Icon } from '@/shared/ui/icon';
+import { Icon, type IconName } from '@/shared/ui/icon';
 import { FeatureGate, FeatureLink } from '@/shared/ui/soon';
 
 import styles from './site-header.module.css';
@@ -24,20 +24,33 @@ export type SiteHeaderProps = {
   menuFooter?: ReactNode;
 };
 
+// A menu entry of the phone sheet: icon, label, chevron (design .mn__list a). The icons are decorative.
+function MenuItem({ icon, label }: { icon: IconName; label: string }) {
+  return (
+    <>
+      <Icon name={icon} size="sm" />
+      <span>{label}</span>
+      <Icon name="chev-l" size="sm" />
+    </>
+  );
+}
+
 function DeferredLink({
   feature,
   href,
+  icon,
   label,
 }: {
   feature: FeatureKey;
   href: string;
+  icon: IconName;
   label: string;
   inline?: boolean;
 }) {
   // Header and menu: a soon destination is left out, not shown dimmed (Task 62). The footer keeps its soon entry.
   return (
     <FeatureLink feature={feature} href={href} label={messages.site.soon} whenSoon="hide">
-      {label}
+      <MenuItem icon={icon} label={label} />
     </FeatureLink>
   );
 }
@@ -142,53 +155,65 @@ export function SiteHeader({
         >
           <nav aria-label={text.header.menu} className={styles.menuLinks}>
             {menuAccount}
-            <Link href={routes.home}>{text.header.home}</Link>
-            <Link href={routes.books}>{text.header.store}</Link>
+            <Link href={routes.home}>
+              <MenuItem icon="lib" label={text.header.home} />
+            </Link>
+            <Link href={routes.books}>
+              <MenuItem icon="book" label={text.header.store} />
+            </Link>
             <DeferredLink
               feature="home-most-popular"
               href={routes.bestsellers}
+              icon="sparkle"
               inline
               label={text.header.bestSellers}
             />
             <DeferredLink
               feature="offers-bundles"
               href={routes.offers}
+              icon="tag"
               inline
               label={text.header.offers}
             />
             <DeferredLink
               feature="catalog-authors"
               href={routes.authors}
+              icon="users"
               inline
               label={text.header.authors}
             />
             <DeferredLink
               feature="catalog-categories-index"
               href={routes.categories}
+              icon="grid"
               inline
               label={text.header.categories}
             />
             <DeferredLink
               feature="publish-packages"
               href={routes.publish}
+              icon="package"
               inline
               label={text.header.publishPackages}
             />
             <DeferredLink
               feature="static-pages"
               href={staticPageRoute('about')}
+              icon="book-open"
               inline
               label={text.footer.about}
             />
             <DeferredLink
               feature="static-pages"
               href={staticPageRoute('shipping-policy')}
+              icon="shield"
               inline
               label={text.footer.shipping}
             />
             <DeferredLink
               feature="static-pages"
               href={staticPageRoute('contact')}
+              icon="mail"
               inline
               label={text.footer.contact}
             />

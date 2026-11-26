@@ -12,6 +12,9 @@ import styles from './drawer.module.css';
 // 'start' and 'end' are logical: in RTL the start edge is the right one.
 export type DrawerSide = 'start' | 'end';
 
+// 'brand' is the dark green sheet of the mobile menu (design .mn__sheet).
+export type DrawerVariant = 'default' | 'brand';
+
 export type DrawerProps = {
   children: ReactNode;
   closeLabel: string;
@@ -20,11 +23,14 @@ export type DrawerProps = {
   defaultOpen?: boolean;
   description?: string;
   footer?: ReactNode;
+  // Shown in the header instead of the title text (the title stays as the accessible name of the dialog).
+  headerLogo?: ReactNode;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
   role?: OverlayRole;
   side?: DrawerSide;
   title: string;
+  variant?: DrawerVariant;
 };
 
 const sideClasses: Record<DrawerSide, string> = {
@@ -42,11 +48,13 @@ export function Drawer({
   defaultOpen = false,
   description,
   footer,
+  headerLogo,
   onOpenChange,
   open,
   role = 'dialog',
   side = 'start',
   title,
+  variant = 'default',
 }: DrawerProps) {
   const [isOpen, setOpen] = useControllableOpen(open, defaultOpen, onOpenChange);
   const titleId = useId();
@@ -64,12 +72,17 @@ export function Drawer({
       open={isOpen}
       role={role}
     >
-      <div className={styles.panel}>
+      <div className={variant === 'brand' ? `${styles.panel} ${styles.brand}` : styles.panel}>
         <header className={styles.header}>
-          <h2 className={styles.title} id={titleId}>
+          {headerLogo ? <div className={styles.logoSlot}>{headerLogo}</div> : null}
+          <h2
+            className={headerLogo ? `${styles.title} ${styles.srOnly}` : styles.title}
+            id={titleId}
+          >
             {title}
           </h2>
           <Button
+            className={variant === 'brand' ? styles.close : undefined}
             label={closeLabel}
             leadingIcon="x"
             onClick={() => setOpen(false)}
