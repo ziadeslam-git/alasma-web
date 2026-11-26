@@ -41,9 +41,14 @@
   margin-block-start: var(--space-1);
 }
 
+.search {
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
 .search .iconWrap {
-  background: var(--accent-soft);
-  color: var(--accent-ink);
+  background: transparent;
+  color: var(--primary);
 }
 
 .error .iconWrap {

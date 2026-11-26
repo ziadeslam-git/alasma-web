@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react';
 
+import { Icon } from '@/shared/ui/icon';
 import { Input } from '@/shared/ui/input';
 
 import { matchesOption, type SelectOption } from '../url/select-options';
@@ -42,6 +43,8 @@ export function FilterRadioList({
       {search ? (
         <Input
           aria-label={search.label}
+          className={styles.search}
+          endAdornment={<Icon name="search" size="sm" />}
           onChange={(event) => setSearchText(event.target.value)}
           placeholder={search.label}
           type="search"

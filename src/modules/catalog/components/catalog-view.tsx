@@ -85,6 +85,7 @@ export function CatalogView({
             basePath={basePath}
             options={options}
             params={params}
+            resultCount={shouldShowResultCount ? books.totalCount : undefined}
           />
         </div>
 

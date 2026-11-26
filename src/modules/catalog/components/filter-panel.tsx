@@ -9,7 +9,12 @@ import { Drawer } from '@/shared/ui/drawer';
 import { Icon } from '@/shared/ui/icon';
 
 import { useCatalogNavigation } from '../hooks/use-catalog-navigation';
-import { clearFilters, countActiveFilters, withFilter } from '../url/catalog-href';
+import {
+  buildCatalogHref,
+  clearFilters,
+  countActiveFilters,
+  withFilter,
+} from '../url/catalog-href';
 import type { CatalogParams } from '../url/catalog-params';
 import type { FilterOptions } from '../types';
 import { FilterFields } from './filter-fields';
@@ -20,16 +25,29 @@ export type FilterPanelProps = {
   options: FilterOptions;
   params: CatalogParams;
   hideCategory?: boolean;
+  // The real result count for the filters now in the URL; shown on the sheet's apply button while the draft is unchanged.
+  resultCount?: number;
 };
 
 // Above 1000px the filters are a sidebar and every change goes straight into the URL. At or below 1000px a button opens
 // them in a Drawer; as in the design, the sheet works on a draft and "apply" writes it into the URL once.
-export function FilterPanel({ basePath, options, params, hideCategory = false }: FilterPanelProps) {
+export function FilterPanel({
+  basePath,
+  options,
+  params,
+  hideCategory = false,
+  resultCount,
+}: FilterPanelProps) {
   const text = messages.catalog.filters;
   const { isPending, navigate } = useCatalogNavigation(basePath);
   const [isOpen, setOpen] = useState(false);
   const [draft, setDraft] = useState(params);
   const activeCount = countActiveFilters(params);
+  const isDraftUnchanged = buildCatalogHref(basePath, draft) === buildCatalogHref(basePath, params);
+  const applyLabel =
+    resultCount !== undefined && isDraftUnchanged
+      ? text.applyWithCount.replace('{count}', formatNumber(resultCount))
+      : text.apply;
 
   function openSheet() {
     setDraft(params);
@@ -95,7 +113,7 @@ export function FilterPanel({ basePath, options, params, hideCategory = false }:
         footer={
           <>
             <Button fullWidth onClick={applyDraft}>
-              {text.apply}
+              {applyLabel}
             </Button>
             <Button fullWidth onClick={() => setDraft(clearFilters(draft))} variant="outline">
               {text.clearAll}
@@ -105,6 +123,7 @@ export function FilterPanel({ basePath, options, params, hideCategory = false }:
         onOpenChange={setOpen}
         open={isOpen}
         title={text.title}
+        variant="sheet"
       >
         <FilterFields
           hideCategory={hideCategory}

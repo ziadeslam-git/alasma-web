@@ -1044,6 +1044,7 @@
       "openWithCount": "تصفية، {count} مرشحات نشطة",
       "close": "إغلاق",
       "apply": "تطبيق التصفية",
+      "applyWithCount": "عرض {count} نتيجة",
       "facetCountsNote": "أعداد النتائج بجانب كل خيار",
       "groups": {
         "category": "القسم",

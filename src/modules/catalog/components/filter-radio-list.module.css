@@ -3,6 +3,13 @@
   gap: var(--space-2);
 }
 
+/* The design's rounded, light field (.fl-s) with the search icon at the end. */
+.wrapper .search {
+  border-color: transparent;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--green-100) 45%, var(--surface));
+}
+
 /* A long list scrolls inside the group instead of stretching the panel. */
 .list {
   display: grid;

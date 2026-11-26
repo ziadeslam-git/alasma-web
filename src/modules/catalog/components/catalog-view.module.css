@@ -9,7 +9,7 @@
   grid-template-columns: 250px minmax(0, 1fr);
   gap: var(--space-12);
   align-items: start;
-  padding-block: var(--space-9) var(--space-4);
+  padding-block: calc(var(--space-8) + var(--space-1)) var(--space-4);
 }
 
 .filterColumn {
@@ -84,13 +84,34 @@
   }
 
   .layout {
-    grid-template-columns: minmax(0, 1fr);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     gap: var(--space-5);
     padding-block: var(--space-6) var(--space-4);
   }
 
+  .results,
   .topBar {
-    align-items: center;
+    display: contents;
+  }
+
+  .results > *,
+  .topBar > * {
+    grid-column: 1 / -1;
+  }
+
+  .headingGroup {
+    order: -2;
+  }
+
+  .filterColumn {
+    grid-column: 1;
+    order: -1;
+  }
+
+  .controlsBar {
+    grid-column: 2;
+    order: -1;
   }
 
   .heading {

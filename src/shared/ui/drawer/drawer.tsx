@@ -13,7 +13,8 @@ import styles from './drawer.module.css';
 export type DrawerSide = 'start' | 'end';
 
 // 'brand' is the dark green sheet of the mobile menu (design .mn__sheet).
-export type DrawerVariant = 'default' | 'brand';
+// 'sheet' is a bottom sheet (design .fsheet) that rises from the block-end edge at full width.
+export type DrawerVariant = 'default' | 'brand' | 'sheet';
 
 export type DrawerProps = {
   children: ReactNode;
@@ -62,7 +63,7 @@ export function Drawer({
 
   return (
     <OverlayDialog
-      className={`${styles.drawer} ${sideClasses[side]}`}
+      className={`${styles.drawer} ${sideClasses[side]}${variant === 'sheet' ? ` ${styles.sheet}` : ''}`}
       closeOnBackdrop={closeOnBackdrop}
       closeOnEscape={closeOnEscape}
       describedBy={description ? descriptionId : undefined}

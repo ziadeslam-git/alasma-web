@@ -329,6 +329,26 @@ describe('FilterPanel on mobile (drawer)', () => {
     );
   });
 
+  it('shows the real result count on the sheet button until the draft changes', async () => {
+    render(
+      <FilterPanel
+        basePath="/books"
+        options={testFilterOptions}
+        params={makeParams()}
+        resultCount={42}
+      />,
+    );
+
+    await userEvent.click(trigger());
+    const dialog = await screen.findByRole('dialog', { name: text.title });
+    const countLabel = text.applyWithCount.replace('{count}', '42');
+    expect(within(dialog).getByRole('button', { name: countLabel })).toBeInTheDocument();
+
+    await userEvent.click(within(dialog).getByRole('radio', { name: testText.fiction }));
+    expect(within(dialog).queryByRole('button', { name: countLabel })).not.toBeInTheDocument();
+    expect(within(dialog).getByRole('button', { name: text.apply })).toBeInTheDocument();
+  });
+
   it('applies a price typed in the sheet without waiting for a debounce', async () => {
     mount();
 

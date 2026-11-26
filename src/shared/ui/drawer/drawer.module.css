@@ -170,3 +170,50 @@
 .brand .close:hover:not(:disabled) {
   background: color-mix(in srgb, var(--surface) 18%, transparent);
 }
+
+/* Bottom sheet (design .fsheet): full width, rounded top corners, rises from the block-end edge. */
+.sheet {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: auto;
+  max-block-size: 88dvh;
+  inset-block: auto 0;
+  inset-inline: 0;
+}
+
+.sheet .panel {
+  block-size: auto;
+  max-block-size: 88dvh;
+  border-start-start-radius: var(--radius-xl);
+  border-start-end-radius: var(--radius-xl);
+}
+
+.sheet[data-state='open'] {
+  animation: sheet-enter 0.38s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+.sheet[data-state='closing'] {
+  animation: sheet-exit 0.25s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet[data-state] {
+    animation: none;
+  }
+}
+
+@keyframes sheet-enter {
+  from {
+    translate: 0 100%;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes sheet-exit {
+  to {
+    translate: 0 100%;
+  }
+}
