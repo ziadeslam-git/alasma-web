@@ -1,6 +1,7 @@
+/* /account/profile follows design/Profile.dc.html and design/account.css (.stack, .panel, .fgrid, .lbl, .field). */
 .page {
   display: grid;
-  gap: var(--space-6);
+  gap: 22px;
 }
 
 .page h1,
@@ -9,37 +10,208 @@
   margin: 0;
 }
 
+.header {
+  display: grid;
+  gap: var(--space-1);
+  margin-block-end: var(--space-2);
+}
+
+.page .header h1 {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
 .intro {
   color: var(--ink-muted);
+  font-size: 16px;
 }
 
 .card {
   display: grid;
-  gap: var(--space-4);
-  padding: var(--space-6);
+  gap: 18px;
+  padding: 28px;
   border-radius: var(--radius-lg);
-  background: var(--surface);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
   overflow-wrap: anywhere;
+}
+
+.card h2 {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .form {
   display: grid;
-  gap: var(--space-4);
+  gap: 18px;
   max-inline-size: 480px;
+}
+
+/* Two columns on wide screens (.fgrid), the wide fields span both; one column up to 1000px as in the design. */
+.formGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  max-inline-size: none;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pair label {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* The inputs of the design (.field): 46px, 12px radius, page-tinted fill, hairline border. */
+.formGrid .control,
+.pair .control {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 46px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--pg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.formGrid .control:read-only {
+  background: color-mix(in srgb, var(--pg) 50%, var(--soft));
+  color: var(--ink-muted);
+}
+
+.formGrid .control[aria-invalid='true'] {
+  border-color: var(--danger-ink);
+}
+
+.formGrid .control:disabled {
+  opacity: 0.45;
+}
+
+/* the hint under a field is 12px in the design */
+.formGrid p[id]:not([role]) {
+  font-size: 12px;
+}
+
+.select {
+  appearance: none;
+  min-block-size: 44px;
+  padding-inline: var(--space-4) 40px;
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Identity card (.idc): 88px avatar with the round gold feather badge, the name and one line below it. */
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.avatar {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 88px;
+  block-size: 88px;
+  border-radius: var(--radius-pill);
+  background: var(--g);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.avatarBadge {
+  position: absolute;
+  inset-block-end: -2px;
+  inset-inline-start: -2px;
+  display: grid;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border: 2px solid var(--card);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.feather {
+  display: block;
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentcolor;
+  mask: url('/brand/feather.svg') center / contain no-repeat;
+}
+
+.summaryBody {
+  display: grid;
+  min-inline-size: 0;
+}
+
+.summaryName {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.summaryEmail {
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
 .currentEmail {
   color: var(--ink-muted);
 }
 
-/* The status line is always in the layout, so a saved / failed message never pushes the content below it. */
+/* The status line stays in the layout for the live region but takes no height while it is empty. */
 .status {
-  min-block-size: 1.5em;
   color: var(--success-ink);
 }
 
 .statusError {
   color: var(--danger-ink);
+}
+
+.status:empty {
+  display: none;
 }
 
 .actions {
@@ -48,8 +220,155 @@
   gap: var(--space-2);
 }
 
+/* .row-end of the design: buttons at the end, 12px apart, 22px below the fields. */
+.formGrid .actions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-block-start: 4px;
+}
+
+.formGrid .status {
+  grid-column: 1 / -1;
+}
+
+.actions .action {
+  min-block-size: 46px;
+  padding-inline: 22px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.actions .actionPrimary {
+  background: var(--g);
+  box-shadow: 0 8px 16px -8px color-mix(in srgb, var(--g) 55%, transparent);
+}
+
+.actions .actionOutline {
+  border-color: var(--hair);
+  background: var(--card);
+}
+
+/* Switch rows (.trow, .sw) */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-block: var(--space-4);
+  border-block-end: 1px solid var(--hair);
+}
+
+.row:last-child {
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+
+.rowTitle {
+  display: block;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.rowHint {
+  color: var(--ink-muted);
+  font-size: 13px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  inline-size: 44px;
+  block-size: 26px;
+}
+
+.switch input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.switch i {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--g) 18%, var(--card));
+}
+
+.switch i::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  inline-size: 20px;
+  block-size: 20px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: 0 1px 3px color-mix(in srgb, black 25%, transparent);
+}
+
+.switch input:checked + i {
+  background: var(--g);
+}
+
+.switch input:checked + i::after {
+  inset-inline-start: 21px;
+}
+
+.danger {
+  border: 1px solid color-mix(in srgb, var(--discount-ink) 28%, var(--card));
+}
+
+.page .danger h2 {
+  color: var(--discount-ink);
+}
+
+.danger .dangerButton,
+.actions .action {
+  white-space: nowrap;
+}
+
+.danger .dangerButton {
+  border-color: color-mix(in srgb, var(--discount-ink) 28%, var(--card));
+  color: var(--discount-ink);
+}
+
+@media (width <= 1000px) {
+  .formGrid,
+  .pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (width <= 760px) {
-  .card {
-    padding: var(--space-4);
+  .card,
+  .summary {
+    padding: var(--space-5);
+  }
+
+  .page .header h1 {
+    font-size: 28px;
+  }
+
+  .avatar {
+    inline-size: 72px;
+    block-size: 72px;
+    font-size: 28px;
+  }
+
+  .row {
+    align-items: flex-start;
+  }
+
+  /* mobile.css of the design: 48px fields with 16px text (no zoom on focus) */
+  .formGrid .control,
+  .pair .control {
+    min-block-size: 48px;
+    font-size: 16px;
   }
 }

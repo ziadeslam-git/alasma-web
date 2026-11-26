@@ -11,6 +11,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-5);
+  margin-block-end: 10px;
 }
 
 .title {
@@ -120,7 +121,13 @@
   gap: var(--space-4);
   padding: 18px 24px;
   border-block-end: 1px solid var(--hair);
-  background: var(--green-50);
+  background: color-mix(in srgb, var(--pg) 40%, var(--card));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .meta {

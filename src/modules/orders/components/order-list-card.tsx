@@ -48,9 +48,16 @@ export function OrderListCard({ item }: { item: OrderListItem }) {
           <small>{text.totalWithShipping}</small>
           {formatMoney(item.total)}
         </div>
-        <ButtonLink href={orderRoute(item.id)} size="sm" variant="outline">
-          {text.details}
-        </ButtonLink>
+        <div className={styles.actions}>
+          <ButtonLink href={orderRoute(item.id)} size="sm" variant="outline">
+            {text.details}
+          </ButtonLink>
+          {item.status === 'PendingPayment' ? (
+            <ButtonLink href={orderRoute(item.id)} size="sm" trailingIcon="arrow">
+              {text.uploadReceipt}
+            </ButtonLink>
+          ) : null}
+        </div>
       </div>
     </article>
   );

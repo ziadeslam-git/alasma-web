@@ -7,8 +7,11 @@ import { FeatureGate } from '@/shared/ui/soon';
 
 import { ChangeEmailForm } from './change-email-form';
 import { ChangePasswordForm } from './change-password-form';
+import { DangerZone } from './danger-zone';
 import { LogoutAllSection } from './logout-all-section';
+import { ReadingPreferences } from './reading-preferences';
 import { ProfileForm } from './profile-form';
+import { ProfileSummary } from './profile-summary';
 import styles from './profile.module.css';
 import { UnconfirmedEmailBanner } from './unconfirmed-email-banner';
 
@@ -22,15 +25,20 @@ export function ProfileEditView() {
 
   return (
     <div className={styles.page}>
-      <h1>{messages.account.editProfile}</h1>
-      <p className={styles.intro}>{messages.account.profileDescription}</p>
+      <div className={styles.header}>
+        <h1>{messages.account.editProfile}</h1>
+        <p className={styles.intro}>{messages.account.profileDescription}</p>
+      </div>
       {!user.emailConfirmed ? <UnconfirmedEmailBanner /> : null}
+      <ProfileSummary user={user} />
       <ProfileForm />
       <FeatureGate feature="email-change" label={messages.site.soon} whenSoon="hide">
         <ChangeEmailForm />
       </FeatureGate>
       <ChangePasswordForm />
       <LogoutAllSection />
+      <ReadingPreferences />
+      <DangerZone />
     </div>
   );
 }

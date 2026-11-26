@@ -21,9 +21,27 @@ type NavItem = {
   // A feature that is still soon leaves the entry out ('hide') or shows it dimmed with the soon label ('badge').
   feature?: FeatureKey;
   whenSoon?: 'hide' | 'badge';
+  // An entry with no page yet: shown as a dimmed label (never a link) while its feature is soon.
+  isPlaceholder?: boolean;
 };
 
 function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
+  if (item.isPlaceholder && item.feature) {
+    return (
+      <FeatureGate
+        badge="inline"
+        feature={item.feature}
+        label={messages.site.soon}
+        whenSoon="badge"
+      >
+        <span className={styles.navSoon}>
+          <Icon name={item.icon} size="sm" />
+          {item.label}
+        </span>
+      </FeatureGate>
+    );
+  }
+
   const isCurrent = item.isExact
     ? pathname === item.href
     : pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -53,6 +71,14 @@ export function AccountNav({ footer }: { footer?: ReactNode }) {
   const pathname = usePathname() ?? '';
   const menu: NavItem[] = [
     { href: routes.account, icon: 'dash', label: text.overview, isExact: true },
+    {
+      feature: 'my-books',
+      href: '#my-books',
+      icon: 'book-open',
+      isPlaceholder: true,
+      label: text.myBooks,
+      whenSoon: 'badge',
+    },
     {
       href: routes.accountWishlist,
       icon: 'heart',

@@ -3,14 +3,18 @@
   display: grid;
   grid-template-columns: 290px minmax(0, 1fr);
   min-block-size: 900px;
+  margin-block-end: calc(var(--space-16) * -1);
   background: var(--pg);
 }
+
+/* The footer starts with a 64px top margin (34px on the phone); the shell above reaches the footer instead of leaving
+   the cream body as a blank band: the two margins cancel, and the page area keeps its own bottom padding. */
 
 .navigation {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 26px 24px;
+  padding: 42px 24px 26px;
   border-inline-end: 1px solid var(--hair);
   background: var(--card);
 }
@@ -40,8 +44,8 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  min-block-size: 44px;
-  padding: 13px 16px;
+  min-block-size: 46px;
+  padding: 14px 16px;
   border-radius: 12px;
   color: var(--ink-muted);
   font-family: var(--font-sans);
@@ -233,6 +237,10 @@
 }
 
 @media (width <= 760px) {
+  .shell {
+    margin-block-end: -34px;
+  }
+
   .row {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-1);

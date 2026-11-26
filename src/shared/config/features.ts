@@ -55,6 +55,10 @@ export const features = {
   'email-change': 'soon', // Change email: the confirmation link has no page yet (POST /auth/confirm-email-change), so it stays soon.
   'profile-edit': 'live', // Profile page: PUT /me, change email, change password, sign out everywhere (Task 88).
   'reading-goal': 'soon', // Reading-goal card in the account sidebar: no goal or progress API.
+  'my-books': 'soon', // "كتبي" entry in the account sidebar: no purchased-books library API.
+  'profile-extra-fields': 'soon', // First/last name, birth date and language on the profile: GET/PUT /me has only fullName.
+  'reading-preferences': 'soon', // Reading-preferences switches on the profile: no preferences API.
+  'account-delete': 'soon', // Delete-account action on the profile: no delete-account endpoint.
   'orders-stats': 'soon', // Awaiting / shipping / delivered stat cards on the orders list: the API sends no per-status counts.
   'order-invoice': 'live', // Printable invoice of a confirmed order: GET /orders/{id}/invoice (Task 90).
   'payment-proof': 'live', // Transfer receipt upload: POST /orders/{id}/payment-proof (Task 89).

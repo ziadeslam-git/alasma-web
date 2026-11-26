@@ -12,6 +12,7 @@ import { Input } from '@/shared/ui/input';
 
 import { updateProfile } from '../api/profile-api';
 import styles from './profile.module.css';
+import { SoonProfileFields } from './soon-profile-fields';
 
 const fieldOrder = ['fullName', 'phone'] as const;
 
@@ -36,6 +37,13 @@ export function ProfileForm() {
 
   const change = (field: keyof typeof values, value: string) => {
     setValues({ ...values, [field]: value });
+    setIsSaved(false);
+  };
+
+  const reset = () => {
+    setValues({ fullName: user.fullName, phone: user.phone ?? '' });
+    setErrors({});
+    setAlert('');
     setIsSaved(false);
   };
 
@@ -85,7 +93,7 @@ export function ProfileForm() {
     <section aria-labelledby="profile-section" className={styles.card}>
       <h2 id="profile-section">{text.profileSection}</h2>
       <form
-        className={styles.form}
+        className={`${styles.form} ${styles.formGrid}`}
         noValidate
         onSubmit={(event) => {
           event.preventDefault();
@@ -93,18 +101,26 @@ export function ProfileForm() {
         }}
         ref={formRef}
       >
-        <Field error={errors.fullName} label={text.name} required>
-          <Input
-            autoComplete="name"
-            disabled={isSubmitting}
-            name="fullName"
-            onChange={(event) => change('fullName', event.target.value)}
-            value={values.fullName}
-          />
+        <div className={styles.wide}>
+          <Field error={errors.fullName} label={text.name}>
+            <Input
+              aria-required="true"
+              autoComplete="name"
+              className={styles.control}
+              disabled={isSubmitting}
+              name="fullName"
+              onChange={(event) => change('fullName', event.target.value)}
+              value={values.fullName}
+            />
+          </Field>
+        </div>
+        <Field hint={text.emailHint} label={text.email}>
+          <Input className={styles.control} dir="ltr" name="email" readOnly value={user.email} />
         </Field>
-        <Field error={errors.phone} label={text.phone}>
+        <Field error={errors.phone} hint={text.phoneHint} label={text.phone}>
           <Input
             autoComplete="tel"
+            className={styles.control}
             dir="ltr"
             disabled={isSubmitting}
             inputMode="tel"
@@ -114,8 +130,22 @@ export function ProfileForm() {
             value={values.phone}
           />
         </Field>
+        <SoonProfileFields />
         <div className={styles.actions}>
-          <Button loading={isSubmitting} onClick={() => void submit()}>
+          <Button
+            className={`${styles.action} ${styles.actionOutline}`}
+            disabled={isSubmitting}
+            onClick={reset}
+            variant="outline"
+          >
+            {text.undoChanges}
+          </Button>
+          <Button
+            className={`${styles.action} ${styles.actionPrimary}`}
+            leadingIcon="check"
+            loading={isSubmitting}
+            onClick={() => void submit()}
+          >
             {text.save}
           </Button>
         </div>
