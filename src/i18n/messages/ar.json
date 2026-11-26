@@ -296,7 +296,18 @@
     "confirmEmail": "يرجى تأكيد بريدك الإلكتروني قبل المتابعة",
     "error": "تعذر إتمام الطلب حالياً",
     "cartLink": "عرض السلة",
-    "loading": "جارٍ تحميل السلة"
+    "loading": "جارٍ تحميل السلة",
+    "breadcrumbLabel": "مسار التصفح",
+    "breadcrumbCurrent": "سلتك",
+    "countOne": "(كتاب واحد)",
+    "countTwo": "(كتابان)",
+    "countMany": "({count} كتب)",
+    "couponDiscount": "خصم الكوبون",
+    "total": "الإجمالي",
+    "shippingAtCheckout": "يُحسب الشحن عند إتمام الطلب",
+    "saveForLater": "حفظ لوقت لاحق",
+    "securePayment": "دفع آمن",
+    "genuineCopies": "نسخ أصلية"
   },
   "checkout": {
     "addressTitle": "عنوان التوصيل",

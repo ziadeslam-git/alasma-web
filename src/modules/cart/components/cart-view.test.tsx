@@ -141,3 +141,48 @@ it('shows API line prices and warnings accessibly', async () => {
   expect(container).toHaveTextContent('25');
   expect(await axe(container)).toHaveNoViolations();
 });
+
+it('shows the item count and the API totals: list price, coupon discount and the total after the coupon', async () => {
+  const validate = vi.spyOn(cartApi, 'validateCoupon').mockResolvedValueOnce({
+    code: 'SAVE',
+    discountAmount: 5,
+    discountType: 'Fixed',
+    subtotal: 25,
+    subtotalAfterDiscount: 20,
+  });
+  try {
+    render(
+      <CartView
+        cart={{
+          subtotal: 25,
+          items: [
+            {
+              itemId: 1,
+              kind: 'Book',
+              productId: 1,
+              slug: 'book',
+              title: 'Book',
+              coverImageUrl: null,
+              quantity: 1,
+              listUnitPrice: 30,
+              unitPrice: 25,
+              lineTotal: 25,
+              discountPercent: 10,
+              warnings: [],
+            },
+          ],
+        }}
+      />,
+    );
+    expect(screen.getByText(messages.cart.countOne)).toBeVisible();
+    expect(screen.getByText(messages.cart.shippingAtCheckout)).toBeVisible();
+    fireEvent.change(screen.getByLabelText(messages.cart.coupon), { target: { value: 'SAVE' } });
+    fireEvent.click(screen.getByRole('button', { name: messages.cart.apply }));
+    const total = (await screen.findByText(messages.cart.total)).closest('div');
+    expect(total).not.toBeNull();
+    expect(total as HTMLElement).toHaveTextContent('20');
+    expect(screen.getByText(messages.cart.couponDiscount)).toBeVisible();
+  } finally {
+    validate.mockRestore();
+  }
+});
