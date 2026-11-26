@@ -89,8 +89,10 @@ export function SiteFooter({ newsletter: newsletterForm }: SiteFooterProps) {
           </section>
         </div>
         <div className={styles.bottom}>
-          <span>{text.footer.copyright}</span>
-          <span>{year}</span>
+          <span>
+            {text.footer.copyright} {year}
+          </span>
+          <span>{text.footer.paymentMethodsLine}</span>
         </div>
       </div>
     </footer>

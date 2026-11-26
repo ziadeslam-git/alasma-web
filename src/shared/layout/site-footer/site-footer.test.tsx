@@ -31,7 +31,9 @@ describe('SiteFooter', () => {
       'href',
       '/books',
     );
-    expect(screen.getByText(String(new Date().getFullYear()))).toBeInTheDocument();
+    const year = String(new Date().getFullYear());
+    expect(screen.getByText(`${messages.site.footer.copyright} ${year}`)).toBeInTheDocument();
+    expect(screen.getByText(messages.site.footer.paymentMethodsLine)).toBeInTheDocument();
     expect(screen.getByAltText(messages.site.brand)).toHaveAttribute('src', '/logo-alasma.svg');
     expect(
       screen.getByRole('link', { name: messages.site.header.publishPackages }),

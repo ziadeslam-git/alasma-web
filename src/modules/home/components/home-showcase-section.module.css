@@ -123,6 +123,13 @@
 /* With the book-of-the-month card hidden, the side column is the only child and takes the whole row. */
 .side:only-child {
   grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto;
+}
+
+/* A lone card (no event) still takes the whole row. */
+.side:only-child > :only-child {
+  grid-column: 1 / -1;
 }
 
 .eventCard {
@@ -212,7 +219,9 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .side {
+  .side,
+  .side:only-child {
+    grid-template-columns: minmax(0, 1fr);
     grid-auto-rows: auto;
   }
 

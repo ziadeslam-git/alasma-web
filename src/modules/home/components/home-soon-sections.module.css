@@ -113,6 +113,11 @@
   background: var(--g);
 }
 
+/* When the band is the last section (team picks hidden) it reaches the footer: cancel the page bottom padding. */
+.band:last-child {
+  margin-block-end: calc((var(--space-12) + var(--space-16)) * -1);
+}
+
 .bandWrap {
   max-inline-size: 1280px;
   margin-inline: auto;
@@ -342,6 +347,11 @@
 
 @media (width <= 1000px) {
   .wrapSection,
+  /* When the band is the last section (team picks hidden) it reaches the footer: cancel the page bottom padding. */
+.band:last-child {
+    margin-block-end: calc((var(--space-12) + var(--space-16)) * -1);
+  }
+
   .bandWrap {
     padding-inline: var(--space-4);
   }
