@@ -81,7 +81,7 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
         <b>{text.breadcrumbCurrent}</b>
       </nav>
       <div className={styles.titleRow}>
-        <h1>{text.title}</h1>
+        <h1>{text.pageTitle}</h1>
         {itemCount > 0 ? <span className={styles.titleCount}>{countLabel}</span> : null}
       </div>
       {isEmailUnconfirmed ? (
@@ -126,11 +126,8 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
                             {warning.code === 'out_of_stock'
                               ? text.outOfStock
                               : warning.code === 'insufficient_stock'
-                                ? text.insufficient
+                                ? text.limited
                                 : text.unavailable}
-                            {warning.availableQuantity === null
-                              ? ''
-                              : ` ${text.available.replace('{count}', formatNumber(warning.availableQuantity))}`}
                           </span>
                         ))}
                       </div>
@@ -141,6 +138,17 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
                     <p className={styles.unitPrice}>
                       {item.discountPercent > 0 ? <s>{formatMoney(item.listUnitPrice)}</s> : null}
                       <span>{formatMoney(item.unitPrice)}</span>
+                      {item.warnings.map((warning) =>
+                        warning.code === 'insufficient_stock' &&
+                        warning.availableQuantity !== null ? (
+                          <span key={warning.code}>
+                            {text.available.replace(
+                              '{count}',
+                              formatNumber(warning.availableQuantity),
+                            )}
+                          </span>
+                        ) : null,
+                      )}
                     </p>
                     <div className={styles.itemFoot}>
                       <div className={styles.links}>

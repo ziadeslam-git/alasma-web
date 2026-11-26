@@ -191,6 +191,11 @@
   font-weight: 500;
 }
 
+/* A gated (soon) action stays in place like in the frame, without the corner badge. */
+.links [data-soon-badge] {
+  display: none;
+}
+
 .linkButton:disabled {
   cursor: not-allowed;
   opacity: 0.5;
@@ -314,7 +319,7 @@
   padding-inline: var(--space-3);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: var(--surface-sunken);
+  background: color-mix(in srgb, var(--green-100) 45%, var(--surface));
   color: var(--ink);
   font-size: 14px;
 }

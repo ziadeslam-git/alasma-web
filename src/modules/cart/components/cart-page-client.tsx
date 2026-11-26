@@ -12,14 +12,14 @@ export function CartPageClient() {
   if (isLoading)
     return (
       <div className={styles.container} aria-label={messages.cart.loading} role="status">
-        <h1>{messages.cart.title}</h1>
+        <h1>{messages.cart.pageTitle}</h1>
         <Skeleton shape="card" />
       </div>
     );
   if (error || !cart)
     return (
       <div className={styles.container}>
-        <h1>{messages.cart.title}</h1>
+        <h1>{messages.cart.pageTitle}</h1>
         {error instanceof ApiError &&
         error.status === 403 &&
         error.code === 'email_not_confirmed' ? (

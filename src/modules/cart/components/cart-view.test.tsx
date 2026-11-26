@@ -10,7 +10,7 @@ import { CartView } from './cart-view';
 
 it('renders an empty cart accessibly', async () => {
   const { container } = render(<CartView readOnly cart={{ items: [], subtotal: 0 }} />);
-  expect(screen.getByRole('heading', { level: 1, name: messages.cart.title })).toBeVisible();
+  expect(screen.getByRole('heading', { level: 1, name: messages.cart.pageTitle })).toBeVisible();
   expect(screen.getByText(messages.cart.empty)).toBeVisible();
   expect(screen.getByRole('link', { name: messages.cart.browseStore })).toHaveAttribute(
     'href',
