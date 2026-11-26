@@ -278,7 +278,7 @@
   inline-size: 38px;
   block-size: 38px;
   border-radius: var(--radius-pill);
-  background: linear-gradient(135deg, var(--g), var(--g-d));
+  background: linear-gradient(135deg, var(--green-300), var(--green-600));
   color: var(--surface);
   font-weight: 600;
 }
