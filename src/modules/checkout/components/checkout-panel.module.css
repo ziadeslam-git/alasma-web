@@ -1,0 +1,37 @@
+.panel {
+  min-inline-size: 0;
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.number {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 13px;
+  font-style: normal;
+}
+
+@media (width <= 760px) {
+  .panel {
+    padding: var(--space-4);
+  }
+}

@@ -9,8 +9,10 @@ import { notifyCartChanged, useCart } from '@/modules/cart';
 import { checkoutSuccessRoute, routes } from '@/shared/config/routes';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatNumber } from '@/shared/lib/format';
+import { Button } from '@/shared/ui/button';
 import { createOrder } from '../api/create-order';
 import { useCheckout } from '../provider/checkout-provider';
+import styles from './place-order.module.css';
 
 export function PlaceOrderButton() {
   const router = useRouter();
@@ -94,11 +96,15 @@ export function PlaceOrderButton() {
   }
 
   return (
-    <div>
+    <div className={styles.wrap}>
       {isUnconfirmed && !isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : null}
-      {hasMismatch ? <p role="alert">{messages.checkout.confirmAgain}</p> : null}
+      {hasMismatch ? (
+        <p className={styles.alert} role="alert">
+          {messages.checkout.confirmAgain}
+        </p>
+      ) : null}
       {error ? (
-        <div role="alert">
+        <div className={styles.alert} role="alert">
           <p>{getApiErrorMessage(error)}</p>
           {error.books?.length ? (
             <ul>
@@ -118,11 +124,17 @@ export function PlaceOrderButton() {
             </ul>
           ) : null}
           {error.code === 'stock_insufficient' || error.code === 'cart_has_unavailable_items' ? (
-            <Link href={routes.cart}>{messages.checkout.returnToCart}</Link>
+            <Link className={styles.link} href={routes.cart}>
+              {messages.checkout.returnToCart}
+            </Link>
           ) : null}
         </div>
       ) : null}
-      <button
+      <Button
+        fullWidth
+        size="lg"
+        trailingIcon="arrow"
+        variant="primary"
         disabled={
           isPending ||
           isUnconfirmed ||
@@ -133,10 +145,9 @@ export function PlaceOrderButton() {
           preview.status !== 'ok'
         }
         onClick={() => void submit()}
-        type="button"
       >
         {isPending ? messages.checkout.placingOrder : messages.checkout.placeOrder}
-      </button>
+      </Button>
     </div>
   );
 }

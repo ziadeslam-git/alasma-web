@@ -5,11 +5,16 @@ import { ApiError } from '@/shared/lib/api';
 import { axe } from '@/test/axe';
 import { PaymentMethodPicker } from './payment-method-picker';
 
-const mocks = vi.hoisted(() => ({ methods: vi.fn(), setMethod: vi.fn(), setUnconfirmed: vi.fn() }));
+const mocks = vi.hoisted(() => ({
+  methods: vi.fn(),
+  setMethod: vi.fn(),
+  setUnconfirmed: vi.fn(),
+  selected: null as string | null,
+}));
 vi.mock('../api/payment-methods', () => ({ getPaymentMethods: mocks.methods }));
 vi.mock('../provider/checkout-provider', () => ({
   useCheckout: () => ({
-    paymentMethod: null,
+    paymentMethod: mocks.selected,
     setPaymentMethod: mocks.setMethod,
     setEmailUnconfirmed: mocks.setUnconfirmed,
   }),
@@ -32,13 +37,16 @@ describe('payment methods', () => {
         },
       },
     ]);
+    mocks.selected = 'ManualTransfer';
     const { container } = render(<PaymentMethodPicker />);
     const method = await screen.findByRole('radio', { name: messages.checkout.manualTransfer });
     expect(screen.getByText('01000000000')).toHaveAttribute('dir', 'ltr');
+    expect(screen.getAllByRole('button', { name: messages.checkout.copyNumber })).toHaveLength(2);
     expect(screen.getByText('01111111111')).toHaveAttribute('dir', 'ltr');
     expect(screen.getByText('Send receipt later')).toBeInTheDocument();
-    fireEvent.click(method);
-    expect(mocks.setMethod).toHaveBeenCalledWith('ManualTransfer');
+    expect(method).toBeChecked();
+    fireEvent.click(screen.getByRole('radio', { name: messages.checkout.cashOnDelivery }));
+    expect(mocks.setMethod).toHaveBeenCalledWith('CashOnDelivery');
     expect(await axe(container)).toHaveNoViolations();
   });
 

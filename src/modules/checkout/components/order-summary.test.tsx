@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import messages from '@/i18n/messages/ar.json';
-import { formatMoney } from '@/shared/lib/format';
+import { formatMoney, formatNumber } from '@/shared/lib/format';
 import { axe } from '@/test/axe';
 import type { PreviewState } from '../provider/checkout-provider';
 import { OrderSummary } from './order-summary';
@@ -67,7 +67,13 @@ describe('order summary', () => {
     };
     const { container } = render(<OrderSummary />);
     expect(screen.getByText(formatMoney(80))).toBeInTheDocument();
-    expect(screen.getByText('Cairo')).toBeInTheDocument();
+    expect(
+      screen.getByText(messages.checkout.shippingTo.replace('{zone}', 'Cairo')),
+    ).toBeInTheDocument();
+    expect(screen.getByText(`− ${formatMoney(5)}`)).toBeInTheDocument();
+    expect(
+      screen.getByText(messages.checkout.quantityLabel.replace('{count}', formatNumber(2))),
+    ).toBeInTheDocument();
     expect(screen.getByText(messages.checkout.freeShipping)).toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent(messages.cart.unavailable);
     expect(await axe(container)).toHaveNoViolations();

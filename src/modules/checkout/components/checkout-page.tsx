@@ -14,6 +14,7 @@ import { CouponBox } from './coupon-box';
 import { NotesField } from './notes-field';
 import { OrderSummary } from './order-summary';
 import { PaymentMethodPicker } from './payment-method-picker';
+import { CheckoutSteps } from './checkout-steps';
 import { PlaceOrderButton } from './place-order';
 import { useCheckout } from '../provider/checkout-provider';
 import styles from './checkout-page.module.css';
@@ -60,12 +61,17 @@ export function CheckoutPage() {
 
   return (
     <div className={styles.page}>
-      <h1>{messages.checkout.title}</h1>
+      <CheckoutSteps />
+      <h1 className={styles.srOnly}>{messages.checkout.title}</h1>
       {isUnconfirmed ? <UnconfirmedEmailBanner /> : null}
-      {confirmation === 'error' ? <p role="alert">{messages.apiErrors.generic}</p> : null}
+      {confirmation === 'error' ? (
+        <p className={styles.alert} role="alert">
+          {messages.apiErrors.generic}
+        </p>
+      ) : null}
       {confirmation === 'loading' || isLoading ? <Skeleton shape="card" /> : null}
       {confirmation === 'confirmed' && !isUnconfirmed && error ? (
-        <p role="alert">
+        <p className={styles.alert} role="alert">
           {error instanceof ApiError ? getApiErrorMessage(error) : messages.apiErrors.generic}
         </p>
       ) : null}
@@ -79,11 +85,10 @@ export function CheckoutPage() {
             <AddressStep />
             <PaymentMethodPicker />
             <NotesField />
-            <PlaceOrderButton />
           </div>
           <div className={styles.summary}>
-            <OrderSummary />
-            <CouponBox />
+            <OrderSummary cartItems={cart?.items} couponSlot={<CouponBox />} />
+            <PlaceOrderButton />
           </div>
         </div>
       ) : null}

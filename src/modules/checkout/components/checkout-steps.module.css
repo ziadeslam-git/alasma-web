@@ -1,0 +1,90 @@
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-2);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.crumb a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumb a:hover {
+  color: var(--primary);
+}
+
+.crumb a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.crumb b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.step:not(:last-child) {
+  flex: 1;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  min-inline-size: var(--space-5);
+  border-block-start: 1px solid var(--hair);
+}
+
+.number {
+  display: grid;
+  place-items: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--chip-bg);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.on {
+  color: var(--primary);
+}
+
+.on .number {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+@media (width <= 760px) {
+  .steps {
+    gap: var(--space-3);
+    font-size: 13px;
+  }
+}

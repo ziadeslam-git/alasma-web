@@ -5,6 +5,7 @@ import messages from '@/i18n/messages/ar.json';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { previewCheckout } from '../api/preview';
 import { useCheckout } from '../provider/checkout-provider';
+import styles from './coupon-box.module.css';
 
 export function CouponBox() {
   const {
@@ -63,29 +64,43 @@ export function CouponBox() {
   }
 
   return (
-    <section>
-      <form onSubmit={submit}>
-        <label>
-          {text.couponLabel}
-          <input value={code} onChange={(event) => setCode(event.target.value)} />
+    <section className={styles.box}>
+      <form className={styles.form} onSubmit={submit}>
+        <label className={styles.label}>
+          <span className={styles.srOnly}>{text.couponLabel}</span>
+          <input
+            className={styles.input}
+            onChange={(event) => setCode(event.target.value)}
+            placeholder={text.couponLabel}
+            value={code}
+          />
         </label>
-        <button type="submit" disabled={isPending || addressId === null || !code.trim()}>
+        <button
+          className={styles.apply}
+          disabled={isPending || addressId === null || !code.trim()}
+          type="submit"
+        >
           {text.couponApply}
         </button>
       </form>
       {appliedCouponCode ? (
-        <p>
+        <p className={styles.applied}>
           {text.couponApplied}: <bdi>{appliedCouponCode}</bdi>{' '}
           <button
-            type="button"
+            className={styles.remove}
             disabled={isPending || addressId === null}
             onClick={() => void updateCoupon(null)}
+            type="button"
           >
             {text.couponRemove}
           </button>
         </p>
       ) : null}
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      ) : null}
     </section>
   );
 }

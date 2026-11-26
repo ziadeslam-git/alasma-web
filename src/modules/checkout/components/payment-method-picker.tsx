@@ -1,17 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatNumber } from '@/shared/lib/format';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { getPaymentMethods, type PaymentMethod } from '../api/payment-methods';
 import { useCheckout } from '../provider/checkout-provider';
+import { CheckoutOption } from './checkout-option';
+import { CheckoutPanel } from './checkout-panel';
+import { CopyButton } from './copy-button';
+import styles from './payment-method-picker.module.css';
 
 type State =
   | { status: 'loading' }
   | { status: 'ok'; methods: PaymentMethod[] }
   | { status: 'error'; error: unknown };
+
+function PaymentPanel({ children }: { children: ReactNode }) {
+  return (
+    <CheckoutPanel step={2} title={messages.checkout.paymentTitle} titleId="checkout-payment-title">
+      {children}
+    </CheckoutPanel>
+  );
+}
 
 export function PaymentMethodPicker() {
   const { paymentMethod, setPaymentMethod, setEmailUnconfirmed } = useCheckout();
@@ -43,22 +55,21 @@ export function PaymentMethodPicker() {
 
   if (state.status === 'loading')
     return (
-      <section>
-        <h2>{text.paymentTitle}</h2>
+      <PaymentPanel>
         <div role="status">
-          {text.paymentLoading}
+          <span className={styles.srOnly}>{text.paymentLoading}</span>
           <Skeleton shape="block" />
         </div>
-      </section>
+      </PaymentPanel>
     );
   if (state.status === 'error')
     return (
-      <section>
-        <h2>{text.paymentTitle}</h2>
-        <p role="alert">
+      <PaymentPanel>
+        <p className={styles.alert} role="alert">
           {state.error instanceof ApiError ? getApiErrorMessage(state.error) : text.paymentError}
         </p>
         <button
+          className={styles.retry}
           type="button"
           onClick={() => {
             setState({ status: 'loading' });
@@ -67,52 +78,67 @@ export function PaymentMethodPicker() {
         >
           {text.retry}
         </button>
-      </section>
+      </PaymentPanel>
     );
   if (state.methods.length === 0)
     return (
-      <section>
-        <h2>{text.paymentTitle}</h2>
+      <PaymentPanel>
         <p role="status">{text.paymentEmpty}</p>
-      </section>
+      </PaymentPanel>
     );
 
   return (
-    <fieldset>
-      <legend>{text.paymentTitle}</legend>
-      {state.methods.map((item) => (
-        <div key={item.method}>
-          <label>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value={item.method}
-              checked={paymentMethod === item.method}
-              onChange={() => setPaymentMethod(item.method)}
-            />
-            {item.method === 'CashOnDelivery' ? text.cashOnDelivery : text.manualTransfer}
-          </label>
-          {item.method === 'CashOnDelivery' ? (
-            <p>{text.cashNote}</p>
-          ) : item.details ? (
-            <>
-              <ul>
-                {item.details.transferNumbers.map((transfer) => (
-                  <li key={`${transfer.channel}-${transfer.number}`}>
-                    {transfer.channel === 'VodafoneCash' ? text.vodafoneCash : text.instaPay}:{' '}
-                    <bdi dir="ltr">{transfer.number}</bdi>
-                  </li>
-                ))}
-              </ul>
-              <p>
-                {text.transferExpiry.replace('{hours}', formatNumber(item.details.expiresInHours))}
-              </p>
-              {item.details.instructions ? <p>{item.details.instructions}</p> : null}
-              <p>{text.proofAfterOrder}</p>
-            </>
-          ) : null}
-        </div>
-      ))}
-    </fieldset>
+    <PaymentPanel>
+      <fieldset className={styles.list}>
+        <legend className={styles.srOnly}>{text.paymentTitle}</legend>
+        {state.methods.map((item) => {
+          const isCash = item.method === 'CashOnDelivery';
+          const isSelected = paymentMethod === item.method;
+          return (
+            <div className={styles.entry} key={item.method}>
+              <CheckoutOption
+                checked={isSelected}
+                description={isCash ? text.cashNote : text.transferHint}
+                icon={isCash ? 'truck' : 'wallet'}
+                name="paymentMethod"
+                onChange={() => setPaymentMethod(item.method)}
+                title={isCash ? text.cashOnDelivery : text.manualTransfer}
+                value={item.method}
+              />
+              {isSelected && isCash ? (
+                <div className={styles.pay}>
+                  <p>{text.cashCallNote}</p>
+                </div>
+              ) : null}
+              {isSelected && !isCash && item.details ? (
+                <div className={styles.pay}>
+                  <ul className={styles.numbers}>
+                    {item.details.transferNumbers.map((transfer) => (
+                      <li className={styles.number} key={`${transfer.channel}-${transfer.number}`}>
+                        <span className={styles.channel}>
+                          {transfer.channel === 'VodafoneCash' ? text.vodafoneCash : text.instaPay}
+                        </span>
+                        <bdi className={styles.value} dir="ltr">
+                          {transfer.number}
+                        </bdi>
+                        <CopyButton value={transfer.number} />
+                      </li>
+                    ))}
+                  </ul>
+                  <p>
+                    {text.transferExpiry.replace(
+                      '{hours}',
+                      formatNumber(item.details.expiresInHours),
+                    )}
+                  </p>
+                  {item.details.instructions ? <p>{item.details.instructions}</p> : null}
+                  <p>{text.proofAfterOrder}</p>
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
+      </fieldset>
+    </PaymentPanel>
   );
 }

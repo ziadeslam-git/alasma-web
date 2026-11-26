@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import {
-  AddressCard,
   AddressForm,
   createAddress,
   deleteAddress,
@@ -16,10 +15,14 @@ import {
   type ShippingZone,
 } from '@/modules/addresses';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
+import { Icon } from '@/shared/ui/icon';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Modal } from '@/shared/ui/modal';
 import { previewCheckout } from '../api/preview';
 import { useCheckout } from '../provider/checkout-provider';
+import { CheckoutOption } from './checkout-option';
+import { CheckoutPanel } from './checkout-panel';
+import styles from './address-step.module.css';
 
 export type AddressStepFixtures = {
   addresses: Address[];
@@ -171,41 +174,65 @@ export function AddressStep({ fixtures }: { fixtures?: AddressStepFixtures }) {
   }
 
   return (
-    <section aria-labelledby="checkout-address-title">
-      <h2 id="checkout-address-title">{messages.checkout.addressTitle}</h2>
+    <CheckoutPanel step={1} title={messages.checkout.addressTitle} titleId="checkout-address-title">
       {isLoading ? <Skeleton shape="card" /> : null}
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p className={styles.alert} role="alert">
+          {error}
+        </p>
+      ) : null}
       {!isLoading && !isAdding && !editing ? (
         <>
-          <fieldset>
-            <legend>{messages.checkout.chooseAddress}</legend>
+          <fieldset className={styles.list}>
+            <legend className={styles.srOnly}>{messages.checkout.chooseAddress}</legend>
             {addresses.map((address) => (
-              <div key={address.id}>
-                <label>
-                  <input
-                    type="radio"
-                    name="addressId"
-                    checked={address.id === addressId}
-                    onChange={() => {
-                      beginPreviewRequest();
-                      setAddressId(address.id);
-                    }}
-                  />
-                  {address.recipientName} — {address.city}
-                </label>
-                <AddressCard
-                  address={address}
-                  onEdit={setEditing}
-                  onDelete={setDeleting}
-                  onDefault={(item) => {
-                    if (!fixtures) void update(() => setDefaultAddress(item.id));
+              <div className={styles.entry} key={address.id}>
+                <CheckoutOption
+                  badge={
+                    address.isDefault ? (
+                      <span className={styles.tag}>{messages.checkout.defaultTag}</span>
+                    ) : null
+                  }
+                  checked={address.id === addressId}
+                  description={[
+                    address.addressLine,
+                    `${address.governorateName} - ${address.city}`,
+                    address.landmark,
+                    address.phone,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
+                  name="addressId"
+                  onChange={() => {
+                    beginPreviewRequest();
+                    setAddressId(address.id);
                   }}
+                  title={`${address.recipientName} — ${address.city}`}
                 />
+                <div className={styles.actions}>
+                  <button type="button" onClick={() => setEditing(address)}>
+                    {messages.addresses.edit}
+                  </button>
+                  <button type="button" onClick={() => setDeleting(address)}>
+                    {messages.addresses.delete}
+                  </button>
+                  {!address.isDefault ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!fixtures) void update(() => setDefaultAddress(address.id));
+                      }}
+                    >
+                      {messages.addresses.setDefault}
+                    </button>
+                  ) : null}
+                </div>
               </div>
             ))}
           </fieldset>
-          <button type="button" onClick={() => setAdding(true)}>
-            {messages.addresses.add}
+          <button className={styles.add} type="button" onClick={() => setAdding(true)}>
+            <Icon name="plus" size="sm" />
+            {messages.checkout.addAddress}
           </button>
         </>
       ) : null}
@@ -243,6 +270,6 @@ export function AddressStep({ fixtures }: { fixtures?: AddressStepFixtures }) {
           {messages.addresses.cancel}
         </button>
       </Modal>
-    </section>
+    </CheckoutPanel>
   );
 }
