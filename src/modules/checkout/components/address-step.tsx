@@ -15,6 +15,7 @@ import {
   type ShippingZone,
 } from '@/modules/addresses';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
+import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Modal } from '@/shared/ui/modal';
@@ -210,22 +211,33 @@ export function AddressStep({ fixtures }: { fixtures?: AddressStepFixtures }) {
                   title={`${address.recipientName} — ${address.city}`}
                 />
                 <div className={styles.actions}>
-                  <button type="button" onClick={() => setEditing(address)}>
+                  <Button
+                    leadingIcon="settings"
+                    onClick={() => setEditing(address)}
+                    size="sm"
+                    variant="outline"
+                  >
                     {messages.addresses.edit}
-                  </button>
-                  <button type="button" onClick={() => setDeleting(address)}>
-                    {messages.addresses.delete}
-                  </button>
+                  </Button>
                   {!address.isDefault ? (
-                    <button
-                      type="button"
+                    <Button
                       onClick={() => {
                         if (!fixtures) void update(() => setDefaultAddress(address.id));
                       }}
+                      size="sm"
+                      variant="soft"
                     >
                       {messages.addresses.setDefault}
-                    </button>
+                    </Button>
                   ) : null}
+                  <Button
+                    className={styles.danger}
+                    label={messages.addresses.delete}
+                    leadingIcon="trash"
+                    onClick={() => setDeleting(address)}
+                    size="sm"
+                    variant="outline"
+                  />
                 </div>
               </div>
             ))}
@@ -256,19 +268,22 @@ export function AddressStep({ fixtures }: { fixtures?: AddressStepFixtures }) {
         title={messages.addresses.confirmDelete}
         closeLabel={messages.addresses.close}
       >
-        <button
-          type="button"
-          onClick={() => {
-            const target = deleting;
-            setDeleting(null);
-            if (target && !fixtures) void update(() => deleteAddress(target.id));
-          }}
-        >
-          {messages.addresses.delete}
-        </button>
-        <button type="button" onClick={() => setDeleting(null)}>
-          {messages.addresses.cancel}
-        </button>
+        <div className={styles.modalActions}>
+          <Button
+            className={styles.danger}
+            onClick={() => {
+              const target = deleting;
+              setDeleting(null);
+              if (target && !fixtures) void update(() => deleteAddress(target.id));
+            }}
+            variant="outline"
+          >
+            {messages.addresses.delete}
+          </Button>
+          <Button onClick={() => setDeleting(null)} variant="soft">
+            {messages.addresses.cancel}
+          </Button>
+        </div>
       </Modal>
     </CheckoutPanel>
   );

@@ -5,6 +5,7 @@ import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
+import { Button } from '@/shared/ui/button';
 import { Input, Select } from '@/shared/ui/input';
 import type { Address, AddressInput, ShippingZone } from '../api/addresses';
 import styles from './addresses.module.css';
@@ -96,7 +97,11 @@ export function AddressForm({
             aria-invalid={Boolean(errors[field])}
             aria-describedby={errors[field] ? `address-error-${field}` : undefined}
           />
-          {errors[field] ? <span id={`address-error-${field}`}>{errors[field]}</span> : null}
+          {errors[field] ? (
+            <span className={styles.fieldError} id={`address-error-${field}`}>
+              {errors[field]}
+            </span>
+          ) : null}
         </label>
       ))}
       <label>
@@ -115,11 +120,13 @@ export function AddressForm({
           ))}
         </Select>
         {errors.shippingZoneId ? (
-          <span id="address-error-zone">{errors.shippingZoneId}</span>
+          <span className={styles.fieldError} id="address-error-zone">
+            {errors.shippingZoneId}
+          </span>
         ) : null}
       </label>
       {zone ? (
-        <div>
+        <div className={styles.zoneInfo}>
           <p>
             {text.shippingPrice}: {formatMoney(zone.shippingPrice)}
           </p>
@@ -136,14 +143,18 @@ export function AddressForm({
         </div>
       ) : null}
       {isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : null}
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p className={styles.alert} role="alert">
+          {error}
+        </p>
+      ) : null}
       <div className={styles.actions}>
-        <button type="submit" disabled={isBusy}>
+        <Button disabled={isBusy} type="submit">
           {text.save}
-        </button>
-        <button type="button" onClick={onCancel} disabled={isBusy}>
+        </Button>
+        <Button disabled={isBusy} onClick={onCancel} variant="soft">
           {text.cancel}
-        </button>
+        </Button>
       </div>
     </form>
   );

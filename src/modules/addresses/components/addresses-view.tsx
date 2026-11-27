@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
+import { formatMoney, formatNumber } from '@/shared/lib/format';
 import { Button } from '@/shared/ui/button';
 import { EmptyState } from '@/shared/ui/empty-state';
+import { Icon } from '@/shared/ui/icon';
 import { Modal } from '@/shared/ui/modal';
 import { Skeleton } from '@/shared/ui/skeleton';
 import {
@@ -104,9 +106,11 @@ export function AddressesView({ fixtures }: { fixtures?: AddressFixtures }) {
   }
 
   return (
-    <section>
-      <h1>{text.title}</h1>
-      <p className={styles.subtitle}>{messages.account.addressesSubtitle}</p>
+    <section className={styles.page}>
+      <div className={styles.head}>
+        <h1>{text.title}</h1>
+        <p className={styles.subtitle}>{messages.account.addressesSubtitle}</p>
+      </div>
       {isEmailUnconfirmed ? <UnconfirmedEmailBanner /> : null}
       {error ? (
         <p className={styles.alert} role="alert">
@@ -120,7 +124,6 @@ export function AddressesView({ fixtures }: { fixtures?: AddressFixtures }) {
         </>
       ) : (
         <>
-          <Button onClick={() => setEditing(null)}>{text.add}</Button>
           {items.length ? (
             <div className={styles.list}>
               {items.map((address) => (
@@ -132,9 +135,61 @@ export function AddressesView({ fixtures }: { fixtures?: AddressFixtures }) {
                   onDefault={(item) => void perform(() => setDefaultAddress(item.id))}
                 />
               ))}
+              <button
+                aria-describedby="address-add-hint"
+                className={styles.add}
+                onClick={() => setEditing(null)}
+                type="button"
+              >
+                <span aria-hidden="true" className={styles.addPlus}>
+                  <Icon name="plus" size="lg" />
+                </span>
+                <b>{text.add}</b>
+                <span aria-hidden="true" id="address-add-hint">
+                  {text.addHint}
+                </span>
+              </button>
             </div>
           ) : !error && !isEmailUnconfirmed ? (
-            <EmptyState icon="user" title={text.emptyTitle} description={text.emptyDescription} />
+            <EmptyState
+              action={
+                <Button leadingIcon="plus" onClick={() => setEditing(null)}>
+                  {text.add}
+                </Button>
+              }
+              icon="pin"
+              title={text.emptyTitle}
+              description={text.emptyDescription}
+            />
+          ) : null}
+          {zones.length ? (
+            <section aria-labelledby="address-zones-title" className={styles.zones}>
+              <h2 id="address-zones-title">{text.zonesTitle}</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">{text.shippingZoneId}</th>
+                    <th scope="col">{text.estimatedDays}</th>
+                    <th scope="col">{text.shippingPrice}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {zones.map((zone) => (
+                    <tr key={zone.id}>
+                      <td>{zone.nameAr}</td>
+                      <td>
+                        {zone.estimatedDays === null
+                          ? '—'
+                          : text.deliveryDays.replace('{days}', formatNumber(zone.estimatedDays))}
+                      </td>
+                      <td>
+                        <b>{formatMoney(zone.shippingPrice)}</b>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
           ) : null}
         </>
       )}
@@ -167,18 +222,19 @@ export function AddressesView({ fixtures }: { fixtures?: AddressFixtures }) {
         role="alertdialog"
       >
         <div className={styles.actions}>
-          <button
-            type="button"
+          <Button
+            className={styles.danger}
             disabled={isBusy}
             onClick={() => {
               if (deleting) void perform(() => deleteAddress(deleting.id));
             }}
+            variant="outline"
           >
             {text.delete}
-          </button>
-          <button type="button" disabled={isBusy} onClick={() => setDeleting(null)}>
+          </Button>
+          <Button disabled={isBusy} onClick={() => setDeleting(null)} variant="soft">
             {text.cancel}
-          </button>
+          </Button>
         </div>
       </Modal>
     </section>

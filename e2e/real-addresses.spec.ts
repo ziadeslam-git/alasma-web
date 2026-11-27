@@ -14,7 +14,7 @@ async function deleteCard(page: Page, name: string) {
   if ((await card.count()) === 0) return;
   await card.getByRole('button', { name: messages.addresses.delete, exact: true }).click();
   await page
-    .getByRole('dialog', { name: messages.addresses.confirmDelete })
+    .getByRole('dialog', { name: messages.addresses.delete })
     .getByRole('button', { name: messages.addresses.delete, exact: true })
     .click();
   await expect(card).toHaveCount(0);

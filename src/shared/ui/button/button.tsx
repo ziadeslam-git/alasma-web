@@ -31,6 +31,8 @@ type ButtonBaseProps = Omit<
   loading?: boolean;
   size?: ButtonSize;
   trailingIcon?: IconName;
+  // 'button' unless a form needs its own submit button.
+  type?: 'button' | 'submit';
   variant?: ButtonVariant;
 };
 
@@ -61,6 +63,7 @@ export function Button({
   onClick,
   size = 'md',
   trailingIcon,
+  type = 'button',
   variant = 'primary',
   ...props
 }: ButtonProps) {
@@ -87,7 +90,7 @@ export function Button({
           onClick?.(event);
         }
       }}
-      type="button"
+      type={type}
     >
       <span aria-hidden={loading} className={styles.content}>
         {leadingIcon ? <Icon name={leadingIcon} size="sm" /> : null}

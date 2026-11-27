@@ -28,8 +28,35 @@ export default async function DevAddressesPage({
               landmark: null,
               isDefault: true,
             },
+            ...(state === 'many'
+              ? [
+                  {
+                    id: 2,
+                    recipientName: messages.site.brand,
+                    phone: '01098765432',
+                    shippingZoneId: 2,
+                    governorateName: messages.addresses.chooseZone,
+                    city: messages.addresses.city,
+                    addressLine: messages.addresses.addressLine,
+                    landmark: messages.addresses.landmark,
+                    isDefault: false,
+                  },
+                ]
+              : []),
           ],
     zones: [
+      ...(state === 'many'
+        ? [
+            {
+              id: 2,
+              nameAr: messages.addresses.chooseZone,
+              nameEn: '',
+              shippingPrice: 40,
+              freeShippingThreshold: 500,
+              estimatedDays: 4,
+            },
+          ]
+        : []),
       {
         id: 1,
         nameAr: messages.addresses.shippingZoneId,
