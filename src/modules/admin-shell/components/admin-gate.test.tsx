@@ -8,7 +8,12 @@ import { ToastProvider } from '@/shared/ui/toast';
 import { AdminGate } from './admin-gate';
 import { RequirePermission } from './require-permission';
 
-type TestUser = { fullName: string; roles: string[]; permissions: string[] };
+type TestUser = {
+  features: { key: string; isEnabled: boolean }[];
+  fullName: string;
+  permissions: string[];
+  roles: string[];
+};
 
 const mocks = vi.hoisted(() => ({
   auth: { status: 'loading', user: null } as { status: string; user: TestUser | null },
@@ -30,7 +35,10 @@ vi.mock('@/modules/auth', async () => {
 });
 
 const signIn = (roles: string[], permissions: string[]) => {
-  mocks.auth = { status: 'authenticated', user: { fullName: 'Test Admin', permissions, roles } };
+  mocks.auth = {
+    status: 'authenticated',
+    user: { features: [], fullName: 'Test Admin', permissions, roles },
+  };
 };
 
 // The root layout provides the toasts in the real app.

@@ -18,6 +18,8 @@ export type DrawerVariant = 'default' | 'brand' | 'sheet';
 
 export type DrawerProps = {
   children: ReactNode;
+  // Optional extra look for the close button; without it the variant decides, so existing drawers are unchanged.
+  closeClassName?: string;
   closeLabel: string;
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
@@ -43,6 +45,7 @@ const sideClasses: Record<DrawerSide, string> = {
 // the inline-start or inline-end edge. For the mobile menu, the filters and the cart.
 export function Drawer({
   children,
+  closeClassName,
   closeLabel,
   closeOnBackdrop = true,
   closeOnEscape = true,
@@ -83,7 +86,7 @@ export function Drawer({
             {title}
           </h2>
           <Button
-            className={variant === 'brand' ? styles.close : undefined}
+            className={closeClassName ?? (variant === 'brand' ? styles.close : undefined)}
             label={closeLabel}
             leadingIcon="x"
             onClick={() => setOpen(false)}

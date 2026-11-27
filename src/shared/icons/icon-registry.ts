@@ -133,6 +133,10 @@ export const iconRegistry = {
     viewBox: '0 0 24 24',
     body: '<path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" d="M20 12 12 20 4 12V4h8z" /><circle fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" cx="8.500" cy="8.500" r="1.200" />',
   },
+  menu: {
+    viewBox: '0 0 24 24',
+    body: '<path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />',
+  },
   more: {
     viewBox: '0 0 24 24',
     body: '<circle fill="currentColor" cx="5" cy="12" r="1.800" /><circle fill="currentColor" cx="12" cy="12" r="1.800" /><circle fill="currentColor" cx="19" cy="12" r="1.800" />',

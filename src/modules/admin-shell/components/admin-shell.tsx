@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactNode } from 'react';
 
@@ -8,22 +9,24 @@ import { useAuth } from '@/modules/auth';
 import { routes } from '@/shared/config/routes';
 import { Button, ButtonLink } from '@/shared/ui/button';
 import { Drawer } from '@/shared/ui/drawer';
-import { Icon } from '@/shared/ui/icon';
 
 import { useForbiddenHandler } from '../hooks/use-forbidden-handler';
 import styles from './admin-shell.module.css';
 
 const roleNames: Record<string, string> = messages.admin.roles;
+const LOGO_SRC = '/logo-alasma.svg';
 
 export type AdminShellProps = {
   children: ReactNode;
-  // The sidebar of the next task. Empty for now: an empty slot takes no room.
+  // The menu. Shown beside the main area on wide screens and inside the drawer on phones.
   sidebar?: ReactNode;
+  // The menu inside the phone drawer; defaults to the same element as the sidebar.
+  drawerSidebar?: ReactNode;
 };
 
 // Header (name, role, back to the site, logout; a menu button on phones) + sidebar slot + main. It only renders for a
 // signed-in staff user (AdminGate), so reading the user here loads nothing sensitive.
-export function AdminShell({ children, sidebar }: AdminShellProps) {
+export function AdminShell({ children, drawerSidebar, sidebar }: AdminShellProps) {
   const text = messages.admin.shell;
   const { user, logout } = useAuth();
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -36,10 +39,14 @@ export function AdminShell({ children, sidebar }: AdminShellProps) {
       <div className={styles.frame}>
         <header className={styles.header}>
           <Link className={styles.brand} href={routes.admin}>
-            <span aria-hidden="true" className={styles.brandMark}>
-              <Icon name="shield" size="sm" />
-            </span>
-            {text.brand}
+            <Image
+              alt={messages.site.brand}
+              height={84}
+              priority
+              src={LOGO_SRC}
+              unoptimized
+              width={104}
+            />
           </Link>
           <div className={styles.actions}>
             <div className={styles.who}>
@@ -56,8 +63,9 @@ export function AdminShell({ children, sidebar }: AdminShellProps) {
             </div>
             <div className={styles.phoneOnly}>
               <Button
+                className={styles.menuButton}
                 label={text.menu}
-                leadingIcon="more"
+                leadingIcon="menu"
                 onClick={() => setMenuOpen(true)}
                 size="sm"
                 variant="ghost"
@@ -75,23 +83,37 @@ export function AdminShell({ children, sidebar }: AdminShellProps) {
         </div>
       </div>
       <Drawer
+        closeClassName={styles.drawerClose}
         closeLabel={text.closeMenu}
+        headerLogo={
+          <span className={styles.drawerLogo}>
+            <Image alt="" height={84} src={LOGO_SRC} unoptimized width={104} />
+          </span>
+        }
         onOpenChange={setMenuOpen}
         open={isMenuOpen}
         side="start"
         title={text.menu}
       >
-        <div className={styles.menuBody}>
+        {/* a tap on a menu link closes the drawer; the link itself still navigates */}
+        <div
+          className={styles.menuBody}
+          onClick={(event) => {
+            if ((event.target as HTMLElement).closest('a')) {
+              setMenuOpen(false);
+            }
+          }}
+        >
           <div className={styles.who}>
             <span className={styles.whoName}>{user?.fullName}</span>
             <span className={styles.whoRole}>{roleLabel}</span>
           </div>
-          {sidebar}
+          {drawerSidebar ?? sidebar}
           <div className={styles.menuActions}>
             <ButtonLink fullWidth href={routes.home} variant="outline">
               {text.backToSite}
             </ButtonLink>
-            <Button fullWidth onClick={() => void logout()} variant="outline">
+            <Button fullWidth leadingIcon="logout" onClick={() => void logout()} variant="outline">
               {text.logout}
             </Button>
           </div>

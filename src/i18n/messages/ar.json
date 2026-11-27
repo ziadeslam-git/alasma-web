@@ -934,7 +934,49 @@
       "back": "الرجوع للوحة الإدارة"
     },
     "forbiddenToast": "ماعندكش صلاحية",
-    "toastClose": "إغلاق"
+    "toastClose": "إغلاق",
+    "nav": {
+      "label": "أقسام لوحة الإدارة",
+      "soon": "قريباً",
+      "groups": {
+        "operations": "العمليات",
+        "catalog": "الكتالوج",
+        "pricing": "التسعير",
+        "content": "المحتوى",
+        "publishing": "النشر",
+        "administration": "الإدارة",
+        "developer": "المطوّر"
+      },
+      "items": {
+        "dashboard": "نظرة عامة",
+        "orders": "الطلبات",
+        "payments": "المدفوعات",
+        "alerts": "التنبيهات",
+        "books": "الكتب",
+        "inventory": "المخزون",
+        "authors": "المؤلفون",
+        "categories": "الأقسام",
+        "publishers": "الناشرون",
+        "offers": "العروض",
+        "coupons": "الكوبونات",
+        "shipping": "الشحن",
+        "pages": "الصفحات",
+        "banners": "البنرات",
+        "quotes": "الاقتباسات",
+        "events": "الفعاليات",
+        "reviews": "المراجعات",
+        "reservations": "الحجوزات",
+        "newsletter": "النشرة البريدية",
+        "packages": "الباقات",
+        "publishingRequests": "طلبات النشر",
+        "users": "المستخدمون",
+        "permissions": "الصلاحيات",
+        "auditLog": "سجل التدقيق",
+        "reports": "التقارير",
+        "settings": "الإعدادات",
+        "dev": "لوحة المطوّر"
+      }
+    }
   },
   "apiErrors": {
     "codes": {
