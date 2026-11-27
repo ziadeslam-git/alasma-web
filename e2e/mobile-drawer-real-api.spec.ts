@@ -73,7 +73,10 @@ test('logout from the mobile menu ends the session', async ({ page }, testInfo) 
   await page.reload();
   await page.getByRole('button', { name: messages.site.header.menu }).click();
   const guestMenu = page.getByRole('dialog');
-  await expect(guestMenu.getByRole('link', { name: messages.site.header.login })).toBeVisible();
-  await expect(guestMenu.getByRole('link', { name: messages.account.title })).toHaveCount(0);
+  // the guest menu has no login button any more: the account tile goes to /login
+  await expect(guestMenu.getByRole('link', { name: messages.account.title })).toHaveAttribute(
+    'href',
+    '/login',
+  );
   await expect(guestMenu.getByRole('button', { name: messages.account.logout })).toHaveCount(0);
 });
