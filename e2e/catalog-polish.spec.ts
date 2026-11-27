@@ -171,7 +171,13 @@ test.describe('dev previews', () => {
       onlyDesktopProject(testInfo);
       await page.setViewportSize({ width, height: 900 });
       await page.goto('/dev/authors');
-      expect(await gapBelow(page, 'main h1'), '/authors h1').toBeGreaterThanOrEqual(20);
+      // The authors h1 now sits in the hero head (title block + search); the distance that matters is head to grid.
+      const headToGrid = await page.evaluate(() => {
+        const head = document.querySelector('main h1')!.parentElement!.parentElement!;
+        const next = head.nextElementSibling!;
+        return Math.round(next.getBoundingClientRect().top - head.getBoundingClientRect().bottom);
+      });
+      expect(headToGrid, '/authors head to grid').toBeGreaterThanOrEqual(20);
 
       await page.goto('/dev/categories?state=empty');
       expect(await gapBelow(page, 'main h1'), 'empty categories h1').toBeGreaterThanOrEqual(20);
