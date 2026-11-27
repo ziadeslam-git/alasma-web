@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import AccountDevPage from './account/page';
 import AddressesDevPage from './addresses/page';
 import AdminDialogsDevPage from './admin-dialogs/page';
+import AdminFormDevPage from './admin-form/page';
 import AdminTableDevPage from './admin-table/page';
 import AdminUploaderDevPage from './admin-uploader/page';
 import AuthDevPage from './auth/page';
@@ -45,6 +46,7 @@ describe('dev routes production guard', () => {
     ['/dev/account', () => AccountDevPage()],
     ['/dev/addresses', () => AddressesDevPage()],
     ['/dev/admin-dialogs', () => AdminDialogsDevPage({ searchParams: Promise.resolve({}) })],
+    ['/dev/admin-form', () => AdminFormDevPage()],
     ['/dev/admin-table', () => AdminTableDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/admin-uploader', () => AdminUploaderDevPage()],
     ['/dev/auth', () => AuthDevPage()],
@@ -81,6 +83,7 @@ describe('dev routes production guard', () => {
       'account',
       'addresses',
       'admin-dialogs',
+      'admin-form',
       'admin-table',
       'admin-uploader',
       'auth',

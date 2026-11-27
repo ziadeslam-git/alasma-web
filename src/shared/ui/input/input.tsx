@@ -6,7 +6,8 @@ import { useFieldContext } from '@/shared/ui/field/field-context';
 
 import styles from './input.module.css';
 
-export type InputType = 'text' | 'email' | 'password' | 'tel' | 'search' | 'number' | 'date';
+export type InputType =
+  'text' | 'email' | 'password' | 'tel' | 'search' | 'number' | 'date' | 'datetime-local';
 
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'className' | 'type'> & {
   className?: string;
