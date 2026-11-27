@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useId, useState } from 'react';
 import Link from 'next/link';
@@ -12,6 +12,7 @@ import { EmptyState } from '@/shared/ui/empty-state';
 import { Modal } from '@/shared/ui/modal';
 import { BOOK_COVER_SIZES_THUMB, BookCover } from '@/shared/ui/book-cover';
 import { Icon } from '@/shared/ui/icon';
+import { Input } from '@/shared/ui/input';
 import { FeatureGate } from '@/shared/ui/soon';
 import type { Cart, Coupon } from '../api/cart-api';
 import { clearCart, removeItem, updateQuantity, validateCoupon } from '../api/cart-api';
@@ -220,10 +221,9 @@ export function CartView({ cart, readOnly = false }: { cart: Cart; readOnly?: bo
             <div className={styles.coupon}>
               <label className={styles.couponLabel}>
                 {text.coupon}
-                <input
+                <Input
                   aria-describedby={couponError ? couponErrorId : undefined}
                   aria-invalid={couponError ? true : undefined}
-                  className={styles.input}
                   value={coupon}
                   onChange={(event) => {
                     setCoupon(event.target.value);

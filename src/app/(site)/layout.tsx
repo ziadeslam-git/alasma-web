@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { AccountMenu, GuestMenuLinks, MenuLogout, SignedInMenuLinks } from '@/modules/account';
+import { AccountMenu, MenuAccountTile, MenuLogout } from '@/modules/account';
 import { CartCountBadge, MiniCart } from '@/modules/cart';
 import { NewsletterForm } from '@/modules/newsletter';
 import { SearchOverlay } from '@/modules/search';
@@ -14,12 +14,7 @@ export default function SiteLayout({ children }: Readonly<{ children: ReactNode 
         accountArea={<AccountMenu />}
         cart={<MiniCart />}
         cartBadge={<CartCountBadge />}
-        menuAccount={
-          <>
-            <GuestMenuLinks />
-            <SignedInMenuLinks />
-          </>
-        }
+        menuAccountTile={<MenuAccountTile />}
         menuFooter={<MenuLogout />}
         newsletter={<NewsletterForm />}
         search={<SearchOverlay />}

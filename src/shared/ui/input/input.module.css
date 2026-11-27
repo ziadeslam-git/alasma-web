@@ -5,15 +5,20 @@
 
 .input {
   inline-size: 100%;
-  min-block-size: calc(var(--space-12) - 2px);
+  block-size: 46px;
   padding-inline: var(--space-4);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--surface-sunken);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--pg);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 14px;
+  font-weight: 400;
   line-height: 1;
+}
+
+.input::placeholder {
+  color: var(--ink-subtle);
 }
 
 .input:focus-visible {
@@ -21,17 +26,52 @@
   outline-offset: 1px;
 }
 
+/* disabled keeps readable text (muted ink on a flat surface) instead of fading the whole control */
 .input:disabled {
+  background: var(--surface-sunken);
+  color: var(--ink-muted);
   cursor: not-allowed;
-  opacity: 0.45;
 }
 
 .input:read-only {
-  background: var(--surface);
+  background: color-mix(in srgb, var(--pg) 50%, var(--soft));
+  color: var(--ink-muted);
 }
 
 .error {
   border-color: var(--danger-ink);
+}
+
+/* Textarea (frame: 110px tall, 12px block padding, vertical resize) */
+.input.textarea {
+  block-size: auto;
+  min-block-size: 110px;
+  padding-block: 12px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+/* Select (frame .sel: 44px, chevron on the inline-end side, 40px room for it) */
+.input.select {
+  block-size: 44px;
+  padding-inline: 16px 40px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234f605d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 14px center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media (width <= 760px) {
+  .input {
+    min-block-size: 48px;
+    font-size: 16px;
+  }
+
+  .input.textarea {
+    min-block-size: 110px;
+  }
 }
 
 .wrapper:has(.startAdornment) .input {

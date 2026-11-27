@@ -5,6 +5,7 @@ import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatMoney, formatNumber } from '@/shared/lib/format';
+import { Input, Select } from '@/shared/ui/input';
 import type { Address, AddressInput, ShippingZone } from '../api/addresses';
 import styles from './addresses.module.css';
 
@@ -89,7 +90,7 @@ export function AddressForm({
       {formKeys.map((field) => (
         <label key={field}>
           {text[field]}
-          <input
+          <Input
             value={values[field]}
             onChange={(event) => setValues({ ...values, [field]: event.target.value })}
             aria-invalid={Boolean(errors[field])}
@@ -100,7 +101,7 @@ export function AddressForm({
       ))}
       <label>
         {text.shippingZoneId}
-        <select
+        <Select
           value={values.shippingZoneId}
           onChange={(event) => setValues({ ...values, shippingZoneId: event.target.value })}
           aria-invalid={Boolean(errors.shippingZoneId)}
@@ -112,7 +113,7 @@ export function AddressForm({
               {item.nameAr}
             </option>
           ))}
-        </select>
+        </Select>
         {errors.shippingZoneId ? (
           <span id="address-error-zone">{errors.shippingZoneId}</span>
         ) : null}

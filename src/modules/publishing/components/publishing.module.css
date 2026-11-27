@@ -397,42 +397,6 @@
   line-height: 1.4;
 }
 
-.field,
-.select {
-  inline-size: 100%;
-  min-block-size: 46px;
-  padding-inline: var(--space-4);
-  border: 1px solid var(--hair);
-  border-radius: 12px;
-  background: var(--pg);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.textarea {
-  min-block-size: 110px;
-  padding-block: var(--space-3);
-  line-height: 1.8;
-  resize: vertical;
-}
-
-.field:focus-visible,
-.select:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 1px;
-}
-
-.field[aria-invalid='true'],
-.select[aria-invalid='true'] {
-  border-color: var(--danger-ink);
-}
-
-.field:read-only {
-  color: var(--ink-muted);
-}
-
 .drop {
   display: grid;
   place-items: center;

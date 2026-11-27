@@ -106,7 +106,6 @@ export function ProfileForm() {
             <Input
               aria-required="true"
               autoComplete="name"
-              className={styles.control}
               disabled={isSubmitting}
               name="fullName"
               onChange={(event) => change('fullName', event.target.value)}
@@ -115,12 +114,11 @@ export function ProfileForm() {
           </Field>
         </div>
         <Field hint={text.emailHint} label={text.email}>
-          <Input className={styles.control} dir="ltr" name="email" readOnly value={user.email} />
+          <Input dir="ltr" name="email" readOnly value={user.email} />
         </Field>
         <Field error={errors.phone} hint={text.phoneHint} label={text.phone}>
           <Input
             autoComplete="tel"
-            className={styles.control}
             dir="ltr"
             disabled={isSubmitting}
             inputMode="tel"

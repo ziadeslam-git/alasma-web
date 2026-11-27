@@ -116,19 +116,16 @@ test.describe('shell without the API', () => {
   }
 
   for (const width of [360, 768] as const) {
-    test(`the guest drawer offers login and register (${width}px)`, async ({ page }) => {
+    test(`the guest drawer's account tile leads to login (${width}px)`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto('/zz-no-such-page');
       await page.getByRole('button', { name: messages.site.header.menu }).click();
       const dialog = page.getByRole('dialog');
       await expect(dialog).toBeVisible();
-      await expect(dialog.getByRole('link', { name: messages.site.header.login })).toHaveAttribute(
+      await expect(dialog.getByRole('link', { name: messages.account.title })).toHaveAttribute(
         'href',
         '/login',
       );
-      await expect(
-        dialog.getByRole('link', { name: messages.site.header.register }),
-      ).toHaveAttribute('href', '/register');
       await page.waitForTimeout(700);
       await shot(page, 'drawer-guest', width);
     });

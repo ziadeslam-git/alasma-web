@@ -3,10 +3,9 @@
 import messages from '@/i18n/messages/ar.json';
 import { formatNumber } from '@/shared/lib/format';
 import { Field } from '@/shared/ui/field';
-import { useFieldContext } from '@/shared/ui/field/field-context';
+import { Textarea } from '@/shared/ui/input';
 
 import { REVIEW_COMMENT_MAX_LENGTH } from '../api/reviews-api';
-import styles from './reviews.module.css';
 
 function CommentTextarea({
   onChange,
@@ -15,14 +14,8 @@ function CommentTextarea({
   onChange: (value: string) => void;
   value: string;
 }) {
-  const field = useFieldContext();
-  const isInvalid = Boolean(field?.error);
   return (
-    <textarea
-      aria-describedby={field?.describedBy}
-      aria-invalid={isInvalid || undefined}
-      className={isInvalid ? `${styles.textarea} ${styles.textareaInvalid}` : styles.textarea}
-      id={field?.id}
+    <Textarea
       onChange={(event) => onChange(event.target.value)}
       placeholder={messages.reviews.commentPlaceholder}
       value={value}

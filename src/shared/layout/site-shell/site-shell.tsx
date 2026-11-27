@@ -13,6 +13,7 @@ export function SiteShell({
   cartBadge,
   accountArea,
   menuAccount,
+  menuAccountTile,
   menuFooter,
   newsletter,
 }: {
@@ -22,6 +23,7 @@ export function SiteShell({
   cartBadge?: ReactNode;
   accountArea?: ReactNode;
   menuAccount?: ReactNode;
+  menuAccountTile?: ReactNode;
   menuFooter?: ReactNode;
   newsletter?: ReactNode;
 }) {
@@ -30,8 +32,10 @@ export function SiteShell({
       <SiteHeader
         search={search}
         cart={cart}
+        cartBadge={cartBadge}
         accountArea={accountArea}
         menuAccount={menuAccount}
+        menuAccountTile={menuAccountTile}
         menuFooter={menuFooter}
       />
       <main id="main-content">{children}</main>

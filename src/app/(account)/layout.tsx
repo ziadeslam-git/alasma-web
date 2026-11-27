@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
-import { AccountMenu, AccountShell, MenuLogout, SignedInMenuLinks } from '@/modules/account';
+import { AccountMenu, AccountShell, MenuAccountTile, MenuLogout } from '@/modules/account';
 import { RequireAuth } from '@/modules/auth';
 import { CartCountBadge, MiniCart } from '@/modules/cart';
 import { NewsletterForm } from '@/modules/newsletter';
@@ -19,7 +19,8 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
       <SiteHeader
         accountArea={<AccountMenu />}
         cart={<MiniCart />}
-        menuAccount={<SignedInMenuLinks />}
+        cartBadge={<CartCountBadge />}
+        menuAccountTile={<MenuAccountTile />}
         menuFooter={<MenuLogout />}
         search={<SearchOverlay />}
       />

@@ -80,51 +80,9 @@
   line-height: 1.4;
 }
 
-/* The inputs of the design (.field): 46px, 12px radius, page-tinted fill, hairline border. */
-.formGrid .control,
-.pair .control {
-  box-sizing: border-box;
-  inline-size: 100%;
-  min-block-size: 46px;
-  padding-inline: var(--space-4);
-  border: 1px solid var(--hair);
-  border-radius: 12px;
-  background: var(--pg);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1;
-}
-
-.formGrid .control:read-only {
-  background: color-mix(in srgb, var(--pg) 50%, var(--soft));
-  color: var(--ink-muted);
-}
-
-.formGrid .control[aria-invalid='true'] {
-  border-color: var(--danger-ink);
-}
-
-.formGrid .control:disabled {
-  opacity: 0.45;
-}
-
 /* the hint under a field is 12px in the design */
 .formGrid p[id]:not([role]) {
   font-size: 12px;
-}
-
-.select {
-  appearance: none;
-  min-block-size: 44px;
-  padding-inline: var(--space-4) 40px;
-  border: 1px solid var(--hair);
-  border-radius: 12px;
-  background: var(--card);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
 }
 
 /* Identity card (.idc): 88px avatar with the round gold feather badge, the name and one line below it. */
@@ -363,12 +321,5 @@
 
   .row {
     align-items: flex-start;
-  }
-
-  /* mobile.css of the design: 48px fields with 16px text (no zoom on focus) */
-  .formGrid .control,
-  .pair .control {
-    min-block-size: 48px;
-    font-size: 16px;
   }
 }

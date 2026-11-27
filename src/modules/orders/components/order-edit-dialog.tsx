@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { UnconfirmedEmailBanner } from '@/modules/account';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
+import { Input, Select, Textarea } from '@/shared/ui/input';
 import { Modal } from '@/shared/ui/modal';
 import {
   listOrderZones,
@@ -107,7 +108,7 @@ export function OrderEditDialog({
         {isUnconfirmed ? <UnconfirmedEmailBanner /> : null}
         <label>
           {text.recipientName}
-          <input
+          <Input
             data-autofocus
             value={recipientName}
             onChange={(event) => setRecipientName(event.target.value)}
@@ -115,11 +116,11 @@ export function OrderEditDialog({
         </label>
         <label>
           {text.phone}
-          <input value={phone} onChange={(event) => setPhone(event.target.value)} />
+          <Input value={phone} onChange={(event) => setPhone(event.target.value)} />
         </label>
         <label>
           {text.zone}
-          <select
+          <Select
             value={zoneId}
             disabled={order.status !== 'PendingPayment' || zones.length === 0}
             onChange={(event) => setZoneId(Number(event.target.value))}
@@ -129,24 +130,24 @@ export function OrderEditDialog({
                 {zone.nameAr}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         {order.status !== 'PendingPayment' ? <p>{text.zoneLocked}</p> : null}
         <label>
           {text.city}
-          <input value={city} onChange={(event) => setCity(event.target.value)} />
+          <Input value={city} onChange={(event) => setCity(event.target.value)} />
         </label>
         <label>
           {text.addressLine}
-          <input value={addressLine} onChange={(event) => setAddressLine(event.target.value)} />
+          <Input value={addressLine} onChange={(event) => setAddressLine(event.target.value)} />
         </label>
         <label>
           {text.landmark}
-          <input value={landmark} onChange={(event) => setLandmark(event.target.value)} />
+          <Input value={landmark} onChange={(event) => setLandmark(event.target.value)} />
         </label>
         <label>
           {text.notes}
-          <textarea value={notes} onChange={(event) => setNotes(event.target.value)} />
+          <Textarea value={notes} onChange={(event) => setNotes(event.target.value)} />
         </label>
         <button disabled={isPending} type="submit">
           {text.save}

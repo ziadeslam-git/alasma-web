@@ -1,4 +1,5 @@
 import messages from '@/i18n/messages/ar.json';
+import { Input, Select } from '@/shared/ui/input';
 import { FeatureGate } from '@/shared/ui/soon';
 
 import styles from './profile.module.css';
@@ -14,13 +15,13 @@ export function SoonProfileFields() {
         <div className={styles.pair}>
           <label>
             {text.birthDate}
-            <input className={styles.control} defaultValue="" type="date" />
+            <Input defaultValue="" type="date" />
           </label>
           <label>
             {text.preferredLanguageLabel}
-            <select className={styles.select} defaultValue="ar">
+            <Select defaultValue="ar">
               <option value="ar">{text.languageArabic}</option>
-            </select>
+            </Select>
           </label>
         </div>
       </FeatureGate>

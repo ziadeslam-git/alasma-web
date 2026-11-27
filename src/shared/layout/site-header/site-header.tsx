@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import type { FeatureKey } from '@/shared/config/features';
 import { routes, staticPageRoute } from '@/shared/config/routes';
-import { MobileNavMenu } from '@/shared/layout/mobile-nav';
+import { MobileNavMenu, MobileQuickTiles } from '@/shared/layout/mobile-nav';
 import { HeaderLink } from './header-link';
 import { ButtonLink } from '@/shared/ui/button';
 import { Icon, type IconName } from '@/shared/ui/icon';
@@ -22,6 +22,9 @@ export type SiteHeaderProps = {
   menuAccount?: ReactNode;
   // Bottom of the mobile menu, separated from the links (the account module adds logout for signed-in visitors).
   menuFooter?: ReactNode;
+  // The quick tiles at the top of the mobile menu: the account tile (account module) and the cart count (cart module).
+  menuAccountTile?: ReactNode;
+  cartBadge?: ReactNode;
 };
 
 // A menu entry of the phone sheet: icon, label, chevron (design .mn__list a). The icons are decorative.
@@ -61,6 +64,8 @@ export function SiteHeader({
   cart,
   menuAccount,
   menuFooter,
+  menuAccountTile,
+  cartBadge,
 }: SiteHeaderProps) {
   const text = messages.site;
   const guestLinks = (
@@ -153,6 +158,7 @@ export function SiteHeader({
           label={text.header.menu}
           title={text.header.menu}
         >
+          <MobileQuickTiles accountTile={menuAccountTile} cartBadge={cartBadge} />
           <nav aria-label={text.header.menu} className={styles.menuLinks}>
             {menuAccount}
             <Link href={routes.home}>

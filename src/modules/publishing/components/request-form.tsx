@@ -10,6 +10,7 @@ import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { formatNumber } from '@/shared/lib/format';
 import { Button, ButtonLink } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
+import { Input, Select, Textarea } from '@/shared/ui/input';
 
 import {
   getManuscriptTypes,
@@ -183,11 +184,10 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
         <div className={styles.fieldBox}>
           <label className={styles.label}>
             {text.fullName}
-            <input
+            <Input
               aria-describedby={issues.authorName ? 'rq-name-error' : undefined}
               aria-invalid={issues.authorName ? true : undefined}
               autoComplete="name"
-              className={styles.field}
               disabled={isPending}
               onChange={(event) => setAuthorName(event.target.value)}
               placeholder={text.fullNamePlaceholder}
@@ -200,11 +200,10 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
         <div className={styles.fieldBox}>
           <label className={styles.label}>
             {text.phone}
-            <input
+            <Input
               aria-describedby={issues.phone ? 'rq-phone-error' : undefined}
               aria-invalid={issues.phone ? true : undefined}
               autoComplete="tel"
-              className={styles.field}
               dir="ltr"
               disabled={isPending}
               inputMode="tel"
@@ -219,22 +218,15 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
         <div className={`${styles.fieldBox} ${styles.full}`}>
           <label className={styles.label}>
             {text.email}
-            <input
-              className={styles.field}
-              dir="ltr"
-              readOnly
-              type="email"
-              value={user?.email ?? ''}
-            />
+            <Input dir="ltr" readOnly type="email" value={user?.email ?? ''} />
           </label>
         </div>
         <div className={styles.fieldBox}>
           <label className={styles.label}>
             {text.package}
-            <select
+            <Select
               aria-describedby={issues.packageId ? 'rq-package-error' : undefined}
               aria-invalid={issues.packageId ? true : undefined}
-              className={styles.select}
               disabled={isPending}
               onChange={(event) =>
                 setPackageId(event.target.value ? Number(event.target.value) : null)
@@ -247,17 +239,16 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
                   {item.label}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           {renderError('packageId', 'rq-package-error')}
         </div>
         <div className={styles.fieldBox}>
           <label className={styles.label}>
             {text.type}
-            <select
+            <Select
               aria-describedby={issues.manuscriptTypeId ? 'rq-type-error' : undefined}
               aria-invalid={issues.manuscriptTypeId ? true : undefined}
-              className={styles.select}
               disabled={isPending}
               onChange={(event) =>
                 setTypeId(event.target.value ? Number(event.target.value) : null)
@@ -270,7 +261,7 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
                   {item.name}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           {hasTypesFailed ? <span className={styles.fieldError}>{text.typesLoadError}</span> : null}
           {renderError('manuscriptTypeId', 'rq-type-error')}
@@ -278,10 +269,9 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
         <div className={`${styles.fieldBox} ${styles.full}`}>
           <label className={styles.label}>
             {text.workTitle}
-            <input
+            <Input
               aria-describedby={issues.workTitle ? 'rq-title-error' : undefined}
               aria-invalid={issues.workTitle ? true : undefined}
-              className={styles.field}
               disabled={isPending}
               onChange={(event) => setWorkTitle(event.target.value)}
               type="text"
@@ -293,10 +283,9 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
         <div className={`${styles.fieldBox} ${styles.full}`}>
           <label className={styles.label}>
             {text.synopsis}
-            <textarea
+            <Textarea
               aria-describedby={issues.synopsis ? 'rq-synopsis-error' : undefined}
               aria-invalid={issues.synopsis ? true : undefined}
-              className={`${styles.field} ${styles.textarea}`}
               disabled={isPending}
               maxLength={SYNOPSIS_MAX_LENGTH + 500}
               onChange={(event) => setSynopsis(event.target.value)}
@@ -309,10 +298,9 @@ export function RequestForm({ groups }: { groups: readonly PackageGroup[] }) {
         <div className={`${styles.fieldBox} ${styles.full}`}>
           <label className={styles.label}>
             {text.notes}
-            <textarea
+            <Textarea
               aria-describedby={issues.notes ? 'rq-notes-error' : undefined}
               aria-invalid={issues.notes ? true : undefined}
-              className={`${styles.field} ${styles.textarea}`}
               disabled={isPending}
               maxLength={NOTES_MAX_LENGTH + 500}
               onChange={(event) => setNotes(event.target.value)}

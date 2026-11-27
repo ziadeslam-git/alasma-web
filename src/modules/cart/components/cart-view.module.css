@@ -1,4 +1,4 @@
-.container {
+﻿.container {
   max-inline-size: 1280px;
   margin-inline: auto;
   padding: var(--space-6) var(--space-8) var(--space-12);
@@ -311,17 +311,6 @@
   color: var(--ink-muted);
   font-size: 12px;
   font-weight: 700;
-}
-
-.input {
-  min-inline-size: 0;
-  min-block-size: 46px;
-  padding-inline: var(--space-3);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--green-100) 45%, var(--surface));
-  color: var(--ink);
-  font-size: 14px;
 }
 
 .couponButton {

@@ -99,12 +99,28 @@ describe('SiteHeader', () => {
     ).toHaveAttribute('href', '/publish');
   });
 
-  it('puts the menuAccount slot at the top of the mobile menu, and adds nothing without it (Task 75)', async () => {
+  it('shows the quick tiles first in the mobile menu: account slot, wishlist, cart with its count', async () => {
+    const user = userEvent.setup();
+    render(
+      <SiteHeader cartBadge={<span>3</span>} menuAccountTile={<a href="/login">account tile</a>} />,
+    );
+    await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
+    const links = within(screen.getByRole('dialog')).getAllByRole('link');
+    expect(links[0]).toHaveTextContent('account tile');
+    expect(links[1]).toHaveTextContent(messages.site.header.wishlist);
+    expect(links[2]).toHaveTextContent(messages.site.header.cart);
+    expect(links[2]).toHaveTextContent('3');
+  });
+
+  it('puts the menuAccount slot above the menu links (after the tiles), and adds nothing without it (Task 75)', async () => {
     const user = userEvent.setup();
     const { unmount } = render(<SiteHeader menuAccount={<a href="/login">guest entry</a>} />);
     await user.click(screen.getByRole('button', { name: messages.site.header.menu }));
     const links = within(screen.getByRole('dialog')).getAllByRole('link');
-    expect(links[0]).toHaveTextContent('guest entry');
+    const entry = links.findIndex((link) => link.textContent === 'guest entry');
+    const books = links.findIndex((link) => link.getAttribute('href') === '/books');
+    expect(entry).toBeGreaterThanOrEqual(0);
+    expect(entry).toBeLessThan(books);
     unmount();
 
     render(<SiteHeader />);

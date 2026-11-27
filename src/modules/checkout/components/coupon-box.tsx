@@ -3,6 +3,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
+import { Input } from '@/shared/ui/input';
 import { previewCheckout } from '../api/preview';
 import { useCheckout } from '../provider/checkout-provider';
 import styles from './coupon-box.module.css';
@@ -68,8 +69,7 @@ export function CouponBox() {
       <form className={styles.form} onSubmit={submit}>
         <label className={styles.label}>
           <span className={styles.srOnly}>{text.couponLabel}</span>
-          <input
-            className={styles.input}
+          <Input
             onChange={(event) => setCode(event.target.value)}
             placeholder={text.couponLabel}
             value={code}

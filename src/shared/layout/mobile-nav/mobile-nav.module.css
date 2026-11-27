@@ -124,3 +124,69 @@
   inline-size: 14px;
   margin-inline: auto 11px;
 }
+
+/* The quick tiles at the top of the phone menu (design .mn__tiles): account, wishlist and cart as three equal tiles. */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-block-end: var(--space-4);
+}
+
+.tiles a,
+.tiles [data-feature] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-block-size: 76px;
+  padding: 14px 6px 12px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface) 8%, transparent);
+  color: var(--on-brand);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+
+.tiles a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.tiles a[aria-current='page'] {
+  background: var(--surface);
+  color: var(--green-950);
+}
+
+.tiles [data-soon-badge] {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+  min-block-size: 14px;
+  padding-inline: 5px;
+  font-size: 9px;
+}
+
+.tileCount {
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-end: 10px;
+  display: inline-flex;
+}
+
+/* the shared cart badge is positioned for the app bar; inside a tile it sits in its own corner */
+.tiles .tileCount > span {
+  position: static;
+  min-inline-size: 18px;
+  block-size: 18px;
+  background: var(--discount);
+  color: var(--on-discount);
+  font-size: 10px;
+  font-weight: 700;
+}

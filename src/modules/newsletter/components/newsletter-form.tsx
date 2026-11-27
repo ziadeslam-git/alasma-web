@@ -5,6 +5,7 @@ import { useState, type FormEvent } from 'react';
 import messages from '@/i18n/messages/ar.json';
 import { ApiError, getApiErrorMessage } from '@/shared/lib/api';
 import { Button } from '@/shared/ui/button';
+import { Input } from '@/shared/ui/input';
 
 import { subscribeToNewsletter } from '../api/newsletter-api';
 import styles from './newsletter-form.module.css';
@@ -52,12 +53,12 @@ export function NewsletterForm() {
 
   return (
     <form className={styles.form} noValidate onSubmit={(event) => void submit(event)}>
-      <input
+      <Input
         aria-describedby={error ? 'newsletter-error' : undefined}
-        aria-invalid={error ? true : undefined}
         aria-label={text.emailLabel}
         autoComplete="email"
-        className={error ? `${styles.field} ${styles.fieldInvalid}` : styles.field}
+        className={styles.field}
+        error={Boolean(error)}
         dir="ltr"
         inputMode="email"
         onChange={(event) => setEmail(event.target.value)}
