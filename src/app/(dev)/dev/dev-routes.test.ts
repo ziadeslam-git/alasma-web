@@ -7,6 +7,7 @@ import AccountDevPage from './account/page';
 import AddressesDevPage from './addresses/page';
 import AdminDialogsDevPage from './admin-dialogs/page';
 import AdminTableDevPage from './admin-table/page';
+import AdminUploaderDevPage from './admin-uploader/page';
 import AuthDevPage from './auth/page';
 import AuthorsDevPage from './authors/page';
 import BookDevPage from './book/page';
@@ -45,6 +46,7 @@ describe('dev routes production guard', () => {
     ['/dev/addresses', () => AddressesDevPage()],
     ['/dev/admin-dialogs', () => AdminDialogsDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/admin-table', () => AdminTableDevPage({ searchParams: Promise.resolve({}) })],
+    ['/dev/admin-uploader', () => AdminUploaderDevPage()],
     ['/dev/auth', () => AuthDevPage()],
     ['/dev/authors', () => AuthorsDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/book', () => BookDevPage({ searchParams: Promise.resolve({}) })],
@@ -80,6 +82,7 @@ describe('dev routes production guard', () => {
       'addresses',
       'admin-dialogs',
       'admin-table',
+      'admin-uploader',
       'auth',
       'authors',
       'book',

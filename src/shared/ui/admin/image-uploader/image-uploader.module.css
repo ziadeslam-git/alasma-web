@@ -1,0 +1,127 @@
+.root {
+  display: grid;
+  gap: var(--space-3);
+  max-inline-size: 420px;
+}
+
+.label {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.zone {
+  display: grid;
+  place-items: center;
+  min-block-size: 180px;
+  padding: var(--space-3);
+  overflow: hidden;
+  border: 1px dashed var(--hair);
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunken);
+}
+
+.zone[data-state='uploading'] {
+  opacity: 0.7;
+}
+
+.preview {
+  max-inline-size: 100%;
+  max-block-size: 260px;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+}
+
+.empty {
+  display: grid;
+  gap: var(--space-2);
+  align-content: center;
+  justify-items: center;
+  inline-size: 100%;
+  min-block-size: 156px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.empty:disabled {
+  cursor: not-allowed;
+}
+
+.input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+.hint {
+  margin: 0;
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.progressRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.progress {
+  flex: 1;
+  block-size: 8px;
+  accent-color: var(--primary);
+}
+
+.percent {
+  min-inline-size: 44px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.error {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--danger-soft);
+  color: var(--danger-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.success {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--success-soft);
+  color: var(--success-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+@media (width <= 760px) {
+  .actions > * {
+    flex: 1 1 140px;
+  }
+}
