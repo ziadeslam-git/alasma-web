@@ -945,6 +945,95 @@
       "pageSize": "عدد الصفوف",
       "pageSizeOption": "{size} في الصفحة"
     },
+    "status": {
+      "order": {
+        "PendingPayment": "بانتظار الدفع",
+        "PaymentReview": "مراجعة الدفع",
+        "Confirmed": "مؤكد",
+        "Preparing": "قيد التجهيز",
+        "Shipped": "في الطريق",
+        "Delivered": "تم التسليم",
+        "Cancelled": "ملغي"
+      },
+      "payment": {
+        "Pending": "في الانتظار",
+        "Submitted": "بانتظار المراجعة",
+        "Approved": "مقبول",
+        "Rejected": "مرفوض",
+        "Refunded": "تم الاسترداد"
+      },
+      "book": {
+        "Draft": "مسودة",
+        "Published": "منشور",
+        "Hidden": "مخفي",
+        "OutOfPrint": "نفدت الطبعة"
+      },
+      "review": {
+        "Pending": "قيد المراجعة",
+        "Approved": "معتمد",
+        "Rejected": "مرفوض"
+      },
+      "alert": {
+        "Open": "مفتوح",
+        "Resolved": "تم الحل"
+      },
+      "request": {
+        "New": "جديد",
+        "Contacted": "تم التواصل",
+        "Accepted": "مقبول",
+        "Rejected": "مرفوض",
+        "Completed": "مكتمل"
+      },
+      "coupon": {
+        "Active": "نشط",
+        "Inactive": "غير نشط",
+        "Expired": "منتهي"
+      },
+      "banner": {
+        "Active": "نشط",
+        "Scheduled": "مجدول",
+        "Expired": "منتهي",
+        "Hidden": "مخفي"
+      }
+    },
+    "confirm": {
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "close": "إغلاق",
+      "working": "جاري التنفيذ",
+      "failed": "تعذّر تنفيذ الإجراء. جرّب تاني.",
+      "reasonOptional": "(اختياري)",
+      "reasonRequired": "لازم تكتب السبب.",
+      "reasonCounter": "{count} من {max}"
+    },
+    "conflict": {
+      "title": "السجل ده اتعدّل من حد تاني",
+      "description": "حد حفظ تعديلات على نفس السجل بعد ما فتحته. اختار تعمل إيه.",
+      "fieldColumn": "الحقل",
+      "yours": "تعديلك",
+      "server": "النسخة الحالية",
+      "loadServer": "حمّل النسخة الجديدة",
+      "keepMine": "احتفظ بتعديلي واحفظ فوقها",
+      "cancel": "إلغاء",
+      "close": "إغلاق",
+      "noFields": "مفيش فروق ظاهرة في الحقول المعروضة.",
+      "failed": "تعذّر إتمام الإجراء. جرّب تاني.",
+      "diffLabel": "الفروق بين النسختين"
+    },
+    "saveBar": {
+      "label": "حفظ التعديلات",
+      "unsaved": "عندك تعديلات لسه ماتحفظتش",
+      "save": "حفظ",
+      "saving": "جاري الحفظ",
+      "revert": "تراجع عن التعديلات"
+    },
+    "leave": {
+      "title": "تسيب الصفحة؟",
+      "description": "فيه تعديلات ماتحفظتش وهتضيع لو خرجت.",
+      "stay": "كمّل تعديل",
+      "leave": "اخرج من غير حفظ",
+      "close": "إغلاق"
+    },
     "roles": {
       "SuperAdmin": "مدير النظام",
       "Admin": "مدير",
@@ -1567,6 +1656,39 @@
     },
     "customers": ["أحمد محمد", "أحمد محمد", "منى سعيد", "سامح علي", "رنا فؤاد"],
     "methods": ["فودافون كاش", "إنستاباي", "عند الاستلام", "إنستاباي", "فودافون كاش"]
+  },
+  "devAdminDialogs": {
+    "title": "مكوّنات التأكيد والحالة",
+    "pillsTitle": "حالات العرض (StatusPill)",
+    "unknownTitle": "قيمة غير معروفة",
+    "dialogsTitle": "نوافذ التأكيد",
+    "barTitle": "شريط الحفظ",
+    "pillTypes": {
+      "order": "الطلب",
+      "payment": "الدفع",
+      "book": "الكتاب",
+      "review": "المراجعة",
+      "alert": "التنبيه",
+      "request": "طلب النشر",
+      "coupon": "الكوبون",
+      "banner": "البانر"
+    },
+    "openConfirm": "تأكيد عادي",
+    "openDanger": "إلغاء طلب (خطر + سبب)",
+    "openConflict": "تعارض نسخ",
+    "confirmTitle": "تأكيد الدفع؟",
+    "confirmDescription": "هتتحول حالة الطلب لمؤكد.",
+    "confirmAction": "أكّد الدفع",
+    "dangerTitle": "إلغاء الطلب؟",
+    "dangerDescription": "الإلغاء مش بيترجع. اكتب سبب الإلغاء.",
+    "dangerAction": "إلغاء الطلب",
+    "reasonLabel": "سبب الإلغاء",
+    "reasonPlaceholder": "اكتب السبب هنا",
+    "conflictLabels": { "title": "العنوان", "price": "السعر", "stock": "المخزون" },
+    "conflictTitleYours": "رواية الأسمى (طبعة جديدة)",
+    "conflictTitleServer": "رواية الأسمى",
+    "makeEdit": "اعمل تعديل",
+    "leaveLink": "رابط لصفحة تانية"
   },
   "devBooks": {
     "title": "معاينة صفحة المتجر (تجريبي)",
