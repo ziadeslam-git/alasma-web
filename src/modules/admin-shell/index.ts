@@ -1,0 +1,11 @@
+export { AdminFrameSkeleton } from './components/admin-frame-skeleton';
+export { AdminGate } from './components/admin-gate';
+export { AdminNotFoundState } from './components/admin-not-found-state';
+export { AdminShell } from './components/admin-shell';
+export type { AdminShellProps } from './components/admin-shell';
+export { ForbiddenState } from './components/forbidden-state';
+export { RequirePermission } from './components/require-permission';
+export type { RequirePermissionProps } from './components/require-permission';
+export { useCan } from './hooks/use-can';
+export { hasPermission, isStaff } from './permissions';
+export type { PermissionRequirement } from './permissions';

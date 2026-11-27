@@ -20,6 +20,7 @@ export const routes = {
   publish: '/publish',
   bestsellers: '/bestsellers',
   offers: '/offers',
+  admin: '/admin',
 } as const;
 
 export const bookRoute = (slug: string) => `${routes.books}/${encodeSegment(slug)}`;
