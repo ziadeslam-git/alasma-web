@@ -1,4 +1,10 @@
-export { getApiClient, getUploadApiClient, UPLOAD_TIMEOUT_MS } from './api/auth-client';
+export {
+  getAdminApiClient,
+  getAdminUploadApiClient,
+  getApiClient,
+  getUploadApiClient,
+  UPLOAD_TIMEOUT_MS,
+} from './api/auth-client';
 export { getAuthApi } from './api/auth-client';
 export { AuthProvider } from './components/auth-provider';
 export { RequireAuth } from './components/require-auth';

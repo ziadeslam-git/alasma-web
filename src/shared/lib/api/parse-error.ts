@@ -88,6 +88,7 @@ export function buildProblemError(status: number, body: unknown, headers: Header
     detail: textOf(fields.detail),
     code: textOf(fields.code),
     traceId: textOf(fields.traceId),
+    correlationId: textOf(fields.correlationId) ?? textOf(headers.get('X-Correlation-Id')),
     errors: readFieldErrors(fields.errors),
     retryAfterSeconds:
       status === 429 || status === 409 ? readRetryAfter(headers.get('Retry-After')) : undefined,

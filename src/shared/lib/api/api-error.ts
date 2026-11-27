@@ -12,6 +12,7 @@ export type ApiErrorInit = {
   detail?: string;
   code?: string;
   traceId?: string;
+  correlationId?: string;
   errors?: FieldErrors;
   retryAfterSeconds?: number;
   availableQuantity?: number;
@@ -29,6 +30,8 @@ export class ApiError extends Error {
   readonly detail: string | undefined;
   readonly code: string | undefined;
   readonly traceId: string | undefined;
+  // The id the backend logged for this call (body member `correlationId`, or the X-Correlation-Id response header).
+  readonly correlationId: string | undefined;
   readonly errors: FieldErrors;
   readonly retryAfterSeconds: number | undefined;
   readonly availableQuantity: number | undefined;
@@ -45,6 +48,7 @@ export class ApiError extends Error {
     this.detail = init.detail;
     this.code = init.code;
     this.traceId = init.traceId;
+    this.correlationId = init.correlationId;
     this.errors = init.errors ?? {};
     this.retryAfterSeconds = init.retryAfterSeconds;
     this.availableQuantity = init.availableQuantity;

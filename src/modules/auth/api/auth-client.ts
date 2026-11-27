@@ -1,4 +1,5 @@
 import { createBrowserClient, type BrowserClientHooks } from '@/shared/lib/api';
+import { createAdminClient, type AdminClient } from '@/shared/lib/api/admin';
 
 import { endSession, ensureFreshSession } from '../session/auth-session';
 import { notifyForbidden } from '../session/forbidden-events';
@@ -16,6 +17,8 @@ const EMAIL_NOT_CONFIRMED_CODE = 'email_not_confirmed';
 
 let client: ApiClient | null = null;
 let uploadClient: ApiClient | null = null;
+let adminClient: AdminClient | null = null;
+let adminUploadClient: AdminClient | null = null;
 
 // Bearer token from memory, and on a 401 (outside the auth routes) one shared refresh and one retry.
 const hooks: BrowserClientHooks = {
@@ -56,6 +59,20 @@ export function getApiClient(): ApiClient {
   client ??= createBrowserClient(hooks);
 
   return client;
+}
+
+// The client of every /api/v1/admin/* call: the same hooks (token from memory, one shared refresh, onForbidden), plus an
+// X-Correlation-Id on each request. Admin file uploads pass `timeoutMs: UPLOAD_TIMEOUT_MS` through the second argument.
+export function getAdminApiClient(): AdminClient {
+  adminClient ??= createAdminClient(hooks);
+
+  return adminClient;
+}
+
+export function getAdminUploadApiClient(): AdminClient {
+  adminUploadClient ??= createAdminClient(hooks, { timeoutMs: UPLOAD_TIMEOUT_MS });
+
+  return adminUploadClient;
 }
 
 // The same client with a longer timeout, for file uploads only.

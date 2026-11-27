@@ -26,7 +26,12 @@ export type BrowserClientOptions = {
   baseUrl?: string;
   timeoutMs?: number;
   fetch?: (input: Request) => Promise<Response>;
+  // When given, every request carries `X-Correlation-Id: <id>` (the backend echoes it and logs it, so a failed call can
+  // be traced). A resend after a refresh or a transient conflict keeps the same id.
+  createCorrelationId?: () => string;
 };
+
+export const CORRELATION_ID_HEADER = 'X-Correlation-Id';
 
 export const defaultTimeoutMs = 15_000;
 
@@ -56,6 +61,7 @@ function withTimeout(
 function createMiddleware(
   hooks: BrowserClientHooks,
   send: (input: Request) => Promise<Response>,
+  createCorrelationId?: () => string,
 ): Middleware {
   // An untouched copy of each in-flight request, kept only to resend it once after a refresh (a body can be read
   // once). Only filled when the hook exists, and always emptied when the response arrives.
@@ -89,6 +95,10 @@ function createMiddleware(
   return {
     async onRequest({ request, id }) {
       const token = hooks.getAccessToken();
+
+      if (createCorrelationId && !request.headers.has(CORRELATION_ID_HEADER)) {
+        request.headers.set(CORRELATION_ID_HEADER, createCorrelationId());
+      }
 
       if (token) {
         request.headers.set('Authorization', `Bearer ${token}`);
@@ -189,7 +199,7 @@ export function createBrowserClient(hooks: BrowserClientHooks, options: BrowserC
     fetch: send,
   });
 
-  client.use(createMiddleware(hooks, send));
+  client.use(createMiddleware(hooks, send, options.createCorrelationId));
 
   return client;
 }
