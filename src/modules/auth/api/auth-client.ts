@@ -1,6 +1,7 @@
 import { createBrowserClient, type BrowserClientHooks } from '@/shared/lib/api';
 
 import { endSession, ensureFreshSession } from '../session/auth-session';
+import { notifyForbidden } from '../session/forbidden-events';
 import { sessionHint } from '../session/session-hint';
 import { sessionStore } from '../session/session-store';
 import { createAuthApi } from './auth-api';
@@ -10,6 +11,8 @@ type ApiClient = ReturnType<typeof createBrowserClient>;
 // A 5 MB image over a slow mobile connection needs far more than the default 15 seconds. Only the upload client
 // (getUploadApiClient) uses this value; every other call keeps the default timeout.
 export const UPLOAD_TIMEOUT_MS = 60_000;
+
+const EMAIL_NOT_CONFIRMED_CODE = 'email_not_confirmed';
 
 let client: ApiClient | null = null;
 let uploadClient: ApiClient | null = null;
@@ -21,6 +24,18 @@ const hooks: BrowserClientHooks = {
     // a visitor with no session who hits a protected endpoint has nothing to end
     if (sessionStore.getAccessToken() !== null || sessionHint.has()) {
       endSession();
+    }
+  },
+  onForbidden: async ({ response }) => {
+    if (sessionStore.getAccessToken() === null) {
+      return;
+    }
+
+    // 403 email_not_confirmed is about the account, not about a permission: the admin area ignores it
+    const problem = (await response.json().catch(() => null)) as { code?: unknown } | null;
+
+    if (problem?.code !== EMAIL_NOT_CONFIRMED_CODE) {
+      notifyForbidden();
     }
   },
   refreshAccessToken: async ({ staleToken }) => {

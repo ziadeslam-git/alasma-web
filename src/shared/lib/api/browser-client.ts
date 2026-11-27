@@ -11,6 +11,9 @@ export type BrowserClientHooks = {
   // not retry. With it, the call happens only after the retry also got a 401 (or the refresh failed), and never for
   // the auth routes below.
   onUnauthorized?: (info: { request: Request; response: Response }) => void | Promise<void>;
+  // Called once for every 403 response, before the ApiError is thrown (the response is a clone: its body is free to
+  // read). The auth module uses it to tell the admin area that a permission was taken away.
+  onForbidden?: (info: { request: Request; response: Response }) => void | Promise<void>;
   // Gets a new access token after a 401 on a non-auth route, or null when there is no session to renew. The auth
   // module supplies it (one shared refresh per tab and across tabs). The request is then sent ONE more time with the
   // new token; a second 401 is final. `staleToken` is the token the rejected request carried.
@@ -157,6 +160,10 @@ function createMiddleware(
 
       if (final.status === 401 && !(hooks.refreshAccessToken && isAuthRoute)) {
         await hooks.onUnauthorized?.({ request, response: final.clone() });
+      }
+
+      if (final.status === 403) {
+        await hooks.onForbidden?.({ request, response: final.clone() });
       }
 
       throw await parseResponseError(final);

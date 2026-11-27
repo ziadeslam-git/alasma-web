@@ -7,6 +7,7 @@ export { useAuth } from './hooks/use-auth';
 export { RESEND_COOLDOWN_SECONDS, useResendConfirmation } from './hooks/use-resend-confirmation';
 export type { ResendStatus } from './hooks/use-resend-confirmation';
 export { endSession, ensureFreshSession } from './session/auth-session';
+export { notifyForbidden, subscribeForbidden } from './session/forbidden-events';
 export type { AuthContextValue } from './auth-context';
 export type { AuthStatus, AuthUser, ChangePasswordRequest, LoginCredentials } from './types';
 export type { RegisterCredentials, RegisterResult } from './types';

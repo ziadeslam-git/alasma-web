@@ -17,6 +17,27 @@ function client(getAccessToken: () => string | null | undefined) {
 }
 
 describe('browser client', () => {
+  it('calls onForbidden once for a 403 and still throws the ApiError', async () => {
+    server.use(
+      http.get(`${base}/api/v1/books`, () =>
+        HttpResponse.json({ title: 'Forbidden', code: 'forbidden' }, { status: 403 }),
+      ),
+    );
+    const onForbidden = vi.fn(async ({ response }: { response: Response }) => {
+      // the hook gets a clone, so it may read the body without breaking the thrown error
+      await response.json();
+    });
+    const api = createBrowserClient(
+      { getAccessToken: () => 'token', onForbidden },
+      { baseUrl: base },
+    );
+
+    await expect(api.GET('/api/v1/books')).rejects.toMatchObject({
+      status: 403,
+      code: 'forbidden',
+    });
+    expect(onForbidden).toHaveBeenCalledTimes(1);
+  });
   it('preserves the requested cache mode when applying the timeout', async () => {
     let observedCache: RequestCache | undefined;
     const api = createBrowserClient(
