@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import AccountDevPage from './account/page';
 import AddressesDevPage from './addresses/page';
+import AdminTableDevPage from './admin-table/page';
 import AuthDevPage from './auth/page';
 import AuthorsDevPage from './authors/page';
 import BookDevPage from './book/page';
@@ -41,6 +42,7 @@ describe('dev routes production guard', () => {
   it.each([
     ['/dev/account', () => AccountDevPage()],
     ['/dev/addresses', () => AddressesDevPage()],
+    ['/dev/admin-table', () => AdminTableDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/auth', () => AuthDevPage()],
     ['/dev/authors', () => AuthorsDevPage({ searchParams: Promise.resolve({}) })],
     ['/dev/book', () => BookDevPage({ searchParams: Promise.resolve({}) })],
@@ -74,6 +76,7 @@ describe('dev routes production guard', () => {
     expect(routeDirs.sort()).toEqual([
       'account',
       'addresses',
+      'admin-table',
       'auth',
       'authors',
       'book',

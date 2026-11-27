@@ -1,0 +1,28 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  margin-block-start: var(--space-4);
+}
+
+.search {
+  flex: 1 1 220px;
+  max-inline-size: 340px;
+}
+
+.select {
+  inline-size: auto;
+  min-inline-size: 150px;
+}
+
+@media (width <= 760px) {
+  .search {
+    flex-basis: 100%;
+    max-inline-size: none;
+  }
+
+  .select {
+    flex: 1 1 140px;
+  }
+}

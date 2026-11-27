@@ -1,0 +1,148 @@
+.scroll {
+  overflow-x: auto;
+  margin-block-start: var(--space-4);
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.head th {
+  padding: 15px 14px;
+  background: var(--surface-sunken);
+  color: var(--ink-muted);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: start;
+}
+
+.head th:first-child {
+  border-start-start-radius: var(--radius-md);
+  border-end-start-radius: var(--radius-md);
+}
+
+.head th:last-child {
+  border-start-end-radius: var(--radius-md);
+  border-end-end-radius: var(--radius-md);
+}
+
+.row {
+  position: relative;
+}
+
+.cell {
+  padding: 15px 14px;
+  border-block-end: 1px solid var(--hair);
+  color: var(--ink);
+}
+
+.row:last-child .cell {
+  border-block-end: 0;
+}
+
+.rowLink {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* The whole row is the click target: the link stretches over the row; real buttons in the actions cell sit above it. */
+.rowLink::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.rowLink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (width <= 760px) {
+  .scroll {
+    overflow: visible;
+  }
+
+  .table,
+  .table tbody {
+    display: grid;
+    gap: 12px;
+    inline-size: 100%;
+  }
+
+  .head {
+    display: none;
+  }
+
+  .row {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--hair);
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cell {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+    text-align: end;
+  }
+
+  .cell::before {
+    flex: none;
+    color: var(--ink-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: start;
+    content: attr(data-label);
+  }
+
+  .cell[data-label='']::before {
+    display: none;
+  }
+
+  /* low-priority columns are not drawn in the card; the primary cell, the high ones and the actions stay */
+  .low {
+    display: none;
+  }
+
+  .actionsCell {
+    padding-block-start: 10px;
+    border-block-start: 1px solid var(--hair);
+  }
+
+  .actions {
+    inline-size: 100%;
+    justify-content: space-around;
+  }
+}

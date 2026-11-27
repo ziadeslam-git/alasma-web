@@ -917,6 +917,34 @@
       "sidebar": "أقسام الإدارة",
       "landingTitle": "لوحة الإدارة"
     },
+    "table": {
+      "filters": "تصفية النتائج",
+      "searchPlaceholder": "ابحث هنا",
+      "searchLabel": "بحث",
+      "allOption": "الكل",
+      "dateFrom": "من تاريخ",
+      "dateTo": "إلى تاريخ",
+      "dateRangeLabel": "الفترة",
+      "dateRangeOrder": "تاريخ البداية لازم يكون قبل تاريخ النهاية.",
+      "dateRangeTooLong": "أقصى فترة مسموحة {max} يوم. قصّر الفترة وجرّب تاني.",
+      "clearFilters": "مسح التصفية",
+      "tableLabel": "جدول النتائج",
+      "loadingLabel": "جاري تحميل النتائج",
+      "actions": "إجراءات",
+      "emptyTitle": "مفيش نتائج",
+      "emptyDescription": "لسه مفيش بيانات تتعرض هنا.",
+      "emptyFilteredTitle": "مفيش نتايج مطابقة",
+      "emptyFilteredDescription": "جرّب تغيّر البحث أو تمسح التصفية.",
+      "errorTitle": "تعذّر تحميل البيانات",
+      "errorDescription": "حصلت مشكلة وإحنا بنحمّل النتائج. جرّب تاني.",
+      "retry": "إعادة المحاولة",
+      "pagination": "التنقل بين الصفحات",
+      "previous": "الصفحة السابقة",
+      "next": "الصفحة التالية",
+      "range": "{from} – {to} من {total}",
+      "pageSize": "عدد الصفوف",
+      "pageSizeOption": "{size} في الصفحة"
+    },
     "roles": {
       "SuperAdmin": "مدير النظام",
       "Admin": "مدير",
@@ -1512,6 +1540,33 @@
       "philosophy": "الفلسفة",
       "children": "كتب الأطفال"
     }
+  },
+  "devAdminTable": {
+    "title": "الطلبات",
+    "searchLabel": "بحث",
+    "searchPlaceholder": "ابحث برقم الطلب أو اسم العميل",
+    "statusLabel": "الحالة",
+    "periodLabel": "الفترة",
+    "columns": {
+      "order": "الطلب",
+      "customer": "العميل",
+      "books": "كتب",
+      "total": "الإجمالي",
+      "method": "الدفع",
+      "status": "الحالة",
+      "date": "التاريخ"
+    },
+    "statuses": {
+      "PendingPayment": "بانتظار الدفع",
+      "PaymentReview": "مراجعة الدفع",
+      "Confirmed": "مؤكد",
+      "Preparing": "قيد التجهيز",
+      "Shipped": "في الطريق",
+      "Delivered": "تم التسليم",
+      "Cancelled": "ملغي"
+    },
+    "customers": ["أحمد محمد", "أحمد محمد", "منى سعيد", "سامح علي", "رنا فؤاد"],
+    "methods": ["فودافون كاش", "إنستاباي", "عند الاستلام", "إنستاباي", "فودافون كاش"]
   },
   "devBooks": {
     "title": "معاينة صفحة المتجر (تجريبي)",
