@@ -86,7 +86,7 @@ function SelectFilter({
       onChange={(event) => onChange({ [filter.key]: event.target.value || null })}
       value={value}
     >
-      <option value="">{`${filter.label}: ${copy.allOption}`}</option>
+      <option value="">{filter.label}</option>
       {filter.options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

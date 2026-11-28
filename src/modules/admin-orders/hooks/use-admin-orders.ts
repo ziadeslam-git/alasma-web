@@ -10,7 +10,7 @@ import {
   type AdminOrderList,
   type AdminOrdersQuery,
 } from '../api/admin-orders-api';
-import { barFilters, buildUrlFilters, toAdminOrdersQuery } from '../lib/orders-filters';
+import { buildUrlFilters, toAdminOrdersQuery } from '../lib/orders-filters';
 import { useShippingZones } from './use-shipping-zones';
 
 type Settled = { data: AdminOrderList | null; error: MappedAdminError | null; key: string };
@@ -48,9 +48,9 @@ export function useAdminOrders() {
   const isCurrent = settled?.key === key;
 
   return {
-    barFilters: useMemo(() => barFilters(filters), [filters]),
     data: isCurrent ? (settled?.data ?? null) : null,
     error: isCurrent ? (settled?.error ?? null) : null,
+    filters,
     isFiltered: table.isFiltered,
     isLoading: !zones.settled || !isCurrent,
     reload: () => setReloadCount((count) => count + 1),

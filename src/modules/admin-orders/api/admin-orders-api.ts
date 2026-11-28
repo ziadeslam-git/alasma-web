@@ -22,6 +22,16 @@ export async function listAdminOrders(query: AdminOrdersQuery): Promise<AdminOrd
   return result.data;
 }
 
+// How many orders match a status and/or a period: one request for one row, only totalCount is read. It backs the
+// four summary cards, so no number is computed in the browser.
+export async function countAdminOrders(
+  filter: Pick<AdminOrdersQuery, 'from' | 'status' | 'to'>,
+): Promise<number> {
+  const list = await listAdminOrders({ ...filter, page: 1, pageSize: 1 });
+
+  return list.totalCount;
+}
+
 // The public zone list feeds the zone filter. It is not an admin endpoint, so it needs no permission.
 export async function listShippingZones(): Promise<ShippingZone[]> {
   const result = await getAdminApiClient().GET('/api/v1/shipping/zones', { cache: 'no-store' });

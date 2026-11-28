@@ -1,4 +1,5 @@
 .scroll {
+  position: relative;
   overflow-x: auto;
   margin-block-start: var(--space-4);
 }
@@ -13,7 +14,8 @@
 
 .head th {
   padding: 15px 14px;
-  background: var(--surface-sunken);
+  white-space: nowrap;
+  background: var(--admin-frame);
   color: var(--ink-muted);
   font-size: 14px;
   font-weight: 500;
@@ -22,13 +24,13 @@
 }
 
 .head th:first-child {
-  border-start-start-radius: var(--radius-md);
-  border-end-start-radius: var(--radius-md);
+  border-start-start-radius: 12px;
+  border-end-start-radius: 12px;
 }
 
 .head th:last-child {
-  border-start-end-radius: var(--radius-md);
-  border-end-end-radius: var(--radius-md);
+  border-start-end-radius: 12px;
+  border-end-end-radius: 12px;
 }
 
 .row {
@@ -37,7 +39,7 @@
 
 .cell {
   padding: 15px 14px;
-  border-block-end: 1px solid var(--hair);
+  border-block-end: 1px solid var(--admin-row-line);
   color: var(--ink);
 }
 
@@ -46,7 +48,7 @@
 }
 
 .rowLink {
-  color: var(--primary);
+  color: var(--g);
   font-weight: 700;
   text-decoration: none;
 }
@@ -69,6 +71,11 @@
   display: flex;
   gap: 6px;
   justify-content: flex-end;
+}
+
+/* The checkbox column (design .tbl th style="width:44px"). */
+.selection {
+  inline-size: 44px;
 }
 
 .srOnly {
@@ -103,7 +110,7 @@
     border: 1px solid var(--hair);
     border-radius: 18px;
     background: var(--card);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--admin-shadow-soft);
   }
 
   .cell {
@@ -132,7 +139,8 @@
   }
 
   /* low-priority columns are not drawn in the card; the primary cell, the high ones and the actions stay */
-  .low {
+  .low,
+  .selection {
     display: none;
   }
 

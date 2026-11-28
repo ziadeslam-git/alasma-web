@@ -1,0 +1,213 @@
+/* Copied from design/admin.css "ADMIN SHELL v2": .am__sheet and its parts. The open/close motion is the frame's
+   300ms slide from the inline-start edge. */
+dialog.sheet {
+  --sheet-offset: -100%;
+
+  position: fixed;
+  inset-block: 0;
+  inset-inline: 0 auto;
+  display: flex;
+  flex-direction: column;
+  inline-size: min(86vw, 340px);
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 16px 14px calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: var(--admin-sheet);
+  box-shadow: var(--admin-sheet-shadow);
+  font-family: var(--font-sans);
+}
+
+dialog.sheet:dir(rtl) {
+  --sheet-offset: 100%;
+}
+
+dialog.sheet::backdrop {
+  background: var(--admin-backdrop);
+  backdrop-filter: none;
+}
+
+dialog.sheet[data-state='open'] {
+  animation: sheet-enter 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+dialog.sheet[data-state='closing'] {
+  animation: sheet-exit 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 14px;
+}
+
+.logo {
+  inline-size: auto;
+  block-size: 34px;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: var(--admin-sheet-close-shadow);
+  color: var(--g);
+  cursor: pointer;
+}
+
+.who {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-block-end: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.who > svg {
+  inline-size: 24px;
+  block-size: 24px;
+  color: var(--g);
+}
+
+.whoName {
+  display: block;
+  font: 700 14px/1.3 var(--font-sans);
+}
+
+.whoRole {
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+
+.group {
+  border-block-end: 1px solid var(--admin-sheet-line);
+}
+
+.summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 8px;
+  color: var(--g);
+  cursor: pointer;
+  font: 700 15px/1.3 var(--font-sans);
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.chevron {
+  margin-inline-start: auto;
+  color: var(--ink-muted);
+  transition: transform 0.2s;
+}
+
+.group[open] > .summary {
+  color: var(--green-950);
+}
+
+.group[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.links {
+  display: grid;
+  gap: 2px;
+  padding: 0 0 12px 6px;
+  padding-inline-start: 30px;
+}
+
+.link {
+  padding: 11px 14px;
+  border-radius: 12px;
+  color: var(--ink-muted);
+  font: 500 14px/1.3 var(--font-sans);
+}
+
+a.link:hover,
+a.link:active {
+  background: var(--card);
+  color: var(--ink);
+}
+
+.link[aria-current='page'] {
+  background: var(--g);
+  color: var(--admin-sheet);
+  font-weight: 700;
+}
+
+span.link {
+  cursor: default;
+}
+
+.footer {
+  display: grid;
+  gap: 6px;
+  margin-block-start: 14px;
+}
+
+.footerLink {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 13px 12px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--g);
+  cursor: pointer;
+  font: 600 14px/1.3 var(--font-sans);
+  text-align: start;
+}
+
+span.footerLink {
+  cursor: default;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (width >= 1101px) {
+  dialog.sheet {
+    display: none;
+  }
+}
+
+@keyframes sheet-enter {
+  from {
+    transform: translateX(var(--sheet-offset));
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes sheet-exit {
+  from {
+    transform: none;
+  }
+
+  to {
+    transform: translateX(var(--sheet-offset));
+  }
+}

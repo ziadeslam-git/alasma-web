@@ -1,0 +1,119 @@
+/* Copied from design/site.css .appbar (the final, cumulative values of the design) for the admin bottom bar. */
+.appbar {
+  display: none;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (width <= 760px) {
+  .appbar {
+    position: fixed;
+    inset-inline: 14px;
+    inset-block-end: calc(14px + env(safe-area-inset-bottom));
+    z-index: 80;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    block-size: 72px;
+    padding: 0 6px;
+    border: 1px solid var(--admin-sheet-line);
+    border-radius: 26px;
+    background: var(--admin-sheet);
+    box-shadow: var(--admin-appbar-shadow);
+  }
+
+  .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    align-items: center;
+    justify-content: flex-start;
+    block-size: 62px;
+    padding: 12px 0 0;
+    border: 0;
+    border-radius: 18px;
+    background: transparent;
+    color: var(--g);
+    cursor: pointer;
+    font: 600 10.5px/1 var(--font-sans);
+    opacity: 0.68;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition:
+      opacity 0.2s,
+      color 0.2s;
+  }
+
+  .item svg {
+    position: relative;
+    z-index: 1;
+    display: block;
+    inline-size: 24px;
+    block-size: 24px;
+    transition: transform 0.25s;
+  }
+
+  .fab svg {
+    color: var(--admin-sheet);
+  }
+
+  .item:active svg {
+    transform: scale(0.88);
+  }
+
+  .item::before {
+    position: absolute;
+    inset-block-start: 4px;
+    inset-inline-start: 50%;
+    inline-size: 42px;
+    block-size: 42px;
+    margin-inline-start: -21px;
+    border-radius: 50%;
+    background: var(--g);
+    box-shadow: var(--admin-appbar-bubble-shadow);
+    content: '';
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  .item[aria-current='page'] {
+    gap: 12px;
+    color: var(--g);
+    font-weight: 800;
+    opacity: 1;
+  }
+
+  .item[aria-current='page']::before {
+    opacity: 1;
+    transform: none;
+  }
+
+  .item[aria-current='page'] svg {
+    color: var(--admin-sheet);
+  }
+
+  .fab {
+    block-size: 60px;
+    gap: 9px;
+    opacity: 1;
+  }
+
+  .fab::before {
+    opacity: 1;
+    transform: none;
+  }
+
+  span.item {
+    cursor: default;
+  }
+}

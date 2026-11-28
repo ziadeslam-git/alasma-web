@@ -1,0 +1,20 @@
+/* Values of the admin design frames (design/admin.css) that have no site token. Exact copies, named by role. */
+:root {
+  --admin-page: #e3e7e6;
+  --admin-frame: #f5f6f5;
+  --admin-sheet: #fbf7ee;
+  --admin-row-line: #eef1f0;
+  --admin-check-line: #c3cfcb;
+  --admin-wait-bg: #fff4dc;
+  --admin-wait-ink: #8a5a00;
+  --admin-backdrop: rgb(0 30 28 / 45%);
+  --admin-shadow: 0 1px 2px rgb(0 30 28 / 6%);
+  --admin-shadow-panel: 0 1px 2px rgb(0 30 28 / 5%);
+  --admin-shadow-soft: 0 1px 2px rgb(0 30 28 / 4%);
+  --admin-sheet-shadow: 0 0 60px rgb(0 30 28 / 35%);
+  --admin-sheet-close-shadow: 0 1px 2px rgb(0 30 28 / 10%);
+  --admin-frame-edge: 0 1px 0 #fff inset;
+  --admin-sheet-line: rgb(0 71 67 / 8%);
+  --admin-appbar-shadow: 0 18px 34px -14px rgb(0 50 46 / 35%), 0 2px 8px rgb(0 50 46 / 8%);
+  --admin-appbar-bubble-shadow: 0 10px 18px -6px rgb(0 71 67 / 55%);
+}

@@ -72,6 +72,14 @@ const ZONES = [
   },
 ];
 
+// What the four summary cards count, written here by hand (never read from the code under test).
+const KPI_TOTALS: Record<string, number> = {
+  '': 23,
+  Preparing: 12,
+  PaymentReview: 7,
+  Shipped: 18,
+};
+
 function page(items: AdminOrderListItem[], extra: Record<string, unknown> = {}) {
   return {
     hasNextPage: false,
@@ -85,6 +93,12 @@ function page(items: AdminOrderListItem[], extra: Record<string, unknown> = {}) 
   };
 }
 
+let kpiSeen: URL[] = [];
+let kpiFailure: string | null = null;
+
+const isKpiRequest = (url: URL) => url.searchParams.get('pageSize') === '1';
+
+// The list requests go to `handler`; the one-row count requests of the summary cards are answered here.
 function serve(handler: (url: URL) => Response | Promise<Response>) {
   const seen: URL[] = [];
 
@@ -92,6 +106,16 @@ function serve(handler: (url: URL) => Response | Promise<Response>) {
     http.get(`${base}/shipping/zones`, () => HttpResponse.json(ZONES)),
     http.get(`${base}/admin/orders`, ({ request }) => {
       const url = new URL(request.url);
+
+      if (isKpiRequest(url)) {
+        const status = url.searchParams.get('status') ?? '';
+
+        kpiSeen.push(url);
+
+        if (kpiFailure === status) return HttpResponse.json({ status: 500 }, { status: 500 });
+
+        return HttpResponse.json(page([], { pageSize: 1, totalCount: KPI_TOTALS[status] ?? 0 }));
+      }
 
       seen.push(url);
 
@@ -106,6 +130,8 @@ beforeEach(() => {
   mocks.auth = { status: 'authenticated', user: { permissions: ['Orders.View'] } };
   mocks.replace.mockReset();
   mocks.search = '';
+  kpiSeen = [];
+  kpiFailure = null;
 });
 
 describe('AdminOrdersPage', () => {
@@ -113,17 +139,143 @@ describe('AdminOrdersPage', () => {
     serve(() => HttpResponse.json(page([ORDER])));
     const { container } = render(<AdminOrdersPage />);
 
-    expect(await screen.findByRole('link', { name: 'AS-20418' })).toHaveAttribute(
+    expect(await screen.findByRole('link', { name: '#AS-20418' })).toHaveAttribute(
       'href',
       `/admin/orders/${ORDER.orderId}`,
     );
     expect(screen.getByText('أحمد محمد')).toBeInTheDocument();
-    const row = screen.getByRole('link', { name: 'AS-20418' }).closest('tr') as HTMLElement;
+    const row = screen.getByRole('link', { name: '#AS-20418' }).closest('tr') as HTMLElement;
 
     expect(within(row).getByText(copy.paymentMethods.CashOnDelivery)).toBeInTheDocument();
     expect(within(row).getByText(messages.admin.status.order.PaymentReview)).toBeInTheDocument();
     expect(container.textContent).not.toContain('@');
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('draws the frame columns: selection, payment status, and view / edit / delete in the row', async () => {
+    serve(() => HttpResponse.json(page([ORDER])));
+    render(<AdminOrdersPage />);
+    await screen.findByRole('link', { name: '#AS-20418' });
+
+    const headers = screen.getAllByRole('columnheader').map((header) => header.textContent);
+
+    expect(headers).toEqual([
+      '',
+      copy.columns.order,
+      copy.columns.customer,
+      copy.columns.books,
+      copy.columns.total,
+      copy.columns.payment,
+      copy.columns.paymentStatus,
+      copy.columns.status,
+      copy.columns.date,
+      copy.columns.actions,
+    ]);
+    expect(screen.getByRole('checkbox', { name: copy.selectAll })).toBeDisabled();
+
+    const row = screen.getByRole('link', { name: '#AS-20418' }).closest('tr') as HTMLElement;
+
+    expect(within(row).getByRole('checkbox', { name: copy.selectRow })).toBeDisabled();
+    // The list endpoint has no payment status: the cell is a dash, never an invented value.
+    expect(within(row).getByText('—')).toBeInTheDocument();
+    expect(within(row).getByRole('link', { name: copy.viewOrder })).toHaveAttribute(
+      'href',
+      `/admin/orders/${ORDER.orderId}`,
+    );
+    expect(within(row).getByRole('button', { name: copy.editOrder })).toBeDisabled();
+    expect(within(row).getByRole('button', { name: copy.deleteOrder })).toBeDisabled();
+  });
+
+  it('draws the sub-navigation of the frame: the list is current, the screens not built are inert', async () => {
+    serve(() => HttpResponse.json(page([ORDER])));
+    render(<AdminOrdersPage />);
+    await screen.findByRole('link', { name: '#AS-20418' });
+
+    const nav = screen.getByRole('navigation', { name: copy.subNavLabel });
+
+    expect(within(nav).getByRole('link', { name: copy.subNav.all })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    expect(within(nav).getAllByRole('link')).toHaveLength(1);
+
+    for (const key of [
+      'details',
+      'adminView',
+      'payments',
+      'shipping',
+      'carts',
+      'reservations',
+      'prints',
+    ] as const) {
+      expect(within(nav).getByText(copy.subNav[key])).toHaveAttribute('aria-disabled', 'true');
+    }
+  });
+
+  it('draws the export action inert, since there is no export endpoint', async () => {
+    serve(() => HttpResponse.json(page([ORDER])));
+    render(<AdminOrdersPage />);
+    await screen.findByRole('link', { name: '#AS-20418' });
+
+    expect(screen.getByRole('button', { name: copy.export })).toBeDisabled();
+  });
+
+  it('fills the four summary cards from the API totals, one row per request', async () => {
+    serve(() => HttpResponse.json(page([ORDER])));
+    render(<AdminOrdersPage />);
+
+    const cards = screen.getByRole('region', { name: copy.kpiLabel });
+
+    await waitFor(() => expect(within(cards).getByText('23')).toBeInTheDocument());
+    expect(within(cards).getByText('7')).toBeInTheDocument();
+    expect(within(cards).getByText('12')).toBeInTheDocument();
+    expect(within(cards).getByText('18')).toBeInTheDocument();
+    expect(within(cards).getByText(copy.kpis.today)).toBeInTheDocument();
+    expect(within(cards).getByText(copy.kpis.review)).toBeInTheDocument();
+    expect(within(cards).getByText(copy.kpis.preparing)).toBeInTheDocument();
+    expect(within(cards).getByText(copy.kpis.shipped)).toBeInTheDocument();
+
+    expect(kpiSeen).toHaveLength(4);
+    expect(kpiSeen.every((url) => url.searchParams.get('page') === '1')).toBe(true);
+    expect(kpiSeen.map((url) => url.searchParams.get('status')).sort()).toEqual([
+      'PaymentReview',
+      'Preparing',
+      'Shipped',
+      null,
+    ]);
+
+    const today = kpiSeen.find((url) => !url.searchParams.has('status'));
+    const from = new Date(today?.searchParams.get('from') ?? '');
+    const to = new Date(today?.searchParams.get('to') ?? '');
+
+    // Today is one calendar day of the browser: from its start to the start of the next day.
+    expect(from.getTime()).toBeLessThanOrEqual(Date.now());
+    expect(to.getTime()).toBeGreaterThan(Date.now());
+    expect(to.getTime() - from.getTime()).toBeGreaterThanOrEqual(23 * 3_600_000);
+    expect(to.getTime() - from.getTime()).toBeLessThanOrEqual(25 * 3_600_000);
+  });
+
+  it('shows a dash on the card whose request failed and keeps the others and the list', async () => {
+    kpiFailure = 'Shipped';
+    serve(() => HttpResponse.json(page([ORDER])));
+    render(<AdminOrdersPage />);
+
+    const cards = screen.getByRole('region', { name: copy.kpiLabel });
+
+    expect(await within(cards).findByText(copy.kpiUnavailable)).toBeInTheDocument();
+    expect(within(cards).getByText('7')).toBeInTheDocument();
+    expect(within(cards).queryByText('18')).not.toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: '#AS-20418' })).toBeInTheDocument();
+  });
+
+  it('does not filter the cards by the list filters', async () => {
+    mocks.search = 'status=Shipped&q=ali';
+    serve(() => HttpResponse.json(page([ORDER])));
+    render(<AdminOrdersPage />);
+    await screen.findByRole('link', { name: '#AS-20418' });
+    await waitFor(() => expect(kpiSeen).toHaveLength(4));
+
+    expect(kpiSeen.some((url) => url.searchParams.has('q'))).toBe(false);
   });
 
   it('sends every filter from the URL to the API in its own shape', async () => {
@@ -132,7 +284,7 @@ describe('AdminOrdersPage', () => {
     const seen = serve(() => HttpResponse.json(page([ORDER], { page: 2, totalCount: 40 })));
 
     render(<AdminOrdersPage />);
-    await screen.findByRole('link', { name: 'AS-20418' });
+    await screen.findByRole('link', { name: '#AS-20418' });
 
     expect(seen).toHaveLength(1);
     const params = seen[0]?.searchParams;
@@ -151,37 +303,41 @@ describe('AdminOrdersPage', () => {
     const seen = serve(() => HttpResponse.json(page([ORDER])));
 
     render(<AdminOrdersPage />);
-    await screen.findByRole('link', { name: 'AS-20418' });
+    await screen.findByRole('link', { name: '#AS-20418' });
 
     expect(seen[0]?.searchParams.has('status')).toBe(false);
     expect(seen[0]?.searchParams.has('paymentMethod')).toBe(false);
     expect(seen[0]?.searchParams.has('zoneId')).toBe(false);
-    expect(screen.getByRole('link', { name: copy.tabAll })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('combobox', { name: copy.statusFilter })).toHaveValue('');
   });
 
-  it('draws the quick tabs as links that write the status to the URL', async () => {
+  it('puts search, status, payment and zone in one filter row, and writes a choice to the URL', async () => {
     mocks.search = 'status=Shipped&page=3';
     serve(() => HttpResponse.json(page([ORDER])));
 
     render(<AdminOrdersPage />);
-    await screen.findByRole('link', { name: 'AS-20418' });
+    await screen.findByRole('link', { name: '#AS-20418' });
 
-    const shipped = screen.getByRole('link', { name: messages.admin.status.order.Shipped });
+    const bar = screen.getByRole('search');
 
-    expect(shipped).toHaveAttribute('aria-current', 'page');
-    expect(
-      screen.getAllByRole('link', { name: messages.admin.status.order.Delivered })[0],
-    ).toHaveAttribute('href', '/admin/orders?status=Delivered');
-    expect(screen.getByRole('link', { name: copy.tabAll })).toHaveAttribute(
-      'href',
-      '/admin/orders',
-    );
+    expect(within(bar).getByRole('searchbox', { name: copy.searchLabel })).toBeInTheDocument();
+    expect(within(bar).getByRole('combobox', { name: copy.statusFilter })).toHaveValue('Shipped');
+    expect(within(bar).getByRole('combobox', { name: copy.paymentFilter })).toBeInTheDocument();
+    expect(within(bar).getByRole('combobox', { name: copy.zoneFilter })).toBeInTheDocument();
+    expect(within(bar).getByLabelText(tableCopy.dateFrom)).toBeInTheDocument();
+
+    fireEvent.change(within(bar).getByRole('combobox', { name: copy.statusFilter }), {
+      target: { value: 'Delivered' },
+    });
+    expect(mocks.replace).toHaveBeenCalledWith('/admin/orders?status=Delivered', {
+      scroll: false,
+    });
   });
 
   it('writes the search to the URL once, after the debounce', async () => {
     serve(() => HttpResponse.json(page([ORDER])));
     render(<AdminOrdersPage />);
-    await screen.findByRole('link', { name: 'AS-20418' });
+    await screen.findByRole('link', { name: '#AS-20418' });
 
     const input = screen.getByRole('searchbox', { name: copy.searchLabel });
 
@@ -198,7 +354,7 @@ describe('AdminOrdersPage', () => {
   it('blocks a range longer than 366 days: the URL is not changed and the picker says why', async () => {
     serve(() => HttpResponse.json(page([ORDER])));
     render(<AdminOrdersPage />);
-    await screen.findByRole('link', { name: 'AS-20418' });
+    await screen.findByRole('link', { name: '#AS-20418' });
 
     fireEvent.change(screen.getByLabelText(tableCopy.dateFrom), {
       target: { value: '2025-01-01' },
@@ -236,7 +392,7 @@ describe('AdminOrdersPage', () => {
 
     fireEvent.click(await screen.findByRole('button', { name: tableCopy.retry }));
 
-    expect(await screen.findByRole('link', { name: 'AS-20418' })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: '#AS-20418' })).toBeInTheDocument();
     expect(calls).toBe(2);
   });
 
@@ -259,11 +415,17 @@ describe('AdminOrdersPage', () => {
   it('keeps the list when the zone list fails', async () => {
     server.use(
       http.get(`${base}/shipping/zones`, () => HttpResponse.json({ status: 500 }, { status: 500 })),
-      http.get(`${base}/admin/orders`, () => HttpResponse.json(page([ORDER]))),
+      http.get(`${base}/admin/orders`, ({ request }) =>
+        HttpResponse.json(
+          isKpiRequest(new URL(request.url))
+            ? page([], { pageSize: 1, totalCount: 1 })
+            : page([ORDER]),
+        ),
+      ),
     );
     render(<AdminOrdersPage />);
 
-    expect(await screen.findByRole('link', { name: 'AS-20418' })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: '#AS-20418' })).toBeInTheDocument();
     expect(screen.getByText(copy.zonesError)).toBeInTheDocument();
   });
 
@@ -272,18 +434,20 @@ describe('AdminOrdersPage', () => {
     // No handler is registered: a request would fail the test (onUnhandledFrame: error).
     render(<AdminOrdersPage />);
 
-    expect(screen.queryByRole('link', { name: 'AS-20418' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: '#AS-20418' })).not.toBeInTheDocument();
     expect(screen.queryByRole('search')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: copy.kpiLabel })).not.toBeInTheDocument();
   });
 
-  it('links the next page from the pagination', async () => {
+  it('links the next page from the pagination, without a page-size select (the frame has none)', async () => {
     serve(() => HttpResponse.json(page([ORDER], { hasNextPage: true, totalCount: 60 })));
     render(<AdminOrdersPage />);
-    await screen.findByRole('link', { name: 'AS-20418' });
+    await screen.findByRole('link', { name: '#AS-20418' });
 
     expect(screen.getByRole('link', { name: tableCopy.next })).toHaveAttribute(
       'href',
       '/admin/orders?page=2',
     );
+    expect(screen.queryByRole('combobox', { name: tableCopy.pageSize })).not.toBeInTheDocument();
   });
 });

@@ -4,6 +4,7 @@ import messages from '../src/i18n/messages/ar.json';
 
 // No real API: /auth/refresh and /me are answered by the test. The hint cookie makes the app try to restore a session.
 const HINT_COOKIE = 'alasma_has_session';
+const COMPACT_MAX_WIDTH = 1100;
 
 async function signInAs(page: Page, roles: string[], permissions: string[]) {
   await page
@@ -44,8 +45,15 @@ test.describe('admin frame', () => {
     await expect(
       page.getByRole('heading', { name: messages.admin.shell.landingTitle }),
     ).toBeVisible();
-    await expect(page.getByText('Test Admin').first()).toBeVisible();
-    await expect(page.getByText(messages.admin.roles.SuperAdmin).first()).toBeVisible();
+    // the brand chip with the role is the wide header; below the design breakpoint it moves into the menu sheet
+    if ((page.viewportSize()?.width ?? 0) > COMPACT_MAX_WIDTH) {
+      await expect(page.getByText(messages.admin.roles.SuperAdmin).first()).toBeVisible();
+    } else {
+      await page.getByRole('button', { name: messages.admin.shell.openMenu }).click();
+      await expect(
+        page.getByRole('dialog').getByText(messages.admin.roles.SuperAdmin),
+      ).toBeVisible();
+    }
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
   });
 

@@ -21,6 +21,13 @@ const ORDERS = Array.from({ length: 5 }, (_, index) => ({
   total: 412 + index,
 }));
 
+const KPI_TOTALS: Record<string, number> = {
+  '': 23,
+  PaymentReview: 7,
+  Preparing: 12,
+  Shipped: 18,
+};
+
 async function openOrders(page: Page, permissions: string[], orders = ORDERS) {
   await page
     .context()
@@ -63,8 +70,25 @@ async function openOrders(page: Page, permissions: string[], orders = ORDERS) {
       ],
     }),
   );
-  await page.route('**/api/v1/admin/orders?**', (route) =>
-    route.fulfill({
+  await page.route('**/api/v1/admin/orders?**', (route) => {
+    const url = new URL(route.request().url());
+
+    // The four summary cards ask for one row and read only totalCount; the list asks for a page.
+    if (url.searchParams.get('pageSize') === '1') {
+      return route.fulfill({
+        json: {
+          hasNextPage: true,
+          hasPreviousPage: false,
+          items: [],
+          page: 1,
+          pageSize: 1,
+          totalCount: KPI_TOTALS[url.searchParams.get('status') ?? ''] ?? 0,
+          totalPages: 1,
+        },
+      });
+    }
+
+    return route.fulfill({
       json: {
         hasNextPage: false,
         hasPreviousPage: false,
@@ -74,8 +98,8 @@ async function openOrders(page: Page, permissions: string[], orders = ORDERS) {
         totalCount: orders.length,
         totalPages: 1,
       },
-    }),
-  );
+    });
+  });
   await page.goto('/admin/orders');
 }
 
@@ -86,7 +110,7 @@ test.describe('admin orders list', () => {
     await openOrders(page, ['Orders.View']);
 
     await expect(page.getByRole('heading', { name: copy.title, level: 1 })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'AS-20400' })).toHaveAttribute(
+    await expect(page.getByRole('link', { name: '#AS-20400' })).toHaveAttribute(
       'href',
       /\/admin\/orders\/00000000-0000-0000-0000-000000000001$/,
     );
@@ -102,18 +126,42 @@ test.describe('admin orders list', () => {
     expect(results.violations).toEqual([]);
   });
 
-  test('a status tab writes the status to the URL and asks the API for it', async ({ page }) => {
+  test('shows the frame regions: sub-navigation, export, four cards, one filter row', async ({
+    page,
+  }) => {
     await openOrders(page, ['Orders.View']);
-    await page.getByRole('link', { name: 'AS-20400' }).waitFor();
+    await page.getByRole('link', { name: '#AS-20400' }).waitFor();
+
+    const nav = page.getByRole('navigation', { name: copy.subNavLabel });
+
+    await expect(nav.getByRole('link', { name: copy.subNav.all })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await expect(nav.getByText(copy.subNav.payments)).toBeVisible();
+    await expect(page.getByRole('button', { name: copy.export })).toBeDisabled();
+
+    const cards = page.getByRole('region', { name: copy.kpiLabel });
+
+    await expect(cards.getByText('23')).toBeVisible();
+    await expect(cards.getByText('7', { exact: true })).toBeVisible();
+    await expect(cards.getByText('12')).toBeVisible();
+    await expect(cards.getByText('18')).toBeVisible();
+    await expect(page.getByRole('combobox', { name: copy.statusFilter })).toBeVisible();
+  });
+
+  test('the status select writes the status to the URL and asks the API for it', async ({
+    page,
+  }) => {
+    await openOrders(page, ['Orders.View']);
+    await page.getByRole('link', { name: '#AS-20400' }).waitFor();
 
     const request = page.waitForRequest(
       (item) =>
         item.url().includes('/api/v1/admin/orders?') && item.url().includes('status=Shipped'),
     );
 
-    await page
-      .getByRole('link', { name: messages.admin.status.order.Shipped, exact: true })
-      .click();
+    await page.getByRole('combobox', { name: copy.statusFilter }).selectOption('Shipped');
     await request;
     await expect(page).toHaveURL(/status=Shipped/);
   });
@@ -122,13 +170,13 @@ test.describe('admin orders list', () => {
     await openOrders(page, ['Orders.View']);
     await page.goto('/admin/orders?status=Bogus');
 
-    await expect(page.getByRole('link', { name: 'AS-20400' })).toBeVisible();
+    await expect(page.getByRole('link', { name: '#AS-20400' })).toBeVisible();
   });
 
   test('without Orders.View the page shows the 403 screen', async ({ page }) => {
     await openOrders(page, []);
 
     await expect(page.getByRole('heading', { name: messages.admin.forbidden.title })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'AS-20400' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: '#AS-20400' })).toHaveCount(0);
   });
 });

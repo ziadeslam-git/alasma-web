@@ -19,6 +19,8 @@ export type TablePaginationProps = {
   onPageSizeChange: (pageSize: number) => void;
   pagination: PaginationState;
   rowsOnPage: number;
+  // The page-size select is an extra of the shared kit; a design without it (AdmOrders) turns it off.
+  showPageSize?: boolean;
 };
 
 function totalPagesOf({ hasNext, page, pageSize, total }: PaginationState): number {
@@ -66,6 +68,7 @@ export function TablePagination({
   onPageSizeChange,
   pagination,
   rowsOnPage,
+  showPageSize = true,
 }: TablePaginationProps) {
   const totalPages = totalPagesOf(pagination);
   const { page } = pagination;
@@ -98,18 +101,20 @@ export function TablePagination({
           next
         />
       </nav>
-      <Select
-        aria-label={copy.pageSize}
-        className={styles.size}
-        onChange={(event) => onPageSizeChange(Number(event.target.value))}
-        value={String(pagination.pageSize)}
-      >
-        {PAGE_SIZE_OPTIONS.map((size) => (
-          <option key={size} value={size}>
-            {copy.pageSizeOption.replace('{size}', formatNumber(size))}
-          </option>
-        ))}
-      </Select>
+      {showPageSize ? (
+        <Select
+          aria-label={copy.pageSize}
+          className={styles.size}
+          onChange={(event) => onPageSizeChange(Number(event.target.value))}
+          value={String(pagination.pageSize)}
+        >
+          {PAGE_SIZE_OPTIONS.map((size) => (
+            <option key={size} value={size}>
+              {copy.pageSizeOption.replace('{size}', formatNumber(size))}
+            </option>
+          ))}
+        </Select>
+      ) : null}
     </div>
   );
 }

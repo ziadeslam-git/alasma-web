@@ -6,8 +6,12 @@ export type ColumnPriority = 'high' | 'low';
 export type DataTableColumn<Row> = {
   cell: (row: Row) => ReactNode;
   header: string;
+  // Drawn in the header cell instead of the text (the select-all box); `header` stays its accessible name.
+  headerContent?: ReactNode;
   id: string;
   isActions?: boolean;
+  // A narrow checkbox column: 44px on a desktop, not drawn in the phone card (the frame hides it there).
+  isSelection?: boolean;
   // The cell that carries the row link (one per table).
   isPrimary?: boolean;
   priority?: ColumnPriority;

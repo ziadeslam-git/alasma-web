@@ -10,7 +10,10 @@
   font-size: 13px;
 }
 
+/* design/AdmOrders.dc.html .pg2: the range text at the start, the page links at the far end. The page-size select
+   (not in the frame) sits next to the range text. */
 .summary {
+  order: 1;
   min-inline-size: 0;
 }
 
@@ -18,14 +21,16 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  order: 3;
+  margin-inline-start: auto;
 }
 
 .link,
 .gap {
   display: grid;
   place-items: center;
-  min-inline-size: 44px;
-  block-size: 44px;
+  min-inline-size: 34px;
+  block-size: 34px;
   border-radius: 9px;
   color: var(--ink);
   font-weight: 600;
@@ -42,8 +47,8 @@
 }
 
 .link[aria-current='page'] {
-  background: var(--primary);
-  color: var(--on-primary);
+  background: var(--green-950);
+  color: var(--card);
 }
 
 .disabled {
@@ -56,23 +61,20 @@
 }
 
 .size {
+  order: 2;
   inline-size: auto;
   min-inline-size: 140px;
 }
 
 @media (width <= 760px) {
+  /* the frame keeps the range text and the page links on one row (.pg2) */
   .pagination {
-    justify-content: center;
+    justify-content: space-between;
   }
 
   /* a phone shows previous, the current page and next; the numbered links would not fit in 44px targets */
   .pages > .item:not([aria-current='page']),
   .pages > .gap {
     display: none;
-  }
-
-  .summary {
-    flex: 1 0 100%;
-    text-align: center;
   }
 }

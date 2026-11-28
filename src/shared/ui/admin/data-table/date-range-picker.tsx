@@ -76,7 +76,9 @@ export function DateRangePicker({ from, label, maxDays, onChange, to }: DateRang
         aria-describedby={error ? 'date-range-error' : undefined}
         aria-label={copy.dateFrom}
         error={error !== null}
+        lang="ar"
         onChange={(event) => change({ from: event.target.value, to: draft.to })}
+        startAdornment={<span className={styles.prefix}>{copy.dateFromShort}</span>}
         type="date"
         value={draft.from}
       />
@@ -84,7 +86,9 @@ export function DateRangePicker({ from, label, maxDays, onChange, to }: DateRang
         aria-describedby={error ? 'date-range-error' : undefined}
         aria-label={copy.dateTo}
         error={error !== null}
+        lang="ar"
         onChange={(event) => change({ from: draft.from, to: event.target.value })}
+        startAdornment={<span className={styles.prefix}>{copy.dateToShort}</span>}
         type="date"
         value={draft.to}
       />

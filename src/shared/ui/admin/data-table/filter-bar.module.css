@@ -1,28 +1,42 @@
+/* Copied from design/AdmOrders.dc.html (admin.css .tb, site.css .field / .sel): one row, search first, then the
+   selects, 10px gaps. The frame keeps its 14px fields on a phone too (the shared Input's phone sizing does not apply
+   inside the admin filter row). */
 .bar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: 10px;
   align-items: center;
-  margin-block-start: var(--space-4);
+  margin-block-start: 16px;
 }
 
 .search {
-  flex: 1 1 220px;
+  flex: 1 1 340px;
+  min-inline-size: 220px;
   max-inline-size: 340px;
 }
 
-.select {
+.bar .search input[type='search'] {
+  min-block-size: 0;
+  padding-inline-start: 40px;
+  background: var(--card);
+  font-size: 14px;
+}
+
+/* the frame puts the search icon 14px from the edge */
+.search > span > span {
+  inset-inline-start: 14px;
+}
+
+.bar .select:is(select) {
   inline-size: auto;
-  min-inline-size: 150px;
+  block-size: 44px;
+  min-block-size: 0;
+  font-size: 14px;
 }
 
 @media (width <= 760px) {
   .search {
     flex-basis: 100%;
     max-inline-size: none;
-  }
-
-  .select {
-    flex: 1 1 140px;
   }
 }

@@ -33,7 +33,7 @@
   cursor: not-allowed;
 }
 
-.input:read-only {
+.input:read-only:not(.select) {
   background: color-mix(in srgb, var(--pg) 50%, var(--soft));
   color: var(--ink-muted);
 }

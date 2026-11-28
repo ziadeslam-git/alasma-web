@@ -5,7 +5,8 @@ import messages from '../src/i18n/messages/ar.json';
 // No real API: the session and /me (roles, permissions, features) are answered by the test. The hint cookie makes the
 // app restore a session.
 const HINT_COOKIE = 'alasma_has_session';
-const PHONE_MAX_WIDTH = 1000;
+const PHONE_MAX_WIDTH = 760;
+const COMPACT_MAX_WIDTH = 1100;
 const nav = messages.admin.nav;
 
 const ALL_PERMISSIONS = [
@@ -62,6 +63,21 @@ async function signIn(page: Page, roles: string[], permissions: string[], offFla
       },
     }),
   );
+  // the orders page is opened by several tests: nothing may reach a real backend
+  await page.route('**/api/v1/admin/orders?**', (route) =>
+    route.fulfill({
+      json: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        items: [],
+        page: 1,
+        pageSize: 25,
+        totalCount: 0,
+        totalPages: 1,
+      },
+    }),
+  );
+  await page.route('**/api/v1/shipping/zones', (route) => route.fulfill({ json: [] }));
   await page.route('**/api/v1/me', (route) =>
     route.fulfill({
       json: {
@@ -83,88 +99,127 @@ async function signIn(page: Page, roles: string[], permissions: string[], offFla
   );
 }
 
-// On a phone the menu lives in the drawer of the header.
-async function openMenuIfPhone(page: Page) {
-  if ((page.viewportSize()?.width ?? 0) <= PHONE_MAX_WIDTH) {
-    await page.getByRole('button', { name: messages.admin.shell.menu }).click();
-    // the drawer starts with only the current group open; open the rest to look at every link
-    await page.evaluate(() => {
-      document.querySelectorAll('[data-admin-nav] details').forEach((group) => {
-        (group as HTMLDetailsElement).open = true;
-      });
-    });
-  }
+// Below this width the design swaps the pills and the rail for the burger, the bottom bar and the menu sheet.
+async function openSheet(page: Page) {
+  await page.getByRole('button', { name: messages.admin.shell.openMenu }).click();
+
+  return page.getByRole('dialog', { name: messages.admin.shell.sheet });
 }
 
-const menu = (page: Page) => page.getByRole('navigation', { name: nav.label });
+const isCompact = (page: Page) => (page.viewportSize()?.width ?? 0) <= COMPACT_MAX_WIDTH;
+const pills = (page: Page) => page.getByRole('navigation', { name: nav.label });
 
 test.describe('admin menu', () => {
-  test('the phone drawer opens only the group of the current page', async ({ page }) => {
-    test.skip((page.viewportSize()?.width ?? 0) > PHONE_MAX_WIDTH, 'phone drawer only');
+  test('the sheet opens only the group of the current page', async ({ page }) => {
+    test.skip(!isCompact(page), 'sheet only below the design breakpoint');
     await signIn(page, ['SuperAdmin'], ALL_PERMISSIONS);
     await page.goto('/admin/orders');
-    await page.getByRole('button', { name: messages.admin.shell.menu }).click();
 
-    await expect(menu(page).locator('[data-nav-group="operations"]')).toHaveAttribute('open', '');
-    await expect(menu(page).locator('[data-nav-group="catalog"]')).not.toHaveAttribute('open', '');
+    const sheet = await openSheet(page);
+
+    await expect(sheet.locator('details[open]')).toHaveCount(1);
+    await expect(sheet.getByRole('link', { name: nav.sheetItems.allOrders })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
   });
 
-  test('the default Admin sees Orders and Payments only', async ({ page }) => {
+  test('the default Admin sees the Orders group only', async ({ page }) => {
     await signIn(page, ['Admin'], ['Orders.View', 'Orders.AddNote', 'Orders.RaiseAlert']);
-    await page.goto('/admin');
-    await openMenuIfPhone(page);
+    await page.goto('/admin/orders');
 
-    const links = menu(page).getByRole('link');
+    if (isCompact(page)) {
+      const sheet = await openSheet(page);
 
-    await expect(links).toHaveText([nav.items.orders, nav.items.payments]);
+      await expect(sheet.locator('details')).toHaveCount(1);
+      await expect(sheet.getByRole('link')).toContainText([nav.sheetItems.allOrders]);
+    } else {
+      await expect(pills(page).locator('[data-nav-group]')).toHaveCount(1);
+      await expect(pills(page).getByRole('link', { name: nav.groups.orders })).toHaveAttribute(
+        'aria-current',
+        'page',
+      );
+    }
   });
 
-  test('a SuperAdmin sees every section except the Developer one, and a locked one faded', async ({
+  test('a SuperAdmin sees the eight groups; unbuilt pages are inert, never links', async ({
     page,
   }) => {
     await signIn(page, ['SuperAdmin'], ALL_PERMISSIONS, ['Marketing.Banners']);
     await page.goto('/admin');
-    await openMenuIfPhone(page);
 
-    await expect(menu(page).getByRole('link')).toHaveCount(25);
-    await expect(menu(page).getByRole('link', { name: nav.items.dev })).toHaveCount(0);
+    if (isCompact(page)) {
+      const sheet = await openSheet(page);
 
-    const locked = menu(page).locator('[aria-disabled="true"]');
+      await expect(sheet.locator('details')).toHaveCount(8);
 
-    await expect(locked).toHaveCount(1);
-    await expect(locked).toContainText(nav.items.banners);
-    await expect(locked).toContainText(nav.soon);
+      const locked = sheet.locator('[aria-disabled="true"]', { hasText: nav.sheetItems.banners });
+
+      await expect(locked).toHaveCount(1);
+      await expect(locked).toContainText(nav.soon);
+      await expect(sheet.getByRole('link', { name: nav.sheetItems.allBooks })).toHaveCount(0);
+    } else {
+      await expect(pills(page).locator('[data-nav-group]')).toHaveCount(8);
+      await expect(pills(page).getByRole('link', { name: nav.groups.overview })).toHaveAttribute(
+        'href',
+        '/admin',
+      );
+      await expect(pills(page).locator('[data-nav-group="books"]')).toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
+      await expect(pills(page).getByRole('link', { name: nav.groups.books })).toHaveCount(0);
+    }
   });
 
-  test('a Developer sees the Developer section', async ({ page }) => {
+  test('a Developer sees the Developer page in the settings group', async ({ page }) => {
+    test.skip(!isCompact(page), 'the full page lists live in the sheet');
     await signIn(page, ['Developer'], ALL_PERMISSIONS);
     await page.goto('/admin');
-    await openMenuIfPhone(page);
 
-    await expect(menu(page).getByRole('link', { name: nav.items.dev })).toHaveAttribute(
-      'href',
-      '/admin/dev',
-    );
+    const sheet = await openSheet(page);
+
+    await sheet.locator('summary', { hasText: nav.groups.settings }).click();
+    await expect(sheet.getByText(nav.sheetItems.devPanel)).toBeVisible();
   });
 
-  test('the current page is marked and a group can be collapsed on wide screens', async ({
-    page,
-  }) => {
+  test('the keyboard reaches the pill link and skips the inert ones', async ({ page }) => {
+    test.skip(isCompact(page), 'the pills are the wide layout');
     await signIn(page, ['SuperAdmin'], ALL_PERMISSIONS);
     await page.goto('/admin/orders');
-    await openMenuIfPhone(page);
 
-    await expect(menu(page).getByRole('link', { name: nav.items.orders })).toHaveAttribute(
+    await pills(page).getByRole('link', { name: nav.groups.overview }).focus();
+    await page.keyboard.press('Tab');
+
+    await expect(pills(page).getByRole('link', { name: nav.groups.orders })).toBeFocused();
+  });
+
+  test('the rail shows the current page and the logout is a button', async ({ page }) => {
+    test.skip(isCompact(page), 'the rail is the wide layout');
+    await signIn(page, ['SuperAdmin'], ALL_PERMISSIONS);
+    await page.goto('/admin/orders');
+
+    const rail = page.getByRole('complementary', { name: messages.admin.shell.quickNav });
+
+    await expect(rail.getByRole('link', { name: nav.groups.orders })).toHaveAttribute(
       'aria-current',
       'page',
     );
+    await expect(rail.getByRole('button', { name: messages.admin.shell.logout })).toBeVisible();
+  });
 
-    if ((page.viewportSize()?.width ?? 0) > PHONE_MAX_WIDTH) {
-      const group = menu(page).locator('[data-nav-group="catalog"]');
+  test('the bottom bar replaces the rail on a phone and opens the sheet', async ({ page }) => {
+    test.skip((page.viewportSize()?.width ?? 0) > PHONE_MAX_WIDTH, 'phone only');
+    await signIn(page, ['SuperAdmin'], ALL_PERMISSIONS);
+    await page.goto('/admin/orders');
 
-      await expect(group).toHaveAttribute('open', '');
-      await group.locator('summary').click();
-      await expect(group).not.toHaveAttribute('open', '');
-    }
+    const bar = page.getByRole('navigation', { name: messages.admin.shell.bottomNav });
+
+    await expect(bar.getByRole('link', { name: nav.groups.orders })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await bar.getByRole('button', { name: messages.admin.shell.more }).click();
+    await expect(page.getByRole('dialog', { name: messages.admin.shell.sheet })).toBeVisible();
   });
 });

@@ -17,7 +17,7 @@ export const STATUS_TONES: Record<StatusType, Record<string, StatusTone>> = {
     Delivered: 'success',
     PaymentReview: 'warning',
     PendingPayment: 'warning',
-    Preparing: 'info',
+    Preparing: 'warning',
     Shipped: 'info',
   },
   payment: {

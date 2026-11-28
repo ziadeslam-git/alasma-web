@@ -27,15 +27,26 @@ export type NavItem = {
 
 export type NavGroup = { id: NavGroupId; icon: IconName };
 
-// Order of the groups in the menu.
+// The eight groups of the design (admin top pills and the phone sheet), in that order.
 export const NAV_GROUPS: readonly NavGroup[] = [
-  { id: 'operations', icon: 'chart' },
-  { id: 'catalog', icon: 'book' },
-  { id: 'pricing', icon: 'tag' },
+  { id: 'overview', icon: 'dash' },
+  { id: 'books', icon: 'book' },
+  { id: 'orders', icon: 'list' },
+  { id: 'offers', icon: 'tag' },
+  { id: 'people', icon: 'users' },
   { id: 'content', icon: 'grid' },
-  { id: 'publishing', icon: 'package' },
-  { id: 'administration', icon: 'settings' },
-  { id: 'developer', icon: 'shield' },
+  { id: 'packages', icon: 'package' },
+  { id: 'settings', icon: 'settings' },
+];
+
+// The slim icon rail shows six of them, in this order (the design's rail).
+export const RAIL_GROUP_IDS: readonly NavGroupId[] = [
+  'overview',
+  'orders',
+  'books',
+  'people',
+  'content',
+  'settings',
 ];
 
 const adminRoute = (segment: string) => `${routes.admin}/${segment}`;
@@ -48,54 +59,54 @@ export const NAV_ITEMS: readonly NavItem[] = [
   {
     href: routes.admin,
     labelKey: 'dashboard',
-    group: 'operations',
+    group: 'overview',
     permission: p.dashboardView,
     flag: f.reportsDashboard,
   },
-  { href: adminRoute('orders'), labelKey: 'orders', group: 'operations', permission: p.ordersView },
+  { href: adminRoute('orders'), labelKey: 'orders', group: 'orders', permission: p.ordersView },
   {
     href: adminRoute('payments'),
     labelKey: 'payments',
-    group: 'operations',
+    group: 'orders',
     permission: p.ordersView,
   },
   {
     href: adminRoute('alerts'),
     labelKey: 'alerts',
-    group: 'operations',
+    group: 'settings',
     permission: p.alertsView,
     flag: f.ordersAlerts,
   },
 
-  { href: adminRoute('books'), labelKey: 'books', group: 'catalog', permission: p.booksEdit },
+  { href: adminRoute('books'), labelKey: 'books', group: 'books', permission: p.booksEdit },
   {
     href: adminRoute('inventory'),
     labelKey: 'inventory',
-    group: 'catalog',
+    group: 'books',
     permission: p.booksManageStock,
   },
   {
     href: adminRoute('authors'),
     labelKey: 'authors',
-    group: 'catalog',
+    group: 'people',
     permission: p.authorsManage,
   },
   {
     href: adminRoute('categories'),
     labelKey: 'categories',
-    group: 'catalog',
+    group: 'books',
     permission: p.categoriesManage,
   },
   {
     href: adminRoute('publishers'),
     labelKey: 'publishers',
-    group: 'catalog',
+    group: 'books',
     permission: p.publishersManage,
   },
   {
     href: adminRoute('offers'),
     labelKey: 'offers',
-    group: 'catalog',
+    group: 'offers',
     permission: p.bundlesManage,
     flag: f.catalogBundles,
   },
@@ -103,14 +114,14 @@ export const NAV_ITEMS: readonly NavItem[] = [
   {
     href: adminRoute('coupons'),
     labelKey: 'coupons',
-    group: 'pricing',
+    group: 'offers',
     permission: p.couponsManage,
     flag: f.marketingCoupons,
   },
   {
     href: adminRoute('shipping'),
     labelKey: 'shipping',
-    group: 'pricing',
+    group: 'settings',
     permission: p.shippingManage,
   },
 
@@ -131,7 +142,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   {
     href: adminRoute('quotes'),
     labelKey: 'quotes',
-    group: 'content',
+    group: 'books',
     permission: p.contentManage,
     flag: f.marketingQuotes,
   },
@@ -145,14 +156,14 @@ export const NAV_ITEMS: readonly NavItem[] = [
   {
     href: adminRoute('reviews'),
     labelKey: 'reviews',
-    group: 'content',
+    group: 'books',
     permission: p.reviewsModerate,
     flag: f.catalogReviews,
   },
   {
     href: adminRoute('reservations'),
     labelKey: 'reservations',
-    group: 'content',
+    group: 'orders',
     permission: p.reservationsManage,
     flag: f.catalogReservations,
   },
@@ -167,14 +178,14 @@ export const NAV_ITEMS: readonly NavItem[] = [
   {
     href: adminRoute('packages'),
     labelKey: 'packages',
-    group: 'publishing',
+    group: 'packages',
     permission: p.packagesManage,
     flag: f.publishingPackages,
   },
   {
     href: adminRoute('publishing-requests'),
     labelKey: 'publishingRequests',
-    group: 'publishing',
+    group: 'packages',
     permission: p.packageRequestsManage,
     flag: f.publishingManuscriptRequests,
   },
@@ -182,33 +193,123 @@ export const NAV_ITEMS: readonly NavItem[] = [
   {
     href: adminRoute('users'),
     labelKey: 'users',
-    group: 'administration',
+    group: 'people',
     permission: p.usersView,
   },
   {
     href: adminRoute('permissions'),
     labelKey: 'permissions',
-    group: 'administration',
+    group: 'settings',
     permission: p.rolesManage,
   },
   {
     href: adminRoute('audit-log'),
     labelKey: 'auditLog',
-    group: 'administration',
+    group: 'settings',
     permission: p.auditView,
   },
   {
     href: adminRoute('reports'),
     labelKey: 'reports',
-    group: 'administration',
+    group: 'settings',
     permission: p.reportsView,
   },
   {
     href: adminRoute('settings'),
     labelKey: 'settings',
-    group: 'administration',
+    group: 'settings',
     permission: p.settingsManage,
   },
 
-  { href: adminRoute('dev'), labelKey: 'dev', group: 'developer', role: ROLES.developer },
+  { href: adminRoute('dev'), labelKey: 'dev', group: 'settings', role: ROLES.developer },
 ];
+
+export type SheetItemKey = keyof typeof messages.admin.nav.sheetItems;
+
+// One line of the phone sheet, exactly as the design lists it. `page` is the real nav item that decides the
+// permission, the flag and the target; `soon` marks a design page that has no screen of its own yet (it stays inert
+// even when its parent page is built).
+export type SheetItem = { key: SheetItemKey; page: NavItemKey; soon?: boolean };
+export type SheetGroup = { id: NavGroupId; items: readonly SheetItem[] };
+
+// The sheet lists of the design (.am__sheet), same groups, labels and order.
+export const SHEET_GROUPS: readonly SheetGroup[] = [
+  { id: 'overview', items: [{ key: 'overview', page: 'dashboard' }] },
+  {
+    id: 'books',
+    items: [
+      { key: 'allBooks', page: 'books' },
+      { key: 'editBook', page: 'books', soon: true },
+      { key: 'categories', page: 'categories' },
+      { key: 'inventory', page: 'inventory' },
+      { key: 'quotes', page: 'quotes' },
+      { key: 'reviews', page: 'reviews' },
+    ],
+  },
+  {
+    id: 'orders',
+    items: [
+      { key: 'allOrders', page: 'orders' },
+      { key: 'orderDetail', page: 'orders', soon: true },
+      { key: 'adminView', page: 'orders', soon: true },
+      { key: 'paymentReview', page: 'payments' },
+      { key: 'shipping', page: 'shipping' },
+      { key: 'abandonedCarts', page: 'orders', soon: true },
+      { key: 'reservations', page: 'reservations' },
+      { key: 'printedReports', page: 'reports' },
+    ],
+  },
+  {
+    id: 'offers',
+    items: [
+      { key: 'discounts', page: 'offers', soon: true },
+      { key: 'coupons', page: 'coupons' },
+      { key: 'bundles', page: 'offers' },
+    ],
+  },
+  {
+    id: 'people',
+    items: [
+      { key: 'customers', page: 'users' },
+      { key: 'authors', page: 'authors' },
+      { key: 'authorPage', page: 'authors', soon: true },
+    ],
+  },
+  {
+    id: 'content',
+    items: [
+      { key: 'homeSections', page: 'pages', soon: true },
+      { key: 'banners', page: 'banners' },
+      { key: 'events', page: 'events' },
+      { key: 'whereToFind', page: 'pages', soon: true },
+      { key: 'policies', page: 'pages', soon: true },
+      { key: 'newsletter', page: 'newsletter' },
+    ],
+  },
+  {
+    id: 'packages',
+    items: [
+      { key: 'packages', page: 'packages' },
+      { key: 'publishingRequests', page: 'publishingRequests' },
+    ],
+  },
+  {
+    id: 'settings',
+    items: [
+      { key: 'storeSettings', page: 'settings' },
+      { key: 'shippingRates', page: 'shipping', soon: true },
+      { key: 'paymentMethods', page: 'settings', soon: true },
+      { key: 'adminPermissions', page: 'permissions' },
+      { key: 'alerts', page: 'alerts' },
+      { key: 'auditLog', page: 'auditLog' },
+      { key: 'devPanel', page: 'dev' },
+    ],
+  },
+];
+
+// Pages that exist today. A menu entry whose page is not built yet is shown inert with the soon hint, never as a link
+// to a page that does not exist. Add the route here in the task that builds the page.
+export const BUILT_ADMIN_ROUTES: ReadonlySet<string> = new Set([
+  routes.admin,
+  adminRoute('orders'),
+]);

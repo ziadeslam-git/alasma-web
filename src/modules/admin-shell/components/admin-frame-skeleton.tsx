@@ -15,7 +15,7 @@ export function AdminFrameSkeleton() {
       role="status"
     >
       <div className={styles.frame}>
-        <Skeleton className={styles.skeletonHeader} shape="block" />
+        <Skeleton className={styles.skeletonTop} shape="block" />
         <Skeleton className={styles.skeletonMain} shape="block" />
       </div>
     </div>

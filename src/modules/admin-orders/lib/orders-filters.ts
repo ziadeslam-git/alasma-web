@@ -19,8 +19,8 @@ export const TO_KEY = 'to';
 const copy = messages.admin.orders;
 const statusLabels = messages.admin.status.order;
 
-// The quick tabs, in the order of the screen. The values are the API's enum names.
-export const STATUS_TABS: readonly AdminOrderStatus[] = [
+// The status select's options, in the order of the screen. The values are the API's enum names.
+export const ORDER_STATUSES: readonly AdminOrderStatus[] = [
   'PendingPayment',
   'PaymentReview',
   'Confirmed',
@@ -32,7 +32,7 @@ export const STATUS_TABS: readonly AdminOrderStatus[] = [
 
 export const PAYMENT_METHODS: readonly AdminPaymentMethod[] = ['ManualTransfer', 'CashOnDelivery'];
 
-const statusOptions: SelectOption[] = STATUS_TABS.map((value) => ({
+const statusOptions: SelectOption[] = ORDER_STATUSES.map((value) => ({
   label: statusLabels[value],
   value,
 }));
@@ -42,11 +42,12 @@ const paymentOptions: SelectOption[] = PAYMENT_METHODS.map((value) => ({
   value,
 }));
 
-// What the URL may hold. The status is read here (so ?status=Bogus is dropped) but drawn by the tabs, not the bar.
+// What the URL may hold and the filter row draws, in the frame's order: search, status, payment, zone, period.
+// A status that is not an enum name (?status=Bogus) is dropped when the URL is read.
 export function buildUrlFilters(zoneOptions: readonly SelectOption[]): FilterDef[] {
   return [
     { key: SEARCH_KEY, label: copy.searchLabel, placeholder: copy.searchPlaceholder, type: 'text' },
-    { key: STATUS_KEY, label: copy.columns.status, options: statusOptions, type: 'status' },
+    { key: STATUS_KEY, label: copy.statusFilter, options: statusOptions, type: 'status' },
     { key: PAYMENT_KEY, label: copy.paymentFilter, options: paymentOptions, type: 'select' },
     { key: ZONE_KEY, label: copy.zoneFilter, options: zoneOptions, type: 'select' },
     {
@@ -57,10 +58,6 @@ export function buildUrlFilters(zoneOptions: readonly SelectOption[]): FilterDef
       type: 'dateRange',
     },
   ];
-}
-
-export function barFilters(filters: readonly FilterDef[]): FilterDef[] {
-  return filters.filter((filter) => !('key' in filter) || filter.key !== STATUS_KEY);
 }
 
 // A day typed in the picker (2026-01-31) -> the UTC instant the API expects.

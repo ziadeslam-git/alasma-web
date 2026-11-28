@@ -6,7 +6,6 @@ import { useEffect, type ReactNode } from 'react';
 import { useAuth } from '@/modules/auth';
 import { routes } from '@/shared/config/routes';
 
-import { Sidebar } from '../nav/sidebar';
 import { isStaff } from '../permissions';
 import styles from './admin-shell.module.css';
 import { AdminFrameSkeleton } from './admin-frame-skeleton';
@@ -41,9 +40,5 @@ export function AdminGate({ children }: { children: ReactNode }) {
     );
   }
 
-  return (
-    <AdminShell drawerSidebar={<Sidebar collapseInactive />} sidebar={<Sidebar />}>
-      {children}
-    </AdminShell>
-  );
+  return <AdminShell>{children}</AdminShell>;
 }

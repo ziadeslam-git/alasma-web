@@ -64,7 +64,7 @@ describe('filterNav', () => {
   it('hides a section whose permission is missing even when its flag is on', () => {
     const result = hrefs({ ...defaultAdmin, permissions: ['Content.Manage'] });
 
-    expect(result).toEqual(['/admin/banners', '/admin/quotes', '/admin/events']);
+    expect(result).toEqual(['/admin/quotes', '/admin/banners', '/admin/events']);
   });
 
   it('shows the owner a switched-off flag as a locked item', () => {
@@ -107,7 +107,7 @@ describe('filterNav', () => {
     ]);
   });
 
-  it('keeps the group order and the item order of the config', () => {
+  it('keeps the eight groups of the design in their order', () => {
     const groups = filterNav({
       features: allFlagsOn,
       permissions: allPermissions,
@@ -115,13 +115,14 @@ describe('filterNav', () => {
     });
 
     expect(groups.map((group) => group.id)).toEqual([
-      'operations',
-      'catalog',
-      'pricing',
+      'overview',
+      'books',
+      'orders',
+      'offers',
+      'people',
       'content',
-      'publishing',
-      'administration',
-      'developer',
+      'packages',
+      'settings',
     ]);
   });
 });

@@ -18,8 +18,8 @@
 }
 
 .warning {
-  background: var(--accent-soft);
-  color: var(--accent-ink);
+  background: var(--admin-wait-bg);
+  color: var(--admin-wait-ink);
 }
 
 .danger {
@@ -33,6 +33,6 @@
 }
 
 .neutral {
-  background: var(--surface-sunken);
+  background: var(--admin-row-line);
   color: var(--ink-muted);
 }

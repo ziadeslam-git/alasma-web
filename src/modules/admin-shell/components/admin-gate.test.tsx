@@ -90,7 +90,7 @@ describe('AdminGate', () => {
     render(page);
 
     expect(document.querySelector('[data-admin-frame]')).toBeInTheDocument();
-    expect(screen.getByText('Test Admin')).toBeInTheDocument();
+    expect(screen.getAllByText(messages.admin.roles.Admin).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: forbiddenTitle })).toBeInTheDocument();
     expect(screen.queryByText('Books page')).not.toBeInTheDocument();
   });

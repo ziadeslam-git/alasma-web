@@ -33,6 +33,7 @@ function columnClass(column: DataTableColumn<unknown>): string {
     styles.cell,
     column.priority === 'low' && !column.isActions ? styles.low : '',
     column.isActions ? styles.actionsCell : '',
+    column.isSelection ? styles.selection : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -48,11 +49,12 @@ function Head<Row>({ columns }: { columns: readonly DataTableColumn<Row>[] }) {
             className={columnClass(column as DataTableColumn<unknown>)}
             scope="col"
           >
-            {column.isActions ? (
-              <span className={styles.srOnly}>{column.header || copy.actions}</span>
-            ) : (
-              column.header
-            )}
+            {column.headerContent ??
+              (column.isActions ? (
+                <span className={styles.srOnly}>{column.header || copy.actions}</span>
+              ) : (
+                column.header
+              ))}
           </th>
         ))}
       </tr>

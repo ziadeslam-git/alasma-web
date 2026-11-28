@@ -6,12 +6,13 @@ import { ADMIN_PERMISSIONS } from '@/shared/config/admin-permissions';
 import { DataTable, FilterBar, TablePagination } from '@/shared/ui/admin/data-table';
 import { Button } from '@/shared/ui/button';
 import { EmptyState } from '@/shared/ui/empty-state';
+import { Icon } from '@/shared/ui/icon';
 
 import { useAdminOrders } from '../hooks/use-admin-orders';
-import { STATUS_KEY } from '../lib/orders-filters';
 import styles from './admin-orders.module.css';
 import { ORDER_COLUMNS, orderHref } from './orders-columns';
-import { OrdersStatusTabs } from './orders-status-tabs';
+import { OrdersKpis } from './orders-kpis';
+import { OrdersSubNav } from './orders-sub-nav';
 
 const copy = messages.admin.orders;
 const tableCopy = messages.admin.table;
@@ -26,14 +27,30 @@ function OrdersList() {
 
   return (
     <section className={styles.page}>
+      <OrdersSubNav />
       <header className={styles.head}>
-        <h1 className={styles.title}>{copy.title}</h1>
-        <p className={styles.subtitle}>{copy.subtitle}</p>
+        <div>
+          <h1 className={styles.title}>{copy.title}</h1>
+          <p className={styles.subtitle}>{copy.subtitle}</p>
+        </div>
+        <div className={styles.actionsRow}>
+          {/* No export endpoint yet: the action is drawn where the frame has it, and inert. */}
+          <button
+            aria-disabled="true"
+            className={styles.exportButton}
+            disabled
+            title={copy.soon}
+            type="button"
+          >
+            <Icon name="list" size="sm" />
+            {copy.export}
+          </button>
+        </div>
       </header>
-      <OrdersStatusTabs active={table.state.values[STATUS_KEY]} />
+      <OrdersKpis />
       <div className={styles.panel}>
         <FilterBar
-          filters={orders.barFilters}
+          filters={orders.filters}
           onChange={table.setFilters}
           values={table.state.values}
         />
@@ -92,6 +109,7 @@ function OrdersList() {
                   total: data.totalCount,
                 }}
                 rowsOnPage={rows.length}
+                showPageSize={false}
               />
             ) : null}
           </>
