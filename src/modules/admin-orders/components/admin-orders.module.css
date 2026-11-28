@@ -1,0 +1,126 @@
+/* design/AdmOrders.dc.html: .ph3 (title + subtitle), .sub-t (pill tabs), .pan.t0 (white panel with the filter row, the
+   table and the pagination). Tokens only. The card layout of the table on phones lives in the shared DataTable. */
+.page {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+.head {
+  display: grid;
+  gap: 2px;
+}
+
+.title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 38px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 16px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 18px;
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-current='page'] {
+  background: var(--green-950);
+  color: var(--on-brand);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* The frame's white panel (.pan.t0). The admin shell's main area is already the white card, so the panel adds no
+   second card (background, shadow, padding) on top of it. */
+.panel {
+  min-inline-size: 0;
+}
+
+.viewLink {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: 50%;
+  color: var(--ink-muted);
+}
+
+.viewLink:hover {
+  background: var(--pg);
+  color: var(--ink);
+}
+
+.viewLink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.note {
+  margin: var(--space-3) 0 0;
+  color: var(--ink-muted);
+  font-size: 13px;
+}
+
+.alertWrap {
+  margin-block-start: var(--space-4);
+}
+
+.number {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+@media (width <= 760px) {
+  .title {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .tabs {
+    flex-wrap: nowrap;
+    margin-inline: calc(-1 * var(--space-4));
+    padding-inline: var(--space-4);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tab {
+    flex: none;
+  }
+}

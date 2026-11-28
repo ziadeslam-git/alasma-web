@@ -906,6 +906,35 @@
     "brandCopyright": "© دار الأسمى للنشر والتوزيع"
   },
   "admin": {
+    "orders": {
+      "title": "الطلبات",
+      "subtitle": "تابع الطلبات وراجع الدفع وحدّث الحالة.",
+      "tabsLabel": "حالة الطلب",
+      "tabAll": "الكل",
+      "searchLabel": "ابحث برقم الطلب أو اسم العميل أو الموبايل",
+      "searchPlaceholder": "ابحث برقم الطلب أو اسم العميل",
+      "paymentFilter": "الدفع",
+      "zoneFilter": "المحافظة",
+      "dateFilter": "الفترة",
+      "columns": {
+        "order": "الطلب",
+        "customer": "العميل",
+        "books": "كتب",
+        "total": "الإجمالي",
+        "payment": "الدفع",
+        "status": "الحالة",
+        "date": "التاريخ",
+        "actions": "إجراءات"
+      },
+      "paymentMethods": {
+        "ManualTransfer": "تحويل يدوي",
+        "CashOnDelivery": "عند الاستلام"
+      },
+      "viewOrder": "عرض الطلب",
+      "invalidFilterTitle": "التصفية غير صالحة",
+      "invalidFilterDescription": "في قيمة في التصفية الحالية مش مقبولة. عدّلها أو امسح التصفية وجرّب تاني.",
+      "zonesError": "تعذّر تحميل المحافظات، فلتر المحافظة مش متاح دلوقتي."
+    },
     "shell": {
       "brand": "لوحة الإدارة",
       "backToSite": "الموقع",
