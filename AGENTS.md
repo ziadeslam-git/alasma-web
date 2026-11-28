@@ -1,5 +1,16 @@
 # AGENTS.md - Al-Asma Pro web (read first, applies to every task)
 
+## Design frames are code to port (highest priority)
+
+Wins over every other rule. `design/*.dc.html` (+ `design/*.css`) are the FINAL design and the SOURCE CODE. COPY the
+frame's markup structure and CSS values region by region into our CSS Modules/TSX, then only wire real data, routing,
+state and handlers. No re-designing, no "build then compare", no "close enough". Reuse a shared component only if it
+renders the frame's exact markup/values, otherwise restyle or replace it. Use a token only where it equals the frame
+value, otherwise add a token with the exact value. Navigation, buttons, pages, navbar, sidebar and footer are wired as
+the frame's architecture shows (no page/API yet = inert "soon", never a fake page). Only missing API data and
+unavailable images may differ, each named under Deviations. Verify with a pixel diff (frame vs built, same data, 390
+and 1280), inspected region by region and fixed before reporting. Full text: CLAUDE.md.
+
 ## Read first
 
 The source of truth is the Notion Frontend pages: "Architecture & Folder Structure & Coding Standards", "Overview &
